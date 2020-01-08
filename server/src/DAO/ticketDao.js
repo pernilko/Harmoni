@@ -1,7 +1,7 @@
 //@flow
 const Dao = require("./dao.js");
 
-module.exports = class TicketDao extends Dao {
+module.exports = class ticketDao extends Dao {
     getAllTickets(callback: function) {
         super.query(
             "SELECT * FROM ticket ", [], callback

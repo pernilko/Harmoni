@@ -1,7 +1,7 @@
 //@flow
 const Dao = require("./dao.js");
 
-module.exports = class OrganizationDao extends Dao {
+module.exports = class organizationDao extends Dao {
     getAllOrganizations(callback: function) {
         super.query(
             "SELECT * FROM organization ", [], callback
