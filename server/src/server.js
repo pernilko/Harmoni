@@ -1,8 +1,9 @@
-var express = require("express");
-var mysql = require("mysql");
-var app = express();
+//@flow
+let express = require("express");
+let mysql = require("mysql");
+let app = express();
 
-var pool = mysql.createPool({
+let pool = mysql.createPool({
     connectionLimit: 2,
     host: "mysql.stud.idi.ntnu.no",
     user: "g_scrum_4",
@@ -11,7 +12,16 @@ var pool = mysql.createPool({
     debug: false
 });
 
-app.get("/test", (req: express$Request, res: express$Response) => {
+const ArtistDao = require("./DAO/artistDao.js"); //
+let artistDao = new ArtistDao(pool);
+
+app.get("/artist", (req, res) => {
     console.log("/test: received get request from client");
+    artistDao.getAll((status, data) => {
+        res.status(status);
+        res.json(data);
+    });
 });
+
+let server = app.listen(8080);
 
