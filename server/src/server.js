@@ -2,12 +2,12 @@
 let express = require("express");
 let mysql = require("mysql");
 let app = express();
-let Base64 = require('js-base64').Base64;
+var Base64 = require('js-base64').Base64;
 
-type Request =express$Request;
-type Response =express$Response;
+type Request = express$Request;
+type Response = express$Response;
 
-let pool = mysql.createPool({
+var pool = mysql.createPool({
     connectionLimit: 2,
     host: "mysql.stud.idi.ntnu.no",
     user: "g_scrum_4",
@@ -16,24 +16,138 @@ let pool = mysql.createPool({
     debug: false
 });
 
-const ArtistDao = require("./DAO/artistDao.js"); //
+const ArtistDao = require("./DAO/artistDao.js");
+const EventDao = require("./DAO/eventDao.js");
+const TicketDao = require("./DAO/ticketDao.js");
 const OrganizationDAO=require("./DAO/organizationDao.js");
 
 let artistDao = new ArtistDao(pool);
+let eventDao = new EventDao(pool);
+let ticketDao = new TicketDao(pool);
 let organizationDAO= new OrganizationDAO(pool);
 
 //Artist
-app.get("/artist", (req, res) => {
-    console.log("/test: received get request from client");
+app.get("/artist/all", (req : Request, res: Response) => {
+    console.log("/artists/all: received get request from client");
     artistDao.getAll((status, data) => {
         res.status(status);
         res.json(data);
     });
 });
 
+app.get("/artist/:id", (req : Request, res: Response) => {
+    console.log("/artist/:id: received get request from client");
+    artistDao.getOne(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.post("/artist/add", (req : Request, res: Response) => {
+    console.log("/artist/add: received get request from client");
+    req.body.content = Base64.encode(req.body.content);
+    artistDao.insertOne(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 //Event
+app.get("/event/all", (req : Request, res: Response) => {
+    console.log("/event/all: received get request from client");
+    eventDao.getAll((status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.get("/event/:id", (req : Request, res: Response) => {
+    console.log("/event/:id: received get request from client");
+    eventDao.getEvent(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.post("/event/add", (req : Request, res: Response) => {
+    console.log("/event/add: received post request from client");
+    req.body.content = Base64.encode(req.body.content);
+    eventDao.addEvent(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.put("/event/edit/:id", (req : Request, res: Response) => {
+    console.log("/event/edit/:id: received put request from client");
+    req.body.content = Base64.encode(req.body.content);
+    eventDao.editEvent(req.body, req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.delete("/event/delete/:id", (req : Request, res: Response) => {
+    console.log("/event/delete/:id: received delete request from client");
+    eventDao.deleteEvent(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+//User
+
 
 //Ticket
+app.get("/ticket/all", (req : Request, res: Response) => {
+    console.log("/ticket/all: received get request from client");
+    ticketDao.getAllTickets((status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.get("/ticket/:id", (req : Request, res: Response) => {
+    console.log("/ticket/:id: received get request from client");
+    ticketDao.getTicket(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.get("/ticket/remaining/:id", (req : Request, res: Response) => {
+    console.log("/ticket/remaining/:id: received get request from client");
+    ticketDao.getNumberOfRemainingTickets(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.post("/ticket/add", (req : Request, res: Response) => {
+    console.log("/ticket/add: received get request from client");
+    req.body.content = Base64.encode(req.body.content);
+    ticketDao.addTicket(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.put("/ticket/edit/:id", (req : Request, res: Response) => {
+    console.log("/ticket/edit/:id: received put request from client");
+    req.body.content = Base64.encode(req.body.content);
+    ticketDao.updateTicket(req.body, req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.delete("/ticket/delete/:id", (req : Request, res: Response) => {
+    console.log("/ticket/delete/:id: received delete request from client");
+    ticketDao.deleteTicket(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
 
 //Organization
 app.get("/organization/:mail",(req:Request,res:Response)=>{
@@ -84,4 +198,3 @@ app.put("/organization/:id", (req:Request,res:Response)=>{
 });
 
 let server = app.listen(8080);
-
