@@ -78,7 +78,7 @@ test("Get remaining tickets", done =>{
     done();
   }
 
-  organizationDao.getNumberOfRemainingTickets(1, callback);
+  ticketDao.getNumberOfRemainingTickets(1, callback);
 });
 
 test("Edit ticket", done => {
@@ -90,7 +90,7 @@ test("Edit ticket", done => {
     done();
   }
 
-  organizationDao.updateOrganization(1,
+  ticketDao.updateTicket(1,
     {ticket_type: "Regular", amount: 1, description: "normal ticket", price: 150, amount_sold: 1},
     callback);
 });
