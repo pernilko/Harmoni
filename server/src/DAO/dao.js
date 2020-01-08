@@ -1,4 +1,4 @@
-//@Flow
+//@flow
 module.exports = class Dao {
     pool: any;
     constructor(pool: any){
