@@ -20,7 +20,7 @@ CREATE TABLE `user` (
  `priviliges` int(11) NOT NULL COMMENT 'INT chosen as multiple levels of priviliges might be introduced later. 0 = standard rights, 1 = admin',
  `user_name` varchar(45) NOT NULL,
  `password` varchar(45) NOT NULL,
- `adress` varchar(45) DEFAULT NULL,
+ `address` varchar(45) DEFAULT NULL,
  `phone` varchar(20) NOT NULL,
  `image` blob,
  `reg_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -33,6 +33,7 @@ CREATE TABLE `event` (
  `event_id` int(11) NOT NULL AUTO_INCREMENT,
  `org_id` int(11) NOT NULL,
  `event_name` varchar(45) NOT NULL,
+ `description` text,
  `place` varchar(45) NOT NULL,
  `event_start` date NOT NULL,
  `event_end` date NOT NULL,
@@ -47,11 +48,12 @@ CREATE TABLE `user_event` (
  `user_id` int(11) NOT NULL,
  `event_id` int(11) NOT NULL,
  `job_position` varchar(45) NOT NULL,
+ `accepted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'describes whether a user has agreed to work on a given event',
  PRIMARY KEY (`user_id`,`event_id`),
  KEY `event_id` (`event_id`),
  CONSTRAINT `user_event_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
  CONSTRAINT `user_event_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `event` (`event_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
 
 CREATE TABLE `artist` (
  `artist_id` int(11) NOT NULL AUTO_INCREMENT,
