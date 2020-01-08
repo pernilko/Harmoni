@@ -3,38 +3,31 @@
 
 import * as React from 'react';
 import { Component } from "react-simplified";
-import { Bruker, brukerStore, Sak } from "../../../Stores";
-import { Button, Card, Alert } from '../../../widgets';
-import { createHashHistory } from 'history';
-var history = createHashHistory();
 
-export class LoginCard extends Component<{ children?: React.Node, bruker: Bruker }> {
+export class LoginCard extends Component<{ children?: React.Node, user: User}> {
     render() {
         return (
-            <Card title = "">
             <form>
             <FormGroup
-        text="Brukernavn: "
+        text="e-mail: "
         type="text"
-        placeholder="Brukernavn"
-        value={this.props.bruker.brukernavn}
-        onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {this.props.bruker.brukernavn = event.target.value}}
+        placeholder="olaNormann@mail.com"
+        onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {this.props.user.email = event.target.value}}
         />
         <FormGroup
         text="Passord: "
         type="password"
         placeholder="Passord"
-        value={this.props.bruker.passord}
-        onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {this.props.bruker.passord = event.target.value}}
-        bruker = {this.props.bruker}
+        value={this.props.brukernavn}
+        onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {this.props.user.password = event.target.value}}
+        user = {this.props.user.email}
         />
         {this.props.children}
     </form>
-        </Card>
     )
     }
 };
-export class FormGroup extends Component<{ text: string, type: string, value: string, onChange: any, placeholder: string }>{
+export class FormGroup extends Component<{ text: string, type: string, value: string, onChange: any, user: User, placeholder: string }>{
     render() {
         return (
             <div className="form-group">
