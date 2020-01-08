@@ -9,12 +9,12 @@ export class Artist extends Component {
     render(){
         return(
             <Dropdown>
-                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                <Dropdown.Toggle variant="success" id="dropdown-basic" style={{width: "100%",position: "relative", overflow: "visible"}}>
                    Legg til en artist
                 </Dropdown.Toggle>
 
-                <Dropdown.Menu>
-                    <form style={{padding: 20 + 'px', width: "100%", borderStyle: "outset"}}>
+                <Dropdown.Menu style={{width: "100%"}}>
+                    <form style={{padding: 20 + 'px', width: "100%", borderStyle: "outset", position: "absolute", overflow: "visible"}}>
                         <div className="form-group">
                             <row>
                                 <h4>Kontakt info: </h4><br/>

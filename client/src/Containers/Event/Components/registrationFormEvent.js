@@ -39,7 +39,7 @@ export class RegistrationForm extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="form-group" style={{marginTop: 20+"px", position: "relative", overflow: "visible"}}>
+                    <div className="form-group" style={{marginTop: 20+"px"}}>
                         <Artist></Artist>
                     </div>
                 </form>
