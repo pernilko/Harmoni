@@ -12,15 +12,26 @@ module.exports = class eventDao extends Dao{
         super.query("SELECT * FROM event WHERE event_id=?", [event_id], callback );
     }
 
+    getEventLocation(event_id: number, callback:function){
+        super.query("SELECT place FROM event WHERE event_id=?", [event_id], callback);
+    }
+
+    getEventTime(event_id: number, callback){
+        super.query("SELECT event_start, event_end FROM event WHERE event_id=?", [event_id], callback);
+    }
+
     addEvent(
       json: {event_name: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number} ,callback: function){
-        super.query( "INSERT INTO event (event_name, place, event_start, event_end, longitude, latitude) VALUES (?,?,?,?,?,?)", callback);
+        super.query( "INSERT INTO event (event_name, place, event_start, event_end, longitude, latitude) VALUES (?,?,?,?,?,?)",
+          [json.event_name, json.place, json.event_start, json.event_end, json.longitude, json.latitude],
+          callback);
     }
 
     editEvent(
       json: {event_name: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number, event_id:number}, callback:function){
-    super.query("UPDATE event SET event_name=?, place=?, event_start=?, event_end=?, longitude=?, latitude=? WHERE event_id=?",
-      callback);
+        super.query("UPDATE event SET event_name=?, place=?, event_start=?, event_end=?, longitude=?, latitude=? WHERE event_id=?",
+          [json.event_name, json.place, json.event_start, json.event_end, json.longitude, json.latitude],
+          callback);
     }
 
     deleteEvent(event_id: number, callback: function){

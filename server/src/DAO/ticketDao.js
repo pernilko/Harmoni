@@ -22,10 +22,10 @@ module.exports = class ticketDao extends Dao {
         );
     }
 
-    addTicket(json: {event_id: number, ticket_type: string, amount: number, description: string, price: number, amount_sold: number}, callback: function) {
+    addTicket(json: { ticket_type: string, amount: number, description: string, price: number, amount_sold: number}, callback: function) {
         super.query(
-            "INSERT INTO ticket(event_id, ticket_type, amount, description, price, amount_sold) VALUES (?,?,?,?,?,?)",
-            [json.event_id, json.ticket_type, json.amount,json.description, json.price, json.amount, json.amount_sold], callback
+            "INSERT INTO ticket(ticket_type, amount, description, price, amount_sold) VALUES (?,?,?,?,?)",
+            [json.ticket_type, json.amount,json.description, json.price, json.amount, json.amount_sold], callback
         );
     }
 
