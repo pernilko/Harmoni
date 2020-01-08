@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { Component } from "react-simplified";
 import {LoginCard} from "./Components";
-import {User} from "../../services/UserService";
+import {User, userService} from "../../services/UserService";
+
+
 
 export class Login extends Component{
     user: User= new User();
@@ -16,6 +18,7 @@ export class Login extends Component{
         )
     }
     login(){
+        userService.logIn(this.user.email, this.user.password);
         console.log(this.user.email + ", " + this.user.password);
     }
 }
