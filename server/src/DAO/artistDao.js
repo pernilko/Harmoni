@@ -23,4 +23,5 @@ module.exports = class artistDao extends Dao {
             callback
         );
     }
+
 };
