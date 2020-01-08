@@ -16,6 +16,7 @@
     "testURL": "http://localhost"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.16.3",
     "fs": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
