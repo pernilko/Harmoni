@@ -153,25 +153,25 @@ app.delete("/ticket/delete/:id", (req : Request, res: Response) => {
 app.get("/organization/:mail",(req:Request,res:Response)=>{
     console.log("/test: received get request from client for organization by ID");
     organizationDAO.getOrgByEmail(req.params.mail,(status,data)=>{
-      res.status(status);
-      res.json(data);
-  });
+        res.status(status);
+        res.json(data);
+    });
 });
 
 app.get("/organization/:id",(req:Request,res:Response)=>{
     console.log("/test: received get request from client for organization by ID");
     organizationDAO.getOrganization(req.params.id, (status,data)=>{
-      res.status(status);
-      res.json(data);
-  });
+        res.status(status);
+        res.json(data);
+    });
 });
 
 app.get("/organization",(req:Request,res:Response)=>{
     console.log("/test: received get request from client for all organizations");
     organizationDAO.getAllOrganizations((status,data)=>{
-      res.status(status);
-      res.json(data);
-  });
+        res.status(status);
+        res.json(data);
+    });
 });
 
 app.post("/organization",(req:Request,res:Response)=>{
