@@ -54,6 +54,21 @@ test("Get an event", done =>{
   eventDao.getEvent(1, callback);
 });
 
+test("Add an event", done => {
+  function callback(status, data) {
+    console.log(
+      "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
+    );
+
+    expect(data.affectedRows).toBeGreaterThanOrEqual(1);
+    done();
+  }
+
+  eventDao.addEvent(
+    {event_name: "UKA", place: "Trondheim", event_start: "today", event_end: "tomorrow", longitude: "333", latitude: "555"
+    }, callback);
+});
+
 test("Get an event location", done =>{
   function callback (status, data) {
     console.log(
@@ -83,21 +98,6 @@ test("Get event time ", done =>{
   eventDao.getEventTime(1, callback);
 });
 
-test("Add an event", done => {
-  function callback(status, data) {
-    console.log(
-      "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
-    );
-
-    expect(data.affectedRows).toBeGreaterThanOrEqual(1);
-    done();
-  }
-
-  eventDao.addEvent(
-    {event_name: "UKA", place: "Trondheim", event_start: "idag", event_end: "imorgen", longitude: "333", latitude: "555"
-    }, callback);
-});
-
 test("Edit an event", done => {
   function callback(status, data) {
     console.log(
@@ -107,13 +107,13 @@ test("Edit an event", done => {
     done();
   }
 
-  eventDao.editEvent(
+  eventDao.editEvent(1,
     { event_name: "hi", place: "hi top", event_start: "tomorrow",
-      event_end: "dagen etter det", longitude: "44", latitude: "009", event_id:1},
+      event_end: "day after", longitude: "44", latitude: "009", event_id:1},
     callback);
 });
 
-test("Delete an event", dont => {
+test("Delete an event", done => {
   function callback(status, data) {
     console.log(
       "Test callback: status=" + status + ", data=" + JSON.stringify(data)
@@ -122,6 +122,6 @@ test("Delete an event", dont => {
     done();
   }
 
-  eventDao.deleteEvent(2, callback);
+  eventDao.deleteEvent(1, callback);
 });
 
