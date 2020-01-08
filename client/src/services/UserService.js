@@ -4,6 +4,7 @@ import axios from 'axios';
 const bcrypt =  require('bcryptjs');
 const saltRounds: number = 10;
 
+
 export class User {
     user_id: number;
     org_id: number;
@@ -31,7 +32,7 @@ export class User {
 }
 class UserService {
 
-    logIn(email: string, password: string){
+    logIn(org: string, email: string, password: string){
         var salt: string = bcrypt.genSaltSync(saltRounds);
         var hash: string = bcrypt.hashSync(password, salt);
         console.log(hash);
