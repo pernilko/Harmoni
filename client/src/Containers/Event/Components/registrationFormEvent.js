@@ -2,8 +2,10 @@
 
 import * as React from 'react';
 import { Component } from "react-simplified";
+import {Artist} from "./artist";
 
 export class RegistrationForm extends Component {
+    artist: Artist[] = [];
     render(){
         return(
             <div>
@@ -37,11 +39,14 @@ export class RegistrationForm extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="form-group">
-                        <h4>Legg til artist...</h4>
+                    <div className="form-group" style={{marginTop: 20+"px", position: "relative", overflow: "visible"}}>
+                        <Artist></Artist>
                     </div>
                 </form>
             </div>
         )
+    }
+    addArtist(){
+
     }
 }
