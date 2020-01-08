@@ -59,7 +59,7 @@ CREATE TABLE `artist` (
  `artist_name` varchar(45) NOT NULL,
  `riders` longblob,
  `hospitality_riders` longblob,
- `artist_contract` longblob NOT NULL,
+ `artist_contract` longblob,
  `email` varchar(45) NOT NULL COMMENT 'row should contain at least one of "email" or "phone"',
  `phone` varchar(20) NOT NULL COMMENT 'row should contain at least one of "email" or "phone"',
  `image` blob,
