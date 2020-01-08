@@ -18,7 +18,7 @@ export class LoginCard extends Component<{ children?: React.Node, user: User}> {
         text="Passord: "
         type="password"
         placeholder="Passord"
-        value={this.props.brukernavn}
+        value={this.props.user.email}
         onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {this.props.user.password = event.target.value}}
         user = {this.props.user.email}
         />
