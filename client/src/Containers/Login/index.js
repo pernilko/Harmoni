@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Component } from "react-simplified";
 import {LoginCard} from "./Components";
 import {User} from "../../services/UserService";
-import {Button} from "../../widgets";
 
 export class Login extends Component{
     user: User= new User();
