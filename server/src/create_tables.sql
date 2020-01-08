@@ -53,7 +53,7 @@ CREATE TABLE `user_event` (
  KEY `event_id` (`event_id`),
  CONSTRAINT `user_event_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
  CONSTRAINT `user_event_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `event` (`event_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `artist` (
  `artist_id` int(11) NOT NULL AUTO_INCREMENT,
