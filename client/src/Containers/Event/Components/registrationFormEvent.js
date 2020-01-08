@@ -40,13 +40,10 @@ export class RegistrationForm extends Component {
                         </div>
                     </div>
                     <div className="form-group" style={{marginTop: 20+"px"}}>
-                        <Artist></Artist>
+                        <Artist/>
                     </div>
                 </form>
             </div>
         )
-    }
-    addArtist(){
-
     }
 }

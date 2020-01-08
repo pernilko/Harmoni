@@ -66,7 +66,7 @@ export class Artist extends Component {
                                 </div>
                                 <br/>
                                 <div className="form-group" align="center">
-                                    <Button type="submit" className="btn btn-primary" onClick={this.submit}>Legg til</Button>
+                                    <Button type="submit" className="btn btn-primary" onClick={this.add}>Legg til</Button>
                                 </div>
                             </row>
                         </div>
@@ -75,5 +75,8 @@ export class Artist extends Component {
             </Dropdown>
         )
     }
-
+    add(){
+        //this func adds an artist to the form over the add artist dropdown, and stores the info in a temporary array.
+        //also needs a button for editing artist after add.
+    }
 }
