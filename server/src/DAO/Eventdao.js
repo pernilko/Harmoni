@@ -18,7 +18,7 @@ module.exports = class eventDao extends Dao{
     }
 
     editEvent(
-    json: {event_name: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number, event_id:number}, callback:function){
+      json: {event_name: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number, event_id:number}, callback:function){
     super.query("UPDATE event SET event_name=?, place=?, event_start=?, event_end=?, longitude=?, latitude=? WHERE event_id=?",
       callback);
     }
