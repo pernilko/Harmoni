@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "express": "^4.16.3",
-    "flow-bin": "^0.112.0",
     "fs": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.16.0",
@@ -30,6 +29,7 @@
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-flow": "^7.0.0",
     "babel-jest": "^24.9.0",
+    "flow-bin": "^0.112.0",
     "jest": "^24.9.0",
     "nodemon": "^1.19.4",
     "reload": "^3.0.2"
