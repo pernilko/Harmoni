@@ -9,7 +9,7 @@ let jwt = require("jsonwebtoken");
 let bodyParser = require("body-parser");
 
 let app = express();
-//var Base64 = require('js-base64').Base64;
+app.use(bodyParser.json());
 
 type Request = express$Request;
 type Response = express$Response;
@@ -24,16 +24,22 @@ var pool = mysql.createPool({
 });
 
 const ArtistDao = require("./DAO/artistDao.js");
-const UserDao = require("./DAO/userDao.js");
-let userDao = new UserDao(pool);
 const EventDao = require("./DAO/eventDao.js");
 const TicketDao = require("./DAO/ticketDao.js");
-const OrganizationDAO=require("./DAO/organizationDao.js");
+const OrganizationDAO = require("./DAO/organizationDao.js");
+const UserDao = require("./DAO/userDao.js");
 
 let artistDao = new ArtistDao(pool);
 let eventDao = new EventDao(pool);
 let ticketDao = new TicketDao(pool);
+let userDao = new UserDao(pool);
 let organizationDAO= new OrganizationDAO(pool);
+
+app.use(function (req, res, next: function) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:8080"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 app.use(bodyParser.json()); // for å tolke JSON
 
@@ -86,7 +92,6 @@ app.get("/artist", (req, res) => {
 */
 //Artist
 //tested
-
 app.get("/artist/all", (req : Request, res: Response) => {
     console.log("/artists/all: received get request from client");
     artistDao.getAll((status, data) => {
@@ -120,10 +125,19 @@ app.get("/artist/:id", (req : Request, res: Response) => {
     });
 });
 
+//tested
 app.post("/artist/add", (req : Request, res: Response) => {
-    console.log("/artist/add: received get request from client");
-    //req.body.content = Base64.encode(req.body.content);
+    console.log("/artist/add: received post request from client");
     artistDao.insertOne(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+//tested
+app.delete("/artist/delete/:id", (req : Request, res: Response) => {
+    console.log("/artist/:id: received delete request from client");
+    artistDao.deleteArtist(req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
     });
@@ -150,7 +164,6 @@ app.get("/event/:id", (req : Request, res: Response) => {
 
 app.post("/event/add", (req : Request, res: Response) => {
     console.log("/event/add: received post request from client");
-    //req.body.content = Base64.encode(req.body.content);
     eventDao.addEvent(req.body, (status, data) => {
         res.status(status);
         res.json(data);
@@ -159,20 +172,50 @@ app.post("/event/add", (req : Request, res: Response) => {
 
 app.put("/event/edit/:id", (req : Request, res: Response) => {
     console.log("/event/edit/:id: received put request from client");
-    //req.body.content = Base64.encode(req.body.content);
     eventDao.editEvent(req.body, req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
     });
 });
 
-//don't need this?
 app.delete("/event/delete/:id", (req : Request, res: Response) => {
     console.log("/event/delete/:id: received delete request from client");
-    eventDao.deleteEvent(req.params.id, (status, data) => {
-        res.status(status);
-        res.json(data);
-    });
+    pool.getConnection((err, connection: function) => {
+          console.log("Connected to database");
+          if (err) {
+              console.log("Feil ved kobling til databasen");
+              res.json({ error: "feil ved oppkobling" });
+          } else {
+              connection.query(
+  				          "DELETE FROM artist WHERE event_id=?",
+  				          [req.params.id],
+  				          (err, rows) => {
+  					               //connection.release();
+  					               if (err) {
+  						                     console.log(err);
+  						                     res.json({ error: "error querying" });
+  					               } else {
+                             connection.query(
+                 				          "DELETE FROM ticket WHERE event_id=?",
+                 				          [req.params.id],
+                 				          (err, rows) => {
+                 					               connection.release();
+                 					               if (err) {
+                 						                     console.log(err);
+                 						                     res.json({ error: "error querying" });
+                 					               } else {
+                                           eventDao.deleteEvent(req.params.id, (status, data) => {
+                                                    res.status(status);
+                                                    res.json(data);
+                                           });
+  					                             }
+  				                        }
+  			                    );
+                          }
+                    }
+            );
+        }
+      });
 });
 
 //User
@@ -223,18 +266,18 @@ app.get("/ticket/remaining/:id", (req : Request, res: Response) => {
     });
 });
 
+//tested
 app.post("/ticket/add", (req : Request, res: Response) => {
     console.log("/ticket/add: received get request from client");
-    //req.body.content = Base64.encode(req.body.content);
     ticketDao.addTicket(req.body, (status, data) => {
         res.status(status);
         res.json(data);
     });
 });
 
+
 app.put("/ticket/edit/:id", (req : Request, res: Response) => {
     console.log("/ticket/edit/:id: received put request from client");
-    //req.body.content = Base64.encode(req.body.content);
     ticketDao.updateTicket(req.body, req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
@@ -279,7 +322,6 @@ app.get("/organization",(req : Request, res : Response) => {
 
 app.post("/organization", (req : Request, res : Response) => {
     console.log("/test: received post request for adding an organization");
-    //req.body.content = Base64.encode(req.body.content);
     organizationDAO.addOrganization(req.body.content, (status, data) => {
         res.status(status);
     });
@@ -299,6 +341,5 @@ app.put("/organization/:id", (req : Request, res : Response) => {
         res.status(status);
     });
 });
-
 
 let server = app.listen(8080);

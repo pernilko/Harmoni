@@ -15,12 +15,20 @@ module.exports = class artistDao extends Dao {
     }
 
     //db attributes must be changed to correspond to updated db
-    insertOne(json: Object, callback: function) {
-        var val = [json.arr_id, json.navn, json.riders, json.host_riders, json.kontrakt, json.epost, json.bilde];
+    insertOne(json: {event_id: number, artist_name: string, riders: string, hospitality_riders: string,
+                  artist_contract: string, email: string, phone: string, image: string}, callback: function) {
         super.query(
-            "insert into artist (arr_id, navn, riders, host_riders, kontrakt, epost, bilde) values (?,?,?,?,?,?,?)",
-            val,
+            "INSERT INTO artist (event_id, artist_name, riders, hospitality_riders, artist_contract, email, image) values (?,?,?,?,?,?,?)",
+            [json.event_id, json.artist_name, json.riders, json.hospitality_riders, json.artist_contract, json.email, json.phone, json.image],
             callback
         );
     }
+
+    deleteArtist(artist_id: number, callback: function) {
+      super.query(
+          "DELETE FROM artist WHERE artist_id = ?", [artist_id],
+          callback
+        );
+    }
+
 };
