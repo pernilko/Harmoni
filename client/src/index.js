@@ -1,6 +1,7 @@
 // @flow
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
+
 import ReactDOM from 'react-dom';
 import * as React from 'react';
 import { HashRouter, Route} from 'react-router-dom';
@@ -12,6 +13,7 @@ import {Ticket} from "./Containers/Event/Components/ticketDropdown";
 import {Artist} from "./Containers/Event/Components/artist";
 
 
+import { RegOrganization } from './Containers/Organization/Components/registerOrgForm';
 
 const root = document.getElementById('root');
 if (root)
@@ -19,10 +21,8 @@ if (root)
     <HashRouter>
       <div>
           <Alert></Alert>
-          <Route path = "/registerEvent" component = {RegistrationForm}/>
+      <Login></Login>
       </div>
     </HashRouter>,
     root
   );
-
-//Remember to add <Login></Login>

@@ -10,17 +10,17 @@ INSERT INTO user VALUES(DEFAULT, 2, "wallah@gmail.com", 0, "Brusjan Jesus", "321
 INSERT INTO user VALUES(DEFAULT, 3, "hola@gmail.com", 0, "Grethe Sandstrak", "1337", "NTNU 4.life", "11111", NULL, DEFAULT);
 
 
-INSERT INTO event (org_id, event_name, place, event_start, event_end, longitude, latitude) VALUES (2, "Konsert med Karpe", "Kalveskinnet kantina", CURRENT_DATE, CURRENT_DATE, 123, 222);
-INSERT INTO event (org_id, event_name, place, event_start, event_end, longitude, latitude) VALUES (3, "Fotball-turnering", "Sukkerhuset", CURRENT_DATE, CURRENT_DATE, 223, 232);
-INSERT INTO event (org_id, event_name, place, event_start, event_end, longitude, latitude) VALUES (2, "Spillkveld", "Torget", CURRENT_DATE, CURRENT_DATE, 777, 666);
+INSERT INTO event VALUES (DEFAULT, 2, "Konsert med Karpe", "MONTEBELLO", "Kalveskinnet kantina", CURRENT_DATE, CURRENT_DATE, 123, 222);
+INSERT INTO event  VALUES (DEFAULT, 3, "Fotball-turnering", "BARCELONA", "Sukkerhuset", CURRENT_DATE, CURRENT_DATE, 223, 232);
+INSERT INTO event VALUES (DEFAULT, 2, "Spillkveld", "Gamers Rise Up", "Torget", CURRENT_DATE, CURRENT_DATE, 777, 666);
 
 
-INSERT INTO user_event VALUES(1, 1, "lydtekniker");
-INSERT INTO user_event VALUES(1, 2, "bartender");
-INSERT INTO user_event VALUES(1, 3, "vakt");
-INSERT INTO user_event VALUES(2, 1, "lystekniker");
-INSERT INTO user_event VALUES(2, 2, "lydtekniker");
-INSERT INTO user_event VALUES(2, 3, "bartender");
+INSERT INTO user_event VALUES(1, 1, "lydtekniker", 1);
+INSERT INTO user_event VALUES(1, 2, "bartender", 1);
+INSERT INTO user_event VALUES(1, 3, "vakt", 1);
+INSERT INTO user_event VALUES(2, 1, "lystekniker", DEFAULT);
+INSERT INTO user_event VALUES(2, 2, "lydtekniker", 0);
+INSERT INTO user_event VALUES(2, 3, "bartender", 0);
 
 
 INSERT INTO artist VALUES(DEFAULT, 1, "TIX", NULL, NULL, NULL, "TIX@fuckoff.com", "6969", NULL);
