@@ -79,11 +79,14 @@ app.post("/register", (req, res) => {
     });
 });
 
-
+/*
 app.get("/artist", (req, res) => {
     console.log("/test: received get request from client");
+}
+*/
 //Artist
 //tested
+
 app.get("/artist/all", (req : Request, res: Response) => {
     console.log("/artists/all: received get request from client");
     artistDao.getAll((status, data) => {
@@ -296,5 +299,6 @@ app.put("/organization/:id", (req : Request, res : Response) => {
         res.status(status);
     });
 });
+
 
 let server = app.listen(8080);
