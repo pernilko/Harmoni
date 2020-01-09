@@ -9,6 +9,7 @@ import {Alert} from "./widgets";
 import {RegistrationForm} from "./Containers/Event/Components/registrationFormEvent";
 import {ArtistDetails} from "./Containers/Event/Components/artist";
 import {Ticket} from "./Containers/Event/Components/ticketDropdown";
+import {Artist} from "./Containers/Event/Components/artist";
 
 
 
