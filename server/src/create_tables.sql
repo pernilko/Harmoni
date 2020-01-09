@@ -17,9 +17,9 @@ CREATE TABLE `user` (
  `user_id` int(11) NOT NULL AUTO_INCREMENT,
  `org_id` int(11) NOT NULL,
  `email` varchar(45) NOT NULL,
- `priviliges` int(11) NOT NULL COMMENT 'INT chosen as multiple levels of priviliges might be introduced later. 0 = standard rights, 1 = admin',
+ `privileges` int(11) NOT NULL COMMENT 'INT chosen as multiple levels of priviliges might be introduced later. 0 = standard rights, 1 = admin',
  `user_name` varchar(45) NOT NULL,
- `password` varchar(45) NOT NULL,
+ `password` varchar(100) NOT NULL,
  `address` varchar(45) DEFAULT NULL,
  `phone` varchar(20) NOT NULL,
  `image` blob,
@@ -62,13 +62,13 @@ CREATE TABLE `artist` (
  `riders` longblob,
  `hospitality_riders` longblob,
  `artist_contract` longblob,
- `email` varchar(45) NOT NULL COMMENT 'row should contain at least one of "email" or "phone"',
- `phone` varchar(20) NOT NULL COMMENT 'row should contain at least one of "email" or "phone"',
+ `email` varchar(45) NOT NULL DEFAULT '-1' COMMENT 'row should contain at least one of "email" or "phone"',
+ `phone` varchar(20) NOT NULL DEFAULT '-1' COMMENT 'row should contain at least one of "email" or "phone"',
  `image` blob,
  PRIMARY KEY (`artist_id`),
  KEY `event_id` (`event_id`),
  CONSTRAINT `artist_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `event` (`event_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `ticket` (
  `ticket_id` int(11) NOT NULL AUTO_INCREMENT,

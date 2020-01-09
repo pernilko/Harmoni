@@ -3,7 +3,7 @@
 let mysql = require("mysql");
 
 const userDao = require("../src/DAO/userDao.js");
-const runsqlfile = require("../src/DAO/runsqlfile.js");
+const runsqlfile = require("../src/runsqlfile.js");
 
 let pool = mysql.createPool({
     connectionLimit: 1,
