@@ -44,7 +44,7 @@ export class RegOrganization extends Component {
           <Button variant="primary" type="submit" style={{marginTop:15 + 'px', marginBottom:30 + 'px'}} onClick={this.next}>Neste</Button>
         </Form>
 
-      <AdminUsrForm hidden={this.hidden}/>
+      <AdminUsrForm hidden={this.hidden} organization={this.organization}/>
     </div>
   }
 
@@ -58,7 +58,6 @@ export class RegOrganization extends Component {
     console.log(this.organization.email);
     if(this.organization.org_name.length != 0 && this.organization.email.length != 0 && this.organization.phone != 0) {
       this.hidden = false;
-      organizationService.addOrganization(this.organization.org_name, this.organization.phone, this.organization.email).catch((error: Error)=>Alert.danger("serverfeil"));
     }else{
       Alert.danger("Alle felt må fylles ut");
     }

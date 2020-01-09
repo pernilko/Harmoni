@@ -38,7 +38,7 @@ class UserService {
     }
     //for registering a new user
     register(org_id: number, email: string, privileges: number, user_name: string, password: string, address: string, phone: string, image: string){
-        return axios.post<{}, User>(url+'registrer',{
+        return axios.post<{}, User>(url+'register',{
             "org_id": org_id,
             "email": email,
             "privileges": privileges,

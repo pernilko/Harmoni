@@ -1,14 +1,16 @@
 //@flow
 
 import * as React from 'react';
-import {User} from '../../../services/UserService';
+import {User, userService} from '../../../services/UserService';
 import Form from 'react-bootstrap/Form';
 import { Button, Col } from 'react-bootstrap';
 import {Component} from 'react-simplified';
-import {Organization} from "../../../services/OrganizationService";
+import {Organization, organizationService} from "../../../services/OrganizationService";
+import {Alert} from "../../../widgets";
 
 export class AdminUsrForm extends Component <{hidden: boolean, organization: Organization}>{
   admin: User = new User();
+  organization: Organization = this.props.organization;
   repeatedPassword: string = "";
   render(){
     return (
@@ -66,9 +68,27 @@ export class AdminUsrForm extends Component <{hidden: boolean, organization: Org
     )
   }
   register(){
+    var org_id: number;
     // Register
-    if(true){
+    if(this.repeatedPassword != this.admin.password && this.admin.password.length>=8){
+      Alert.danger("Passord må være like og ha minst 8 tegn");
+    }
+    else if(this.admin.email.length !=0 && this.admin.address.length != 0 && this.admin.user_name.length!=0
+    &&this.admin.phone.length != 0){
+      console.log(this.props.organization.org_name);
+      organizationService.addOrganization(this.props.organization.org_name, this.props.organization.phone, this.props.organization.email)
+          .then(response=>{
+            console.log(response.data.org_id);
+          }).then(()=>Alert.success("Du og din organisasjon ble registret"))
+          .catch((error:Error)=>Alert.danger(error.message));
 
+
+      /*userService.register(1, this.admin.email, 1, this.admin.user_name, this.admin.password, this.admin.address, this.admin.phone, this.admin.image)
+          .then(()=>Alert.success("Du og din organisasjon ble registret"))
+          .catch((error:Error)=>Alert.danger(error.message))
+       */
+    }else{
+      Alert.danger("alle felt må fylles og passord må ha minst 8 bokstaver");
     }
   }
 }
