@@ -21,9 +21,9 @@ module.exports = class eventDao extends Dao{
     }
 
     addEvent(
-      json: {event_name: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number} ,callback: function){
-        super.query( "INSERT INTO event (event_name, place, event_start, event_end, longitude, latitude) VALUES (?,?,?,?,?,?)",
-          [json.event_name, json.place, json.event_start, json.event_end, json.longitude, json.latitude],
+      json: {org_id: number, event_name: string, place: string, event_start: any, event_end: any, longitude: number, latitude: number} ,callback: function){
+        super.query( "INSERT INTO event (org_id, event_name, place, event_start, event_end, longitude, latitude) VALUES (?,?,?,?,?,?,?)",
+          [json.org_id, json.event_name, json.place, json.event_start, json.event_end, json.longitude, json.latitude],
           callback);
     }
 
