@@ -20,11 +20,13 @@ const ArtistDao = require("./DAO/artistDao.js");
 const EventDao = require("./DAO/eventDao.js");
 const TicketDao = require("./DAO/ticketDao.js");
 const OrganizationDAO=require("./DAO/organizationDao.js");
+const UserDao=require("./DAO/userDao.js");
 
 let artistDao = new ArtistDao(pool);
 let eventDao = new EventDao(pool);
 let ticketDao = new TicketDao(pool);
 let organizationDAO= new OrganizationDAO(pool);
+let userDao = new userDao(pool);
 
 //Artist
 //tested
@@ -101,6 +103,23 @@ app.delete("/event/delete/:id", (req : Request, res: Response) => {
 });
 
 //User
+//not tested
+app.put("/user/admin/:id", (req: Request, res: Response) => {
+    console.log("/user/:id received put request from client");
+    userDao.setAdminPrivilegesId(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+//not tester
+app.put("/user/normal/:id", (req: Request, res: Response) => {
+    console.log("/user/:id received put request from client");
+    userDao.setNormalPrivilegesId(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
 
 
 //Ticket
