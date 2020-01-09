@@ -8,22 +8,24 @@ export class Alert extends Component {
   static nextId = 0;
 
   render() {
+    let alert: { id: number, text: React.Node, type: string } = this.alerts[this.alerts.length- 1];
+    
     return (
       <>
-        {this.alerts.map((alert, i) => (
+        { (alert ? 
           <div key={alert.id} className={'alert alert-' + alert.type} role="alert">
             {alert.text}
             <button
               type="button"
               className="close"
               onClick={() => {
-                this.alerts.splice(i, 1);
+                this.alerts = [];
               }}
-            >
+            >                                                                                                    
               &times;
             </button>
           </div>
-        ))}
+        : " ")}
       </>
     );
   }
