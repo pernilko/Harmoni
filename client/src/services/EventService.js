@@ -1,7 +1,7 @@
 // @flow
 import axios from 'axios';
 
-const url = "http://localhost:3000/";
+const url = "http://localhost:8080/";
 
 export class Event {
     event_id: number;
