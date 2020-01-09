@@ -14,6 +14,7 @@ import {Artist} from "./Containers/Event/Components/artist";
 
 
 import { RegOrganization } from './Containers/Organization/Components/registerOrgForm';
+import {EventList} from "./Containers/Event/Components/showEvents";
 
 const root = document.getElementById('root');
 if (root)
@@ -21,7 +22,7 @@ if (root)
     <HashRouter>
       <div>
           <Alert></Alert>
-      <Login></Login>
+          <EventList></EventList>
       </div>
     </HashRouter>,
     root
