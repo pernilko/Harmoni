@@ -10,7 +10,6 @@ module.exports = class artistDao extends Dao {
         super.query(
             "select * from artist where artistID=?",
             [id],
-            callback
         );
     }
 
@@ -21,6 +20,12 @@ module.exports = class artistDao extends Dao {
             "insert into artist (arr_id, navn, riders, host_riders, kontrakt, epost, bilde) values (?,?,?,?,?,?,?)",
             val,
             callback
+        );
+    }
+    deleteArtist(artist_id: number, callback: function) {
+        super.query(
+          "DELETE FROM artist WHERE artist_id = ?", [artist_id],
+          callback
         );
     }
 };
