@@ -35,14 +35,14 @@ CREATE TABLE `event` (
  `event_name` varchar(45) NOT NULL,
  `description` text,
  `place` varchar(45) NOT NULL,
- `event_start` date NOT NULL,
- `event_end` date NOT NULL,
+ `event_start` datetime NOT NULL,
+ `event_end` datetime NOT NULL,
  `longitude` double NOT NULL,
  `latitude` double NOT NULL,
  PRIMARY KEY (`event_id`),
  KEY `org_id` (`org_id`),
  CONSTRAINT `event_ibfk_1` FOREIGN KEY (`org_id`) REFERENCES `organization` (`org_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1
 
 CREATE TABLE `user_event` (
  `user_id` int(11) NOT NULL,

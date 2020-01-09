@@ -1,8 +1,14 @@
 //@flow
 let express = require("express");
 let mysql = require("mysql");
+let bcrypt = require("bcryptjs");
+const privateKEY = require('./keys/private.json');
+const publicKEY = require('./keys/public.json');
+let config: {username: string, pwd: string} = require("./config")
+let jwt = require("jsonwebtoken");
+let bodyParser = require("body-parser");
+
 let app = express();
-var bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
 type Request = express$Request;
@@ -11,9 +17,9 @@ type Response = express$Response;
 var pool = mysql.createPool({
     connectionLimit: 2,
     host: "mysql.stud.idi.ntnu.no",
-    user: "g_scrum_4",
-    password: "n3I9XuKP",
-    database: "g_scrum_4",
+    user: config.username,
+    password: config.pwd,
+    database: config.username,
     debug: false
 });
 
@@ -26,9 +32,64 @@ const UserDao = require("./DAO/userDao.js");
 let artistDao = new ArtistDao(pool);
 let eventDao = new EventDao(pool);
 let ticketDao = new TicketDao(pool);
-let organizationDAO = new OrganizationDAO(pool);
 let userDao = new UserDao(pool);
+let organizationDAO= new OrganizationDAO(pool);
 
+app.use(function (req, res, next: function) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:8080"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
+app.use(bodyParser.json()); // for å tolke JSON
+
+app.use(function (req, res, next: function) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
+app.post("/login", (req, res) => {
+    console.log(config.username);
+    console.log(req.body);
+    userDao.getUser(req.body, (status, data) => {
+        res.status(status);
+        if (data[0]) {
+            console.log(data[0].password);
+            bcrypt.compare(req.body.password, data[0].password, function (err, resp) {
+                if (resp) {
+                    let token: string = jwt.sign({ email: req.body.email }, privateKEY.key, {
+                        expiresIn: 3600
+                    });
+                    console.log("password matched");
+                    res.status(status);
+                    res.json({ jwt: token });
+                } else {
+                    console.log("password didnt match");
+                    res.status(401);
+                    res.json({ error: "not authorized" });
+                }
+            });
+        } else {
+            res.status(401);
+            res.json({ error: "user does not exist" });
+        }
+    });
+});
+
+app.post("/register", (req, res) => {
+    console.log(req.body);
+    userDao.addUser(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+/*
+app.get("/artist", (req, res) => {
+    console.log("/test: received get request from client");
+}
+*/
 //Artist
 //tested
 app.get("/artist/all", (req : Request, res: Response) => {
@@ -36,6 +97,22 @@ app.get("/artist/all", (req : Request, res: Response) => {
     artistDao.getAll((status, data) => {
         res.status(status);
         res.json(data);
+    });
+});
+
+app.post("/token", (req, res) => {
+    let token: string = req.headers["x-access-token"];
+    jwt.verify(token, privateKEY.key, (err, decoded) => {
+        if (err) {
+            res.status(401);
+            res.json({error: "Not Authorized"});
+        } else {
+            console.log("Token refreshed.");
+            token = jwt.sign({email: decoded.email}, privateKEY.key, {
+                expiresIn: 3600
+            });
+            res.json({jwt: token, "email": decoded.email});
+        }
     });
 });
 
@@ -103,10 +180,42 @@ app.put("/event/edit/:id", (req : Request, res: Response) => {
 
 app.delete("/event/delete/:id", (req : Request, res: Response) => {
     console.log("/event/delete/:id: received delete request from client");
-    eventDao.deleteEvent(req.params.id, (status, data) => {
-        res.status(status);
-        res.json(data);
-    });
+    pool.getConnection((err, connection: function) => {
+          console.log("Connected to database");
+          if (err) {
+              console.log("Feil ved kobling til databasen");
+              res.json({ error: "feil ved oppkobling" });
+          } else {
+              connection.query(
+  				          "DELETE FROM artist WHERE event_id=?",
+  				          [req.params.id],
+  				          (err, rows) => {
+  					               //connection.release();
+  					               if (err) {
+  						                     console.log(err);
+  						                     res.json({ error: "error querying" });
+  					               } else {
+                             connection.query(
+                 				          "DELETE FROM ticket WHERE event_id=?",
+                 				          [req.params.id],
+                 				          (err, rows) => {
+                 					               connection.release();
+                 					               if (err) {
+                 						                     console.log(err);
+                 						                     res.json({ error: "error querying" });
+                 					               } else {
+                                           eventDao.deleteEvent(req.params.id, (status, data) => {
+                                                    res.status(status);
+                                                    res.json(data);
+                                           });
+  					                             }
+  				                        }
+  			                    );
+                          }
+                    }
+            );
+        }
+      });
 });
 
 //User
@@ -166,10 +275,10 @@ app.post("/ticket/add", (req : Request, res: Response) => {
     });
 });
 
-
+//tested
 app.put("/ticket/edit/:id", (req : Request, res: Response) => {
     console.log("/ticket/edit/:id: received put request from client");
-    ticketDao.updateTicket(req.body, req.params.id, (status, data) => {
+    ticketDao.updateTicket(req.params.id, req.body, (status, data) => {
         res.status(status);
         res.json(data);
     });
@@ -185,6 +294,7 @@ app.delete("/ticket/delete/:id", (req : Request, res: Response) => {
 });
 
 //Organization
+//tested
 app.get("/organization/mail/:mail",(req:Request,res:Response)=>{
     console.log("/test: received get request from client for organization by ID");
     organizationDAO.getOrgByEmail(req.params.mail, (status, data) => {
@@ -193,6 +303,7 @@ app.get("/organization/mail/:mail",(req:Request,res:Response)=>{
     });
 });
 
+//tested
 app.get("/organization/id/:id",(req:Request,res:Response)=>{
     console.log("/test: received get request from client for organization by ID");
     organizationDAO.getOrganization(req.params.id, (status, data) => {
@@ -202,7 +313,7 @@ app.get("/organization/id/:id",(req:Request,res:Response)=>{
 });
 
 //tested
-app.get("/organization",(req : Request, res : Response) => {
+app.get("/organization/all",(req : Request, res : Response) => {
     console.log("/test: received get request from client for all organizations");
     organizationDAO.getAllOrganizations((status, data) => {
         res.status(status);
@@ -211,7 +322,7 @@ app.get("/organization",(req : Request, res : Response) => {
 });
 
 
-app.post("/organization", (req : Request, res : Response) => {
+app.post("/organization/add", (req : Request, res : Response) => {
     console.log("/test: received post request for adding an organization");
     organizationDAO.addOrganization(req.body.content, (status, data) => {
         res.status(status);
@@ -219,17 +330,19 @@ app.post("/organization", (req : Request, res : Response) => {
 
 });
 
-app.delete("/organization/:id", (req : Request, res : Response) => {
+//don't need this?
+app.delete("/organization/delete/:id", (req : Request, res : Response) => {
     console.log("/test: received delete request from user to delete an organization");
     organizationDAO.deleteOrganization(req.params.id, (status, data) => {
         res.status(status);
     });
 });
 
-app.put("/organization/:id", (req : Request, res : Response) => {
+app.put("/organization/edit/:id", (req : Request, res : Response) => {
     console.log("/test:received update request from user to update organization");
     organizationDAO.updateOrganization(req.params.id, (status, data) => {
         res.status(status);
     });
 });
+
 let server = app.listen(8080);

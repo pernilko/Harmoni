@@ -8,22 +8,24 @@ export class Alert extends Component {
   static nextId = 0;
 
   render() {
+    let alert: { id: number, text: React.Node, type: string } = this.alerts[this.alerts.length- 1];
+    
     return (
       <>
-        {this.alerts.map((alert, i) => (
+        { (alert ? 
           <div key={alert.id} className={'alert alert-' + alert.type} role="alert">
             {alert.text}
             <button
               type="button"
               className="close"
               onClick={() => {
-                this.alerts.splice(i, 1);
+                this.alerts = [];
               }}
-            >
+            >                                                                                                    
               &times;
             </button>
           </div>
-        ))}
+        : " ")}
       </>
     );
   }
@@ -112,4 +114,25 @@ export class Button {
   static Success = ButtonSuccess;
   static Primary = ButtonPrimary;
   static Secondary = ButtonSecondary;
+}
+
+export class Row extends Component<{ children?: React.Node }> {
+  render() {
+    return <div className="row">{this.props.children}</div>;
+  }
+}
+
+/**
+ * Renders a column with specified width using Bootstrap classes
+ */
+export class Column extends Component<{ width?: number, right?: boolean, children?: React.Node }> {
+  render() {
+    return (
+        <div
+            className={'col' + (this.props.width ? '-' + this.props.width : '') + (this.props.right ? ' text-right' : '')}
+        >
+          {this.props.children}
+        </div>
+    );
+  }
 }
