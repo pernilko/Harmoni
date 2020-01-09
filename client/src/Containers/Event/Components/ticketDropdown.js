@@ -46,7 +46,34 @@ export class Ticket extends Component {
         )
     }
     add(){
-        //this func adds an artist to the form over the add artist dropdown, and stores the info in a temporary array.
-        //also needs a button for editing artist after add.
+        //this func adds an ticket type to the form over the add ticket dropdown, and stores the info in a temporary array.
+        //also needs a button for editing ticket after add.
+    }
+}
+
+
+export class TicketDetails extends Component {
+    render(){
+        return(
+            <div className="card">
+                <div className="card-header">
+                    <h3>Billetter:</h3>
+                </div>
+                <div className="card-body">
+                    <div className="card-header">
+                        <div className="row">
+                            <div className="col"><label>Billett Type: type navn</label></div>
+                            <div className="col"><label>Beskrivelse: blablabla</label></div>
+                            <div className="col"><label>Pris: 19999kr</label></div>
+                            <div className="col"><label>Antall: 4</label></div>
+                            <div className="col">
+                                <button className="btn btn-danger" style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
+                                <button className="btn btn-secondary" style={{marginRight: 10+"px", float: "right"}}>Rediger</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
     }
 }

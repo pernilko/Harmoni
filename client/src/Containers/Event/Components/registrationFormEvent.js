@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Component } from "react-simplified";
 import {Artist, ArtistDetails} from "./artist";
+import {Ticket, TicketDetails} from "./ticketDropdown";
 
 export class RegistrationForm extends Component {
     artist: Artist[] = [];
@@ -42,6 +43,10 @@ export class RegistrationForm extends Component {
                     <div className="form-group" style={{marginTop: 20+"px"}}>
                         <ArtistDetails/>
                         <Artist/>
+                    </div>
+                    <div className="form-group" style={{marginTop: 20+"px"}}>
+                        <TicketDetails/>
+                        <Ticket/>
                     </div>
                 </form>
             </div>

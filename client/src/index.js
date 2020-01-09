@@ -19,7 +19,6 @@ if (root)
       <div>
           <Alert></Alert>
           <Route path = "/registerEvent" component = {RegistrationForm}/>
-          <Route path = "/" component={Ticket}/>
       </div>
     </HashRouter>,
     root
