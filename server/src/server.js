@@ -4,7 +4,7 @@ let mysql = require("mysql");
 let bcrypt = require("bcryptjs");
 const privateKEY = require('./keys/private.json');
 const publicKEY = require('./keys/public.json');
-let config: {username: string, pwd: string} = require("./config")
+let config: {username: string, pwd: string} = require("./config");
 let jwt = require("jsonwebtoken");
 let bodyParser = require("body-parser");
 
@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 type Request = express$Request;
 type Response = express$Response;
 
-var pool = mysql.createPool({
+let pool = mysql.createPool({
     connectionLimit: 2,
     host: "mysql.stud.idi.ntnu.no",
     user: config.username,
@@ -35,17 +35,10 @@ let ticketDao = new TicketDao(pool);
 let userDao = new UserDao(pool);
 let organizationDAO= new OrganizationDAO(pool);
 
-app.use(function (req, res, next: function) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:8080"); // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
-
-app.use(bodyParser.json()); // for å tolke JSON
 
 app.use(function (req, res, next: function) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
 

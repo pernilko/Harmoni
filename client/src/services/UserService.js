@@ -1,6 +1,6 @@
 // @flow
 import axios from 'axios';
-//import bcrypt from 'bcrypt';
+url: string = "http://localhost:8080/";
 
 export class User {
     user_id: number;
@@ -28,17 +28,17 @@ export class User {
     }
 }
 class UserService {
-
+    //for logging in
     logIn(org_id: number, email: string, password: string){
-        //KJØR AXIOS FOR Å SJEKKE LOGIN HER
-        return axios.post<{}, {jwt: string}>('http://localhost:8080/login', {
+        return axios.post<{}, {jwt: string}>(url+'login', {
             "org_id":org_id,
             "email": email,
             "password": password
         }).then(response=>response.data);
     }
+    //for registering a new user
     register(org_id: number, email: string, privileges: number, user_name: string, password: string, address, phone: string, image: string){
-        return axios.post<{}, User>('http://localhost:8080/registrer',{
+        return axios.post<{}, User>(url+'registrer',{
             "org_id": org_id,
             "email": email,
             "privileges": privileges,
@@ -49,8 +49,9 @@ class UserService {
             "image": image
         }).then(response=>response.data);
     }
+    //to refresh token
     postToken(email: string) {
-        return fetch("http://localhost:8080/token",
+        return fetch(url + 'token',
             {
                 method: "POST",
                 headers: {
@@ -61,7 +62,6 @@ class UserService {
             })
             .then(response => response.json());
     }
-
 
 }
 
