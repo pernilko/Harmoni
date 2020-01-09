@@ -72,6 +72,8 @@ export class TicketComp extends Component {
         this.beskrivelse = "";
         this.billetter = "";
         this.pris = "";
+        let s: any = TicketDetails.instance();
+        s.mounted();
     }
 }
 
@@ -93,7 +95,7 @@ export class TicketDetails extends Component {
                             <div className="col"><label>Pris: {ticket.price} kr</label></div>
                             <div className="col"><label>Antall: {ticket.amount}</label></div>
                             <div className="col">
-                                <button className="btn btn-danger" style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
+                                <button className="btn btn-danger" style={{marginLeft: 10+"px", float: "right"}} onClick={() => this.deleteTicket(ticket)}>Slett</button>
                                 <button className="btn btn-secondary" style={{marginRight: 10+"px", float: "right"}}>Rediger</button>
                             </div>
                         </div>
@@ -103,6 +105,13 @@ export class TicketDetails extends Component {
                 </div>
             </div>
         )
+    }
+
+    deleteTicket(t: Ticket) {
+        const index = this.ticketList.indexOf(t);
+        if (index > -1) {
+            this.ticketList.splice(index, 1);
+        }
     }
 
     mounted() {
