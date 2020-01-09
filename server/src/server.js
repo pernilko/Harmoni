@@ -299,6 +299,3 @@ app.put("/organization/:id", (req : Request, res : Response) => {
         res.status(status);
     });
 });
-
-
-let server = app.listen(8080);
