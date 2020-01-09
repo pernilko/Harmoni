@@ -16,7 +16,7 @@ module.exports = class eventDao extends Dao{
         super.query("SELECT place FROM event WHERE event_id=?", [event_id], callback);
     }
 
-    getEventTime(event_id: number, callback){
+    getEventTime(event_id: number, callback: function){
         super.query("SELECT event_start, event_end FROM event WHERE event_id=?", [event_id], callback);
     }
 
