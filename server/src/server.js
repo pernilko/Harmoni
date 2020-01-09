@@ -22,11 +22,13 @@ const ArtistDao = require("./DAO/artistDao.js");
 const EventDao = require("./DAO/eventDao.js");
 const TicketDao = require("./DAO/ticketDao.js");
 const OrganizationDAO=require("./DAO/organizationDao.js");
+const UserDao=require("./DAO/userDao.js");
 
 let artistDao = new ArtistDao(pool);
 let eventDao = new EventDao(pool);
 let ticketDao = new TicketDao(pool);
 let organizationDAO= new OrganizationDAO(pool);
+let userDao = new userDao(pool);
 
 //Artist
 //tested
@@ -103,6 +105,23 @@ app.delete("/event/delete/:id", (req : Request, res: Response) => {
 });
 
 //User
+//not tested
+app.put("/user/admin/:id", (req: Request, res: Response) => {
+    console.log("/user/:id received put request from client");
+    userDao.setAdminPrivilegesId(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+//not tester
+app.put("/user/normal/:id", (req: Request, res: Response) => {
+    console.log("/user/:id received put request from client");
+    userDao.setNormalPrivilegesId(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
 
 
 //Ticket
@@ -161,8 +180,7 @@ app.delete("/ticket/delete/:id", (req : Request, res: Response) => {
 });
 
 //Organization
-//has to change path
-app.get("/organization/:mail",(req : Request, res : Response) => {
+app.get("/organization/mail/:mail",(req:Request,res:Response)=>{
     console.log("/test: received get request from client for organization by ID");
     organizationDAO.getOrgByEmail(req.params.mail, (status, data) => {
         res.status(status);
@@ -170,8 +188,7 @@ app.get("/organization/:mail",(req : Request, res : Response) => {
     });
 });
 
-//tested
-app.get("/organization/:id",(req : Request, res : Response) => {
+app.get("/organization/id/:id",(req:Request,res:Response)=>{
     console.log("/test: received get request from client for organization by ID");
     organizationDAO.getOrganization(req.params.id, (status, data) => {
         res.status(status);
