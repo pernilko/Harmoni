@@ -7,6 +7,7 @@ import { HashRouter, Route} from 'react-router-dom';
 import {Login} from "./Containers/Login";
 import {Alert} from "./widgets";
 import {RegistrationForm} from "./Containers/Event/Components/registrationFormEvent";
+import {Ticket} from "./Containers/Event/Components/ticketDropdown";
 
 
 const root = document.getElementById('root');
@@ -15,7 +16,7 @@ if (root)
     <HashRouter>
       <div>
           <Alert></Alert>
-          <Route path = "/registerEvent" component={RegistrationForm}/>
+          <Route path = "/" component={Ticket}/>
       </div>
     </HashRouter>,
     root
