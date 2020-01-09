@@ -31,12 +31,22 @@ module.exports = class eventDao extends Dao{
       callback);
     }
 
-    deleteEvent(event_id: number, callback: function){
+    deleteArtistEvent(event_id: number, callback: function){
+      super.query(
+        "DELETE FROM artist WHERE event_id=?",
+        [event_id],
+        callback
+      );
+    }
+
+    deleteTicketEvent(event_id: number, callback: function){
         super.query(
-          "DELETE FROM artist WHERE event_id=?",
-          [event_id],
-          
+            "DELETE FROM ticket WHERE event_id = ?", [event_id],
+            callback
         );
+    }
+
+    deleteEvent(event_id: number, callback: function){
         super.query(
           "DELETE FROM event WHERE event_id=?",
           [event_id],

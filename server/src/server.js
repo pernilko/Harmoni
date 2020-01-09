@@ -29,6 +29,12 @@ let ticketDao = new TicketDao(pool);
 let organizationDAO = new OrganizationDAO(pool);
 let userDao = new UserDao(pool);
 
+app.use(function (req, res, next: function) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:8080"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 //Artist
 //tested
 app.get("/artist/all", (req : Request, res: Response) => {
@@ -103,10 +109,42 @@ app.put("/event/edit/:id", (req : Request, res: Response) => {
 
 app.delete("/event/delete/:id", (req : Request, res: Response) => {
     console.log("/event/delete/:id: received delete request from client");
-    eventDao.deleteEvent(req.params.id, (status, data) => {
-        res.status(status);
-        res.json(data);
-    });
+    pool.getConnection((err, connection: function) => {
+          console.log("Connected to database");
+          if (err) {
+              console.log("Feil ved kobling til databasen");
+              res.json({ error: "feil ved oppkobling" });
+          } else {
+              connection.query(
+  				          "DELETE FROM artist WHERE event_id=?",
+  				          [req.params.id],
+  				          (err, rows) => {
+  					               //connection.release();
+  					               if (err) {
+  						                     console.log(err);
+  						                     res.json({ error: "error querying" });
+  					               } else {
+                             connection.query(
+                 				          "DELETE FROM ticket WHERE event_id=?",
+                 				          [req.params.id],
+                 				          (err, rows) => {
+                 					               connection.release();
+                 					               if (err) {
+                 						                     console.log(err);
+                 						                     res.json({ error: "error querying" });
+                 					               } else {
+                                           eventDao.deleteEvent(req.params.id, (status, data) => {
+                                                    res.status(status);
+                                                    res.json(data);
+                                           });
+  					                             }
+  				                        }
+  			                    );
+                          }
+                    }
+            );
+        }
+      });
 });
 
 //User

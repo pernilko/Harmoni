@@ -39,7 +39,7 @@ module.exports = class ticketDao extends Dao {
     updateTicket(ticket_id: number, json: {ticket_type: string, amount: number, description: string, price: number, amount_sold: number}, callback: function){
        super.query(
            "UPDATE ticket SET ticket_type = ?, amount = ?, description = ?, price = ?, amount_sold = ? WHERE ticket_id = ?",
-           [json.ticket_type, json.amount, json.description, json.price, json.amount_sold], callback
+           [json.ticket_type, json.amount, json.description, json.price, json.amount_sold, ticket_id], callback
        );
     }
 };
