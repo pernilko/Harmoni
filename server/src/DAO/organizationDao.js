@@ -36,10 +36,10 @@ module.exports = class organizationDao extends Dao {
         );
     }
 
-    updateOrganization(org_id: number, json: {org_name: string, phone: string, email: string, org_id: number}, callback: function){
+    updateOrganization(org_id: number,json: { org_name: string, phone: string, email: string}, callback: function){
         super.query(
             "UPDATE organization SET org_name = ?, phone = ?, email = ? WHERE org_id = ?",
-            [json.org_name, json.phone, json.email, json.org_id], callback
+            [json.org_name, json.phone, json.email, org_id], callback
         );
     }
 };
