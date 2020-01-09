@@ -33,35 +33,30 @@ export class Artist extends Component {
                                 <label htmlFor="exampleFormControlInput3">Rider:</label><br/>
                                 <div className="input-group">
                                     <div className="input-group-prepend">
-                                        <span className="input-group-text" id="inputGroupFileAddon01">Last opp</span>
-                                    </div>
-                                    <div className="custom-file">
-                                        <input type="file"  class="file-path validate" id="inputGroupFile01"
-                                               aria-describedby="inputGroupFileAddon01"/>
-                                               <label className="custom-file-label" htmlFor="inputGroupFile01">Velg fil</label>
-                                    </div>
-                                </div><br/>
-                                <label htmlFor="exampleFormControlInput3">Hospitality rider:</label><br/>
-                                <div className="input-group">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text" id="inputGroupFileAddon01">Last opp</span>
                                     </div>
                                     <div className="custom-file">
                                         <input type="file" className="file-path validate" id="inputGroupFile01"
                                                aria-describedby="inputGroupFileAddon01"/>
-                                        <label className="custom-file-label" htmlFor="inputGroupFile01">Velg fil</label>
+                                    </div>
+                                </div>
+                                <br/>
+                                <label htmlFor="exampleFormControlInput3">Hospitality rider:</label><br/>
+                                <div className="input-group">
+                                    <div className="input-group-prepend">
+                                    </div>
+                                    <div className="custom-file">
+                                        <input type="file" className="file-path validate" id="inputGroupFile01"
+                                               aria-describedby="inputGroupFileAddon01"/>
                                     </div>
                                 </div>
                                 <br/>
                                 <label htmlFor="exampleFormControlInput3">Artist contract:</label><br/>
                                 <div className="input-group">
                                     <div className="input-group-prepend">
-                                        <span className="input-group-text" id="inputGroupFileAddon01">Last opp</span>
                                     </div>
                                     <div className="custom-file">
                                         <input type="file" className="file-path validate" id="inputGroupFile01"
                                                aria-describedby="inputGroupFileAddon01"/>
-                                        <label className="custom-file-label" htmlFor="inputGroupFile01">Velg fil</label>
                                     </div>
                                 </div>
                                 <br/>
