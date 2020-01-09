@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Component } from "react-simplified";
-import {Artist, ArtistDetails} from "./artist";
+import {Artist, ArtistDetails, ArtistDropdown} from "./artist";
 import {Ticket, TicketDetails} from "./ticketDropdown";
 import {eventService} from "../../../services/EventService";
 import {Alert} from "../../../widgets";
@@ -66,7 +66,7 @@ export class RegistrationForm extends Component {
                     </div>
                     <div className="form-group" style={{marginTop: 20+"px"}}>
                         <ArtistDetails/>
-                        <Artist/>
+                        <ArtistDropdown/>
                     </div>
                     <div className="form-group" style={{marginTop: 20+"px"}}>
                         <TicketDetails/>
