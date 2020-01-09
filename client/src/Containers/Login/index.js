@@ -16,17 +16,16 @@ export class Login extends Component{
     user: User= new User();
     loading: boolean = false;
     organizations: Organization[]= [];
-    pickedOrg: string = "";
+    pickedOrg: Organization = new Organization();
     checkingOrg:boolean = false;
     checkedOrg:boolean = false;
 
     render(){
-
         if(this.checkedOrg){
             return (
                 <Card style = {{width: "50%", margin: "auto"}}>
                     <Card.Header>
-                        <b>{this.pickedOrg}</b>
+                        <b>{this.pickedOrg.org_name}</b>
                     </Card.Header>
                     <Card.Body>
                         <Form>
@@ -57,7 +56,7 @@ export class Login extends Component{
                         </Card.Header>
                         <Card.Body style = {{margin: "auto"}}>
                                 {this.organizations.map(e=>(
-                                    <Button variant="primary" onClick = {()=>this.pickOrg(e.org_name)} style = {{margin: "5px"}} block>{e.org_name}</Button>
+                                    <Button variant="primary" onClick = {()=>this.pickOrg(e)} style = {{margin: "5px"}} block>{e.org_name}</Button>
                                     )
                                 )}
                             </Card.Body>
@@ -107,24 +106,26 @@ export class Login extends Component{
     }
     checkEmail(){
        organizationService.getOrganizationByEmail(this.user.email).then(org=>{
-           console.log(org);
-           this.organizations = org;
-           this.checkingOrg = true;
-           this.loading=false; });
+           if(org.length>0){
+               this.organizations = org;
+               this.checkingOrg = true;
+           }else{
+               Alert.danger("Finner ikke email i systemet");
+           }
+           this.loading=false;
+       });
         this.loading = true;
     }
-    pickOrg(e: string){
-        this.checkingOrg = false;
+    pickOrg(org: Organization){
+        this.pickedOrg = org;
         this.checkedOrg = true;
-        this.pickedOrg = e;
-        this.loading=true;
     }
 
     login(){
-        userService.logIn(this.pickedOrg, this.user.email, this.user.password).then(json => {
+        userService.logIn(this.pickedOrg.org_id, this.user.email, this.user.password).then(json => {
                 localStorage.setItem("token", json.jwt);
-                console.log(json.jwt);
                 this.loading=false;
+                Alert.success("Du ble logget inn");
             }).catch((error: Error)=>Alert.danger("feil passord"));
         this.loading = true;
     }

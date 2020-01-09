@@ -29,10 +29,10 @@ export class User {
 }
 class UserService {
 
-    logIn(organization: string, email: string, password: string){
+    logIn(org_id: number, email: string, password: string){
         //KJØR AXIOS FOR Å SJEKKE LOGIN HER
         return axios.post<{}, {jwt: string}>('http://localhost:8080/login', {
-            "organization":organization,
+            "org_id":org_id,
             "email": email,
             "password": password
         }).then(response=>response.data);
