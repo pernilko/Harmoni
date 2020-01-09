@@ -4,8 +4,10 @@ import * as React from 'react';
 import { Component } from "react-simplified";
 import {FormElement, LoginCard} from "./Components";
 import {User, userService} from "../../services/UserService";
+import {Organization, organizationService} from "../../services/OrganizationService";
 import Row from "react-bootstrap/Row";
 import {Col, Spinner, Button, Container} from "react-bootstrap";
+import {Alert} from "../../widgets";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 
@@ -13,7 +15,7 @@ import Form from "react-bootstrap/Form";
 export class Login extends Component{
     user: User= new User();
     loading: boolean = false;
-    organizations: string[] = ["sukkerhuset", "snakkes", "studentersamfunnet"];
+    organizations: Organization[]= [];
     pickedOrg: string = "";
     checkingOrg:boolean = false;
     checkedOrg:boolean = false;
@@ -55,7 +57,7 @@ export class Login extends Component{
                         </Card.Header>
                         <Card.Body style = {{margin: "auto"}}>
                                 {this.organizations.map(e=>(
-                                    <Button variant="primary" onClick = {()=>this.pickOrg(e)} style = {{margin: "5px"}} block>{e}</Button>
+                                    <Button variant="primary" onClick = {()=>this.pickOrg(e.org_name)} style = {{margin: "5px"}} block>{e.org_name}</Button>
                                     )
                                 )}
                             </Card.Body>
@@ -104,7 +106,11 @@ export class Login extends Component{
         }
     }
     checkEmail(){
-       userService.getOrganizationByEmail(this.user.email).then(()=>{this.checkingOrg = true;});
+       organizationService.getOrganizationByEmail(this.user.email).then(org=>{
+           console.log(org);
+           this.organizations = org;
+           this.checkingOrg = true;
+           this.loading=false; });
         this.loading = true;
     }
     pickOrg(e: string){
@@ -115,7 +121,12 @@ export class Login extends Component{
     }
 
     login(){
-        userService.logIn(this.pickedOrg, this.user.email, this.user.password); //.then(route videre til fremside for innlogget bruker)
+        userService.logIn(this.pickedOrg, this.user.email, this.user.password).then(json => {
+                localStorage.setItem("token", json.jwt);
+                console.log(json.jwt);
+                this.loading=false;
+            }).catch((error: Error)=>Alert.danger("feil passord"));
+        this.loading = true;
     }
     registerNewOrganizationClicked(){
         console.log("newOrgClicked");
