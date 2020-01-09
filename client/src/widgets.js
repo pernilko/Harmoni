@@ -113,3 +113,24 @@ export class Button {
   static Primary = ButtonPrimary;
   static Secondary = ButtonSecondary;
 }
+
+export class Row extends Component<{ children?: React.Node }> {
+  render() {
+    return <div className="row">{this.props.children}</div>;
+  }
+}
+
+/**
+ * Renders a column with specified width using Bootstrap classes
+ */
+export class Column extends Component<{ width?: number, right?: boolean, children?: React.Node }> {
+  render() {
+    return (
+        <div
+            className={'col' + (this.props.width ? '-' + this.props.width : '') + (this.props.right ? ' text-right' : '')}
+        >
+          {this.props.children}
+        </div>
+    );
+  }
+}

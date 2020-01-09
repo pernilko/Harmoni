@@ -14,3 +14,12 @@ export class Organization {
         this.email = email;
     }
 }
+
+class OrganizationService{
+
+    getOrganizationByEmail(email: string){
+        return axios.get<Organization[]>('http://localhost:8080/organization/mail/'+email).then(response=>response.data);
+    }
+}
+
+export let organizationService = new OrganizationService();
