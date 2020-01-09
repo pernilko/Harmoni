@@ -97,6 +97,24 @@ app.get("/event/:id", (req : Request, res: Response) => {
     });
 });
 
+//tested
+app.get("/event/location/:id", (req : Request, res: Response) => {
+    console.log("/event/location/:id: received get request from client");
+    eventDao.getEventLocation(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+//tested
+app.get("/event/time/:id", (req : Request, res: Response) => {
+    console.log("/event/time/:id: received get request from client");
+    eventDao.getEventTime(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 app.post("/event/add", (req : Request, res: Response) => {
     console.log("/event/add: received post request from client");
     eventDao.addEvent(req.body, (status, data) => {
