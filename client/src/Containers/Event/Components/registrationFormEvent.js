@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Component } from "react-simplified";
 import {Artist, ArtistDetails, ArtistDropdown} from "./artist";
-import {Ticket, TicketDetails} from "./ticketDropdown";
+import {TicketComp, TicketDetails} from "./ticketDropdown";
 import {eventService} from "../../../services/EventService";
 import {Alert} from "../../../widgets";
 import { createHashHistory } from 'history';
