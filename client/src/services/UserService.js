@@ -51,7 +51,7 @@ class UserService {
     }
     //to refresh token
     postToken(email: string) {
-        return fetch("http://localhost:8080/token",
+        return fetch(url + 'token',
             {
                 method: "POST",
                 headers: {
