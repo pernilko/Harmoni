@@ -2,7 +2,9 @@
 let express = require("express");
 let mysql = require("mysql");
 let app = express();
-//var Base64 = require('js-base64').Base64;
+var bodyParser = require("body-parser");
+var Base64 = require('js-base64').Base64;
+app.use(bodyParser.json());
 
 type Request = express$Request;
 type Response = express$Response;
@@ -46,8 +48,8 @@ app.get("/artist/:id", (req : Request, res: Response) => {
 });
 
 app.post("/artist/add", (req : Request, res: Response) => {
-    console.log("/artist/add: received get request from client");
-    //req.body.content = Base64.encode(req.body.content);
+    console.log("/artist/add: received post request from client");
+    req.body.content = Base64.encode(req.body.content);
     artistDao.insertOne(req.body, (status, data) => {
         res.status(status);
         res.json(data);
