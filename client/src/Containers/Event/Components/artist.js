@@ -85,7 +85,9 @@ export class ArtistDropdown extends Component {
                                     </div>
                                     <br/>
                                     <div className="form-group" align="center">
-                                        <Button type="submit" className="btn btn-primary" onClick={this.add}>Legg til</Button>
+                                        <Accordion.Toggle type="submit"  as={Button} variant="success" eventKey="0" onClick={this.add}>
+                                            Legg til
+                                        </Accordion.Toggle>
                                     </div>
                                 </row>
                             </div>

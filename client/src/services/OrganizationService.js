@@ -37,13 +37,17 @@ class OrganizationService{
     deleteOrganization(org_id: number){
         return axios.delete<{},Organization>(url+ 'organization'+org_id).then(response=>response.data);
     }
-    updateOrganization(org_id: number, org_name: string, phone: string, email: string){
+
+    /*
+    updateOrganization(org_id: number, org_name: string, phone: string, phone:string, email: string){
         return axios.put<{}, Organization>(url+'organization'+org_id, {
             "org_name": org_name,
             "phone": phone,
             "email": email
         }).then(response=>response.data);
     }
+
+     */
 }
 
 export let organizationService = new OrganizationService();
