@@ -5,6 +5,9 @@ import { Component } from "react-simplified";
 import Dropdown from "react-bootstrap/Dropdown";
 import Button from "react-bootstrap/Button";
 import { createHashHistory } from 'history';
+import Collapse from "react-bootstrap/Collapse";
+import Card from "react-bootstrap/Card";
+import Accordion from "react-bootstrap/Accordion";
 
 const history = createHashHistory();
 
@@ -16,72 +19,78 @@ export class Artist extends Component {
     email: string = "";
     phone: number = null;
     image: string = "";
-    render(){
-        return(
-            <Dropdown>
-                <Dropdown.Toggle variant="success" id="dropdown-basic" style={{width: "100%",position: "relative", overflow: "visible"}}>
-                   Legg til en artist
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu style={{width: "100%"}}>
-                    <form style={{padding: 20 + 'px', width: "100%", borderStyle: "outset", position: "absolute", overflow: "visible"}}>
-                        <div className="form-group">
-                            <row>
-                                <h4>Kontakt info: </h4><br/>
-                                <div className="form-group">
-                                    <label>Fullt navn:</label>
-                                    <input type="text" className="form-control" placeholder="Ola Nordmann" value={this.artist_name}
-                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.artist_name = event.target.value)}/>
-                                </div>
-                                <div className="form-group">
-                                    <label>E-post: </label>
-                                    <input type="epost" className="form-control" placeholder="olanordmann@gmail.com" value={this.email}
-                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.email = event.target.value)}/>
-                                </div>
-                                <div className="form-group">
-                                    <label>Mobilnummer: </label>
-                                    <input type="tlf" className="form-control" placeholder="+47 00000000" value={this.phone}
-                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.phone = event.target.value)}/>
-                                </div>
-                                <label>Rider:</label><br/>
-                                <div className="input-group">
-                                    <div className="input-group-prepend">
+    render() {
+        return (
+            <Accordion>
+                <Card>
+                    <Card.Header>
+                        <Accordion.Toggle as={Button} variant="success" eventKey="0">
+                            Legg til en artist
+                        </Accordion.Toggle>
+                    </Card.Header>
+                    <Accordion.Collapse eventKey="0">
+                        <Card.Body>
+                            <form style={{padding: 20 + 'px', width: "100%" , position: "sticky", overflow: "visible"}}>
+                            <div className="form-group">
+                                <row>
+                                    <h4>Kontakt info: </h4><br/>
+                                    <div className="form-group">
+                                        <label>Fullt navn:</label>
+                                        <input type="text" className="form-control" placeholder="Ola Nordmann" value={this.artist_name}
+                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.artist_name = event.target.value)}/>
                                     </div>
-                                    <div className="custom-file">
-                                        <input type="file" className="file-path validate" id="inputGroupFile01"
-                                               aria-describedby="inputGroupFileAddon01"/>
+                                    <div className="form-group">
+                                        <label>E-post: </label>
+                                        <input type="epost" className="form-control" placeholder="olanordmann@gmail.com" value={this.email}
+                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.email = event.target.value)}/>
                                     </div>
-                                </div><br/>
-                                <label>Hospitality rider:</label><br/>
-                                <div className="input-group">
-                                    <div className="input-group-prepend">
+                                    <div className="form-group">
+                                        <label>Mobilnummer: </label>
+                                        <input type="tlf" className="form-control" placeholder="+47 00000000" value={this.phone}
+                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.phone = event.target.value)}/>
                                     </div>
-                                    <div className="custom-file">
-                                        <input type="file" className="file-path validate" id="inputGroupFile01"
-                                               aria-describedby="inputGroupFileAddon01"/>
+                                    <label>Rider:</label><br/>
+                                    <div className="input-group">
+                                        <div className="input-group-prepend">
+                                        </div>
+                                        <div className="custom-file">
+                                            <input type="file" className="file-path validate" id="inputGroupFile01"
+                                                   aria-describedby="inputGroupFileAddon01"/>
+                                        </div>
+                                    </div><br/>
+                                    <label>Hospitality rider:</label><br/>
+                                    <div className="input-group">
+                                        <div className="input-group-prepend">
+                                        </div>
+                                        <div className="custom-file">
+                                            <input type="file" className="file-path validate" id="inputGroupFile01"
+                                                   aria-describedby="inputGroupFileAddon01"/>
+                                        </div>
                                     </div>
-                                </div>
-                                <br/>
-                                <label>Artist contract:</label><br/>
-                                <div className="input-group">
-                                    <div className="input-group-prepend">
+                                    <br/>
+                                    <label>Artist contract:</label><br/>
+                                    <div className="input-group">
+                                        <div className="input-group-prepend">
+                                        </div>
+                                        <div className="custom-file">
+                                            <input type="file" className="file-path validate" id="inputGroupFile01"
+                                                   aria-describedby="inputGroupFileAddon01"/>
+                                        </div>
                                     </div>
-                                    <div className="custom-file">
-                                        <input type="file" className="file-path validate" id="inputGroupFile01"
-                                               aria-describedby="inputGroupFileAddon01"/>
+                                    <br/>
+                                    <div className="form-group" align="center">
+                                        <Button type="submit" className="btn btn-primary" onClick={this.add}>Legg til</Button>
                                     </div>
-                                </div>
-                                <br/>
-                                <div className="form-group" align="center">
-                                    <Button type="submit" className="btn btn-primary" onClick={this.add}>Legg til</Button>
-                                </div>
-                            </row>
-                        </div>
-                    </form>
-                </Dropdown.Menu>
-            </Dropdown>
-        )
+                                </row>
+                            </div>
+                        </form>
+                        </Card.Body>
+                    </Accordion.Collapse>
+                </Card>
+            </Accordion>
+        );
     }
+
     add(){
         //this func adds an artist to the form over the add artist dropdown, and stores the info in a temporary array.
         //also needs a button for editing artist after add.
