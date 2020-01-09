@@ -1,15 +1,15 @@
-// @flow
+//@flow
 const Dao = require("./dao.js");
 
 module.exports = class artistDao extends Dao {
     getAll(callback: function){
-        super.query("select * from artist", [], callback);
+        super.query("SELECT * FROM artist", [], callback);
     }
 
-    getOne(id: number, callback: function) {
+    getOne(artist_id: number, callback: function) {
         super.query(
-            "select * from artist where artistID=?",
-            [id],
+            "select * from artist where artist_id = ?",
+            [artist_id],
             callback
         );
     }

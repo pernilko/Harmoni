@@ -18,6 +18,7 @@ module.exports = class userDao extends Dao {
     setNormalPrivilegesId(id: number, callback: function){
         super.query("UPDATE user SET priviliges = 0 WHERE user_id = ?", [id], callback);
     }
+
     //method to set a user to default privileges in db, privileges = 0 => normal privilege
     setNormalPrivilegesEmail(email: string, org_id: number, callback: function){
         super.query("UPDATE user SET priviliges = 0 WHERE email = ? AND org_id = ?", [email, org_id], callback);
