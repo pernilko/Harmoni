@@ -3,7 +3,6 @@ let express = require("express");
 let mysql = require("mysql");
 let app = express();
 var bodyParser = require("body-parser");
-var Base64 = require('js-base64').Base64;
 app.use(bodyParser.json());
 
 type Request = express$Request;
@@ -21,14 +20,14 @@ var pool = mysql.createPool({
 const ArtistDao = require("./DAO/artistDao.js");
 const EventDao = require("./DAO/eventDao.js");
 const TicketDao = require("./DAO/ticketDao.js");
-const OrganizationDAO=require("./DAO/organizationDao.js");
-const UserDao=require("./DAO/userDao.js");
+const OrganizationDAO = require("./DAO/organizationDao.js");
+const UserDao = require("./DAO/userDao.js");
 
 let artistDao = new ArtistDao(pool);
 let eventDao = new EventDao(pool);
 let ticketDao = new TicketDao(pool);
-let organizationDAO= new OrganizationDAO(pool);
-let userDao = new userDao(pool);
+let organizationDAO = new OrganizationDAO(pool);
+let userDao = new UserDao(pool);
 
 //Artist
 //tested
@@ -49,10 +48,19 @@ app.get("/artist/:id", (req : Request, res: Response) => {
     });
 });
 
+//tested
 app.post("/artist/add", (req : Request, res: Response) => {
     console.log("/artist/add: received post request from client");
-    req.body.content = Base64.encode(req.body.content);
     artistDao.insertOne(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+//tested
+app.delete("/artist/delete/:id", (req : Request, res: Response) => {
+    console.log("/artist/:id: received delete request from client");
+    artistDao.deleteArtist(req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
     });
@@ -79,7 +87,6 @@ app.get("/event/:id", (req : Request, res: Response) => {
 
 app.post("/event/add", (req : Request, res: Response) => {
     console.log("/event/add: received post request from client");
-    //req.body.content = Base64.encode(req.body.content);
     eventDao.addEvent(req.body, (status, data) => {
         res.status(status);
         res.json(data);
@@ -88,14 +95,12 @@ app.post("/event/add", (req : Request, res: Response) => {
 
 app.put("/event/edit/:id", (req : Request, res: Response) => {
     console.log("/event/edit/:id: received put request from client");
-    //req.body.content = Base64.encode(req.body.content);
     eventDao.editEvent(req.body, req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
     });
 });
 
-//don't need this?
 app.delete("/event/delete/:id", (req : Request, res: Response) => {
     console.log("/event/delete/:id: received delete request from client");
     eventDao.deleteEvent(req.params.id, (status, data) => {
@@ -152,18 +157,18 @@ app.get("/ticket/remaining/:id", (req : Request, res: Response) => {
     });
 });
 
+//tested
 app.post("/ticket/add", (req : Request, res: Response) => {
     console.log("/ticket/add: received get request from client");
-    //req.body.content = Base64.encode(req.body.content);
     ticketDao.addTicket(req.body, (status, data) => {
         res.status(status);
         res.json(data);
     });
 });
 
+
 app.put("/ticket/edit/:id", (req : Request, res: Response) => {
     console.log("/ticket/edit/:id: received put request from client");
-    //req.body.content = Base64.encode(req.body.content);
     ticketDao.updateTicket(req.body, req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
@@ -208,7 +213,6 @@ app.get("/organization",(req : Request, res : Response) => {
 
 app.post("/organization", (req : Request, res : Response) => {
     console.log("/test: received post request for adding an organization");
-    //req.body.content = Base64.encode(req.body.content);
     organizationDAO.addOrganization(req.body.content, (status, data) => {
         res.status(status);
     });
