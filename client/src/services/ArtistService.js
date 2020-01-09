@@ -29,15 +29,15 @@ export class Artist {
 
 class ArtistService {
     getAllArtists() {
-        axios.get<Artist[]>(url + "/artist/all").then(response => response.data);
+        axios.get<Artist[]>(url + "artist/all").then(response => response.data);
     }
 
     getOneArtist(id: number) {
-        axios.get<Artist[]>(url + "/artist/"+id).then(response => response.data[0]);
+        axios.get<Artist[]>(url + "artist/"+id).then(response => response.data[0]);
     }
 
     addArtist(event_id: number, artist_name: string, riders: string, hospitality_riders: string, artist_contract: string, email: string, phone: number, image: string) {
-        axios.post<{}, Artist>(url + "/artist/add", {
+        axios.post<{}, Artist>(url + "artist/add", {
             "event_id": event_id,
             "artist_name": artist_name,
             "riders": riders,
@@ -50,7 +50,7 @@ class ArtistService {
     }
 
     deleteArtist(id: number) {
-        return axios.delete<Artist, void>(url + "/artist/delete/" + id).then(response => response.data);
+        return axios.delete<Artist, void>(url + "artist/delete/" + id).then(response => response.data);
     }
 }
 
