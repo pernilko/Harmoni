@@ -14,7 +14,6 @@ import {Artist} from "./Containers/Event/Components/artist";
 
 
 import { RegOrganization } from './Containers/Organization/Components/registerOrgForm';
-import {AdminUsrForm} from "./Containers/Organization/Components/AdminUsr";
 
 const root = document.getElementById('root');
 if (root)
@@ -22,7 +21,6 @@ if (root)
     <HashRouter>
       <div>
           <Alert></Alert>
-          <Route path = "/event" component = {RegistrationForm}/>
           <Route path = "/registerOrganization" component = {RegOrganization}/>
       </div>
     </HashRouter>,

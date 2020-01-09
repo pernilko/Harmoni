@@ -5,18 +5,24 @@ import { Component } from "react-simplified";
 import Button from "react-bootstrap/Button";
 import { createHashHistory } from 'history';
 import Card from "react-bootstrap/Card";
+import {Artist} from "../../../services/ArtistService";
 import Accordion from "react-bootstrap/Accordion";
 
 const history = createHashHistory();
+let artist = [];
 
-export class Artist extends Component {
+export class ArtistDropdown extends Component {
+
+    artist: Artist[] = [];
+
     artist_name: string = "";
-    riders: string = "";
-    hospitality_riders: string = "";
-    artist_contract: string = "";
+    riders: File = "";
+    hospitality_riders: File = "";
+    artist_contract: File = "";
     email: string = "";
     phone: number = null;
     image: string = "";
+
     render() {
         return (
             <Accordion>
@@ -53,7 +59,8 @@ export class Artist extends Component {
                                         </div>
                                         <div className="custom-file">
                                             <input type="file" className="file-path validate" id="inputGroupFile01"
-                                                   aria-describedby="inputGroupFileAddon01"/>
+                                                   aria-describedby="inputGroupFileAddon01" value={this.riders}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.riders = event.target.value)}/>
                                         </div>
                                     </div><br/>
                                     <label>Hospitality rider:</label><br/>
@@ -62,7 +69,8 @@ export class Artist extends Component {
                                         </div>
                                         <div className="custom-file">
                                             <input type="file" className="file-path validate" id="inputGroupFile01"
-                                                   aria-describedby="inputGroupFileAddon01"/>
+                                                   aria-describedby="inputGroupFileAddon01" value={this.hospitality_riders}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.hospitality_riders = event.target.value)}/>
                                         </div>
                                     </div>
                                     <br/>
@@ -72,12 +80,15 @@ export class Artist extends Component {
                                         </div>
                                         <div className="custom-file">
                                             <input type="file" className="file-path validate" id="inputGroupFile01"
-                                                   aria-describedby="inputGroupFileAddon01"/>
+                                                   aria-describedby="inputGroupFileAddon01" value={this.artist_contract}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.artist_contract = event.target.value)}/>
                                         </div>
                                     </div>
                                     <br/>
                                     <div className="form-group" align="center">
-                                        <Button type="submit" className="btn btn-primary" onClick={this.add}>Legg til</Button>
+                                        <Accordion.Toggle type="submit"  as={Button} variant="success" eventKey="0" onClick={this.add}>
+                                            Legg til
+                                        </Accordion.Toggle>
                                     </div>
                                 </row>
                             </div>
@@ -90,34 +101,43 @@ export class Artist extends Component {
     }
 
     add(){
-        //this func adds an artist to the form over the add artist dropdown, and stores the info in a temporary array.
-        //also needs a button for editing artist after add.
+        this.artist.push(new Artist(0,0,this.artist_name, this.riders, this.hospitality_riders,this.artist_contract,this.email, this.phone,this.image));
+        console.log(artist)
 
     }
 }
 
 export class ArtistDetails extends Component {
+
+    artist: Artist[] = [];
     render(){
-        return(
+        return (
             <div className="card">
                 <div className="card-header">
                     <h3>Artister:</h3>
                 </div>
                 <div className="card-body">
+                    {this.artist.map(a => (
                     <div className="card-header">
                         <div className="row">
-                            <div className="col"><label>Artist: artist navn</label></div>
-                            <div className="col"><label>Email: mail@mail.com</label></div>
-                            <div className="col"><label>Tlf: +47 777777</label></div>
-                            <div className="col"><label>Dokumenter: vis filer</label></div>
+                            <div className="col"><label>Artist: {a.artist_name} </label></div>
+                            <div className="col"><label>Email: {a.email}</label></div>
+                            <div className="col"><label>Tlf: {a.phone}</label></div>
+                            <div className="col"><label>Dokumenter: {a.riders}</label></div>
                             <div className="col">
                                 <button className="btn btn-danger" style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
                                 <button className="btn btn-secondary" style={{marginRight: 10+"px", float: "right"}}>Rediger</button>
                             </div>
                         </div>
                     </div>
+                    ))}
                 </div>
             </div>
         )
+    }
+
+    mounted() {
+        let s: any = ArtistDropdown.instance();
+        this.artist = s.artist;
     }
 }
