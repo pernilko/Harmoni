@@ -104,22 +104,21 @@ export class Login extends Component{
         }
     }
     checkEmail(){
-
-       // userService.getOrganizationByEmail(this.user.email).then(this.checkedEmail = true);
-        //this.loading = true;
-        this.checkingOrg = true;
+       userService.getOrganizationByEmail(this.user.email).then(()=>{this.checkingOrg = true;});
+        this.loading = true;
     }
     pickOrg(e: string){
         this.checkingOrg = false;
         this.checkedOrg = true;
         this.pickedOrg = e;
-        //this.loading=true;
+        this.loading=true;
     }
 
     login(){
-        userService.logIn(this.pickedOrg, this.user.email, this.user.password); // .then(route videre til valg av org/inn til org).
+        userService.logIn(this.pickedOrg, this.user.email, this.user.password); //.then(route videre til fremside for innlogget bruker)
     }
     registerNewOrganizationClicked(){
         console.log("newOrgClicked");
+        //eventuelt route videre til registreringsskjema her
     }
 }

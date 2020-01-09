@@ -30,8 +30,10 @@ export class User {
 class UserService {
 
     logIn(org: string, email: string, password: string){
-
         //KJØR AXIOS FOR Å SJEKKE LOGIN HER
+    }
+    getOrganizationByEmail(email: string){
+
     }
 
 }
