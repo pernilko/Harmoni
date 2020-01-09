@@ -12,8 +12,8 @@ export class TicketComp extends Component {
     ticketList: Ticket[] = [];
     type: string = "";
     beskrivelse: string = "";
-    billetter: number = 0;
-    pris: number = 0;
+    billetter: string = "";
+    pris: string = "";
 
     render(){
         return(
@@ -64,8 +64,12 @@ export class TicketComp extends Component {
         )
     }
     add(){
-        this.ticketList.push(new Ticket(0, 0, this.type, this.billetter, this.beskrivelse, this.pris, 0));
+        this.ticketList.push(new Ticket(0, 0, this.type, parseInt(this.billetter), this.beskrivelse, parseInt(this.pris), 0));
         console.log(this.ticketList);
+        this.type = "";
+        this.beskrivelse = "";
+        this.billetter = "";
+        this.pris = "";
     }
 }
 
