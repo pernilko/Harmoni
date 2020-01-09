@@ -9,7 +9,6 @@ import {Artist} from "../../../services/ArtistService";
 import Accordion from "react-bootstrap/Accordion";
 
 const history = createHashHistory();
-let artist = [];
 
 export class ArtistDropdown extends Component {
 
@@ -86,7 +85,9 @@ export class ArtistDropdown extends Component {
                                     </div>
                                     <br/>
                                     <div className="form-group" align="center">
-                                        <Button type="submit" className="btn btn-primary" onClick={this.add}>Legg til</Button>
+                                        <Accordion.Toggle type="submit"  as={Button} variant="success" eventKey="0" onClick={this.add}>
+                                            Legg til
+                                        </Accordion.Toggle>
                                     </div>
                                 </row>
                             </div>
@@ -100,7 +101,14 @@ export class ArtistDropdown extends Component {
 
     add(){
         this.artist.push(new Artist(0,0,this.artist_name, this.riders, this.hospitality_riders,this.artist_contract,this.email, this.phone,this.image));
-        console.log(artist)
+        this.artist_name = "";
+        this.email = "";
+        this.phone = "";
+        this.riders = "";
+        this.hospitality_riders = "";
+        this.artist_contract = "";
+        this.image = "";
+
 
     }
 }
