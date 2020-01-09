@@ -9,5 +9,5 @@ test:
     - mysql:5
   script:
     - npm install -g flow-bin
-    - cd server && npm install && npm test  && flow check src
+    - cd server && npm install && rm node_modules/bcryptjs/src/bower.json && npm test && flow check src
     - cd ../client && npm install && npm test && flow check src
