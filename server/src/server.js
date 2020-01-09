@@ -41,55 +41,6 @@ app.use(function (req, res, next: function) {
     next();
 });
 
-app.use(bodyParser.json()); // for å tolke JSON
-
-app.use(function (req, res, next: function) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
-
-app.post("/login", (req, res) => {
-    console.log(config.username);
-    console.log(req.body);
-    userDao.getUser(req.body, (status, data) => {
-        res.status(status);
-        if (data[0]) {
-            console.log(data[0].password);
-            bcrypt.compare(req.body.password, data[0].password, function (err, resp) {
-                if (resp) {
-                    let token: string = jwt.sign({ email: req.body.email }, privateKEY.key, {
-                        expiresIn: 3600
-                    });
-                    console.log("password matched");
-                    res.status(status);
-                    res.json({ jwt: token });
-                } else {
-                    console.log("password didnt match");
-                    res.status(401);
-                    res.json({ error: "not authorized" });
-                }
-            });
-        } else {
-            res.status(401);
-            res.json({ error: "user does not exist" });
-        }
-    });
-});
-
-app.post("/register", (req, res) => {
-    console.log(req.body);
-    userDao.addUser(req.body, (status, data) => {
-        res.status(status);
-        res.json(data);
-    });
-});
-
-/*
-app.get("/artist", (req, res) => {
-    console.log("/test: received get request from client");
-}
-*/
 //Artist
 //tested
 app.get("/artist/all", (req : Request, res: Response) => {
@@ -97,22 +48,6 @@ app.get("/artist/all", (req : Request, res: Response) => {
     artistDao.getAll((status, data) => {
         res.status(status);
         res.json(data);
-    });
-});
-
-app.post("/token", (req, res) => {
-    let token: string = req.headers["x-access-token"];
-    jwt.verify(token, privateKEY.key, (err, decoded) => {
-        if (err) {
-            res.status(401);
-            res.json({error: "Not Authorized"});
-        } else {
-            console.log("Token refreshed.");
-            token = jwt.sign({email: decoded.email}, privateKEY.key, {
-                expiresIn: 3600
-            });
-            res.json({jwt: token, "email": decoded.email});
-        }
     });
 });
 
@@ -219,7 +154,7 @@ app.delete("/event/delete/:id", (req : Request, res: Response) => {
 });
 
 //User
-//not tested
+//tested
 app.put("/user/admin/:id", (req: Request, res: Response) => {
     console.log("/user/:id received put request from client");
     userDao.setAdminPrivilegesId(req.params.id, (status, data) => {
@@ -228,7 +163,7 @@ app.put("/user/admin/:id", (req: Request, res: Response) => {
     });
 });
 
-//not tester
+//tested
 app.put("/user/normal/:id", (req: Request, res: Response) => {
     console.log("/user/:id received put request from client");
     userDao.setNormalPrivilegesId(req.params.id, (status, data) => {
@@ -237,6 +172,57 @@ app.put("/user/normal/:id", (req: Request, res: Response) => {
     });
 });
 
+app.post("/login", (req, res) => {
+    console.log(config.username);
+    console.log(req.body);
+    userDao.getUser(req.body, (status, data) => {
+        res.status(status);
+        if (data[0]) {
+            console.log(data[0].password);
+            bcrypt.compare(req.body.password, data[0].password, function (err, resp) {
+                if (resp) {
+                    let token: string = jwt.sign({ email: req.body.email }, privateKEY.key, {
+                        expiresIn: 3600
+                    });
+                    console.log("password matched");
+                    res.status(status);
+                    res.json({ jwt: token });
+                } else {
+                    console.log("password didnt match");
+                    res.status(401);
+                    res.json({ error: "not authorized" });
+                }
+            });
+        } else {
+            res.status(401);
+            res.json({ error: "user does not exist" });
+        }
+    });
+});
+
+app.post("/register", (req, res) => {
+    console.log(req.body);
+    userDao.addUser(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.post("/token", (req, res) => {
+    let token: string = req.headers["x-access-token"];
+    jwt.verify(token, privateKEY.key, (err, decoded) => {
+        if (err) {
+            res.status(401);
+            res.json({error: "Not Authorized"});
+        } else {
+            console.log("Token refreshed.");
+            token = jwt.sign({email: decoded.email}, privateKEY.key, {
+                expiresIn: 3600
+            });
+            res.json({jwt: token, "email": decoded.email});
+        }
+    });
+});
 
 //Ticket
 //tested
@@ -321,27 +307,31 @@ app.get("/organization/all",(req : Request, res : Response) => {
     });
 });
 
-
+//tested
 app.post("/organization/add", (req : Request, res : Response) => {
     console.log("/test: received post request for adding an organization");
-    organizationDAO.addOrganization(req.body.content, (status, data) => {
+    organizationDAO.addOrganization(req.body, (status, data) => {
         res.status(status);
+        res.json(data);
     });
 
 });
 
-//don't need this?
+//don't need this? //Halfway tested
 app.delete("/organization/delete/:id", (req : Request, res : Response) => {
     console.log("/test: received delete request from user to delete an organization");
     organizationDAO.deleteOrganization(req.params.id, (status, data) => {
         res.status(status);
+        res.json(data);
     });
 });
 
+//tested
 app.put("/organization/edit/:id", (req : Request, res : Response) => {
     console.log("/test:received update request from user to update organization");
-    organizationDAO.updateOrganization(req.params.id, (status, data) => {
+    organizationDAO.updateOrganization(req.params.id, req.body, (status, data) => {
         res.status(status);
+        res.json(data);
     });
 });
 
