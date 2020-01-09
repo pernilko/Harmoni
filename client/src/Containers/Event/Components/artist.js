@@ -2,10 +2,8 @@
 
 import * as React from 'react';
 import { Component } from "react-simplified";
-import Dropdown from "react-bootstrap/Dropdown";
 import Button from "react-bootstrap/Button";
 import { createHashHistory } from 'history';
-import Collapse from "react-bootstrap/Collapse";
 import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
 
