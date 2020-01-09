@@ -7,6 +7,7 @@ import { HashRouter, Route} from 'react-router-dom';
 import {Login} from "./Containers/Login";
 import {Alert} from "./widgets";
 import {RegistrationForm} from "./Containers/Event/Components/registrationFormEvent";
+import {ArtistDetails} from "./Containers/Event/Components/artist";
 
 
 const root = document.getElementById('root');
