@@ -3,6 +3,7 @@
 
 import * as React from 'react';
 import { Component } from "react-simplified";
+import {User} from '../../;'
 
 export class LoginCard extends Component<{ children?: React.Node, user: User}> {
     render() {
