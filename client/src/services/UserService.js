@@ -37,7 +37,7 @@ class UserService {
         }).then(response=>response.data);
     }
     //for registering a new user
-    register(org_id: number, email: string, privileges: number, user_name: string, password: string, address, phone: string, image: string){
+    register(org_id: number, email: string, privileges: number, user_name: string, password: string, address: string, phone: string, image: string){
         return axios.post<{}, User>(url+'registrer',{
             "org_id": org_id,
             "email": email,
