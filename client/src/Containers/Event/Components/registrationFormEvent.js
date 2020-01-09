@@ -15,6 +15,7 @@ export class RegistrationForm extends Component {
 
     eventName: string = "";
     address: string = "";
+    description: string = "";
     startDate: number = null;
     endDate: number = null;
     startTime: number = null;
@@ -39,6 +40,11 @@ export class RegistrationForm extends Component {
                         <label>Lokasjon:</label>
                         <input className="form-control" placeholder="Skriv inn addresse" value={this.address}
                                onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.address = event.target.value)}/>
+                    </div>
+                    <div className="form-group">
+                        <label>Beskrivelse:</label>
+                        <textarea className="form-control" value={this.description}
+                                  onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.description = event.target.value)}/>
                     </div>
                     <div className="form-inline">
                         <div className="row">
@@ -106,8 +112,8 @@ export class RegistrationForm extends Component {
 
 
         eventService
-            .postEvent(1, this.eventName, this.address, this.startDate, this.endDate, 0, 0)
-            .then(history.push("/registerEvent"))
+            .postEvent(1, this.eventName, this.description, this.address, this.startDate, this.endDate, 0, 0)
+            .then(history.push("/event"))
             .catch((error: Error) => console.log("feil ved registrering av event"));
 //2020-01-10, 22:01
     }
