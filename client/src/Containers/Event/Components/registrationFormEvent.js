@@ -14,7 +14,7 @@ export class RegistrationForm extends Component {
                 <form className="card-body">
                     <div className="form-group">
                         <label>Arrangement Navn:</label>
-                        <input className="form-control" placeholder="skriv inn navn her"/>
+                        <input className="form-control" placeholder="Skriv inn navn her"/>
                     </div>
                     <div className="form-group">
                         <label>Lokasjon:</label>

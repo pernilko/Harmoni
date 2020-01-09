@@ -4,45 +4,56 @@ import * as React from 'react';
 import { Component } from "react-simplified";
 import Dropdown from "react-bootstrap/Dropdown";
 import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import Accordion from "react-bootstrap/Accordion";
 
 export class Ticket extends Component {
     render(){
         return(
-            <Dropdown>
-                <Dropdown.Toggle variant="success" id="dropdown-basic" style={{width: "100%", position: "relative", overflow: "visible", border: "none"}}>
-                   Legg til billett
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu style={{width: "100%"}}>
-                    <form style={{padding: 20 + 'px', width: "100%", borderStyle: "outset", position: "absolute", overflow: "visible"}}>
-                        <div className="form-group">
-                            <row>
-                                <h4>Registrer billetter for arrangement: </h4><br/>
+            <Accordion>
+                <Card>
+                    <Card.Header>
+                        <Accordion.Toggle as={Button} variant="success" eventKey="0">
+                           Legg til billett
+                        </Accordion.Toggle>
+                    </Card.Header>
+                    <Accordion.Collapse eventKey="0">
+                        <Card.Body>
+                            <form style={{padding: 20 + 'px', width: "100%", position: "sticky", overflow: "visible"}}>
                                 <div className="form-group">
-                                    <label htmlFor="exampleFormControlInput1">Billettype: </label>
-                                    <input type="ticket_type" className="form-control" placeholder="Ståplass foran"></input>
+                                    <row>
+                                        <h4>Registrer billetter for arrangement: </h4><br/>
+                                        <div className="form-group">
+                                            <label>Billettype: </label>
+                                            <input type="text" className="form-control" placeholder="Ståplass Foran" value={this.artist_name}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.artist_name = event.target.value)}/>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Billettbeskrivelse: </label>
+                                            <textarea type="text" className="form-control" placeholder="Denne billetten... " value={this.email}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.email = event.target.value)}/>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Antall billetter tilgjengelig: </label>
+                                            <input type="text" className="form-control" placeholder="75" value={this.phone}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.phone = event.target.value)}/>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Pris per billett: (kr) </label>
+                                            <input type="text" className="form-control" placeholder="350" value={this.phone}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.phone = event.target.value)}/>
+                                        </div>
+                                        <br/>
+                                        <div className="form-group" align="center">
+                                            <Button type="submit" className="btn btn-primary" onClick={this.add}>Legg til</Button>
+                                        </div>
+                                    </row>
                                 </div>
-                                <div className="form-group">
-                                    <label htmlFor="exampleFormControlInput2">Beskrivelse av billettype: </label>
-                                    <textarea type="description" className="form-control" placeholder="Denne billettypen innebærer..."></textarea>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="exampleFormControlInput3">Antall billetter tilgjengelig: </label>
-                                    <input type="amount" className="form-control" placeholder="75"></input>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="exampleFormControlInput3">Pris per billett: (kr)</label>
-                                    <input type="price" className="form-control" placeholder="350"></input>
-                                </div>
-                                <br/>
-                                <div className="form-group" align="center">
-                                    <Button type="submit" className="btn btn-primary" onClick={this.add}>Legg til</Button>
-                                </div>
-                            </row>
-                        </div>
-                    </form>
-                </Dropdown.Menu>
-            </Dropdown>
+                            </form>
+                        </Card.Body>
+                    </Accordion.Collapse>
+                </Card>
+            </Accordion>
         )
     }
     add(){

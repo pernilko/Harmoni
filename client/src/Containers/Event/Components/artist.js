@@ -24,13 +24,13 @@ export class Artist extends Component {
             <Accordion>
                 <Card>
                     <Card.Header>
-                        <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                        <Accordion.Toggle as={Button} variant="success" eventKey="0">
                             Legg til en artist
                         </Accordion.Toggle>
                     </Card.Header>
                     <Accordion.Collapse eventKey="0">
                         <Card.Body>
-                            <form style={{padding: 20 + 'px', width: "100%", borderStyle: "outset", position: "sticky", overflow: "visible"}}>
+                            <form style={{padding: 20 + 'px', width: "100%" , position: "sticky", overflow: "visible"}}>
                             <div className="form-group">
                                 <row>
                                     <h4>Kontakt info: </h4><br/>
