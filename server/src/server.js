@@ -4,6 +4,7 @@ let mysql = require("mysql");
 let bcrypt = require("bcryptjs");
 const privateKEY = require('./keys/private.json');
 const publicKEY = require('./keys/public.json');
+let config: {username: string, pwd: string} = require("./config")
 let jwt = require("jsonwebtoken");
 let bodyParser = require("body-parser");
 
@@ -12,9 +13,9 @@ let app = express();
 let pool = mysql.createPool({
     connectionLimit: 2,
     host: "mysql.stud.idi.ntnu.no",
-    user: "g_scrum_4",
-    password: "n3I9XuKP",
-    database: "g_scrum_4",
+    user: config.username,
+    password: config.pwd,
+    database: config.username,
     debug: false
 });
 
@@ -32,6 +33,7 @@ app.use(function (req, res, next: function) {
 });
 
 app.post("/login", (req, res) => {
+    console.log(config.username);
     console.log(req.body);
     userDao.getUser(req.body, (status, data) => {
         res.status(status);
@@ -72,6 +74,22 @@ app.get("/artist", (req, res) => {
     artistDao.getAll((status, data) => {
         res.status(status);
         res.json(data);
+    });
+});
+
+app.post("/token", (req, res) => {
+    let token: string = req.headers["x-access-token"];
+    jwt.verify(token, privateKEY.key, (err, decoded) => {
+        if (err) {
+            res.status(401);
+            res.json({error: "Not Authorized"});
+        } else {
+            console.log("Token refreshed.");
+            token = jwt.sign({email: decoded.email}, privateKEY.key, {
+                expiresIn: 3600
+            });
+            res.json({jwt: token, "email": decoded.email});
+        }
     });
 });
 
