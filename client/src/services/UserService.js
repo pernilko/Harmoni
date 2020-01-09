@@ -1,6 +1,6 @@
 // @flow
 import axios from 'axios';
-url: string = "http://localhost:8080/";
+let url: string = "http://localhost:8080/";
 
 export class User {
     user_id: number;
