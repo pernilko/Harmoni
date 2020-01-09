@@ -49,4 +49,19 @@ module.exports = class userDao extends Dao {
     deleteUserById(id: number, callback: function){
         super.query("DELETE FROM user WHERE user_id = ?", [id], callback);
     }
+
+    getUser(json: {email: string, org_id: number, password: string}, callback: function) {
+        super.query("SELECT email, org_id, password FROM user WHERE email=? AND org_id=?", [json.email, json.org_id], callback);
+    }
+
+    addUser(json: {email: string, org_id: number, privileges: number, user_name: string, password: string, address: string, phone: string, image: string}, callback: function) {
+        let salt: string = bcrypt.genSaltSync(saltRounds);
+        console.log(json.password);
+        let hash: string = bcrypt.hashSync(json.password, salt);
+        super.query(
+            "INSERT INTO user (org_id, email, privileges, user_name, password, address, phone, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            [json.org_id, json.email, json.privileges, json.user_name, hash, json.address, json.phone, json.image],
+            callback
+        );
+    }
 };
