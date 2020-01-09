@@ -23,4 +23,12 @@ module.exports = class artistDao extends Dao {
             callback
         );
     }
+
+    deleteArtist(artist_id: number, callback: function) {
+      super.query(
+          "DELETE FROM artist WHERE artist_id = ?", [artist_id],
+          callback
+        );
+    }
+
 };
