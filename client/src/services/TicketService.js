@@ -69,5 +69,7 @@ class TicketService {
         }).then(response => response.data);
     }
 
-    
+    deleteTicket(id: number) {
+        return axios.delete<Ticket, void>(url + "ticket/delete/" + id).then(response => response.data);
+    }
 }
