@@ -1,7 +1,6 @@
 // @flow
 import axios from 'axios';
 //import bcrypt from 'bcrypt';
-const saltRounds: number = 10;
 
 export class User {
     user_id: number;
@@ -29,15 +28,15 @@ export class User {
     }
 }
 class UserService {
-    /*
-    logIn(email: string, password: string){
-        var salt: string = bcrypt.genSaltSync(saltRounds);
-        var hash: string = bcrypt.hashSync(password, salt);
-        console.log(hash);
+
+    logIn(org: string, email: string, password: string){
         //KJØR AXIOS FOR Å SJEKKE LOGIN HER
     }
+    getOrganizationByEmail(email: string){
 
-     */
+    }
+
+
 }
 
 export let userService = new UserService();
