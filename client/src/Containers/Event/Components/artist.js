@@ -6,16 +6,16 @@ import Card from "react-bootstrap/Card";
 import {Artist} from "../../../services/ArtistService";
 import Accordion from "react-bootstrap/Accordion";
 
-export class ArtistDropdown extends Component<{buttonName: string, editMode: boolean, artist_name: string, riders: File, hosp_riders: File, artist_contract: File, email: string, phone: number}> {
+export class ArtistDropdown extends Component<{buttonName: string, editMode: boolean, artist: Artist}> {
 
     artist: Artist[] = [];
 
-    artist_name: string = this.props.artist_name;
-    riders: File = this.props.riders;
-    hospitality_riders: File = this.props.hosp_riders;
-    artist_contract: File = this.props.artist_contract;
-    email: string = this.props.email;
-    phone: number = this.props.phone;
+    artist_name: string = this.props.artist.artist_name;
+    riders: File = this.props.artist.riders;
+    hospitality_riders: File = this.props.artist.hospitality_riders;
+    artist_contract: File = this.props.artist.artist_contract;
+    email: string = this.props.artist.email;
+    phone: number = this.props.artist.phone;
     //image: string = this.props.image;
 
     editMode: boolean = this.props.editMode;
@@ -82,7 +82,7 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                     </div>
                                     <br/>
                                     <div className="form-group" align="center">
-                                        <Accordion.Toggle type="submit"  as={Button} variant="success" eventKey="0" onClick={() => {
+                                        <Accordion.Toggle type="button"  as={Button} variant="success" eventKey="0" onClick={() => {
                                             if(this.editMode){
                                                 this.edit()
                                             } else {
@@ -117,7 +117,12 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
         s.mounted();
     }
     edit(){
+<<<<<<< HEAD
+        console.log("ed");
+=======
         console.log("edit");
+
+>>>>>>> 3782d4e8cb7ac159248b6ef9054f46645c8f4814
     }
 }
 
@@ -140,7 +145,7 @@ export class ArtistDetails extends Component {
                             <div className="col"><label>Dokumenter: {a.riders}</label></div>
                             <div className="col">
                                 <button className="btn btn-danger" onClick={() => this.delete(a)} style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
-                                <ArtistDropdown buttonName={"Rediger"} editMode={true} artist_name={a.artist_name} riders={a.riders} hosp_riders={a.hospitality_riders} artist_contract={a.artist_contract} email={a.email} phone={a.phone}/>
+                                <ArtistDropdown buttonName={"Rediger"} editMode={true} artist={a}/>
                             </div>
                         </div>
                     </div>
