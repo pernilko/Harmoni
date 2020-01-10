@@ -15,7 +15,7 @@ export class ArtistDropdown extends Component {
     hospitality_riders: File = "";
     artist_contract: File = "";
     email: string = "";
-    phone: number = null;
+    phone: string = "";
     image: string = "";
 
     render() {
@@ -81,7 +81,7 @@ export class ArtistDropdown extends Component {
                                     </div>
                                     <br/>
                                     <div className="form-group" align="center">
-                                        <Accordion.Toggle type="submit"  as={Button} variant="success" eventKey="0" onClick={this.add}>
+                                        <Accordion.Toggle type="button"  as={Button} variant="success" eventKey="0" onClick={this.add}>
                                             Legg til
                                         </Accordion.Toggle>
                                     </div>
@@ -106,8 +106,6 @@ export class ArtistDropdown extends Component {
         this.image = "";
         let s: any = ArtistDetails.instance();
         s.mounted();
-
-
     }
 }
 
@@ -148,7 +146,6 @@ export class ArtistDetails extends Component {
     }
 
     mounted() {
-
         let s: any = ArtistDropdown.instance();
         this.artist = s.artist;
     }
