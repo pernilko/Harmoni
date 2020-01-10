@@ -24,6 +24,15 @@ module.exports = class artistDao extends Dao {
         );
     }
 
+    updateArtist(artistID:number,json:{artist_name: string, riders: Blob, hospitality_riders: Blob,
+        artist_contract: Blob, email: string, phone: string, image: Blob}, callback:function){
+        super.query(
+          "UPDATE artist SET artist_name=?,riders=?,hospitality_riders=?,artist_contract=?,email=?,phone=?,image=? WHERE artist_id=?",
+          [json.artist_name,json.riders,json.hospitality_riders,json.artist_contract,json.email,json.phone,json.image,artistID],
+          callback
+        );
+    }
+
     deleteArtist(artist_id: number, callback: function) {
       super.query(
           "DELETE FROM artist WHERE artist_id = ?", [artist_id],
