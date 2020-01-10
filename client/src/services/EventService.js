@@ -27,7 +27,7 @@ export class Event {
     }
 }
 
-class EventService {
+export class EventService {
     getAllEvents() {
         return axios.get<Event[]>(url + "event/all").then(response => response.data);
     }

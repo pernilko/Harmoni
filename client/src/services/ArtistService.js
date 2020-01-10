@@ -32,6 +32,10 @@ class ArtistService {
         axios.get<Artist[]>(url + "artist/all").then(response => response.data);
     }
 
+    getEventArtists(event_id: number){
+        axios.get<Artist[]>(url + "artist/event/" + event_id).then(response => response.data);
+    }
+
     getOneArtist(id: number) {
         axios.get<Artist[]>(url + "artist/"+id).then(response => response.data[0]);
     }

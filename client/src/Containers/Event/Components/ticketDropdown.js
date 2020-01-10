@@ -6,8 +6,10 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
 import {Ticket} from "../../../services/TicketService.js";
+import {Artist} from "../../../services/ArtistService";
+import {ArtistDropdown} from "./artist";
 
-export class TicketComp extends Component {
+export class TicketComp extends Component <{ticket: Ticket}>{
     ticketList: Ticket[] = [];
     type: string = "";
     beskrivelse: string = "";
@@ -20,7 +22,7 @@ export class TicketComp extends Component {
                 <Card>
                     <Card.Header>
                         <Accordion.Toggle as={Button} variant="success" eventKey="0">
-                           Legg til billett
+                           Rediger
                         </Accordion.Toggle>
                     </Card.Header>
                     <Accordion.Collapse eventKey="0">
@@ -51,7 +53,7 @@ export class TicketComp extends Component {
                                         </div>
                                         <br/>
                                         <div className="form-group" align="center">
-                                            <Accordion.Toggle type="submit"  as={Button} variant="success" eventKey="0" onClick={this.add}>
+                                            <Accordion.Toggle type="button"  as={Button} variant="success" eventKey="0" onClick={this.add}>
                                                 Legg til
                                             </Accordion.Toggle>
                                         </div>
@@ -64,14 +66,14 @@ export class TicketComp extends Component {
             </Accordion>
         )
     }
-    add(){
-        this.ticketList.push(new Ticket(0, 0, this.type, parseInt(this.billetter), this.beskrivelse, parseInt(this.pris), 0));
-        this.type = "";
-        this.beskrivelse = "";
-        this.billetter = "";
-        this.pris = "";
+    mounted() {
         let s: any = TicketDetails.instance();
-        s.mounted();
+        this.ticketList = s.ticketList;
+    }
+    add(){
+
+        const index = this.ticketList.indexOf(this.props.ticket);
+        this.ticketList[index] = new Ticket(0, 0, this.type, parseInt(this.billetter), this.beskrivelse, parseInt(this.pris), 0);
     }
 }
 
@@ -85,6 +87,7 @@ export class TicketDetails extends Component {
                 <div className="card-header">
                     <h3>Billetter:</h3>
                 </div>
+                <div className="card-body">
                 {this.ticketList.map(ticket => (
                     <div className="card-header">
                         <div className="row">
@@ -94,15 +97,23 @@ export class TicketDetails extends Component {
                             <div className="col"><label>Antall: {ticket.amount}</label></div>
                             <div className="col">
                                 <button className="btn btn-danger" style={{marginLeft: 10+"px", float: "right"}} onClick={() => this.deleteTicket(ticket)}>Slett</button>
-                                <button className="btn btn-secondary" style={{marginRight: 10+"px", float: "right"}}>Rediger</button>
+                            </div>
+                        </div>
+                        <div className={"row"}>
+                            <div className={"col"}>
+                                <TicketComp buttonName={"Rediger"} editMode={false} ticket={ticket}/>
                             </div>
                         </div>
                     </div>
                 ))}
-                <div className="card-body">
+                    <button className="btn btn-secondary" onClick={() => this.addNewTicket()}>Legg til billett</button>
                 </div>
             </div>
         )
+    }
+
+    addNewTicket(){
+        this.ticketList.push(new Ticket(null, null, "", 0, "", 0, 0));
     }
 
     deleteTicket(t: Ticket) {
@@ -110,10 +121,5 @@ export class TicketDetails extends Component {
         if (index > -1) {
             this.ticketList.splice(index, 1);
         }
-    }
-
-    mounted() {
-        let s: any = TicketComp.instance();
-        this.ticketList = s.ticketList;
     }
 }
