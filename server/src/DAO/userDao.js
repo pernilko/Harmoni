@@ -30,7 +30,7 @@ module.exports = class userDao extends Dao {
 
     //retrieve the row of a user by using their email combined with their org_id
     getUser(json: {email: string, org_id: number}, callback: function) {
-        super.query("SELECT email, org_id, password FROM user WHERE email=? AND org_id=?", [json.email, json.org_id], callback);
+        super.query("SELECT email, org_id, password, user_id FROM user WHERE email=? AND org_id=?", [json.email, json.org_id], callback);
     }
 
     //add a new user to the DB by json
