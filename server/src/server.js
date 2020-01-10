@@ -131,6 +131,7 @@ app.put("/event/edit/:id", (req : Request, res: Response) => {
     });
 });
 
+//tested
 app.delete("/event/delete/:id", (req : Request, res: Response) => {
     console.log("/event/delete/:id: received delete request from client");
     pool.getConnection((err, connection: function) => {
@@ -143,7 +144,6 @@ app.delete("/event/delete/:id", (req : Request, res: Response) => {
   				          "DELETE FROM artist WHERE event_id=?",
   				          [req.params.id],
   				          (err, rows) => {
-  					               //connection.release();
   					               if (err) {
   						                     console.log(err);
   						                     res.json({ error: "error querying" });
@@ -152,15 +152,27 @@ app.delete("/event/delete/:id", (req : Request, res: Response) => {
                  				          "DELETE FROM ticket WHERE event_id=?",
                  				          [req.params.id],
                  				          (err, rows) => {
-                 					               connection.release();
                  					               if (err) {
                  						                     console.log(err);
                  						                     res.json({ error: "error querying" });
                  					               } else {
-                                           eventDao.deleteEvent(req.params.id, (status, data) => {
-                                                    res.status(status);
-                                                    res.json(data);
-                                           });
+                                           connection.query(
+                               				          "DELETE FROM user_event WHERE event_id=?",
+                               				          [req.params.id],
+                               				          (err, rows) => {
+                               					               connection.release();
+                               					               if (err) {
+                               						                     console.log(err);
+                               						                     res.json({ error: "error querying" });
+                               					               } else {
+                                                         eventDao.deleteEvent(req.params.id, (status, data) => {
+                                                                  res.status(status);
+                                                                  res.json(data);
+                                                         });
+                					                             }
+                				                        }
+                			                    );
+
   					                             }
   				                        }
   			                    );
@@ -190,6 +202,7 @@ app.put("/user/normal/:id", (req: Request, res: Response) => {
     });
 });
 
+//tested
 app.post("/login", (req, res) => {
     console.log(config.username);
     console.log(req.body);
@@ -218,6 +231,7 @@ app.post("/login", (req, res) => {
     });
 });
 
+//tested
 app.post("/register", (req, res) => {
     console.log(req.body);
     userDao.addUser(req.body, (status, data) => {
@@ -226,6 +240,7 @@ app.post("/register", (req, res) => {
     });
 });
 
+//tested
 app.post("/token", (req, res) => {
     let token: string = req.headers["x-access-token"];
     jwt.verify(token, privateKEY.key, (err, decoded) => {
@@ -335,13 +350,83 @@ app.post("/organization/add", (req : Request, res : Response) => {
 
 });
 
-//don't need this? //Halfway tested
-app.delete("/organization/delete/:id", (req : Request, res : Response) => {
-    console.log("/test: received delete request from user to delete an organization");
-    organizationDAO.deleteOrganization(req.params.id, (status, data) => {
-        res.status(status);
-        res.json(data);
-    });
+//fuuuuck this
+app.delete("/organization/delete/:id", (req : Request, res: Response) => {
+    console.log("/organization/delete/:id: received delete request from client");
+    pool.getConnection((err, connection: function) => {
+          console.log("Connected to database");
+          if (err) {
+              console.log("Feil ved kobling til databasen");
+              res.json({ error: "feil ved oppkobling" });
+          } else {
+              connection.query(
+  				          "DELETE artist FROM artist INNER JOIN event ON artist.event_id = event.event_id WHERE org_id=?",
+  				          [req.params.id],
+  				          (err, rows) => {
+  					               if (err) {
+  						                     console.log(err);
+  						                     res.json({ error: "error querying" });
+  					               } else {
+                             connection.query(
+                 				          "DELETE ticket FROM ticket INNER JOIN event ON ticket.event_id = event.event_id WHERE org_id=?",
+                 				          [req.params.id],
+                 				          (err, rows) => {
+                 					               if (err) {
+                 						                     console.log(err);
+                 						                     res.json({ error: "error querying" });
+                 					               } else {
+                                           connection.query(
+                               				          "DELETE user_event FROM user_event INNER JOIN event ON user_event.event_id = event.event_id WHERE org_id=?",
+                               				          [req.params.id],
+                               				          (err, rows) => {
+                               					               if (err) {
+                               						                     console.log(err);
+                               						                     res.json({ error: "error querying" });
+                               					               } else {
+                                                         connection.query(
+                                             				          "DELETE FROM event WHERE org_id=?",
+                                             				          [req.params.id],
+                                             				          (err, rows) => {
+                                             					               if (err) {
+                                             						                     console.log(err);
+                                             						                     res.json({ error: "error querying" });
+                                             					               } else {
+                                                                       connection.query(
+                                                           				          "DELETE FROM user WHERE org_id=?",
+                                                           				          [req.params.id],
+                                                           				          (err, rows) => {
+                                                                                connection.release();
+                                                           					               if (err) {
+                                                           						                     console.log(err);
+                                                           						                     res.json({ error: "error querying" });
+                                                           					               } else {
+                                                                                     app.delete("/organization/delete/:id", (req : Request, res : Response) => {
+                                                                                         console.log("/test: received delete request from user to delete an organization");
+                                                                                         organizationDAO.deleteOrganization(req.params.id, (status, data) => {
+                                                                                             res.status(status);
+                                                                                             res.json(data);
+                                                                                         });
+                                                                                     });
+                                            					                             }
+                                            				                        }
+                                            			                    );
+
+                              					                             }
+                              				                        }
+                              			                    );
+
+                					                             }
+                				                        }
+                			                    );
+
+  					                             }
+  				                        }
+  			                    );
+                          }
+                    }
+            );
+        }
+      });
 });
 
 //tested
