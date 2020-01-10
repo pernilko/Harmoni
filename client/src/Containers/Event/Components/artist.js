@@ -117,12 +117,7 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
         s.mounted();
     }
     edit(){
-<<<<<<< HEAD
-        console.log("ed");
-=======
         console.log("edit");
-
->>>>>>> 3782d4e8cb7ac159248b6ef9054f46645c8f4814
     }
 }
 
