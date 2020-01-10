@@ -21,8 +21,8 @@ module.exports = class eventDao extends Dao{
     }
 
     addEvent(
-      json: {org_id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number}, callback: function){
-        super.query("INSERT INTO event (org_id, event_name, description, place, CONVERT(DATETIME, event_start), CONVERT(DATETIME, event_end), longitude, latitude) VALUES (?,?,?,?,?,?,?,?)", callback);
+      json: {event_name: string, place: string, event_start: Date, event_end: Date, longitude: number, latitude: number} ,callback: function){
+        super.query( "INSERT INTO event (event_name, place, event_start, event_end, longitude, latitude) VALUES (?,?,?,?,?,?)", callback);
     }
 
     editEvent(
@@ -36,21 +36,6 @@ module.exports = class eventDao extends Dao{
           "DELETE FROM event WHERE event_id=?",
           [event_id],
           callback
-        );
-    }
-
-    deleteArtistEvent(event_id: number, callback: function){
-      super.query(
-        "DELETE FROM artist WHERE event_id=?",
-        [event_id],
-        callback
-      );
-    }
-
-    deleteTicketEvent(event_id: number, callback: function){
-        super.query(
-            "DELETE FROM ticket WHERE event_id = ?", [event_id],
-            callback
         );
     }
 };
