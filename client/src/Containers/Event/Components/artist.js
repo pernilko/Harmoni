@@ -104,19 +104,13 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
     }
 
     add(){
-        console.log("add");
-        this.artist.push(new Artist(0,0,this.artist_name, this.riders, this.hospitality_riders,this.artist_contract,this.email, this.phone,this.image));
-        this.artist_name = "";
-        this.email = "";
-        this.phone = "";
-        this.riders = "";
-        this.hospitality_riders = "";
-        this.artist_contract = "";
-        this.image = "";
-        
+        const index = this.artist.indexOf(this.props.artist);
+        this.artist[index] = new Artist(0,0,this.artist_name, this.riders, this.hospitality_riders,this.artist_contract,this.email, this.phone,this.image);
+
     }
-    edit(){
-        console.log("edit");
+    mounted(): unknown {
+        let s: any = ArtistDetails.instance();
+        this.artist = s.artist;
     }
 }
 
@@ -139,14 +133,23 @@ export class ArtistDetails extends Component {
                             <div className="col"><label>Dokumenter: {a.riders}</label></div>
                             <div className="col">
                                 <button className="btn btn-danger" onClick={() => this.delete(a)} style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
-                                <ArtistDropdown buttonName={"Rediger"} editMode={true} artist={a}/>
+                            </div>
+                        </div>
+                        <div className={"row"}>
+                            <div className={"col"}>
+                                <ArtistDropdown buttonName={"Rediger"} editMode={false} artist={a}/>
                             </div>
                         </div>
                     </div>
                     ))}
+                    <button className="btn btn-secondary" onClick={() => this.addNewArtist()}>Legg til artist</button>
                 </div>
             </div>
         )
+    }
+
+    addNewArtist(){
+        this.artist.push(new Artist(null, null, "", "", "", "", "", null, ""));
     }
 
     delete(a: Artist){
@@ -156,12 +159,4 @@ export class ArtistDetails extends Component {
         }
     }
 
-    edit(a: Artist){
-//<button className="btn btn-secondary" onClick={() => this.edit(a)} style={{marginRight: 10+"px", float: "right"}}>Rediger</button>
-    }
-
-    mounted() {
-        let s: any = ArtistDropdown.instance();
-        this.artist = s.artist;
-    }
 }

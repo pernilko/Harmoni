@@ -34,12 +34,12 @@ export class RegistrationForm extends Component {
                     <div className="form-group">
                         <label>Arrangement navn:</label>
                         <input className="form-control" placeholder="Skriv inn navn her" value={this.eventName}
-                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.eventName = event.target.value)} required/>
+                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.eventName = event.target.value)}/>
                     </div>
                     <div className="form-group">
                         <label>Lokasjon:</label>
                         <input className="form-control" placeholder="Skriv inn addresse" value={this.address}
-                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.address = event.target.value)} required/>
+                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.address = event.target.value)}/>
                     </div>
                     <div className="form-group">
                         <label>Beskrivelse:</label>
@@ -51,32 +51,30 @@ export class RegistrationForm extends Component {
                             <div className="col">
                                 <label>Start dato:</label>
                                 <input id="help" className="form-control" type="date" value={this.startDate}
-                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startDate = event.target.value)} required/>
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startDate = event.target.value)}/>
                             </div>
                             <div className="col">
                                 <label>Start tid:</label>
                                 <input className="form-control" type="time" value={this.startTime}
-                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startTime = event.target.value)} required/>
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startTime = event.target.value)}/>
                             </div>
                             <div className="col">
                                 <label>Slutt dato:</label>
                                 <input className="form-control" type="date" value={this.endDate}
-                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endDate = event.target.value)} required/>
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endDate = event.target.value)}/>
                             </div>
                             <div className="col">
                                 <label>Slutt tid:</label>
                                 <input className="form-control" type="time" value={this.endTime}
-                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endTime = event.target.value)} required/>
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endTime = event.target.value)}/>
                             </div>
                         </div>
                     </div>
                     <div className="form-group" style={{marginTop: 20+"px"}}>
                         <ArtistDetails/>
-                        <ArtistDropdown buttonName={"Legg til artist"} editMode={false} artist={new Artist(null, null, "", "", "", "", "", null, "")}/>
                     </div>
                     <div className="form-group" style={{marginTop: 20+"px"}}>
                         <TicketDetails/>
-                        <TicketComp/>
                     </div>
                     <div className="btn-group"  style={{width: "20%", marginLeft: "40%", padding: "20px"}}>
                         <button className="btn btn-success"  onClick={this.regEvent}>Opprett</button>
@@ -87,6 +85,7 @@ export class RegistrationForm extends Component {
         )
     }
     regEvent(){
+        console.log(this.eventName+"hei");
         if (this.eventName === "") {
             Alert.danger("Ugyldig arrangement navn");
             return;
@@ -113,7 +112,6 @@ export class RegistrationForm extends Component {
         }
         console.log(this.startDate +", "+ this.startTime);
         console.log(this.endDate +", "+ this.endTime);
-
 
         eventService
             .postEvent(1, this.eventName, this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", 0, 0)
