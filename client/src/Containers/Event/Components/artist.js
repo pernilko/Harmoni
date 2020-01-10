@@ -6,8 +6,6 @@ import Card from "react-bootstrap/Card";
 import {Artist} from "../../../services/ArtistService";
 import Accordion from "react-bootstrap/Accordion";
 
-const history = createHashHistory();
-
 export class ArtistDropdown extends Component<{buttonName: string, editMode: boolean, artist_name: string, riders: File, hosp_riders: File, artist_contract: File, email: string, phone: number}> {
 
     artist: Artist[] = [];
@@ -84,7 +82,13 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                     </div>
                                     <br/>
                                     <div className="form-group" align="center">
-                                        <Accordion.Toggle type="submit"  as={Button} variant="success" eventKey="0" onClick={this.props.method}>
+                                        <Accordion.Toggle type="submit"  as={Button} variant="success" eventKey="0" onClick={() => {
+                                            if(editMode){
+                                                this.edit()
+                                            } else {
+                                                this.add()
+                                            };
+                                        }}>
                                             {this.props.buttonName}
                                         </Accordion.Toggle>
                                     </div>
@@ -136,7 +140,7 @@ export class ArtistDetails extends Component {
                             <div className="col"><label>Dokumenter: {a.riders}</label></div>
                             <div className="col">
                                 <button className="btn btn-danger" onClick={() => this.delete(a)} style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
-                                <ArtistDropdown buttonName={"Rediger"} artist_name={a.artist_name} riders={a.riders} hosp_riders={a.hospitality_riders} artist_contract={a.artist_contract} email={a.email} phone={a.phone}/>
+                                <ArtistDropdown buttonName={"Rediger"} editMode={true} artist_name={a.artist_name} riders={a.riders} hosp_riders={a.hospitality_riders} artist_contract={a.artist_contract} email={a.email} phone={a.phone}/>
                             </div>
                         </div>
                     </div>
@@ -152,7 +156,7 @@ export class ArtistDetails extends Component {
             this.artist.splice(index,1);
         }
     }
-    
+
     edit(a: Artist){
 //<button className="btn btn-secondary" onClick={() => this.edit(a)} style={{marginRight: 10+"px", float: "right"}}>Rediger</button>
     }
