@@ -51,7 +51,7 @@ export class TicketComp extends Component {
                                         </div>
                                         <br/>
                                         <div className="form-group" align="center">
-                                            <Accordion.Toggle type="submit"  as={Button} variant="success" eventKey="0" onClick={this.add}>
+                                            <Accordion.Toggle type="button"  as={Button} variant="success" eventKey="0" onClick={this.add}>
                                                 Legg til
                                             </Accordion.Toggle>
                                         </div>

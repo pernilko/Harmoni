@@ -16,7 +16,7 @@ export class AdminUsrForm extends Component <{hidden: boolean, organization: Org
     return (
       <div hidden={this.props.hidden}>
       <Form style={{marginTop: 20 + 'px', paddingLeft: 200 + 'px', paddingRight: 200 + 'px'}}>
-        <h2 className="card-header align-content-center">Registrer admin bruker</h2>
+        <h2 className="card-header align-content-center">{"Registrer admin bruker for "+this.organization.org_name}</h2>
         <Form.Group>
           <Form.Label>Brukernavn</Form.Label>
           <Form.Control type="username" placeholder="Velg brukernavn" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
@@ -68,7 +68,6 @@ export class AdminUsrForm extends Component <{hidden: boolean, organization: Org
     )
   }
   register(){
-    var org_id: number;
     // Register
     if(this.repeatedPassword != this.admin.password && this.admin.password.length>=8){
       Alert.danger("Passord må være like og ha minst 8 tegn");
