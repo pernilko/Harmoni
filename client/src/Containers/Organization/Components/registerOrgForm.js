@@ -44,7 +44,7 @@ export class RegOrganization extends Component {
           <Button variant="primary" type="submit" style={{marginTop:15 + 'px', marginBottom:30 + 'px'}} onClick={this.next}>Neste</Button>
         </Form>
 
-      <AdminUsrForm hidden={this.hidden} organization={this.organization}/>
+      <AdminUsrForm hidden={this.hidden}/>
     </div>
   }
 
