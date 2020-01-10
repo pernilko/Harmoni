@@ -165,6 +165,7 @@ app.delete("/event/delete/:id", (req : Request, res: Response) => {
                                						                     console.log(err);
                                						                     res.json({ error: "error querying" });
                                					               } else {
+                                                         console.log("/test: received delete request from user to delete an event");
                                                          eventDao.deleteEvent(req.params.id, (status, data) => {
                                                                   res.status(status);
                                                                   res.json(data);
@@ -350,7 +351,7 @@ app.post("/organization/add", (req : Request, res : Response) => {
 
 });
 
-//fuuuuck this
+//tested
 app.delete("/organization/delete/:id", (req : Request, res: Response) => {
     console.log("/organization/delete/:id: received delete request from client");
     pool.getConnection((err, connection: function) => {
@@ -400,12 +401,10 @@ app.delete("/organization/delete/:id", (req : Request, res: Response) => {
                                                            						                     console.log(err);
                                                            						                     res.json({ error: "error querying" });
                                                            					               } else {
-                                                                                     app.delete("/organization/delete/:id", (req : Request, res : Response) => {
-                                                                                         console.log("/test: received delete request from user to delete an organization");
-                                                                                         organizationDAO.deleteOrganization(req.params.id, (status, data) => {
-                                                                                             res.status(status);
-                                                                                             res.json(data);
-                                                                                         });
+                                                                                     console.log("/test: received delete request from user to delete an organization");
+                                                                                     organizationDAO.deleteOrganization(req.params.id, (status, data) => {
+                                                                                         res.status(status);
+                                                                                         res.json(data);
                                                                                      });
                                             					                             }
                                             				                        }
