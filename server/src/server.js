@@ -282,10 +282,10 @@ app.post("/ticket/add", (req : Request, res: Response) => {
     });
 });
 
-
+//tested
 app.put("/ticket/edit/:id", (req : Request, res: Response) => {
     console.log("/ticket/edit/:id: received put request from client");
-    ticketDao.updateTicket(req.body, req.params.id, (status, data) => {
+    ticketDao.updateTicket(req.params.id, req.body, (status, data) => {
         res.status(status);
         res.json(data);
     });
@@ -301,6 +301,7 @@ app.delete("/ticket/delete/:id", (req : Request, res: Response) => {
 });
 
 //Organization
+//tested
 app.get("/organization/mail/:mail",(req:Request,res:Response)=>{
     console.log("/test: received get request from client for organization by ID");
     organizationDAO.getOrgByEmail(req.params.mail, (status, data) => {
@@ -309,6 +310,7 @@ app.get("/organization/mail/:mail",(req:Request,res:Response)=>{
     });
 });
 
+//tested
 app.get("/organization/id/:id",(req:Request,res:Response)=>{
     console.log("/test: received get request from client for organization by ID");
     organizationDAO.getOrganization(req.params.id, (status, data) => {
@@ -318,7 +320,7 @@ app.get("/organization/id/:id",(req:Request,res:Response)=>{
 });
 
 //tested
-app.get("/organization",(req : Request, res : Response) => {
+app.get("/organization/all",(req : Request, res : Response) => {
     console.log("/test: received get request from client for all organizations");
     organizationDAO.getAllOrganizations((status, data) => {
         res.status(status);
@@ -327,7 +329,7 @@ app.get("/organization",(req : Request, res : Response) => {
 });
 
 
-app.post("/organization", (req : Request, res : Response) => {
+app.post("/organization/add", (req : Request, res : Response) => {
     console.log("/test: received post request for adding an organization");
     organizationDAO.addOrganization(req.body.content, (status, data) => {
         res.status(status);
@@ -335,14 +337,15 @@ app.post("/organization", (req : Request, res : Response) => {
 
 });
 
-app.delete("/organization/:id", (req : Request, res : Response) => {
+//don't need this?
+app.delete("/organization/delete/:id", (req : Request, res : Response) => {
     console.log("/test: received delete request from user to delete an organization");
     organizationDAO.deleteOrganization(req.params.id, (status, data) => {
         res.status(status);
     });
 });
 
-app.put("/organization/:id", (req : Request, res : Response) => {
+app.put("/organization/edit/:id", (req : Request, res : Response) => {
     console.log("/test:received update request from user to update organization");
     organizationDAO.updateOrganization(req.params.id, (status, data) => {
         res.status(status);
