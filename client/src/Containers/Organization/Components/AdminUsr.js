@@ -67,6 +67,10 @@ export class AdminUsrForm extends Component <{hidden: boolean, organization: Org
     </div>
     )
   }
+  mounted() {
+    return undefined;
+  }
+
   register(){
     // Register
     if(this.repeatedPassword != this.admin.password && this.admin.password.length>=8){

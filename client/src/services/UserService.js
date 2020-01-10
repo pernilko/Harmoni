@@ -1,5 +1,7 @@
 // @flow
 import axios from 'axios';
+import {sharedComponentData} from "react-simplified";
+
 let url: string = "http://localhost:8080/";
 
 export class User {
@@ -29,13 +31,56 @@ export class User {
      */
 }
 class UserService {
+    currentUser:_User;
+    //auto login
+    autoLoginv2(){
+        if(localStorage.getItem("token")){
+            return axios.post<{}, User>(url+'token',{
+
+            });
+        }
+    }
+
+    autoLogin(){
+        if (localStorage.getItem("token")) {
+            return axios<User>({
+                url: url +'token',
+                method: 'post',
+                headers: {
+                    "x-access-token": localStorage.getItem("token"),
+                    "Content-Type": "application/json; charset=utf-8"
+                }
+            })
+                .then(response => {
+                    if (response.data.jwt) {
+                        localStorage.setItem("token", response.data.jwt);
+                        this.getUser(response.data.user_id).then(res=>{
+                            this.currentUser = new User();
+                            this.currentUser = res[0];
+                        })
+                    }
+                    console.log(response);
+                }).catch(error => this.bruker = null);
+        }
+
+    }
+
     //for logging in
     logIn(org_id: number, email: string, password: string){
         return axios.post<{}, {jwt: string}>(url+'login', {
             "org_id":org_id,
             "email": email,
             "password": password
-        }).then(response=>response.data);
+        }).then(response=>{
+            if(response.data.jwt){
+                localStorage.setItem("token", response.data.jwt)
+                userService.getUser(response.data.user_id).then(res=>{
+                    this.currentUser = new User();
+                    this.currentUser = res[0];
+                    console.log(this.currentUser);
+                });
+            }
+        });
     }
     //for registering a new user
     register(org_id: number, email: string, privileges: number, user_name: string, password: string, address: string, phone: string, image: string){
@@ -50,8 +95,12 @@ class UserService {
             "image": image
         }).then(response=>response.data);
     }
+    getUser(user_id){
+        return axios.get<User>(url+ 'user/'+ user_id).then(response=>response.data);
+    }
     //to refresh token
-    postToken(email: string) {
+    //not tested
+    postToken(user_id: string) {
         return fetch(url + 'token',
             {
                 method: "POST",
@@ -59,12 +108,12 @@ class UserService {
                     "Content-Type": "application/json; charset=utf-8",
                     "x-access-token": localStorage.getItem("token")
                 },
-                body: JSON.stringify({"email": email})
+                body: JSON.stringify({"user_id": user_id})
             })
             .then(response => response.json());
     }
 
 }
 
-export let userService = new UserService();
+export let userService: UserService = sharedComponentData(new UserService());
 

@@ -52,12 +52,14 @@ app.post("/login", (req, res) => {
             console.log(data[0].password);
             bcrypt.compare(req.body.password, data[0].password, function (err, resp) {
                 if (resp) {
-                    let token: string = jwt.sign({ email: req.body.email }, privateKEY.key, {
+                    console.log("user_id: " + data[0].user_id);
+                    let token: string = jwt.sign({ user_id: data[0].user_id }, privateKEY.key, {
                         expiresIn: 3600
                     });
                     console.log("password matched");
                     res.status(status);
-                    res.json({ jwt: token });
+                    console.log("user_id: " + data[0].user_id)
+                    res.json({ jwt: token , "user_id": data[0].user_id});
                 } else {
                     console.log("password didnt match");
                     res.status(401);
@@ -261,6 +263,14 @@ app.put("/user/admin/:id", (req: Request, res: Response) => {
 app.put("/user/normal/:id", (req: Request, res: Response) => {
     console.log("/user/:id received put request from client");
     userDao.setNormalPrivilegesId(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.get("/user/:id", (req: Request, res: Response)=>{
+    console.log("/user received get request from client");
+    userDao.getUserById(req.params.id, (status, data)=>{
         res.status(status);
         res.json(data);
     });

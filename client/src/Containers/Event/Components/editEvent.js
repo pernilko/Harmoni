@@ -114,7 +114,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             .getEventId(this.props.match.params.event_id)
             .then(event => this.event = event)
             .catch((error: Error) => console.log(error.message));
-        
+
     }
 
     edit(){
