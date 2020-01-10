@@ -134,6 +134,7 @@ app.post("/artist/add", (req : Request, res: Response) => {
     artistDao.insertOne(req.body, (status, data) => {
         res.status(status);
         res.json(data);
+        console.log(req.body);
     });
 });
 
@@ -329,6 +330,7 @@ app.post("/ticket/add", (req : Request, res: Response) => {
     ticketDao.addTicket(req.body, (status, data) => {
         res.status(status);
         res.json(data);
+        console.log(req.body);
     });
 });
 
