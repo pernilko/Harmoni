@@ -34,7 +34,7 @@ class OrganizationService{
     }
     //tested
     addOrganization(org_name: string, phone: string, email:string){
-        return axios.post<{}, Organization>(url + 'organization', {
+        return axios.post<{}, Organization>(url + 'organization/add', {
             "org_name": org_name,
             "phone": phone,
             "email": email
