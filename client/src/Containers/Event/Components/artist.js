@@ -100,6 +100,7 @@ export class ArtistDropdown extends Component {
     }
 
     add(){
+        console.log("hei");
         this.artist.push(new Artist(0,0,this.artist_name, this.riders, this.hospitality_riders,this.artist_contract,this.email, this.phone,this.image));
         this.artist_name = "";
         this.email = "";
@@ -131,7 +132,7 @@ export class ArtistDetails extends Component {
                             <div className="col"><label>Tlf: {a.phone}</label></div>
                             <div className="col"><label>Dokumenter: {a.riders}</label></div>
                             <div className="col">
-                                <button className="btn btn-danger" style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
+                                <button className="btn btn-danger" onClick={() => this.delete(a)} style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
                                 <button className="btn btn-secondary" style={{marginRight: 10+"px", float: "right"}}>Rediger</button>
                             </div>
                         </div>
@@ -142,7 +143,14 @@ export class ArtistDetails extends Component {
         )
     }
 
+    delete(a: Artist){
+       this.artist = this.artist.filter(e => e !== a);
+        console.log(a.artist_name);
+        console.log(this.artist);
+    }
+
     mounted() {
+
         let s: any = ArtistDropdown.instance();
         this.artist = s.artist;
     }
