@@ -11,6 +11,7 @@ import {Artist} from "./Containers/Event/Components/artist";
 import { RegOrganization } from './Containers/Organization/Components/registerOrgForm';
 import {Navigation} from './Containers/Navbar/Components/Navbar';
 import {userService} from "./services/UserService";
+import {EventList} from './Containers/Event/Components/showEvents';
 import {sharedComponentData} from "react-simplified";
 
 const root = document.getElementById('root');
@@ -20,8 +21,9 @@ if (root)
       <div>
         <Alert/>
         <Navigation/>
-        <Route path = "/event" component = {RegistrationForm}/>
-        <Route path = "/Login" component={Login}/>
+        <Route exact path = "/allEvents" component={EventList}/>
+        <Route path = "/Event" component = {RegistrationForm}/>
+        <Route path = "/Login" component = {Login}/>
         <Route path = "/RegisterOrganization" component = {RegOrganization}/>
       </div>
     </HashRouter>,

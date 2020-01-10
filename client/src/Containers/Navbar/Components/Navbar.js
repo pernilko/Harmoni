@@ -8,6 +8,7 @@ import { createHashHistory } from 'history';
 import {Alert} from '../../../widgets'
 import {sharedComponentData} from "react-simplified";
 
+
 const history = createHashHistory();
 
 
@@ -30,22 +31,22 @@ export class Navigation extends Component {
                            (this.search = event.target.value)}/> <Button variant="outline-success">Search</Button>
           </Form>
           <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-sm-2" style={{paddingLeft: 600 + 'px'}}>
-              <Nav.Link to="#home" style={{marginTop:10+'px'}}>Alle arrangement</Nav.Link>
+          <Nav>
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav.Link href="#/allEvents" > Alle arrangement</Nav.Link>
               <Navbar.Text> Logget inn som:
                 <a>
                   <NavDropdown title={userService.currentUser.user_name} id="basic-nav-dropdown">
-                    <NavDropdown.Item href="#action/3.1">Mine arrangement</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">Opprett arrangement</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3">Rediger profil</NavDropdown.Item>
+                    <NavDropdown.Item href="#"  style={{color: "black"}}>Mine arrangement</NavDropdown.Item>
+                    <NavDropdown.Item href="#/event" style={{color: "black"}}>Opprett arrangement</NavDropdown.Item>
+                    <NavDropdown.Item href="#" style={{color: "black"}}>Rediger profil</NavDropdown.Item>
                     <NavDropdown.Divider/>
                     <Button variant="danger" onClick={this.logout}>Logg ut</Button>
                   </NavDropdown>
                 </a>
               </Navbar.Text>
-            </Nav>
-          </Navbar.Collapse>
+            </Navbar.Collapse>
+          </Nav>
         </Navbar>
       </div>
     } else {
@@ -63,7 +64,6 @@ export class Navigation extends Component {
                            (this.search = event.target.value)}/><Button variant="outline-success">Search</Button>
             </Form>
             <Nav className="mr-sm-2" style={{paddingLeft: 700 + 'px'}}>
-              <Nav.Link to="#home" style={{marginTop:10+'px'}}>Alle arrangement</Nav.Link>
               <Navbar.Text>
                 <Button variant="success" onClick={this.login} >Logg inn</Button>
               </Navbar.Text>
