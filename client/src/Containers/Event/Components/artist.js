@@ -74,7 +74,7 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                         <div className="input-group-prepend">
                                         </div>
                                         <div className="custom-file">
-                                            <input type="file" className="file-path validate" id="contract" value={this.artist_contract} accept='.pdf'
+                                            <input type="file" className="file-path validate" id="contract" accept='.pdf'
                                                    onChange={this.onChangec}/>
                                         </div>
                                     </div>
@@ -103,7 +103,7 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
     add(){
         console.log(this.riders);
         const index = this.artist.indexOf(this.props.artist);
-        this.artist[index] = new Artist(0,0,this.artist_name, this.riders, this.hospitality_riders,this.artist_contract,this.email, this.phone,this.image);
+        this.artist[index] = new Artist(0,0,this.artist_name, this.state.raider, this.state.hraider,this.state.contract,this.email, this.phone,this.image);
         this.artist_name = "";
         this.email = "";
         this.phone = "";
@@ -111,8 +111,8 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
         this.hospitality_riders = "";
         this.artist_contract = "";
         this.image = "";
-        let s: any = ArtistDetails.instance();
-        s.mounted();
+        //let s: any = ArtistDetails.instance();
+        //s.mounted();
 
     }
     onChanger(event:SyntheticInputEvent<HTMLInputElement>) {
