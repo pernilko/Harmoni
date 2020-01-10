@@ -1,38 +1,48 @@
-import React, { useState, useEffect } from "react";
-import {
-  withGoogleMap,
-  withScriptjs,
-  GoogleMap,
-  Marker,
-  InfoWindow
-} from "react-google-maps";
+import React from 'react';
+import { compose, withStateHandlers } from "recompose";
+import { InfoWindow, withGoogleMap, withScriptjs, GoogleMap, Marker } from 'react-google-maps';
 
-function Map() {
+let LAT: number = 0;
+let LNG: number = 0;
 
-  return (
-    <GoogleMap
-      defaultZoom={10}
-      defaultCenter={{ lat: 45.4211, lng: -75.6903 }}
-    >
-      <Marker position={{lng: 13, lat: 37}}/>
-    </GoogleMap>
-  );
-}
+const Map = compose(
+    withStateHandlers(() => ({
+        isMarkerShown: false,
+        markerPosition: null
+      }), {
+        onMapClick: ({ isMarkerShown }) => (e) => ({
+            markerPosition: e.latLng,
+            isMarkerShown:true
+        })
+      }),
+    withScriptjs,
+    withGoogleMap
+)
+    (props =>
+        <GoogleMap
+            defaultZoom={13}
+            defaultCenter={{ lat: 63.42972, lng: 10.39333 }}
+            onClick={props.onMapClick}
+        >
+            {props.isMarkerShown && <Marker position={props.markerPosition} />}
+        </GoogleMap>
+    )
 
-const MapWrapped = withScriptjs(withGoogleMap(Map));
+export default class MapContainer extends React.Component {
+    constructor(props) {
+        super(props)
+    }
 
-
-export default function map() {
-  
-  return (
-    <div style={{ width: "25vw", height: "25vh" }}>
-      <MapWrapped
-        googleMapURL={'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyCyYQy7LmG8h3r4M8CEDiy1SGBHJ_4QUrI'}
-        loadingElement={<div style={{ height: `100%` }} />}
-        containerElement={<div style={{ height: `100%` }} />}
-        mapElement={<div style={{ height: `100%` }} />}
-        onClick={() => console.log("hei")}
-      />
-    </div>
-  );
+    render() {
+        return (
+            <div style={{ height: '100%' }}>
+                <Map
+                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyYQy7LmG8h3r4M8CEDiy1SGBHJ_4QUrI"
+                    loadingElement={<div style={{ height: `100%` }} />}
+                    containerElement={<div style={{ height: `400px` }} />}
+                    mapElement={<div style={{ height: `100%` }} />}
+                />
+            </div>
+        )
+    }
 }
