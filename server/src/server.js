@@ -93,22 +93,6 @@ app.get("/artist/all", (req : Request, res: Response) => {
     });
 });
 
-app.post("/token", (req, res) => {
-    let token: string = req.headers["x-access-token"];
-    jwt.verify(token, privateKEY.key, (err, decoded) => {
-        if (err) {
-            res.status(401);
-            res.json({error: "Not Authorized"});
-        } else {
-            console.log("Token refreshed.");
-            token = jwt.sign({email: decoded.email}, privateKEY.key, {
-                expiresIn: 3600
-            });
-            res.json({jwt: token, "email": decoded.email});
-        }
-    });
-});
-
 //tested
 app.get("/artist/:id", (req : Request, res: Response) => {
     console.log("/artist/:id: received get request from client");
@@ -150,6 +134,24 @@ app.get("/event/all", (req : Request, res: Response) => {
 app.get("/event/:id", (req : Request, res: Response) => {
     console.log("/event/:id: received get request from client");
     eventDao.getEvent(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+//tested
+app.get("/event/location/:id", (req : Request, res: Response) => {
+    console.log("/event/location/:id: received get request from client");
+    eventDao.getEventLocation(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+//tested
+app.get("/event/time/:id", (req : Request, res: Response) => {
+    console.log("/event/time/:id: received get request from client");
+    eventDao.getEventTime(req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
     });
@@ -198,6 +200,7 @@ app.put("/event/edit/:id", (req : Request, res: Response) => {
     });
 });
 
+//tested
 app.delete("/event/delete/:id", (req : Request, res: Response) => {
     console.log("/event/delete/:id: received delete request from client");
     pool.getConnection((err, connection: function) => {
@@ -210,7 +213,6 @@ app.delete("/event/delete/:id", (req : Request, res: Response) => {
   				          "DELETE FROM artist WHERE event_id=?",
   				          [req.params.id],
   				          (err, rows) => {
-  					               //connection.release();
   					               if (err) {
   						                     console.log(err);
   						                     res.json({ error: "error querying" });
@@ -219,15 +221,28 @@ app.delete("/event/delete/:id", (req : Request, res: Response) => {
                  				          "DELETE FROM ticket WHERE event_id=?",
                  				          [req.params.id],
                  				          (err, rows) => {
-                 					               connection.release();
                  					               if (err) {
                  						                     console.log(err);
                  						                     res.json({ error: "error querying" });
                  					               } else {
-                                           eventDao.deleteEvent(req.params.id, (status, data) => {
-                                                    res.status(status);
-                                                    res.json(data);
-                                           });
+                                           connection.query(
+                               				          "DELETE FROM user_event WHERE event_id=?",
+                               				          [req.params.id],
+                               				          (err, rows) => {
+                               					               connection.release();
+                               					               if (err) {
+                               						                     console.log(err);
+                               						                     res.json({ error: "error querying" });
+                               					               } else {
+                                                         console.log("/test: received delete request from user to delete an event");
+                                                         eventDao.deleteEvent(req.params.id, (status, data) => {
+                                                                  res.status(status);
+                                                                  res.json(data);
+                                                         });
+                					                             }
+                				                        }
+                			                    );
+
   					                             }
   				                        }
   			                    );
@@ -239,7 +254,7 @@ app.delete("/event/delete/:id", (req : Request, res: Response) => {
 });
 
 //User
-//not tested
+//tested
 app.put("/user/admin/:id", (req: Request, res: Response) => {
     console.log("/user/:id received put request from client");
     userDao.setAdminPrivilegesId(req.params.id, (status, data) => {
@@ -248,7 +263,7 @@ app.put("/user/admin/:id", (req: Request, res: Response) => {
     });
 });
 
-//not tester
+//tested
 app.put("/user/normal/:id", (req: Request, res: Response) => {
     console.log("/user/:id received put request from client");
     userDao.setNormalPrivilegesId(req.params.id, (status, data) => {
@@ -257,6 +272,60 @@ app.put("/user/normal/:id", (req: Request, res: Response) => {
     });
 });
 
+//tested
+app.post("/login", (req, res) => {
+    console.log(config.username);
+    console.log(req.body);
+    userDao.getUser(req.body, (status, data) => {
+        res.status(status);
+        if (data[0]) {
+            console.log(data[0].password);
+            bcrypt.compare(req.body.password, data[0].password, function (err, resp) {
+                if (resp) {
+                    let token: string = jwt.sign({ email: req.body.email }, privateKEY.key, {
+                        expiresIn: 3600
+                    });
+                    console.log("password matched");
+                    res.status(status);
+                    res.json({ jwt: token });
+                } else {
+                    console.log("password didnt match");
+                    res.status(401);
+                    res.json({ error: "not authorized" });
+                }
+            });
+        } else {
+            res.status(401);
+            res.json({ error: "user does not exist" });
+        }
+    });
+});
+
+//tested
+app.post("/register", (req, res) => {
+    console.log(req.body);
+    userDao.addUser(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+//tested
+app.post("/token", (req, res) => {
+    let token: string = req.headers["x-access-token"];
+    jwt.verify(token, privateKEY.key, (err, decoded) => {
+        if (err) {
+            res.status(401);
+            res.json({error: "Not Authorized"});
+        } else {
+            console.log("Token refreshed.");
+            token = jwt.sign({email: decoded.email}, privateKEY.key, {
+                expiresIn: 3600
+            });
+            res.json({jwt: token, "email": decoded.email});
+        }
+    });
+});
 
 //Ticket
 //tested
@@ -295,10 +364,10 @@ app.post("/ticket/add", (req : Request, res: Response) => {
     });
 });
 
-
+//tested
 app.put("/ticket/edit/:id", (req : Request, res: Response) => {
     console.log("/ticket/edit/:id: received put request from client");
-    ticketDao.updateTicket(req.body, req.params.id, (status, data) => {
+    ticketDao.updateTicket(req.params.id, req.body, (status, data) => {
         res.status(status);
         res.json(data);
     });
@@ -314,6 +383,7 @@ app.delete("/ticket/delete/:id", (req : Request, res: Response) => {
 });
 
 //Organization
+//tested
 app.get("/organization/mail/:mail",(req:Request,res:Response)=>{
     console.log("/test: received get request from client for organization by ID");
     organizationDAO.getOrgByEmail(req.params.mail, (status, data) => {
@@ -322,6 +392,7 @@ app.get("/organization/mail/:mail",(req:Request,res:Response)=>{
     });
 });
 
+//tested
 app.get("/organization/id/:id",(req:Request,res:Response)=>{
     console.log("/test: received get request from client for organization by ID");
     organizationDAO.getOrganization(req.params.id, (status, data) => {
@@ -331,7 +402,7 @@ app.get("/organization/id/:id",(req:Request,res:Response)=>{
 });
 
 //tested
-app.get("/organization",(req : Request, res : Response) => {
+app.get("/organization/all",(req : Request, res : Response) => {
     console.log("/test: received get request from client for all organizations");
     organizationDAO.getAllOrganizations((status, data) => {
         res.status(status);
@@ -374,17 +445,89 @@ app.post("/organization", (req : Request, res : Response) => {
     });
 });
 
-app.delete("/organization/:id", (req : Request, res : Response) => {
-    console.log("/test: received delete request from user to delete an organization");
-    organizationDAO.deleteOrganization(req.params.id, (status, data) => {
-        res.status(status);
-    });
+//tested
+app.delete("/organization/delete/:id", (req : Request, res: Response) => {
+    console.log("/organization/delete/:id: received delete request from client");
+    pool.getConnection((err, connection: function) => {
+          console.log("Connected to database");
+          if (err) {
+              console.log("Feil ved kobling til databasen");
+              res.json({ error: "feil ved oppkobling" });
+          } else {
+              connection.query(
+  				          "DELETE artist FROM artist INNER JOIN event ON artist.event_id = event.event_id WHERE org_id=?",
+  				          [req.params.id],
+  				          (err, rows) => {
+  					               if (err) {
+  						                     console.log(err);
+  						                     res.json({ error: "error querying" });
+  					               } else {
+                             connection.query(
+                 				          "DELETE ticket FROM ticket INNER JOIN event ON ticket.event_id = event.event_id WHERE org_id=?",
+                 				          [req.params.id],
+                 				          (err, rows) => {
+                 					               if (err) {
+                 						                     console.log(err);
+                 						                     res.json({ error: "error querying" });
+                 					               } else {
+                                           connection.query(
+                               				          "DELETE user_event FROM user_event INNER JOIN event ON user_event.event_id = event.event_id WHERE org_id=?",
+                               				          [req.params.id],
+                               				          (err, rows) => {
+                               					               if (err) {
+                               						                     console.log(err);
+                               						                     res.json({ error: "error querying" });
+                               					               } else {
+                                                         connection.query(
+                                             				          "DELETE FROM event WHERE org_id=?",
+                                             				          [req.params.id],
+                                             				          (err, rows) => {
+                                             					               if (err) {
+                                             						                     console.log(err);
+                                             						                     res.json({ error: "error querying" });
+                                             					               } else {
+                                                                       connection.query(
+                                                           				          "DELETE FROM user WHERE org_id=?",
+                                                           				          [req.params.id],
+                                                           				          (err, rows) => {
+                                                                                connection.release();
+                                                           					               if (err) {
+                                                           						                     console.log(err);
+                                                           						                     res.json({ error: "error querying" });
+                                                           					               } else {
+                                                                                     console.log("/test: received delete request from user to delete an organization");
+                                                                                     organizationDAO.deleteOrganization(req.params.id, (status, data) => {
+                                                                                         res.status(status);
+                                                                                         res.json(data);
+                                                                                     });
+                                            					                             }
+                                            				                        }
+                                            			                    );
+
+                              					                             }
+                              				                        }
+                              			                    );
+
+                					                             }
+                				                        }
+                			                    );
+
+  					                             }
+  				                        }
+  			                    );
+                          }
+                    }
+            );
+        }
+      });
 });
 
-app.put("/organization/:id", (req : Request, res : Response) => {
+//tested
+app.put("/organization/edit/:id", (req : Request, res : Response) => {
     console.log("/test:received update request from user to update organization");
-    organizationDAO.updateOrganization(req.params.id, (status, data) => {
+    organizationDAO.updateOrganization(req.params.id, req.body, (status, data) => {
         res.status(status);
+        res.json(data);
     });
 });
 

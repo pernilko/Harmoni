@@ -14,7 +14,6 @@ module.exports = class artistDao extends Dao {
         );
     }
 
-    //db attributes must be changed to correspond to updated db
     insertOne(json: {event_id: number, artist_name: string, riders: string, hospitality_riders: string,
                   artist_contract: string, email: string, phone: string, image: string}, callback: function) {
         super.query(
