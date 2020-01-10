@@ -163,7 +163,7 @@ export class ArtistDetails extends Component {
             </div>
         )
     }
-
+    
     addNewArtist(){
         this.artist.push(new Artist(null, null, "", "", "", "", "", null, ""));
     }
