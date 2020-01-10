@@ -6,7 +6,6 @@ import Card from "react-bootstrap/Card";
 import {Artist} from "../../../services/ArtistService";
 import Accordion from "react-bootstrap/Accordion";
 
-
 export class ArtistDropdown extends Component<{buttonName: string, editMode: boolean, artist_name: string, riders: File, hosp_riders: File, artist_contract: File, email: string, phone: number}> {
 
     artist: Artist[] = [];
@@ -83,7 +82,13 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                     </div>
                                     <br/>
                                     <div className="form-group" align="center">
-                                        <Accordion.Toggle type="submit"  as={Button} variant="success" eventKey="0" onClick={this.props.method}>
+                                        <Accordion.Toggle type="button"  as={Button} variant="success" eventKey="0" onClick={() => {
+                                            if(this.editMode){
+                                                this.edit()
+                                            } else {
+                                                this.add()
+                                            };
+                                        }}>
                                             {this.props.buttonName}
                                         </Accordion.Toggle>
                                     </div>
@@ -112,7 +117,7 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
         s.mounted();
     }
     edit(){
-        console.log("edit");
+        console.log("ed");
     }
 }
 
@@ -151,7 +156,7 @@ export class ArtistDetails extends Component {
             this.artist.splice(index,1);
         }
     }
-    
+
     edit(a: Artist){
 //<button className="btn btn-secondary" onClick={() => this.edit(a)} style={{marginRight: 10+"px", float: "right"}}>Rediger</button>
     }

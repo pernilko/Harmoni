@@ -112,8 +112,8 @@ export class RegistrationForm extends Component {
 
 
         eventService
-            .postEvent(1, this.eventName,this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", 0, 0)
-            .then(history.push("/event"))
+            .postEvent(1, this.eventName, this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", 0, 0)
+            .then(response => console.log(response))
             .catch((error: Error) => console.log("feil ved registrering av event"));
     }
 }
