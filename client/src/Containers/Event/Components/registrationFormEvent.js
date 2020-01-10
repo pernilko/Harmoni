@@ -6,6 +6,8 @@ import {ArtistDetails, ArtistDropdown} from "./artist";
 import {Artist} from "../../../services/ArtistService";
 import {TicketComp, TicketDetails} from "./ticketDropdown";
 import {eventService} from "../../../services/EventService";
+import {artistService} from "../../../services/ArtistService";
+import {ticketService} from "../../../services/TicketService";
 import {Alert} from "../../../widgets";
 import { createHashHistory } from 'history';
 
@@ -115,7 +117,37 @@ export class RegistrationForm extends Component {
 
         eventService
             .postEvent(1, this.eventName, this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", 0, 0)
-            .then(response => console.log(response))
-            .catch((error: Error) => console.log("feil ved registrering av event"));
+            .then(response => {
+                this.addTickets(response[0]["LAST_INSERT_ID()"]);
+                this.addArtists(response[0]["LAST_INSERT_ID()"]);
+            })
+            .catch((error: Error) => console.log(error.message))
+
     }
+
+    addArtists(val: number) {
+        let artistDetails: any = ArtistDetails.instance();
+        let artists = artistDetails.artist;
+        console.log(artists);
+
+        artists.map(a => {
+            artistService
+                .addArtist(val, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone, a.image)
+                //.catch((error: Error) => console.log(error.message))
+            });
+    }
+
+    addTickets(val: number) {
+        let ticketDetails: any = TicketDetails.instance();
+        let tickets = ticketDetails.ticketList;
+        console.log(tickets);
+
+        tickets.map(t => {
+            ticketService
+                .addTicket(val, t.ticket_type, t.amount, t.description, t.price, t.amount_sold)
+                .then(response => console.log(response))
+                .catch((error: Error) => console.log(error.message))
+            });
+    }
+
 }

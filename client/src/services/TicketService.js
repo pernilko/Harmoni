@@ -73,3 +73,5 @@ class TicketService {
         return axios.delete<Ticket, void>(url + "ticket/delete/" + id).then(response => response.data);
     }
 }
+
+export let ticketService = new TicketService();

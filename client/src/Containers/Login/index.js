@@ -112,6 +112,7 @@ export class Login extends Component{
         }
     }
     checkEmail(){
+        console.log(this.user.email);
         this.message = "Checking email";
        organizationService.getOrganizationByEmail(this.user.email).then(org=>{
            if(org.length>0){
