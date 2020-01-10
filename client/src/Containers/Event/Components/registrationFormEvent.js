@@ -26,20 +26,19 @@ export class RegistrationForm extends Component {
             <div>
                 <div className="card-header">
                     <div className="form-inline">
-                        <h2>Opprett nytt arrangement</h2>
-                        <button className="btn btn-success" style={{marginLeft: "25%"}} onClick={this.regEvent}>Opprett</button>
+                        <h2>Opprett et nytt arrangement</h2>
                     </div>
                 </div>
                 <form className="card-body">
                     <div className="form-group">
-                        <label>Arrangement Navn:</label>
-                        <input className="form-control" placeholder="skriv inn navn her" value={this.eventName}
-                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.eventName = event.target.value)}/>
+                        <label>Arrangement navn:</label>
+                        <input className="form-control" placeholder="Skriv inn navn her" value={this.eventName}
+                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.eventName = event.target.value)} required/>
                     </div>
                     <div className="form-group">
                         <label>Lokasjon:</label>
                         <input className="form-control" placeholder="Skriv inn addresse" value={this.address}
-                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.address = event.target.value)}/>
+                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.address = event.target.value)} required/>
                     </div>
                     <div className="form-group">
                         <label>Beskrivelse:</label>
@@ -50,23 +49,23 @@ export class RegistrationForm extends Component {
                         <div className="row">
                             <div className="col">
                                 <label>Start dato:</label>
-                                <input className="form-control" type="date" value={this.startDate}
-                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startDate = event.target.value)}/>
+                                <input id="help" className="form-control" type="date" value={this.startDate}
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startDate = event.target.value)} required/>
                             </div>
                             <div className="col">
                                 <label>Start tid:</label>
                                 <input className="form-control" type="time" value={this.startTime}
-                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startTime = event.target.value)}/>
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startTime = event.target.value)} required/>
                             </div>
                             <div className="col">
                                 <label>Slutt dato:</label>
                                 <input className="form-control" type="date" value={this.endDate}
-                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endDate = event.target.value)}/>
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endDate = event.target.value)} required/>
                             </div>
                             <div className="col">
                                 <label>Slutt tid:</label>
                                 <input className="form-control" type="time" value={this.endTime}
-                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endTime = event.target.value)}/>
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endTime = event.target.value)} required/>
                             </div>
                         </div>
                     </div>
@@ -77,6 +76,10 @@ export class RegistrationForm extends Component {
                     <div className="form-group" style={{marginTop: 20+"px"}}>
                         <TicketDetails/>
                         <TicketComp/>
+                    </div>
+                    <div className="btn-group"  style={{width: "20%", marginLeft: "40%", padding: "20px"}}>
+                        <button className="btn btn-success"  onClick={this.regEvent}>Opprett</button>
+                        <button className="btn btn-danger" onClick={this.cancel}>Avbryt</button>
                     </div>
                 </form>
             </div>
