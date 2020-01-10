@@ -12,6 +12,8 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import {NavLink} from "react-router-dom";
 import {sharedComponentData} from "react-simplified";
+import { createHashHistory } from "history";
+const history = createHashHistory();
 
 
 export class Login extends Component{
@@ -132,6 +134,7 @@ export class Login extends Component{
         userService.logIn(this.pickedOrg.org_id, this.user.email, this.user.password).then(() => {
                 this.loading=false;
                 Alert.success("Du ble logget inn");
+                history.push("/event");
             }).catch((error: Error)=>Alert.danger(error.message));
     }
     registerNewOrganizationClicked(){
