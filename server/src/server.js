@@ -39,6 +39,7 @@ let organizationDAO= new OrganizationDAO(pool);
 app.use(function (req, res, next: function) {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader("Access-Control-Allow-Methods","PUT, POST, GET, OPTIONS");
     next();
 });
 
@@ -88,6 +89,14 @@ app.get("/artist", (req, res) => {
 app.get("/artist/all", (req : Request, res: Response) => {
     console.log("/artists/all: received get request from client");
     artistDao.getAll((status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.get("/artist/event/:id", (req : Request, res: Response) => {
+    console.log("/artist/event: received get request from client");
+    artistDao.getEventArtists((status, data) => {
         res.status(status);
         res.json(data);
     });
@@ -192,7 +201,7 @@ app.post("/event/add", (req : Request, res: Response) => {
 
 app.put("/event/edit/:id", (req : Request, res: Response) => {
     console.log("/event/edit/:id: received put request from client");
-    eventDao.editEvent(req.body, req.params.id, (status, data) => {
+    eventDao.editEvent(req.params.id, req.body, (status, data) => {
         res.status(status);
         res.json(data);
     });

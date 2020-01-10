@@ -6,11 +6,17 @@ module.exports = class artistDao extends Dao {
         super.query("SELECT * FROM artist", [], callback);
     }
 
+    getEventArtists(event_id: number, callback: function){
+        super.query(
+            "SELECT * FROM artist WHERE event_id = ?",
+            [event_id], callback
+        );
+    }
+
     getOne(artist_id: number, callback: function) {
         super.query(
             "select * from artist where artist_id = ?",
-            [artist_id],
-            callback
+            [artist_id], callback
         );
     }
 
