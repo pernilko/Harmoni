@@ -3,21 +3,21 @@
 import * as React from 'react';
 import {Component} from 'react-simplified';
 import {Button,Navbar,Nav, NavDropdown, Form, FormControl} from 'react-bootstrap';
-import { User } from '../../../services/UserService';
+import {User, userService} from '../../../services/UserService';
 import { createHashHistory } from 'history';
-import {Alert} from '../../../widgets';
+import {Alert} from '../../../widgets'
+import {sharedComponentData} from "react-simplified";
 
 const history = createHashHistory();
 
 
 export class Navigation extends Component {
-  user: User | any = null;
 
   render() {
     //If there is a logged in user
     console.log(this.user);
 
-    if (this.user) {
+    if (userService.currentUser) {
       return <div>
         <Navbar sticky="top" bg="dark" variant="dark" expand="lg">
           <Navbar.Brand href="#home">Harmoni</Navbar.Brand>
@@ -35,7 +35,7 @@ export class Navigation extends Component {
               <Nav.Link to="#home" style={{marginTop:10+'px'}}>Alle arrangement</Nav.Link>
               <Navbar.Text> Logget inn som:
                 <a>
-                  <NavDropdown title={this.user.user_name} id="basic-nav-dropdown">
+                  <NavDropdown title={userService.currentUser.user_name} id="basic-nav-dropdown">
                     <NavDropdown.Item href="#action/3.1">Mine arrangement</NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.2">Opprett arrangement</NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.3">Rediger profil</NavDropdown.Item>
@@ -74,7 +74,6 @@ export class Navigation extends Component {
     }
   }
   mounted (newUsr: User|any){
-    this.user = newUsr;
 
   }
 

@@ -31,6 +31,7 @@ export class User {
      */
 }
 class UserService {
+    currentUser:_User;
     //auto login
     autoLoginv2(){
         if(localStorage.getItem("token")){
@@ -65,7 +66,6 @@ class UserService {
     }
 
     //for logging in
-    currentUser:_User;
     logIn(org_id: number, email: string, password: string){
         return axios.post<{}, {jwt: string}>(url+'login', {
             "org_id":org_id,
@@ -115,5 +115,5 @@ class UserService {
 
 }
 
-export let userService = sharedComponentData(new UserService());
+export let userService: UserService = sharedComponentData(new UserService());
 
