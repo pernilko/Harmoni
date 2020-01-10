@@ -17,6 +17,11 @@ export class Artist extends Component {
     email: string = "";
     phone: number = null;
     image: string = "";
+    onChange(event:SyntheticEvent<HTMLButtonElement>){
+        console.log(event.target);
+
+    }
+
     render() {
         return (
             <Accordion>
