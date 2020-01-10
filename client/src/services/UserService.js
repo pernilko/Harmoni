@@ -1,5 +1,7 @@
 // @flow
 import axios from 'axios';
+import {sharedComponentData} from "react-simplified";
+
 let url: string = "http://localhost:8080/";
 
 export class User {
@@ -30,6 +32,7 @@ export class User {
 }
 class UserService {
     //for logging in
+    currentUser:_User;
     logIn(org_id: number, email: string, password: string){
         return axios.post<{}, {jwt: string}>(url+'login', {
             "org_id":org_id,
@@ -51,6 +54,7 @@ class UserService {
         }).then(response=>response.data);
     }
     //to refresh token
+    //not tested
     postToken(email: string) {
         return fetch(url + 'token',
             {
@@ -66,5 +70,5 @@ class UserService {
 
 }
 
-export let userService = new UserService();
+export let userService = sharedComponentData(new UserService());
 
