@@ -35,10 +35,6 @@ let ticketDao = new TicketDao(pool);
 let userDao = new UserDao(pool);
 let organizationDAO= new OrganizationDAO(pool);
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 0c36c64c56924ff5ee177400726bde624064f3fc
 app.use(function (req, res, next: function) {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -377,13 +373,9 @@ app.get("/organization/all",(req : Request, res : Response) => {
     });
 });
 
-<<<<<<< HEAD
-app.post("/organization", (req : Request, res : Response) => {
-=======
 //tested
 
 app.post("/organization/add", (req : Request, res : Response) => {
->>>>>>> 0c36c64c56924ff5ee177400726bde624064f3fc
     pool.getConnection((err, connection: function) => {
         console.log("Connected to database");
         if (err) {

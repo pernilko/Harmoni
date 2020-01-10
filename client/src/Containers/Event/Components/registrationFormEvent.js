@@ -118,7 +118,7 @@ export class RegistrationForm extends Component {
         eventService
             .postEvent(1, this.eventName, this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", 0, 0)
             .then(response => {
-                //this.addTickets(response[0]["LAST_INSERT_ID()"]);
+                this.addTickets(response[0]["LAST_INSERT_ID()"]);
                 this.addArtists(response[0]["LAST_INSERT_ID()"]);
             })
             .catch((error: Error) => console.log(error.message))
@@ -132,7 +132,7 @@ export class RegistrationForm extends Component {
         artists.map(a => {
             artistService
                 .addArtist(val, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone, a.image)
-                .catch((error: Error) => console.log(error.message))
+                //.catch((error: Error) => console.log(error.message))
             });
     }
 

@@ -159,11 +159,4 @@ export class ArtistDetails extends Component {
         }
     }
 
-<<<<<<< HEAD
-    mounted() {
-        let s: any = ArtistDropdown.instance(); 
-        this.artist = s.artist;
-    }
-=======
->>>>>>> 0c36c64c56924ff5ee177400726bde624064f3fc
 }
