@@ -1,14 +1,10 @@
 //@flow
-
 import * as React from 'react';
 import { Component } from "react-simplified";
 import Button from "react-bootstrap/Button";
-import { createHashHistory } from 'history';
 import Card from "react-bootstrap/Card";
 import {Artist} from "../../../services/ArtistService";
 import Accordion from "react-bootstrap/Accordion";
-
-const history = createHashHistory();
 
 export class ArtistDropdown extends Component {
 
@@ -100,7 +96,6 @@ export class ArtistDropdown extends Component {
     }
 
     add(){
-        console.log("hei");
         this.artist.push(new Artist(0,0,this.artist_name, this.riders, this.hospitality_riders,this.artist_contract,this.email, this.phone,this.image));
         this.artist_name = "";
         this.email = "";
@@ -109,6 +104,8 @@ export class ArtistDropdown extends Component {
         this.hospitality_riders = "";
         this.artist_contract = "";
         this.image = "";
+        let s: any = ArtistDetails.instance();
+        s.mounted();
 
 
     }
@@ -144,9 +141,10 @@ export class ArtistDetails extends Component {
     }
 
     delete(a: Artist){
-       this.artist = this.artist.filter(e => e !== a);
-        console.log(a.artist_name);
-        console.log(this.artist);
+        const index = this.artist.indexOf(a);
+        if(index > -1){
+            this.artist.splice(index,1);
+        }
     }
 
     mounted() {
