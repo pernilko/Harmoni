@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { Component } from "react-simplified";
-import Dropdown from "react-bootstrap/Dropdown";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
@@ -52,7 +51,7 @@ export class TicketComp extends Component {
                                         </div>
                                         <br/>
                                         <div className="form-group" align="center">
-                                            <Accordion.Toggle type="submit"  as={Button} variant="success" eventKey="0" onClick={this.add}>
+                                            <Accordion.Toggle type="button"  as={Button} variant="success" eventKey="0" onClick={this.add}>
                                                 Legg til
                                             </Accordion.Toggle>
                                         </div>
@@ -67,7 +66,6 @@ export class TicketComp extends Component {
     }
     add(){
         this.ticketList.push(new Ticket(0, 0, this.type, parseInt(this.billetter), this.beskrivelse, parseInt(this.pris), 0));
-        console.log(this.ticketList);
         this.type = "";
         this.beskrivelse = "";
         this.billetter = "";

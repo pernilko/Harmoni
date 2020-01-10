@@ -1,9 +1,7 @@
 //@flow
-
 import * as React from 'react';
 import { Component } from "react-simplified";
 import Button from "react-bootstrap/Button";
-import { createHashHistory } from 'history';
 import Card from "react-bootstrap/Card";
 import {Artist} from "../../../services/ArtistService";
 import Accordion from "react-bootstrap/Accordion";
@@ -110,6 +108,9 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
         this.hospitality_riders = "";
         this.artist_contract = "";
         this.image = "";
+
+        let s: any = ArtistDetails.instance();
+        s.mounted();
     }
     edit(){
         console.log("edit");
@@ -146,11 +147,12 @@ export class ArtistDetails extends Component {
     }
 
     delete(a: Artist){
-       this.artist = this.artist.filter(e => e !== a);
-        console.log(a.artist_name);
-        console.log(this.artist);
+        const index = this.artist.indexOf(a);
+        if(index > -1){
+            this.artist.splice(index,1);
+        }
     }
-
+    
     edit(a: Artist){
 //<button className="btn btn-secondary" onClick={() => this.edit(a)} style={{marginRight: 10+"px", float: "right"}}>Rediger</button>
     }

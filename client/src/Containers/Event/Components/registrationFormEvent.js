@@ -115,6 +115,5 @@ export class RegistrationForm extends Component {
             .postEvent(1, this.eventName,this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", 0, 0)
             .then(history.push("/event"))
             .catch((error: Error) => console.log("feil ved registrering av event"));
-//2020-01-10, 22:01
     }
 }
