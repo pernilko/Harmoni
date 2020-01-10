@@ -10,6 +10,8 @@ import {Col, Spinner, Button, Container} from "react-bootstrap";
 import {Alert} from "../../widgets";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
+import { createHashHistory } from "history";
+const history = createHashHistory();
 
 
 export class Login extends Component{
@@ -126,6 +128,7 @@ export class Login extends Component{
                 localStorage.setItem("token", json.jwt);
                 this.loading=false;
                 Alert.success("Du ble logget inn");
+                history.push("/event");
             }).catch((error: Error)=>Alert.danger("feil passord"));
         this.loading = true;
     }

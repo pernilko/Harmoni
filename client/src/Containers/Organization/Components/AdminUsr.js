@@ -52,6 +52,10 @@ export class AdminUsrForm extends Component <{hidden: boolean}>{
     </div>
     )
   }
+  mounted() {
+    return undefined;
+  }
+
   register(){
     // Register
   }
