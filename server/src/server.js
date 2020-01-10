@@ -315,8 +315,9 @@ app.get("/organization",(req : Request, res : Response) => {
 
 app.post("/organization", (req : Request, res : Response) => {
     console.log("/test: received post request for adding an organization");
-    organizationDAO.addOrganization(req.body.content, (status, data) => {
+    organizationDAO.addOrganization(req.body, (status, data) => {
         res.status(status);
+        res.json(data);
     });
 
 });
