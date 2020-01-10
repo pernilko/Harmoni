@@ -6,15 +6,20 @@ module.exports = class artistDao extends Dao {
         super.query("SELECT * FROM artist", [], callback);
     }
 
-    getOne(artist_id: number, callback: function) {
+    getEventArtists(event_id: number, callback: function){
         super.query(
-            "select * from artist where artist_id = ?",
-            [artist_id],
-            callback
+            "SELECT * FROM artist WHERE event_id = ?",
+            [event_id], callback
         );
     }
 
-    //db attributes must be changed to correspond to updated db
+    getOne(artist_id: number, callback: function) {
+        super.query(
+            "select * from artist where artist_id = ?",
+            [artist_id], callback
+        );
+    }
+
     insertOne(json: {event_id: number, artist_name: string, riders: string, hospitality_riders: string,
                   artist_contract: string, email: string, phone: string, image: string}, callback: function) {
         super.query(
