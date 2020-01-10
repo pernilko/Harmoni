@@ -112,17 +112,15 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
         this.hospitality_riders = "";
         this.artist_contract = "";
         this.image = "";
-
-        let s: any = ArtistDetails.instance();
-        s.mounted();
     }
     edit(){
-<<<<<<< HEAD
-        console.log("ed");
-=======
-        console.log("edit");
+        const index = this.artist.indexOf(this.props.artist);
+        this.artist[index] = new Artist(0,0,this.artist_name, this.riders, this.hospitality_riders,this.artist_contract,this.email, this.phone,this.image);
+        //console.log(this.artist);
 
->>>>>>> 3782d4e8cb7ac159248b6ef9054f46645c8f4814
+        let s: any = ArtistDetails.instance();
+        s.artist = this.artist;
+        console.log(s.artist);
     }
 }
 
@@ -145,7 +143,7 @@ export class ArtistDetails extends Component {
                             <div className="col"><label>Dokumenter: {a.riders}</label></div>
                             <div className="col">
                                 <button className="btn btn-danger" onClick={() => this.delete(a)} style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
-                                <ArtistDropdown buttonName={"Rediger"} editMode={true} artist={a}/>
+                                <ArtistDropdown buttonName={"Rediger"} editMode={true} artist={a} type="button"/>
                             </div>
                         </div>
                     </div>
@@ -162,12 +160,8 @@ export class ArtistDetails extends Component {
         }
     }
 
-    edit(a: Artist){
-//<button className="btn btn-secondary" onClick={() => this.edit(a)} style={{marginRight: 10+"px", float: "right"}}>Rediger</button>
-    }
-
     mounted() {
-        let s: any = ArtistDropdown.instance();
+        let s: any = ArtistDropdown.instance(); 
         this.artist = s.artist;
     }
 }
