@@ -11,6 +11,7 @@ import {Alert} from "../../widgets";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import {NavLink} from "react-router-dom";
+import {sharedComponentData} from "react-simplified";
 
 
 export class Login extends Component{
@@ -128,14 +129,10 @@ export class Login extends Component{
     }
     login(){
         this.loading = true;
-        userService.logIn(this.pickedOrg.org_id, this.user.email, this.user.password).then(json => {
-                localStorage.setItem("token", json.jwt);
+        userService.logIn(this.pickedOrg.org_id, this.user.email, this.user.password).then(() => {
                 this.loading=false;
-                console.log(json.jwt);
                 Alert.success("Du ble logget inn");
-                userService.currentUser = this.user;
-                console.log(userService.currentUser);
-            }).catch((error: Error)=>Alert.danger("feil passord"));
+            }).catch((error: Error)=>Alert.danger(error.message));
     }
     registerNewOrganizationClicked(){
         console.log("newOrgClicked");

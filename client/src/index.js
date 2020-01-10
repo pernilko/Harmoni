@@ -14,6 +14,7 @@ import {Artist} from "./Containers/Event/Components/artist";
 
 
 import { RegOrganization } from './Containers/Organization/Components/registerOrgForm';
+import {userService} from "./services/UserService";
 
 const root = document.getElementById('root');
 if (root)
@@ -28,3 +29,4 @@ if (root)
     </HashRouter>,
     root
   );
+userService.autoLogin();
