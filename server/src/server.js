@@ -354,7 +354,7 @@ app.delete("/ticket/delete/:id", (req : Request, res: Response) => {
 //tested
 app.get("/organization/mail/:mail",(req:Request,res:Response)=>{
     console.log("/test: received get request from client for organization by ID");
-    organizationDAO.getOrgByEmail(req.params.mail, (status, data) => {
+    organizationDAO.getOrgByUserEmail(req.params.mail, (status, data) => {
         res.status(status);
         res.json(data);
     });
