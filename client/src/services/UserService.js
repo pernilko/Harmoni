@@ -1,20 +1,22 @@
 // @flow
 import axios from 'axios';
-//import bcrypt from 'bcrypt';
+import {sharedComponentData} from "react-simplified";
+
+let url: string = "http://localhost:8080/";
 
 export class User {
-    user_id: number;
-    org_id: number;
-    email: string;
-    privileges: number;
-    user_name: string;
-    password: string;
-    address: string;
-    phone: string;
-    image: string;
-    reg_date: string;
+    user_id: number = -1;
+    org_id: number = -1;
+    email: string = "";
+    privileges: number = -1;
+    user_name: string = "";
+    password: string = -1;
+    address: string = "";
+    phone: string = "";
+    image: string = "";
+    reg_date: string = "";
 
-    constructor(user_id: number, org_id: number, email: string, privileges: number, user_name: string, password: string, address: string, phone: string, image: string, reg_date: string) {
+    /*constructor(user_id: number, org_id: number, email: string, privileges: number, user_name: string, password: string, address: string, phone: string, image: string, reg_date: string) {
         this.user_id = user_id;
         this.org_id = org_id;
         this.email = email;
@@ -26,19 +28,21 @@ export class User {
         this.image = image;
         this.reg_date = reg_date;
     }
+     */
 }
 class UserService {
-
+    //for logging in
+    currentUser:_User;
     logIn(org_id: number, email: string, password: string){
-        //KJØR AXIOS FOR Å SJEKKE LOGIN HER
-        return axios.post<{}, {jwt: string}>('http://localhost:8080/login', {
+        return axios.post<{}, {jwt: string}>(url+'login', {
             "org_id":org_id,
             "email": email,
             "password": password
         }).then(response=>response.data);
     }
-    register(org_id: number, email: string, privileges: number, user_name: string, password: string, address, phone: string, image: string){
-        return axios.post<{}, User>('http://localhost:8080/registrer',{
+    //for registering a new user
+    register(org_id: number, email: string, privileges: number, user_name: string, password: string, address: string, phone: string, image: string){
+        return axios.post<{}, User>(url+'register',{
             "org_id": org_id,
             "email": email,
             "privileges": privileges,
@@ -49,8 +53,10 @@ class UserService {
             "image": image
         }).then(response=>response.data);
     }
+    //to refresh token
+    //not tested
     postToken(email: string) {
-        return fetch("http://localhost:8080/token",
+        return fetch(url + 'token',
             {
                 method: "POST",
                 headers: {
@@ -62,8 +68,7 @@ class UserService {
             .then(response => response.json());
     }
 
-
 }
 
-export let userService = new UserService();
+export let userService = sharedComponentData(new UserService());
 

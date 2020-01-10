@@ -156,10 +156,37 @@ app.get("/event/:id", (req : Request, res: Response) => {
 });
 
 app.post("/event/add", (req : Request, res: Response) => {
-    console.log("/event/add: received post request from client");
-    eventDao.addEvent(req.body, (status, data) => {
-        res.status(status);
-        res.json(data);
+    pool.getConnection((err, connection: function) => {
+        console.log("Connected to database");
+        if (err) {
+            console.log("Feil ved oppkobling til databasen");
+            res.json({ error: "feil ved oppkobling"});
+        } else {
+            connection.query(
+                "INSERT INTO event (org_id, event_name, place, event_start, event_end, longitude, latitude) VALUES (?,?,?,?,?,?,?)",
+                [req.body.org_id, req.body.event_name, req.body.place, req.body.event_start, req.body.event_end, req.body.longitude, req.body.latitude],
+                err => {
+                    if (err) {
+                        console.log(err);
+                        res.json({ error: "error querying" });
+                    } else {
+                        connection.query(
+                            "SELECT LAST_INSERT_ID()",
+                            (err, rows) => {
+                                connection.release();
+                                if (err) {
+                                    console.log(err);
+                                    res.json({ error: "error querying" });
+                                } else {
+                                    console.log(rows);
+                                    res.json(rows);
+                                }
+                            }
+                        )
+                    }
+                }
+            )
+        }
     });
 });
 
@@ -312,13 +339,39 @@ app.get("/organization",(req : Request, res : Response) => {
     });
 });
 
-
 app.post("/organization", (req : Request, res : Response) => {
-    console.log("/test: received post request for adding an organization");
-    organizationDAO.addOrganization(req.body, (status, data) => {
-        res.status(status);
+    pool.getConnection((err, connection: function) => {
+        console.log("Connected to database");
+        if (err) {
+            console.log("Feil ved oppkobling til databasen");
+            res.json({ error: "feil ved oppkobling"});
+        } else {
+            connection.query(
+                "INSERT INTO organization(org_name, phone, email) VALUES (?,?,?)",
+                [req.body.org_name, req.body.phone, req.body.email],
+                err => {
+                    if (err) {
+                        console.log(err);
+                        res.json({ error: "error querying" });
+                    } else {
+                        connection.query(
+                            "SELECT LAST_INSERT_ID() AS org_id",
+                            (err, rows) => {
+                                connection.release();
+                                if (err) {
+                                    console.log(err);
+                                    res.json({ error: "error querying" });
+                                } else {
+                                    console.log(rows);
+                                    res.json(rows);
+                                }
+                            }
+                        )
+                    }
+                }
+            )
+        }
     });
-
 });
 
 app.delete("/organization/:id", (req : Request, res : Response) => {

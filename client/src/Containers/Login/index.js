@@ -6,12 +6,13 @@ import {FormElement, LoginCard} from "./Components";
 import {User, userService} from "../../services/UserService";
 import {Organization, organizationService} from "../../services/OrganizationService";
 import Row from "react-bootstrap/Row";
-import {Col, Spinner, Button, Container} from "react-bootstrap";
+import {Col, Spinner, Button} from "react-bootstrap";
 import {Alert} from "../../widgets";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import { createHashHistory } from "history";
 const history = createHashHistory();
+import {NavLink} from "react-router-dom";
 
 
 export class Login extends Component{
@@ -21,6 +22,7 @@ export class Login extends Component{
     pickedOrg: Organization = new Organization();
     checkingOrg:boolean = false;
     checkedOrg:boolean = false;
+    message: string = "Logg inn";
 
     render(){
         if(this.checkedOrg){
@@ -85,8 +87,10 @@ export class Login extends Component{
                                 <Button variant="success" onClick={this.checkEmail}>Logg inn</Button>
                             </Col>
                             <Col>
+                                <NavLink to = "/RegisterOrganization">
                                 <Button variant="primary" onClick={this.registerNewOrganizationClicked}>Registrer ny
                                     organisasjon</Button>
+                                </NavLink>
                             </Col>
                         </Row>
                         </Card.Body>
@@ -97,7 +101,7 @@ export class Login extends Component{
             return(
                 <Card style = {{width: "50%", margin: "auto"}}>
                     <Card.Header>
-                        Logg inn
+                        {this.message}
                     </Card.Header>
                     <Card.Body>
                     <Spinner animation="border"></Spinner>
@@ -107,6 +111,7 @@ export class Login extends Component{
         }
     }
     checkEmail(){
+        this.message = "Checking email";
        organizationService.getOrganizationByEmail(this.user.email).then(org=>{
            if(org.length>0){
                this.organizations = org;
@@ -119,21 +124,25 @@ export class Login extends Component{
         this.loading = true;
     }
     pickOrg(org: Organization){
+        this.message = "Velg organisasjon";
         this.pickedOrg = org;
         this.checkedOrg = true;
     }
-
     login(){
+        this.loading = true;
         userService.logIn(this.pickedOrg.org_id, this.user.email, this.user.password).then(json => {
                 localStorage.setItem("token", json.jwt);
                 this.loading=false;
+                console.log(json.jwt);
                 Alert.success("Du ble logget inn");
                 history.push("/event");
+                userService.currentUser = this.user;
+                console.log(userService.currentUser);
             }).catch((error: Error)=>Alert.danger("feil passord"));
-        this.loading = true;
     }
     registerNewOrganizationClicked(){
         console.log("newOrgClicked");
+        this.loading = true;
         //eventuelt route videre til registreringsskjema her
     }
 }
