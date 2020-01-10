@@ -1,14 +1,10 @@
 //@flow
-
 import * as React from 'react';
 import { Component } from "react-simplified";
 import Button from "react-bootstrap/Button";
-import { createHashHistory } from 'history';
 import Card from "react-bootstrap/Card";
 import {Artist} from "../../../services/ArtistService";
 import Accordion from "react-bootstrap/Accordion";
-
-const history = createHashHistory();
 
 export class ArtistDropdown extends Component {
 
@@ -108,6 +104,8 @@ export class ArtistDropdown extends Component {
         this.hospitality_riders = "";
         this.artist_contract = "";
         this.image = "";
+        let s: any = ArtistDetails.instance();
+        s.mounted();
 
 
     }
@@ -131,7 +129,7 @@ export class ArtistDetails extends Component {
                             <div className="col"><label>Tlf: {a.phone}</label></div>
                             <div className="col"><label>Dokumenter: {a.riders}</label></div>
                             <div className="col">
-                                <button className="btn btn-danger" style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
+                                <button className="btn btn-danger" onClick={() => this.delete(a)} style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
                                 <button className="btn btn-secondary" style={{marginRight: 10+"px", float: "right"}}>Rediger</button>
                             </div>
                         </div>
@@ -142,7 +140,15 @@ export class ArtistDetails extends Component {
         )
     }
 
+    delete(a: Artist){
+        const index = this.artist.indexOf(a);
+        if(index > -1){
+            this.artist.splice(index,1);
+        }
+    }
+
     mounted() {
+
         let s: any = ArtistDropdown.instance();
         this.artist = s.artist;
     }
