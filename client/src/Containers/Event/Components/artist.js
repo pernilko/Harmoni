@@ -19,6 +19,7 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
     //image: string = this.props.image;
 
     editMode: boolean = this.props.editMode;
+
     render() {
         return (
             <Accordion>
@@ -112,9 +113,7 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
         this.hospitality_riders = "";
         this.artist_contract = "";
         this.image = "";
-
-        let s: any = ArtistDetails.instance();
-        s.mounted();
+        
     }
     edit(){
         console.log("edit");
