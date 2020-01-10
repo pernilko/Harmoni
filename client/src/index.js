@@ -20,10 +20,13 @@ const root = document.getElementById('root');
 if (root)
   ReactDOM.render(
     <HashRouter>
+    <Route path="/event" component={RegistrationForm}/>
       <div>
           <Alert></Alert>
-          <EventList></EventList>
+          <Login></Login>
       </div>
+
     </HashRouter>,
     root
   );
+

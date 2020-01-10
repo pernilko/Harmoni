@@ -143,6 +143,13 @@ app.delete("/artist/delete/:id", (req : Request, res: Response) => {
     });
 });
 
+app.put("/artist/:id", (req:Request,res:Response)=>{
+    console.log("/artist/:id received an update request from client to update values in artist");
+    artistDao.updateArtist(req.params.id, req.body, (status,data)=>{
+        res.status(status);
+    })
+})
+
 //Event
 //tested
 app.get("/event/all", (req : Request, res: Response) => {
