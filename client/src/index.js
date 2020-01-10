@@ -20,7 +20,6 @@ if (root)
   ReactDOM.render(
     <HashRouter>
       <div>
-          <Login/>
           <Alert></Alert>
           <Route path = "/registerOrganization" component = {RegOrganization}/>
           <Route path = "/event" component = {RegistrationForm}/>
