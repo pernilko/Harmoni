@@ -6,12 +6,13 @@ import {FormElement, LoginCard} from "./Components";
 import {User, userService} from "../../services/UserService";
 import {Organization, organizationService} from "../../services/OrganizationService";
 import Row from "react-bootstrap/Row";
-import {Col, Spinner, Button, Nav} from "react-bootstrap";
+import {Col, Spinner, Button} from "react-bootstrap";
 import {Alert} from "../../widgets";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
+import {NavLink} from "react-router-dom";
+import {sharedComponentData} from "react-simplified";
 import { createHashHistory } from "history";
-import {NavLink} from 'react-router-dom';
 const history = createHashHistory();
 
 
@@ -130,15 +131,11 @@ export class Login extends Component{
     }
     login(){
         this.loading = true;
-        userService.logIn(this.pickedOrg.org_id, this.user.email, this.user.password).then(json => {
-                localStorage.setItem("token", json.jwt);
+        userService.logIn(this.pickedOrg.org_id, this.user.email, this.user.password).then(() => {
                 this.loading=false;
-                console.log(json.jwt);
                 Alert.success("Du ble logget inn");
                 history.push("/event");
-                userService.currentUser = this.user;
-                console.log(userService.currentUser);
-            }).catch((error: Error)=>Alert.danger("feil passord"));
+            }).catch((error: Error)=>Alert.danger(error.message));
     }
     registerNewOrganizationClicked(){
         console.log("newOrgClicked");
