@@ -9,6 +9,7 @@ import {RegistrationForm} from "./Containers/Event/Components/registrationFormEv
 import {Ticket} from "./Containers/Event/Components/ticketDropdown";
 import {Artist} from "./Containers/Event/Components/artist";
 import { RegOrganization } from './Containers/Organization/Components/registerOrgForm';
+import {EditEvent} from "./Containers/Event/Components/editEvent";
 import {Navigation} from './Containers/Navbar/Components/Navbar';
 import {userService} from "./services/UserService";
 import {sharedComponentData} from "react-simplified";
@@ -18,11 +19,12 @@ if (root)
   ReactDOM.render(
     <HashRouter>
       <div>
-        <Alert/>
-        <Navigation/>
-        <Route path = "/event" component = {RegistrationForm}/>
-        <Route path = "/Login" component={Login}/>
-        <Route path = "/RegisterOrganization" component = {RegOrganization}/>
+          <Alert></Alert>
+          <Navigation/>
+          <Route path = "/registerOrganization" component = {RegOrganization}/>
+          <Route path = "/event" component = {RegistrationForm}/>
+          <Route path="/editEvent/:event_id" component={EditEvent}/>
+          <Route path = "/Login" component={Login}/>
       </div>
     </HashRouter>,
     root
