@@ -83,7 +83,7 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                     <br/>
                                     <div className="form-group" align="center">
                                         <Accordion.Toggle type="submit"  as={Button} variant="success" eventKey="0" onClick={() => {
-                                            if(editMode){
+                                            if(this.editMode){
                                                 this.edit()
                                             } else {
                                                 this.add()
