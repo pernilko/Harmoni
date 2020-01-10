@@ -40,7 +40,7 @@ class ArtistService {
         axios.get<Artist[]>(url + "artist/"+id).then(response => response.data[0]);
     }
 
-    addArtist(event_id: number, artist_name: string, riders: string, hospitality_riders: string, artist_contract: string, email: string, phone: number, image: string) {
+    addArtist(event_id: number, artist_name: string, riders: File, hospitality_riders: File, artist_contract: File, email: string, phone: number) {
         axios.post<{}, Artist>(url + "artist/add", {
             "event_id": event_id,
             "artist_name": artist_name,
@@ -48,8 +48,7 @@ class ArtistService {
             "hospitality_riders": hospitality_riders,
             "artist_contract": artist_contract,
             "email": email,
-            "phone": phone,
-            "image": image
+            "phone": phone
         }).then(response => response.data);
     }
 
