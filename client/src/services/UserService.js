@@ -1,6 +1,7 @@
 // @flow
 import axios from 'axios';
 import {sharedComponentData} from "react-simplified";
+import {Alert} from "../widgets";
 
 let url: string = "http://localhost:8080/";
 
@@ -42,6 +43,7 @@ class UserService {
     }
 
     autoLogin(){
+        console.log("auto-logging in with token from localStorage: " + localStorage.getItem("token"));
         if (localStorage.getItem("token")) {
             return axios<User>({
                 url: url +'token',
@@ -54,15 +56,19 @@ class UserService {
                 .then(response => {
                     if (response.data.jwt) {
                         localStorage.setItem("token", response.data.jwt);
+                        console.log("user_id: " + response.data.user_id);
                         this.getUser(response.data.user_id).then(res=>{
+                            console.log(res[0]);
                             this.currentUser = new User();
                             this.currentUser = res[0];
                         })
                     }
-                    console.log(response);
-                }).catch(error => this.bruker = null);
+                    console.log(response.data);
+                }).catch(error => {
+                    Alert.danger(error.message);
+                    this.currentUser = null;
+                });
         }
-
     }
 
     //for logging in

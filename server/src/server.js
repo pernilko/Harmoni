@@ -114,7 +114,7 @@ app.post("/token", (req, res) => {
             token = jwt.sign({user_id: decoded.user_id}, privateKEY.key, {
                 expiresIn: 3600
             });
-            res.json({jwt: token, "email": decoded.email});
+            res.json({jwt: token, "user_id": decoded.user_id});
         }
     });
 });
