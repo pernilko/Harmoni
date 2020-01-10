@@ -72,7 +72,7 @@ export class RegistrationForm extends Component {
                     </div>
                     <div className="form-group" style={{marginTop: 20+"px"}}>
                         <ArtistDetails/>
-                        <ArtistDropdown buttonName={"Legg til artist"} artist_name="" riders={""} hosp_riders={""} email={""} phone={""} artist_contract={""}/>
+                        <ArtistDropdown buttonName={"Legg til artist"} editMode={false} artist_name="" riders={""} hosp_riders={""} email={""} phone={""} artist_contract={""}/>
                     </div>
                     <div className="form-group" style={{marginTop: 20+"px"}}>
                         <TicketDetails/>
