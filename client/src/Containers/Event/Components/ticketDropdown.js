@@ -12,8 +12,8 @@ export class TicketComp extends Component {
     ticketList: Ticket[] = [];
     type: string = "";
     beskrivelse: string = "";
-    billetter: number = 0;
-    pris: number = 0;
+    billetter: string = "";
+    pris: string = "";
 
     render(){
         return(
@@ -66,8 +66,14 @@ export class TicketComp extends Component {
         )
     }
     add(){
-        this.ticketList.push(new Ticket(0, 0, this.type, this.billetter, this.beskrivelse, this.pris, 0));
+        this.ticketList.push(new Ticket(0, 0, this.type, parseInt(this.billetter), this.beskrivelse, parseInt(this.pris), 0));
         console.log(this.ticketList);
+        this.type = "";
+        this.beskrivelse = "";
+        this.billetter = "";
+        this.pris = "";
+        let s: any = TicketDetails.instance();
+        s.mounted();
     }
 }
 
@@ -89,7 +95,7 @@ export class TicketDetails extends Component {
                             <div className="col"><label>Pris: {ticket.price} kr</label></div>
                             <div className="col"><label>Antall: {ticket.amount}</label></div>
                             <div className="col">
-                                <button className="btn btn-danger" style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
+                                <button className="btn btn-danger" style={{marginLeft: 10+"px", float: "right"}} onClick={() => this.deleteTicket(ticket)}>Slett</button>
                                 <button className="btn btn-secondary" style={{marginRight: 10+"px", float: "right"}}>Rediger</button>
                             </div>
                         </div>
@@ -99,6 +105,13 @@ export class TicketDetails extends Component {
                 </div>
             </div>
         )
+    }
+
+    deleteTicket(t: Ticket) {
+        const index = this.ticketList.indexOf(t);
+        if (index > -1) {
+            this.ticketList.splice(index, 1);
+        }
     }
 
     mounted() {
