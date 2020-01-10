@@ -7,16 +7,16 @@ import {Artist} from "../../../services/ArtistService";
 import Accordion from "react-bootstrap/Accordion";
 
 export class ArtistDropdown extends Component {
-
+    state: Object={raider: null,hraider: null,contract: null};
     artist: Artist[] = [];
 
     artist_name: string = "";
-    riders: File = "";
-    hospitality_riders: File = "";
-    artist_contract: File = "";
+    riders: any= "";
+    hospitality_riders: any="";
+    artist_contract:any="";
     email: string = "";
-    phone: number = null;
-    image: string = "";
+    phone: string = "";
+    image: any="";
 
     render() {
         return (
@@ -53,9 +53,8 @@ export class ArtistDropdown extends Component {
                                         <div className="input-group-prepend">
                                         </div>
                                         <div className="custom-file">
-                                            <input type="file" className="file-path validate" id="inputGroupFile01"
-                                                   aria-describedby="inputGroupFileAddon01" value={this.riders}
-                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.riders = event.target.value)}/>
+                                            <input type="file" className="file-path validate" id="raider" accept='.pdf'
+                                                   onChange={this.onChanger}/>
                                         </div>
                                     </div><br/>
                                     <label>Hospitality rider:</label><br/>
@@ -63,9 +62,8 @@ export class ArtistDropdown extends Component {
                                         <div className="input-group-prepend">
                                         </div>
                                         <div className="custom-file">
-                                            <input type="file" className="file-path validate" id="inputGroupFile01"
-                                                   aria-describedby="inputGroupFileAddon01" value={this.hospitality_riders}
-                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.hospitality_riders = event.target.value)}/>
+                                            <input type="file" className="file-path validate" id="hospitality-raider" accept='.pdf'
+                                                   onChange={this.onChangeh}/>
                                         </div>
                                     </div>
                                     <br/>
@@ -74,9 +72,8 @@ export class ArtistDropdown extends Component {
                                         <div className="input-group-prepend">
                                         </div>
                                         <div className="custom-file">
-                                            <input type="file" className="file-path validate" id="inputGroupFile01"
-                                                   aria-describedby="inputGroupFileAddon01" value={this.artist_contract}
-                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.artist_contract = event.target.value)}/>
+                                            <input type="file" className="file-path validate" id="contract" value={this.artist_contract} accept='.pdf'
+                                                   onChange={this.onChangec}/>
                                         </div>
                                     </div>
                                     <br/>
@@ -96,6 +93,7 @@ export class ArtistDropdown extends Component {
     }
 
     add(){
+        console.log(this.riders);
         this.artist.push(new Artist(0,0,this.artist_name, this.riders, this.hospitality_riders,this.artist_contract,this.email, this.phone,this.image));
         this.artist_name = "";
         this.email = "";
@@ -107,7 +105,15 @@ export class ArtistDropdown extends Component {
         let s: any = ArtistDetails.instance();
         s.mounted();
 
-
+    }
+    onChanger(event:SyntheticInputEvent<HTMLInputElement>) {
+        this.state.raider=event.target.files[0];
+    }
+    onChangeh(event:SyntheticInputEvent<HTMLInputElement>) {
+        this.state.hraider=event.target.files[0];
+    }
+    onChangec(event:SyntheticInputEvent<HTMLInputElement>){
+        this.state.contract=event.target.files[0];
     }
 }
 
@@ -139,6 +145,7 @@ export class ArtistDetails extends Component {
             </div>
         )
     }
+
 
     delete(a: Artist){
         const index = this.artist.indexOf(a);

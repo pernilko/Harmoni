@@ -7,14 +7,14 @@ export class Artist {
     artist_id: number;
     event_id: number;
     artist_name: string;
-    riders: string;
-    hospitality_riders: string;
-    artist_contract: string;
+    riders: any;
+    hospitality_riders: any;
+    artist_contract: any;
     email: string;
-    phone: number;
-    image: string;
+    phone: string;
+    image: any;
 
-    constructor(artist_id: number, event_id: number, artist_name: string, riders: string, hospitality_riders: string, artist_contract: string, email: string, phone: number, image: string) {
+    constructor(artist_id: number, event_id: number, artist_name: string, riders: any, hospitality_riders: any, artist_contract: any, email: string, phone: string, image: any) {
         this.artist_id = artist_id;
         this.event_id = event_id;
         this.artist_name = artist_name;
