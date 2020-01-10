@@ -121,10 +121,10 @@ export class RegOrganization extends Component {
 
   register(){
     // Register
-    /*if(this.repeatedPassword != this.user.password && this.user.password.length>=8){
+    if(this.repeatedPassword != this.user.password && this.user.password.length>=8){
       Alert.danger("Passord må være like og ha minst 8 tegn");
     }
-    else*/ if(this.user.email.length !=0 && this.user.address.length != 0 && this.user.user_name.length!=0
+    else if(this.user.email.length !=0 && this.user.address.length != 0 && this.user.user_name.length!=0
         &&this.user.phone.length != 0){
       console.log(this.organization.org_name);
       organizationService.addOrganization(this.organization.org_name, this.organization.phone, this.organization.email)
