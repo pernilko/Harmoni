@@ -10,14 +10,12 @@ import {Alert} from '../../../widgets';
 const history = createHashHistory();
 
 
-
-
-
 export class Navigation extends Component {
   user: User | any = null;
 
   render() {
     //If there is a logged in user
+    console.log(this.user);
 
     if (this.user) {
       return <div>
@@ -37,7 +35,7 @@ export class Navigation extends Component {
               <Nav.Link to="#home" style={{marginTop:10+'px'}}>Alle arrangement</Nav.Link>
               <Navbar.Text> Logget inn som:
                 <a>
-                  <NavDropdown title={this.profile.user_name} id="basic-nav-dropdown">
+                  <NavDropdown title={this.user.user_name} id="basic-nav-dropdown">
                     <NavDropdown.Item href="#action/3.1">Mine arrangement</NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.2">Opprett arrangement</NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.3">Rediger profil</NavDropdown.Item>
@@ -75,8 +73,10 @@ export class Navigation extends Component {
       </div>
     }
   }
-  mounted = (newUsr : User| any) => {
-    this.user = newUsr; };
+  mounted (newUsr: User|any){
+    this.user = newUsr;
+
+  }
 
   logout(){
     history.push("/");
