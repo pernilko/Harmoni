@@ -2,7 +2,8 @@
 
 import * as React from 'react';
 import { Component } from "react-simplified";
-import {Artist, ArtistDetails, ArtistDropdown} from "./artist";
+import {ArtistDetails, ArtistDropdown} from "./artist";
+import {Artist} from "../../../services/ArtistService";
 import {TicketComp, TicketDetails} from "./ticketDropdown";
 import {eventService} from "../../../services/EventService";
 import {Alert} from "../../../widgets";
@@ -71,7 +72,7 @@ export class RegistrationForm extends Component {
                     </div>
                     <div className="form-group" style={{marginTop: 20+"px"}}>
                         <ArtistDetails/>
-                        <ArtistDropdown/>
+                        <ArtistDropdown buttonName={"Legg til artist"} editMode={false} artist={new Artist(null, null, "", "", "", "", "", null, "")}/>
                     </div>
                     <div className="form-group" style={{marginTop: 20+"px"}}>
                         <TicketDetails/>
@@ -115,9 +116,8 @@ export class RegistrationForm extends Component {
 
 
         eventService
-            .postEvent(1, this.eventName,this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", 0, 0)
-            .then(history.push("/event"))
+            .postEvent(1, this.eventName, this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", 0, 0)
+            .then(response => console.log(response))
             .catch((error: Error) => console.log("feil ved registrering av event"));
-//2020-01-10, 22:01
     }
 }

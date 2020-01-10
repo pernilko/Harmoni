@@ -3,18 +3,18 @@ import axios from 'axios';
 let url: string = "http://localhost:8080/";
 
 export class User {
-    user_id: number;
-    org_id: number;
-    email: string;
-    privileges: number;
-    user_name: string;
-    password: string;
-    address: string;
-    phone: string;
-    image: string;
-    reg_date: string;
+    user_id: number = -1;
+    org_id: number = -1;
+    email: string = "";
+    privileges: number = -1;
+    user_name: string = "";
+    password: string = -1;
+    address: string = "";
+    phone: string = "";
+    image: string = "";
+    reg_date: string = "";
 
-    constructor(user_id: number, org_id: number, email: string, privileges: number, user_name: string, password: string, address: string, phone: string, image: string, reg_date: string) {
+    /*constructor(user_id: number, org_id: number, email: string, privileges: number, user_name: string, password: string, address: string, phone: string, image: string, reg_date: string) {
         this.user_id = user_id;
         this.org_id = org_id;
         this.email = email;
@@ -26,6 +26,7 @@ export class User {
         this.image = image;
         this.reg_date = reg_date;
     }
+     */
 }
 class UserService {
     //for logging in
@@ -38,7 +39,7 @@ class UserService {
     }
     //for registering a new user
     register(org_id: number, email: string, privileges: number, user_name: string, password: string, address: string, phone: string, image: string){
-        return axios.post<{}, User>(url+'registrer',{
+        return axios.post<{}, User>(url+'register',{
             "org_id": org_id,
             "email": email,
             "privileges": privileges,

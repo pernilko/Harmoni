@@ -6,25 +6,26 @@ import Card from "react-bootstrap/Card";
 import {Artist} from "../../../services/ArtistService";
 import Accordion from "react-bootstrap/Accordion";
 
-export class ArtistDropdown extends Component {
+export class ArtistDropdown extends Component<{buttonName: string, editMode: boolean, artist: Artist}> {
 
     artist: Artist[] = [];
 
-    artist_name: string = "";
-    riders: File = "";
-    hospitality_riders: File = "";
-    artist_contract: File = "";
-    email: string = "";
-    phone: number = null;
-    image: string = "";
+    artist_name: string = this.props.artist.artist_name;
+    riders: File = this.props.artist.riders;
+    hospitality_riders: File = this.props.artist.hospitality_riders;
+    artist_contract: File = this.props.artist.artist_contract;
+    email: string = this.props.artist.email;
+    phone: number = this.props.artist.phone;
+    //image: string = this.props.image;
 
+    editMode: boolean = this.props.editMode;
     render() {
         return (
             <Accordion>
                 <Card>
                     <Card.Header>
                         <Accordion.Toggle as={Button} variant="success" eventKey="0">
-                            Legg til en artist
+                            {this.props.buttonName}
                         </Accordion.Toggle>
                     </Card.Header>
                     <Accordion.Collapse eventKey="0">
@@ -81,8 +82,14 @@ export class ArtistDropdown extends Component {
                                     </div>
                                     <br/>
                                     <div className="form-group" align="center">
-                                        <Accordion.Toggle type="submit"  as={Button} variant="success" eventKey="0" onClick={this.add}>
-                                            Legg til
+                                        <Accordion.Toggle type="button"  as={Button} variant="success" eventKey="0" onClick={() => {
+                                            if(this.editMode){
+                                                this.edit()
+                                            } else {
+                                                this.add()
+                                            };
+                                        }}>
+                                            {this.props.buttonName}
                                         </Accordion.Toggle>
                                     </div>
                                 </row>
@@ -96,6 +103,7 @@ export class ArtistDropdown extends Component {
     }
 
     add(){
+        console.log("add");
         this.artist.push(new Artist(0,0,this.artist_name, this.riders, this.hospitality_riders,this.artist_contract,this.email, this.phone,this.image));
         this.artist_name = "";
         this.email = "";
@@ -104,10 +112,12 @@ export class ArtistDropdown extends Component {
         this.hospitality_riders = "";
         this.artist_contract = "";
         this.image = "";
+
         let s: any = ArtistDetails.instance();
         s.mounted();
-
-
+    }
+    edit(){
+        console.log("edit");
     }
 }
 
@@ -130,7 +140,7 @@ export class ArtistDetails extends Component {
                             <div className="col"><label>Dokumenter: {a.riders}</label></div>
                             <div className="col">
                                 <button className="btn btn-danger" onClick={() => this.delete(a)} style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
-                                <button className="btn btn-secondary" style={{marginRight: 10+"px", float: "right"}}>Rediger</button>
+                                <ArtistDropdown buttonName={"Rediger"} editMode={true} artist={a}/>
                             </div>
                         </div>
                     </div>
@@ -147,8 +157,11 @@ export class ArtistDetails extends Component {
         }
     }
 
-    mounted() {
+    edit(a: Artist){
+//<button className="btn btn-secondary" onClick={() => this.edit(a)} style={{marginRight: 10+"px", float: "right"}}>Rediger</button>
+    }
 
+    mounted() {
         let s: any = ArtistDropdown.instance();
         this.artist = s.artist;
     }
