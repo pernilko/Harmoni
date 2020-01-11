@@ -105,7 +105,7 @@ export class Login extends Component{
                         {this.message}
                     </Card.Header>
                     <Card.Body>
-                    <Spinner animation="border"></Spinner>
+                    <Spinner animation="border" style = {{margin: "auto"}}></Spinner>
                     </Card.Body>
                 </Card>
             )
