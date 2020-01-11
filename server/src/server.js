@@ -42,6 +42,21 @@ app.use(function (req, res, next: function) {
     next();
 });
 
+// Morn. Plasser denne her foran alle endepunktene, f.eks.: api/login, api/artist/all, osv. osv. :)
+app.use("/api", (req, res, next) => {
+    let token = req.headers["x-access-token"];
+    jwt.verify(token, publicKEY, (err, decoded) => {
+        if (err) {
+            console.log("Token ikke ok.");
+            res.status(401);
+            res.json({ error: "Not authorized" });
+        } else {
+            console.log("Token ok: " + decoded.user_id);
+            next();
+        }
+    });
+});
+
 app.post("/login", (req, res) => {
     console.log(config.username);
     console.log(req.body);
@@ -114,7 +129,7 @@ app.post("/token", (req, res) => {
             token = jwt.sign({user_id: decoded.user_id}, privateKEY.key, {
                 expiresIn: 3600
             });
-            res.json({jwt: token, "email": decoded.email});
+            res.json({jwt: token, "user_id": decoded.user_id});
         }
     });
 });
