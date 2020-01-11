@@ -37,7 +37,7 @@ class UserService {
     autoLoginv2(){
         if(localStorage.getItem("token")){
             return axios.post<{}, User>(url+'token',{
-
+                
             });
         }
     }
