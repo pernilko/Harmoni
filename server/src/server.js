@@ -37,12 +37,13 @@ let organizationDAO= new OrganizationDAO(pool);
 
 app.use(function (req, res, next: function) {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
-    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-Access-Token");
     res.setHeader("Access-Control-Allow-Methods","PUT, POST, GET, OPTIONS");
     next();
 });
 
-// Morn. Plasser denne her foran alle endepunktene, f.eks.: api/login, api/artist/all, osv. osv. :)
+// Plasserer denne MÌDDLEWARE-funksjonen
+// foran alle endepunktene under samme path
 app.use("/api", (req, res, next) => {
     let token = req.headers["x-access-token"];
     jwt.verify(token, publicKEY, (err, decoded) => {
