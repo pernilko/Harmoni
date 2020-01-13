@@ -27,6 +27,7 @@ if (root)
         <Route path = "/Event" component = {RegistrationForm}/>
         <Route path = "/Login" component = {Login}/>
         <Route path = "/RegisterOrganization" component = {RegOrganization}/>
+        <Route path = "/showEvent/:id" component = {EventDetails}/>
       </div>
     </HashRouter>,
     root
