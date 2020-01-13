@@ -7,10 +7,12 @@ const publicKEY = require('./keys/public.json');
 let jwt = require("jsonwebtoken");
 let bodyParser = require("body-parser");
 let nodemailer = require("nodemailer");
-let config: {host: string, user: string, password: string, database: string, key: string} = require("./config")
+let config: {host: string, user: string, password: string, email: string, email_passord: string} = require("./config")
 
 let app = express();
 app.use(bodyParser.json());
+
+let DOMAIN = "localhost:3000/"
 
 type Request = express$Request;
 type Response = express$Response;
@@ -39,10 +41,26 @@ let organizationDAO= new OrganizationDAO(pool);
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: process.env.email,
-        pass: process.env.password,
+        user: config.email,
+        pass: config.email_passord,
     }
 });
+/*
+let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: "dilawarmm@outlook.com",
+        subject: "Email",
+        text: "Email"
+    };
+
+transporter.sendMail(mailOptions, function(err, data) {
+    if (err) {
+        console.log("Error occurs, ", err);
+    }
+    else {
+        console.log("Success!");
+    }
+});*/
 
 app.use(function (req, res, next: function) {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
@@ -63,6 +81,34 @@ app.use("/api", (req, res, next) => {
         } else {
             console.log("Token ok: " + decoded.user_id);
             next();
+        }
+    });
+});
+
+app.post("/inviteUser", (req, res) => {
+    let email: string = req.body.email;
+    let org_id: number = req.body.org_id;
+    let token: string = jwt.sign({org_id: org_id}, privateKEY.key, {
+        expiresIn: 3600
+    });
+    console.log(email);
+    console.log(org_id);
+    console.log(config.email);
+    console.log(config.password_email);
+    let url: string = DOMAIN + "#/user/" + token;
+
+    let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: email,
+        subject: "Invitasjon til "+org_id,
+        text: url
+    };
+
+    transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Email sent!");
         }
     });
 });
@@ -285,7 +331,7 @@ app.delete("/event/delete/:id", (req : Request, res: Response) => {
     pool.getConnection((err, connection: function) => {
           console.log("Connected to database");
           if (err) {
-              console.log("Feil ved kobling til databasen");
+              console.log("Feil ved kobling til databasen");    
               res.json({ error: "feil ved oppkobling" });
           } else {
               connection.query(

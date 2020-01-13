@@ -45,6 +45,14 @@ class OrganizationService{
         return axios.delete<{},Organization>(url+ 'organization'+org_id).then(response=>response.data);
     }
 
+
+    inviteUser(email: string, org_id: number) {
+        return axios.post<{}, {}>(url + 'inviteUser', {
+            "email": email,
+            "org_id": org_id
+        }).then(response => response.data);
+    }
+
     /*
     updateOrganization(org_id: number, org_name: string, phone: string, phone:string, email: string){
         return axios.put<{}, Organization>(url+'organization'+org_id, {

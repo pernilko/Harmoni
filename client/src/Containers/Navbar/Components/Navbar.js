@@ -34,6 +34,7 @@ export class Navigation extends Component {
           <Nav>
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav.Link href="#/allEvents" > Alle arrangement</Nav.Link>
+              <Nav.Link type="button" href="#/inviterBruker"> Inviter Bruker</Nav.Link>
               <Navbar.Text> Logget inn som:
                 <a>
                   <NavDropdown title={userService.currentUser.user_name} id="basic-nav-dropdown">

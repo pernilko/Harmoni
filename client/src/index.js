@@ -14,6 +14,7 @@ import {userService} from "./services/UserService";
 import {EventList} from './Containers/Event/Components/showEvents';
 import {sharedComponentData} from "react-simplified";
 import {EventDetails} from './Containers/Event/Components/event';
+import {inviteUser} from './Containers/Organization/Components/inviteUser';
 
 const root = document.getElementById('root');
 if (root)
@@ -28,6 +29,7 @@ if (root)
         <Route path = "/Login" component = {Login}/>
         <Route path = "/RegisterOrganization" component = {RegOrganization}/>
         <Route path = "/showEvent/:id" component = {EventDetails}/>
+        <Route path = "/inviterBruker" component = {inviteUser}/>
       </div>
     </HashRouter>,
     root
