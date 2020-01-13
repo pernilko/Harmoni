@@ -84,12 +84,13 @@ export class RegistrationForm extends Component {
                     <div className="form-group" style={{marginTop: 20+"px"}}>
                         <TicketDetails/>
                     </div>
+                    <h2> Velg lokasjon på kartet: </h2>
+                    <MapContainer/>
                     <div className="btn-group"  style={{width: "20%", marginLeft: "40%", padding: "20px"}}>
                         <button className="btn btn-success"  onClick={this.regEvent}>Opprett</button>
                         <button className="btn btn-danger" onClick={this.cancel}>Avbryt</button>
                     </div>
                 </form>
-                <MapContainer/>
             </div>
         )
     }
