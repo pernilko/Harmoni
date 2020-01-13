@@ -21,6 +21,12 @@ module.exports = class organizationDao extends Dao {
             callback
         );
     }
+    getOrgByUserEmail(email: string, callback: function) {
+        super.query(
+            "SELECT organization.org_id, organization.org_name, organization.email, organization.phone FROM organization JOIN user on( user.org_id = organization.org_id) WHERE user.email = ?",
+            [email], callback
+        );
+}
 
     addOrganization(json: {org_name: string, phone: string, email: string}, callback: function) {
         super.query(

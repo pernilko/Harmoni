@@ -2,19 +2,27 @@
 
 import * as React from 'react';
 import { Component } from "react-simplified";
-import Dropdown from "react-bootstrap/Dropdown";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
+import {Ticket} from "../../../services/TicketService.js";
+import {Artist} from "../../../services/ArtistService";
+import {ArtistDropdown} from "./artist";
 
-export class Ticket extends Component {
+export class TicketComp extends Component <{ticket: Ticket}>{
+    ticketList: Ticket[] = [];
+    type: string = "";
+    beskrivelse: string = "";
+    billetter: string = "";
+    pris: string = "";
+
     render(){
         return(
             <Accordion>
                 <Card>
                     <Card.Header>
                         <Accordion.Toggle as={Button} variant="success" eventKey="0">
-                           Legg til billett
+                           Rediger
                         </Accordion.Toggle>
                     </Card.Header>
                     <Accordion.Collapse eventKey="0">
@@ -25,27 +33,29 @@ export class Ticket extends Component {
                                         <h4>Registrer billetter for arrangement: </h4><br/>
                                         <div className="form-group">
                                             <label>Billettype: </label>
-                                            <input type="text" className="form-control" placeholder="Ståplass Foran" value={this.artist_name}
-                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.artist_name = event.target.value)}/>
+                                            <input type="text" className="form-control" placeholder="Ståplass Foran" value={this.type}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.type = event.target.value)}/>
                                         </div>
                                         <div className="form-group">
                                             <label>Billettbeskrivelse: </label>
-                                            <textarea type="text" className="form-control" placeholder="Denne billetten... " value={this.email}
-                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.email = event.target.value)}/>
+                                            <textarea type="text" className="form-control" placeholder="Denne billetten... " value={this.beskrivelse}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.beskrivelse = event.target.value)}/>
                                         </div>
                                         <div className="form-group">
                                             <label>Antall billetter tilgjengelig: </label>
-                                            <input type="text" className="form-control" placeholder="75" value={this.phone}
-                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.phone = event.target.value)}/>
+                                            <input type="text" className="form-control" placeholder="75" value={this.billetter}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.billetter = event.target.value)}/>
                                         </div>
                                         <div className="form-group">
                                             <label>Pris per billett: (kr) </label>
-                                            <input type="text" className="form-control" placeholder="350" value={this.phone}
-                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.phone = event.target.value)}/>
+                                            <input type="text" className="form-control" placeholder="350" value={this.pris}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.pris = event.target.value)}/>
                                         </div>
                                         <br/>
                                         <div className="form-group" align="center">
-                                            <Button type="submit" className="btn btn-primary" onClick={this.add}>Legg til</Button>
+                                            <Accordion.Toggle type="button"  as={Button} variant="success" eventKey="0" onClick={this.add}>
+                                                Legg til
+                                            </Accordion.Toggle>
                                         </div>
                                     </row>
                                 </div>
@@ -56,14 +66,21 @@ export class Ticket extends Component {
             </Accordion>
         )
     }
+    mounted() {
+        let s: any = TicketDetails.instance();
+        this.ticketList = s.ticketList;
+    }
     add(){
-        //this func adds an ticket type to the form over the add ticket dropdown, and stores the info in a temporary array.
-        //also needs a button for editing ticket after add.
+
+        const index = this.ticketList.indexOf(this.props.ticket);
+        this.ticketList[index] = new Ticket(0, 0, this.type, parseInt(this.billetter), this.beskrivelse, parseInt(this.pris), 0);
     }
 }
 
 
 export class TicketDetails extends Component {
+    ticketList: Ticket[] = [];
+
     render(){
         return(
             <div className="card">
@@ -71,20 +88,38 @@ export class TicketDetails extends Component {
                     <h3>Billetter:</h3>
                 </div>
                 <div className="card-body">
+                {this.ticketList.map(ticket => (
                     <div className="card-header">
                         <div className="row">
-                            <div className="col"><label>Billett Type: type navn</label></div>
-                            <div className="col"><label>Beskrivelse: blablabla</label></div>
-                            <div className="col"><label>Pris: 19999kr</label></div>
-                            <div className="col"><label>Antall: 4</label></div>
+                            <div className="col"><label>Billett Type: {ticket.ticket_type}</label></div>
+                            <div className="col"><label>Beskrivelse: {ticket.description}</label></div>
+                            <div className="col"><label>Pris: {ticket.price} kr</label></div>
+                            <div className="col"><label>Antall: {ticket.amount}</label></div>
                             <div className="col">
-                                <button className="btn btn-danger" style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
-                                <button className="btn btn-secondary" style={{marginRight: 10+"px", float: "right"}}>Rediger</button>
+                                <button type="button" className="btn btn-danger" style={{marginLeft: 10+"px", float: "right"}} onClick={() => this.deleteTicket(ticket)}>Slett</button>
+                            </div>
+                        </div>
+                        <div className={"row"}>
+                            <div className={"col"}>
+                                <TicketComp buttonName={"Rediger"} editMode={false} ticket={ticket}/>
                             </div>
                         </div>
                     </div>
+                ))}
+                    <button type="button" className="btn btn-secondary" onClick={() => this.addNewTicket()}>Legg til billett</button>
                 </div>
             </div>
         )
+    }
+
+    addNewTicket(){
+        this.ticketList.push(new Ticket(null, null, "", 0, "", 0, 0));
+    }
+
+    deleteTicket(t: Ticket) {
+        const index = this.ticketList.indexOf(t);
+        if (index > -1) {
+            this.ticketList.splice(index, 1);
+        }
     }
 }

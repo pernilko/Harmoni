@@ -1,29 +1,32 @@
 //@flow
-
 import * as React from 'react';
 import { Component } from "react-simplified";
 import Button from "react-bootstrap/Button";
-import { createHashHistory } from 'history';
 import Card from "react-bootstrap/Card";
+import {Artist} from "../../../services/ArtistService";
 import Accordion from "react-bootstrap/Accordion";
 
-const history = createHashHistory();
+export class ArtistDropdown extends Component<{buttonName: string, editMode: boolean, artist: Artist}> {
 
-export class Artist extends Component {
-    artist_name: string = "";
-    riders: string = "";
-    hospitality_riders: string = "";
-    artist_contract: string = "";
-    email: string = "";
-    phone: number = null;
-    image: string = "";
+    artist: Artist[] = [];
+
+    artist_name: string = this.props.artist.artist_name;
+    riders: File = this.props.artist.riders;
+    hospitality_riders: File = this.props.artist.hospitality_riders;
+    artist_contract: File = this.props.artist.artist_contract;
+    email: string = this.props.artist.email;
+    phone: number = this.props.artist.phone;
+    //image: string = this.props.image;
+
+    editMode: boolean = this.props.editMode;
+
     render() {
         return (
             <Accordion>
                 <Card>
                     <Card.Header>
                         <Accordion.Toggle as={Button} variant="success" eventKey="0">
-                            Legg til en artist
+                            {this.props.buttonName}
                         </Accordion.Toggle>
                     </Card.Header>
                     <Accordion.Collapse eventKey="0">
@@ -53,7 +56,8 @@ export class Artist extends Component {
                                         </div>
                                         <div className="custom-file">
                                             <input type="file" className="file-path validate" id="inputGroupFile01"
-                                                   aria-describedby="inputGroupFileAddon01"/>
+                                                   aria-describedby="inputGroupFileAddon01" value={this.riders}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.riders = event.target.value)}/>
                                         </div>
                                     </div><br/>
                                     <label>Hospitality rider:</label><br/>
@@ -62,7 +66,8 @@ export class Artist extends Component {
                                         </div>
                                         <div className="custom-file">
                                             <input type="file" className="file-path validate" id="inputGroupFile01"
-                                                   aria-describedby="inputGroupFileAddon01"/>
+                                                   aria-describedby="inputGroupFileAddon01" value={this.hospitality_riders}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.hospitality_riders = event.target.value)}/>
                                         </div>
                                     </div>
                                     <br/>
@@ -72,12 +77,21 @@ export class Artist extends Component {
                                         </div>
                                         <div className="custom-file">
                                             <input type="file" className="file-path validate" id="inputGroupFile01"
-                                                   aria-describedby="inputGroupFileAddon01"/>
+                                                   aria-describedby="inputGroupFileAddon01" value={this.artist_contract}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.artist_contract = event.target.value)}/>
                                         </div>
                                     </div>
                                     <br/>
                                     <div className="form-group" align="center">
-                                        <Button type="submit" className="btn btn-primary" onClick={this.add}>Legg til</Button>
+                                        <Accordion.Toggle type="button"  as={Button} variant="success" eventKey="0" onClick={() => {
+                                            if(this.editMode){
+                                                this.edit()
+                                            } else {
+                                                this.add()
+                                            };
+                                        }}>
+                                            {this.props.buttonName}
+                                        </Accordion.Toggle>
                                     </div>
                                 </row>
                             </div>
@@ -90,34 +104,59 @@ export class Artist extends Component {
     }
 
     add(){
-        //this func adds an artist to the form over the add artist dropdown, and stores the info in a temporary array.
-        //also needs a button for editing artist after add.
+        const index = this.artist.indexOf(this.props.artist);
+        this.artist[index] = new Artist(0,0,this.artist_name, this.riders, this.hospitality_riders,this.artist_contract,this.email, this.phone,this.image);
 
+    }
+    mounted(): unknown {
+        let s: any = ArtistDetails.instance();
+        this.artist = s.artist;
     }
 }
 
 export class ArtistDetails extends Component {
+
+    artist: Artist[] = [];
     render(){
-        return(
+        return (
             <div className="card">
                 <div className="card-header">
                     <h3>Artister:</h3>
                 </div>
                 <div className="card-body">
+                    {this.artist.map(a => (
                     <div className="card-header">
                         <div className="row">
-                            <div className="col"><label>Artist: artist navn</label></div>
-                            <div className="col"><label>Email: mail@mail.com</label></div>
-                            <div className="col"><label>Tlf: +47 777777</label></div>
-                            <div className="col"><label>Dokumenter: vis filer</label></div>
+                            <div className="col"><label>Artist: {a.artist_name} </label></div>
+                            <div className="col"><label>Email: {a.email}</label></div>
+                            <div className="col"><label>Tlf: {a.phone}</label></div>
+                            <div className="col"><label>Dokumenter: {a.riders}</label></div>
                             <div className="col">
-                                <button className="btn btn-danger" style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
-                                <button className="btn btn-secondary" style={{marginRight: 10+"px", float: "right"}}>Rediger</button>
+                                <button type="button" className="btn btn-danger" onClick={() => this.delete(a)} style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
+                            </div>
+                        </div>
+                        <div className={"row"}>
+                            <div className={"col"}>
+                                <ArtistDropdown buttonName={"Rediger"} editMode={false} artist={a}/>
                             </div>
                         </div>
                     </div>
+                    ))}
+                    <button type="button" className="btn btn-secondary" onClick={() => this.addNewArtist()}>Legg til artist</button>
                 </div>
             </div>
         )
     }
+
+    addNewArtist(){
+        this.artist.push(new Artist(null, null, "", "", "", "", "", null, ""));
+    }
+
+    delete(a: Artist){
+        const index = this.artist.indexOf(a);
+        if(index > -1){
+            this.artist.splice(index,1);
+        }
+    }
+
 }
