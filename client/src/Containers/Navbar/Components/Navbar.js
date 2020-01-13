@@ -80,6 +80,8 @@ export class Navigation extends Component {
   logout(){
     history.push("/");
     this.user = null;
+    userService.currentUser = null;
+    localStorage.setItem("token", "");
     Alert.danger("Du er nå logget ut.");
   }
 

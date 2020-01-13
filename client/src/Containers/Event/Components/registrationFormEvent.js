@@ -143,6 +143,8 @@ export class RegistrationForm extends Component {
             })
             .catch((error: Error) => console.log(error.message))
 
+        history.push("/allEvents");
+
     }
 
     addArtists(val: number) {
@@ -168,6 +170,10 @@ export class RegistrationForm extends Component {
                 .then(response => console.log(response))
                 .catch((error: Error) => console.log(error.message))
             });
+    }
+
+    cancel(){
+      history.push("/allEvents");
     }
 
 }

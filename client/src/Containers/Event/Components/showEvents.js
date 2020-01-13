@@ -30,7 +30,7 @@ export class EventList extends Component<{user: boolean}>{
                     {this.state["events"].map(event =>
                         <div className="card my-4">
                             <div className="card-body">
-                                <a href={event.event_id}>
+                                <a href={'#/showEvent/' + event.event_id}>
                                     <h5 className="card-title">{event.event_name}</h5>
                                 </a>
                                 <h6>{event.place}</h6>
