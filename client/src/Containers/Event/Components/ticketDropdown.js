@@ -96,7 +96,7 @@ export class TicketDetails extends Component {
                             <div className="col"><label>Pris: {ticket.price} kr</label></div>
                             <div className="col"><label>Antall: {ticket.amount}</label></div>
                             <div className="col">
-                                <button className="btn btn-danger" style={{marginLeft: 10+"px", float: "right"}} onClick={() => this.deleteTicket(ticket)}>Slett</button>
+                                <button type="button" className="btn btn-danger" style={{marginLeft: 10+"px", float: "right"}} onClick={() => this.deleteTicket(ticket)}>Slett</button>
                             </div>
                         </div>
                         <div className={"row"}>
@@ -106,7 +106,7 @@ export class TicketDetails extends Component {
                         </div>
                     </div>
                 ))}
-                    <button className="btn btn-secondary" onClick={() => this.addNewTicket()}>Legg til billett</button>
+                    <button type="button" className="btn btn-secondary" onClick={() => this.addNewTicket()}>Legg til billett</button>
                 </div>
             </div>
         )

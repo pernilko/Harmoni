@@ -148,7 +148,7 @@ export class ArtistDetails extends Component {
                             <div className="col"><label>Tlf: {a.phone}</label></div>
                             <div className="col"><label>Dokumenter: {a.riders}</label></div>
                             <div className="col">
-                                <button className="btn btn-danger" onClick={() => this.delete(a)} style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
+                                <button type="button" className="btn btn-danger" onClick={() => this.delete(a)} style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
                             </div>
                         </div>
                         <div className={"row"}>
@@ -158,7 +158,7 @@ export class ArtistDetails extends Component {
                         </div>
                     </div>
                     ))}
-                    <button className="btn btn-secondary" onClick={() => this.addNewArtist()}>Legg til artist</button>
+                    <button type="button" className="btn btn-secondary" onClick={() => this.addNewArtist()}>Legg til artist</button>
                 </div>
             </div>
         )

@@ -8,8 +8,12 @@ import {TicketComp, TicketDetails} from "./ticketDropdown";
 import {eventService} from "../../../services/EventService";
 import {artistService} from "../../../services/ArtistService";
 import {Ticket, ticketService} from "../../../services/TicketService";
+
 import {Alert} from "../../../widgets";
 import { createHashHistory } from 'history';
+import {User, userService} from '../../../services/UserService';
+import {sharedComponentData} from "react-simplified";
+
 
 const history = createHashHistory();
 
@@ -116,12 +120,13 @@ export class RegistrationForm extends Component {
         console.log(this.startDate +", "+ this.startTime);
 
         eventService
-            .postEvent(1, this.eventName, this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", 0, 0)
+            .postEvent(userService.currentUser.org_id, this.eventName, this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", 0, 0)
             .then(response => {
                 this.addTickets(response[0]["LAST_INSERT_ID()"]);
                 this.addArtists(response[0]["LAST_INSERT_ID()"]);
             })
-            .catch((error: Error) => console.log(error.message))
+            .catch((error: Error) => console.log(error.message));
+
     }
 
     addArtists(val: number) {
@@ -148,8 +153,4 @@ export class RegistrationForm extends Component {
                 .catch((error: Error) => console.log(error.message))
             });
     }
-}
-
-function sleep(time) {
-  return new Promise((resolve) => setTimeout(resolve, time));
 }

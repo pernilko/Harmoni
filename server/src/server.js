@@ -1,12 +1,13 @@
 //@flow
+require('dotenv').config();
 let express = require("express");
 let mysql = require("mysql");
 let bcrypt = require("bcryptjs");
 const privateKEY = require('./keys/private.json');
 const publicKEY = require('./keys/public.json');
-let config: {username: string, pwd: string} = require("./config");
 let jwt = require("jsonwebtoken");
 let bodyParser = require("body-parser");
+let nodemailer = require("nodemailer");
 
 let app = express();
 app.use(bodyParser.json());
@@ -17,9 +18,9 @@ type Response = express$Response;
 let pool = mysql.createPool({
     connectionLimit: 2,
     host: "mysql.stud.idi.ntnu.no",
-    user: config.username,
-    password: config.pwd,
-    database: config.username,
+    user: process.env.username,
+    password: process.env.pwd,
+    database: process.env.username,
     debug: false
 });
 
@@ -35,11 +36,35 @@ let ticketDao = new TicketDao(pool);
 let userDao = new UserDao(pool);
 let organizationDAO= new OrganizationDAO(pool);
 
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.email,
+        pass: process.env.password,
+    }
+});
+
 app.use(function (req, res, next: function) {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
-    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-Access-Token");
     res.setHeader("Access-Control-Allow-Methods","PUT, POST, GET, OPTIONS");
     next();
+});
+
+// Plasserer denne MÌDDLEWARE-funksjonen
+// foran alle endepunktene under samme path
+app.use("/api", (req, res, next) => {
+    let token = req.headers["x-access-token"];
+    jwt.verify(token, publicKEY, (err, decoded) => {
+        if (err) {
+            console.log("Token ikke ok.");
+            res.status(401);
+            res.json({ error: "Not authorized" });
+        } else {
+            console.log("Token ok: " + decoded.user_id);
+            next();
+        }
+    });
 });
 
 app.post("/login", (req, res) => {
@@ -114,7 +139,7 @@ app.post("/token", (req, res) => {
             token = jwt.sign({user_id: decoded.user_id}, privateKEY.key, {
                 expiresIn: 3600
             });
-            res.json({jwt: token, "email": decoded.email});
+            res.json({jwt: token, "user_id": decoded.user_id});
         }
     });
 });
