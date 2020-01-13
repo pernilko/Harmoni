@@ -48,6 +48,12 @@ export class EventService {
             "latitude": latitude
         }).then(response => response.data);
     }
+    getEventsByUser_id(user_id: number){
+        return axios.get<Event[]>(url+"event/user/"+ user_id).then(response=>response.data);
+    }
+    getEventsByOrg_id(org_id: number){
+        return axios.get<Event[]>(url+"event/org/" + org_id).then(response=>response.data);
+    }
 
     updateEvent(id: number, org_id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number) {
         return axios.put<{}, Event>(url + "event/edit/"+id, {
