@@ -89,6 +89,12 @@ export class RegistrationForm extends Component {
             </div>
         )
     }
+
+    mounted() {
+        let map = Map.instance();
+        console.log(map);
+    }
+
     regEvent(){
         console.log(this.eventName+"hei");
         if (this.eventName === "") {
