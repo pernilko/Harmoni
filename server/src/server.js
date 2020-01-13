@@ -144,6 +144,28 @@ app.post("/token", (req, res) => {
     });
 });
 
+app.get("/generateInvToken/:org_id", (req, res)=>{
+    let token = jwt.sign({org_id: req.params.org_id}, privateKEY.key, {
+        expiresIn: 3600
+    });
+    console.log("generated and sent token: " + token);
+    res.json({jwt: token});
+});
+
+app.post("/invToken", (req, res)=>{
+    let token: string = req.headers["x-access-token"];
+    jwt.verify(token, privateKEY.key, (err, decoded)=>{
+        if (err){
+            res.status(401);
+            res.json({error: "Not Authorized"});
+        }else{
+            console.log("Token ok, returning org_id");
+            console.log(decoded.org_id);
+            res.json({"org_id": decoded.org_id});
+        }
+    })
+});
+
 //tested
 app.get("/artist/:id", (req : Request, res: Response) => {
     console.log("/artist/:id: received get request from client");
