@@ -1,7 +1,8 @@
 // @flow
 import axios from 'axios';
-import {sharedComponentData} from "react-simplified";
 import {Alert} from "../widgets";
+import {sharedComponentData} from "react-simplified";
+import {Organization, organizationService} from "./OrganizationService";
 
 let url: string = "http://localhost:8080/";
 
@@ -34,13 +35,6 @@ export class User {
 class UserService {
     currentUser:_User;
     //auto login
-    autoLoginv2(){
-        if(localStorage.getItem("token")){
-            return axios.post<{}, User>(url+'token',{
-                
-            });
-        }
-    }
 
     autoLogin(){
         console.log("auto-logging in with token from localStorage: " + localStorage.getItem("token"));
@@ -61,6 +55,7 @@ class UserService {
                             console.log(res[0]);
                             this.currentUser = new User();
                             this.currentUser = res[0];
+                            organizationService.setCurrentOrganization(res[0].org_id);
                         })
                     }
                     console.log(response.data);
@@ -83,6 +78,7 @@ class UserService {
                 userService.getUser(response.data.user_id).then(res=>{
                     this.currentUser = new User();
                     this.currentUser = res[0];
+                    organizationService.setCurrentOrganization(res[0].org_id);
                     console.log(this.currentUser);
                 });
             }
