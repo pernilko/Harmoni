@@ -8,6 +8,12 @@ module.exports = class ticketDao extends Dao {
         );
     }
 
+    getEventTickets(event_id: number, callback: function){
+        super.query(
+            "SELECT * FROM ticket WHERE event_id = ?",[event_id], callback
+        );
+    }
+
     getTicket(event_id: number, callback: function) {
         super.query(
             "SELECT * FROM ticket WHERE event_id = ?", [event_id],

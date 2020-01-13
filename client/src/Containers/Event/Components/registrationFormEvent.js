@@ -136,7 +136,6 @@ export class RegistrationForm extends Component {
         artists.map(a => {
             artistService
                 .addArtist(val, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone, a.image)
-                //.catch((error: Error) => console.log(error.message))
             });
     }
 

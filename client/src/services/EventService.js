@@ -6,6 +6,7 @@ const url = "http://localhost:8080/";
 export class Event {
     event_id: number;
     org_id: number;
+    user_id: number;
     event_name: string;
     description: string;
     place: string;
@@ -13,10 +14,12 @@ export class Event {
     event_end: any;
     longitude: number;
     latitude: number;
+    image: File;
 
-    constructor(event_id: number, org_id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number) {
+    constructor(event_id: number, org_id: number, user_id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number, image: File) {
         this.event_id = event_id;
         this.org_id = org_id;
+        this.user_id = user_id;
         this.event_name = event_name;
         this.description = description;
         this.place = place;
@@ -24,6 +27,7 @@ export class Event {
         this.event_end = event_end;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.image = image;
     }
 }
 

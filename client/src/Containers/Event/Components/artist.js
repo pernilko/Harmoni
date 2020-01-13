@@ -109,8 +109,10 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
 
     }
     mounted(){
-        let s: any = ArtistDetails.instance();
-        this.artist = s.artist;
+        if (!this.props.editMode) {
+            let s: any = ArtistDetails.instance();
+            this.artist = s.artist;
+        }
     }
 }
 

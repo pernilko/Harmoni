@@ -47,7 +47,7 @@ let transporter = nodemailer.createTransport({
 app.use(function (req, res, next: function) {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-Access-Token");
-    res.setHeader("Access-Control-Allow-Methods","PUT, POST, GET, OPTIONS");
+    res.setHeader("Access-Control-Allow-Methods","PUT, POST, GET, OPTIONS, DELETE");
     next();
 });
 
@@ -124,6 +124,16 @@ app.get("/artist/event/:event_id", (req : Request, res: Response) => {
     console.log("/artist/event: received get request from client");
     artistDao.getEventArtists(req.params.event_id,(status, data) => {
         res.status(status);
+        console.log(data);
+        res.json(data);
+    });
+});
+
+app.get("/ticket/event/:event_id", (req : Request, res: Response) => {
+    console.log("/ticket/event: received get request from client");
+    ticketDao.getEventTickets(req.params.event_id,(status, data) => {
+        res.status(status);
+        console.log(data);
         res.json(data);
     });
 });

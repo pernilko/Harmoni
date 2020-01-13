@@ -6,15 +6,15 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
 import {Ticket} from "../../../services/TicketService.js";
-import {Artist} from "../../../services/ArtistService";
-import {ArtistDropdown} from "./artist";
 
-export class TicketComp extends Component <{ticket: Ticket}>{
+export class TicketComp extends Component <{ticket: Ticket, editMode: boolean}>{
     ticketList: Ticket[] = [];
     type: string = "";
     beskrivelse: string = "";
     billetter: string = "";
     pris: string = "";
+
+    editMode: boolean = this.props.editMode;
 
     render(){
         return(
@@ -53,7 +53,13 @@ export class TicketComp extends Component <{ticket: Ticket}>{
                                         </div>
                                         <br/>
                                         <div className="form-group" align="center">
-                                            <Accordion.Toggle type="button"  as={Button} variant="success" eventKey="0" onClick={this.add}>
+                                            <Accordion.Toggle type="button"  as={Button} variant="success" eventKey="0" onClick={() => {
+                                                if(this.editMode){
+                                                    this.edit()
+                                                } else {
+                                                    this.add()
+                                                }
+                                            }}>
                                                 Legg til
                                             </Accordion.Toggle>
                                         </div>
@@ -67,8 +73,10 @@ export class TicketComp extends Component <{ticket: Ticket}>{
         )
     }
     mounted() {
-        let s: any = TicketDetails.instance();
-        this.ticketList = s.ticketList;
+        if (!this.props.editMode) {
+            let s: any = TicketDetails.instance();
+            this.ticketList = s.ticketList;
+        }
     }
     add(){
 
