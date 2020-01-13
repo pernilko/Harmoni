@@ -1,5 +1,7 @@
 // @flow
 import axios from 'axios';
+import {Alert} from "../widgets";
+import {User} from "./UserService";
 let url: string = "http://localhost:8080/";
 
 export class Organization {
@@ -43,6 +45,23 @@ class OrganizationService{
     //not tested
     deleteOrganization(org_id: number){
         return axios.delete<{},Organization>(url+ 'organization'+org_id).then(response=>response.data);
+    }
+    checkInvToken(){
+        console.log("auto-logging in with token from localStorage: " + localStorage.getItem("invToken"));
+        if (localStorage.getItem("invToken")) {
+            return axios<User>({
+                url: url +'invToken',
+                method: 'post',
+                headers: {
+                    "x-access-token": localStorage.getItem("invToken"),
+                    "Content-Type": "application/json; charset=utf-8"
+                }
+            }).then(res=>
+                res.data
+            );
+        }else{
+            Alert.danger("Mangler token");
+        }
     }
 
     /*
