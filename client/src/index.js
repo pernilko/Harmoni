@@ -15,6 +15,9 @@ import {EventList} from './Containers/Event/Components/showEvents';
 import {sharedComponentData} from "react-simplified";
 import {EditEvent} from "./Containers/Event/Components/editEvent";
 
+import {EventDetails} from "./Containers/Event/Components/event";
+import {userForm} from "./Containers/Organization/Components/User";
+
 const root = document.getElementById('root');
 if (root)
   ReactDOM.render(
@@ -23,10 +26,12 @@ if (root)
         <Alert/>
         <Navigation/>
         <Route exact path = "/allEvents" component={EventList}/>
-        <Route path = "/Event" component = {RegistrationForm}/>
+        <Route path = "/opprettEvent" component = {RegistrationForm}/>
         <Route path = "/Login" component = {Login}/>
         <Route path = "/RegisterOrganization" component = {RegOrganization}/>
         <Route path="/editEvent/:event_id" component={EditEvent}/>
+        <Route exact path = "/event/:id" component = {EventDetails}/>
+        <Route path = "/user" component = {userForm}/>
       </div>
     </HashRouter>,
     root

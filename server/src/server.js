@@ -169,6 +169,7 @@ app.post("/artist/add", (req : Request, res: Response) => {
     artistDao.insertOne(req.body, (status, data) => {
         res.status(status);
         res.json(data);
+        console.log(req.body);
     });
 });
 
@@ -215,8 +216,8 @@ app.post("/event/add", (req : Request, res: Response) => {
             res.json({ error: "feil ved oppkobling"});
         } else {
             connection.query(
-                "INSERT INTO event (org_id, event_name, place, event_start, event_end, longitude, latitude) VALUES (?,?,?,?,?,?,?)",
-                [req.body.org_id, req.body.event_name, req.body.place, req.body.event_start, req.body.event_end, req.body.longitude, req.body.latitude],
+                "INSERT INTO event (org_id, event_name, user_id, place, event_start, event_end, longitude, latitude, image) VALUES (?,?,?, ?,?,?,?,?,?)",
+                [req.body.org_id, req.body.event_name, req.body.user_id, req.body.place, req.body.event_start, req.body.event_end, req.body.longitude, req.body.latitude, req.body.image],
                 err => {
                     if (err) {
                         console.log(err);
@@ -329,6 +330,14 @@ app.get("/user/:id", (req: Request, res: Response)=>{
     });
 });
 
+app.get("/user/all/:id", (req: Request, res: Response) => {
+    console.log("/user/all/:id received get request from client");
+    userDao.getAllUsersByOrgId(req.params.id, (status, data)=>{
+        res.status(status);
+        res.json(data);
+    });
+});
+
 
 //Ticket
 //tested
@@ -364,6 +373,7 @@ app.post("/ticket/add", (req : Request, res: Response) => {
     ticketDao.addTicket(req.body, (status, data) => {
         res.status(status);
         res.json(data);
+        console.log(req.body);
     });
 });
 

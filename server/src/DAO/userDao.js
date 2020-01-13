@@ -45,6 +45,10 @@ module.exports = class userDao extends Dao {
         );
     }
 
+    getAllUsersByOrgId(org_id: number, callback: Function){
+        super.query("SELECT * FROM user WHERE org_id = ?", [org_id], callback);
+    }
+
     //delete a user using their id. Dont use without deleting rows in user_event first!
     deleteUserById(id: number, callback: function){
         super.query("DELETE FROM user WHERE user_id = ?", [id], callback);

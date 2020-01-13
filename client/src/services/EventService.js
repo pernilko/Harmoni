@@ -17,6 +17,7 @@ export class Event {
     image: File;
 
     constructor(event_id: number, org_id: number, user_id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number, image: File) {
+
         this.event_id = event_id;
         this.org_id = org_id;
         this.user_id = user_id;
@@ -40,16 +41,18 @@ export class EventService {
         return axios.get<Event[]>(url + "event/" + id).then(response => response.data[0]);
     }
 
-    postEvent(org_id: number, event_name: string, description: string, place: string, event_start: any, event_end: any, longitude: number, latitude: number) {
+    postEvent(org_id: number, event_name: string, user_id: number, description: string, place: string, event_start: any, event_end: any, longitude: number, latitude: number, image: File) {
         return axios.post<{}, Event>(url + "event/add", {
             "org_id": org_id,
             "event_name": event_name,
+            "user_id": user_id,
             "description": description,
             "place": place,
             "event_start": event_start,
             "event_end": event_end,
             "longitude": longitude,
-            "latitude": latitude
+            "latitude": latitude,
+            "image": image,
         }).then(response => response.data);
     }
 
