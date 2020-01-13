@@ -1,12 +1,13 @@
 //@flow
+require('dotenv').config();
 let express = require("express");
 let mysql = require("mysql");
 let bcrypt = require("bcryptjs");
 const privateKEY = require('./keys/private.json');
 const publicKEY = require('./keys/public.json');
-let config: {username: string, pwd: string} = require("./config");
 let jwt = require("jsonwebtoken");
 let bodyParser = require("body-parser");
+let nodemailer = require("nodemailer");
 
 let app = express();
 app.use(bodyParser.json());
@@ -17,9 +18,9 @@ type Response = express$Response;
 let pool = mysql.createPool({
     connectionLimit: 2,
     host: "mysql.stud.idi.ntnu.no",
-    user: config.username,
-    password: config.pwd,
-    database: config.username,
+    user: process.env.username,
+    password: process.env.pwd,
+    database: process.env.username,
     debug: false
 });
 
@@ -34,6 +35,14 @@ let eventDao = new EventDao(pool);
 let ticketDao = new TicketDao(pool);
 let userDao = new UserDao(pool);
 let organizationDAO= new OrganizationDAO(pool);
+
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.email,
+        pass: process.env.password,
+    }
+});
 
 app.use(function (req, res, next: function) {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
