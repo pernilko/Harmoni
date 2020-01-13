@@ -79,10 +79,11 @@ class OrganizationService{
 
 
 
-    inviteUser(email: string, org_id: number) {
+    inviteUser(email: string, org_id: number, org_name: string) {
         return axios.post<{}, {}>(url + 'inviteUser', {
             "email": email,
-            "org_id": org_id
+            "org_id": org_id,
+            "org_name": org_name
         }).then(response => response.data);
     }
 

@@ -11,6 +11,7 @@ import {Alert} from "../../../widgets";
 import {Col} from "react-bootstrap";
 import {sharedComponentData} from "react-simplified";
 import { createHashHistory } from 'history';
+import {Spinner} from 'react-bootstrap';
 
 
 const history = createHashHistory();
@@ -19,13 +20,14 @@ export class inviteUser extends Component {
     email: string = "";
 
     render() {
+      if (userService.currentUser && organizationService.currentOrganization) {
         return <div>
         <h2 className="card-header">Inviter en bruker til din organisasjon </h2>
         <Form style={{marginTop: 20 + 'px', paddingLeft: 200 + 'px', paddingRight: 200 + 'px'}}>
           <Form.Group>
             <Form.Group>
               <Form.Label>E-mail</Form.Label>
-              <Form.Control type="string" placeholder="personligEmail@mail.com" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+              <Form.Control type="string" value =  {this.email} placeholder="personligEmail@mail.com" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
                 this.email = event.target.value
               }}/>
             </Form.Group>
@@ -34,12 +36,23 @@ export class inviteUser extends Component {
                   onClick={this.send}>Neste</Button>
           </Form>
         </div>
+      } else {
+        return <Spinner animation="border"/>
+      }
     }
 
     send() {
+      if (this.email == "") {
+        Alert.danger("Skriv inn emailen.")
+      } else {
       organizationService
-        .inviteUser(this.email, userService.currentUser.org_id)
-        .then(history.push("/"))
+        .inviteUser(this.email, userService.currentUser.org_id, organizationService.currentOrganization.org_name)
+        .then((e) => {
+          Alert.success("Email sendt!");
+          this.email = "";
+          })
         .catch((error: Error) => console.log(error.message))
+      }
+      this.email = "";
     }
 }
