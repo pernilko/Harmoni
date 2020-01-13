@@ -2,6 +2,8 @@
 import axios from 'axios';
 import {Alert} from "../widgets";
 import {User} from "./UserService";
+import {sharedComponentData} from "react-simplified";
+
 let url: string = "http://localhost:8080/";
 
 export class Organization {
@@ -22,17 +24,28 @@ export class Organization {
 }
 
 class OrganizationService{
+
+    currentOrganization: Organization;
     //not tested
     getAllOrganizations(){
         return axios.get<Organization[]>(url + 'organization').then(response=>response.data);
     }
     //not tested
     getOrganization(org_id: number){
-        return axios.get<Organization>(url + 'organization/id/'+org_id).then(response=>response.data);
+        return axios.get<Organization>(url + 'organization/id/'+org_id).then(response=> response.data);
     }
     //tested
     getOrganizationByEmail(email: string){
         return axios.get<Organization[]>(url+'organization/mail/'+email).then(response=>response.data);
+    }
+
+    setCurrentOrganization(org_id: number){
+        this.getOrganization(org_id).then(response=>{
+            this.currentOrganization = new Organization();
+            this.currentOrganization = response[0];
+            console.log("current org: ");
+            console.log(this.currentOrganization);
+        });
     }
     //tested
     addOrganization(org_name: string, phone: string, email:string){
@@ -64,6 +77,7 @@ class OrganizationService{
         }
     }
 
+
     /*
     updateOrganization(org_id: number, org_name: string, phone: string, phone:string, email: string){
         return axios.put<{}, Organization>(url+'organization'+org_id, {
@@ -76,4 +90,4 @@ class OrganizationService{
      */
 }
 
-export let organizationService = new OrganizationService();
+export let organizationService: OrganizationService = sharedComponentData(new OrganizationService());
