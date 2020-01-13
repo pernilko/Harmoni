@@ -36,9 +36,10 @@ export class EventService {
         return axios.get<Event[]>(url + "event/" + id).then(response => response.data[0]);
     }
 
-    postEvent(org_id: number, event_name: string, description: string, place: string, event_start: any, event_end: any, longitude: number, latitude: number) {
+    postEvent(org_id: number, user_id: number, event_name: string, description: string, place: string, event_start: any, event_end: any, longitude: number, latitude: number) {
         return axios.post<{}, Event>(url + "event/add", {
             "org_id": org_id,
+            "user_id": user_id,
             "event_name": event_name,
             "description": description,
             "place": place,
@@ -47,6 +48,12 @@ export class EventService {
             "longitude": longitude,
             "latitude": latitude
         }).then(response => response.data);
+    }
+    getEventsByUser_id(user_id: number){
+        return axios.get<Event[]>(url+"event/user/"+ user_id).then(response=>response.data);
+    }
+    getEventsByOrg_id(org_id: number){
+        return axios.get<Event[]>(url+"event/org/" + org_id).then(response=>response.data);
     }
 
     updateEvent(id: number, org_id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number) {
@@ -68,4 +75,3 @@ export class EventService {
 }
 
 export let eventService = new EventService();
-

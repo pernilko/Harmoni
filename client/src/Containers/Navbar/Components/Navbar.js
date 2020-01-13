@@ -37,7 +37,7 @@ export class Navigation extends Component {
               <Navbar.Text> Logget inn som:
                 <a>
                   <NavDropdown title={userService.currentUser.user_name} id="basic-nav-dropdown">
-                    <NavDropdown.Item href="#"  style={{color: "black"}}>Mine arrangement</NavDropdown.Item>
+                    <NavDropdown.Item href="#/myEvents"  style={{color: "black"}}>Mine arrangement</NavDropdown.Item>
                     <NavDropdown.Item href="#/event" style={{color: "black"}}>Opprett arrangement</NavDropdown.Item>
                     <NavDropdown.Item href="#" style={{color: "black"}}>Rediger profil</NavDropdown.Item>
                     <NavDropdown.Divider/>

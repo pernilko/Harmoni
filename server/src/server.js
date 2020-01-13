@@ -197,6 +197,24 @@ app.get("/event/:id", (req : Request, res: Response) => {
     });
 });
 
+//tested
+app.get("/event/org/:id", (req : Request, res: Response) => {
+    console.log("/event/org/:id: received get request from client");
+    eventDao.getEventOrg(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+
+app.get("/event/user/:id", (req : Request, res: Response) => {
+    console.log("/event/user/:id: received get request from client");
+    eventDao.getEventUser(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 app.post("/event/add", (req : Request, res: Response) => {
     pool.getConnection((err, connection: function) => {
         console.log("Connected to database");
@@ -205,8 +223,8 @@ app.post("/event/add", (req : Request, res: Response) => {
             res.json({ error: "feil ved oppkobling"});
         } else {
             connection.query(
-                "INSERT INTO event (org_id, event_name, place, event_start, event_end, longitude, latitude) VALUES (?,?,?,?,?,?,?)",
-                [req.body.org_id, req.body.event_name, req.body.place, req.body.event_start, req.body.event_end, req.body.longitude, req.body.latitude],
+                "INSERT INTO event (org_id, user_id, event_name, place, event_start, event_end, longitude, latitude) VALUES (?,?,?,?,?,?,?,?)",
+                [req.body.org_id, req.body.user_id, req.body.event_name, req.body.place, req.body.event_start, req.body.event_end, req.body.longitude, req.body.latitude],
                 err => {
                     if (err) {
                         console.log(err);
