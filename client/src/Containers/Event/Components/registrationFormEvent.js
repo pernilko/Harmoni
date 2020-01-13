@@ -129,7 +129,7 @@ export class RegistrationForm extends Component {
             .catch((error: Error) => console.log(error.message))
 
         history.push("/allEvents");
-
+        Alert.success("Arrangementet ble opprettet");
     }
 
     addArtists(val: number) {

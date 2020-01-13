@@ -40,6 +40,9 @@ export class EventList extends Component<{user: boolean}>{
                                 <p>Du er blitt tilbudt en stilling som bartender</p>
                                 <a href="#" className="card-link">Aksepter</a>
                                 <a href="#" className="card-link">Avslå</a>
+                                <div>
+                                  <button className="btn btn-danger"  onClick={this.deleteEvent}>Delete</button>
+                                </div>
                             </div>
                         </div>
                     )}
@@ -71,6 +74,8 @@ export class EventList extends Component<{user: boolean}>{
         }
         this.loaded = true;
     }
+
+  
 /*
     mounted() {
             if (this.props.user) {
