@@ -37,7 +37,7 @@ const Map = compose(
         </GoogleMap>
     )
 
-export default class MapContainer extends Component {
+export default class MapContainer extends Component<{lat: number, lng: number}> {
     position: any = null;
     constructor(props) {
         super(props)
