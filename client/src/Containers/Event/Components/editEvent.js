@@ -88,21 +88,14 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                                 ))}
                             </div>
                         </div>
-
-
-
-
-
-                        <ArtistDropdown buttonName={"Legg til artist"} editMode={false}
-                                        artist={new Artist(0, 0, "", "", "", "", "", null, "")}/>
                     </div>
                     <div className="form-group" style={{marginTop: 20 + "px"}}>
                         <TicketDetails/>
                         <TicketComp/>
                     </div>
                     <div className="btn-group" style={{width: "20%", marginLeft: "40%", padding: "20px"}}>
-                        <button className="btn btn-success" onClick={this.edit}>Lagre</button>
-                        <button className="btn btn-danger" onClick={this.cancel}>Avbryt</button>
+                        <button className="btn btn-success" type="button" onClick={this.edit}>Lagre</button>
+                        <button className="btn btn-danger" type="button" onClick={this.cancel}>Avbryt</button>
                     </div>
                 </form>
             </div>
@@ -113,7 +106,11 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         eventService
             .getEventId(this.props.match.params.event_id)
             .then(event => this.event = event)
+            .then(console.log(this.event))
             .catch((error: Error) => console.log(error.message));
+
+
+
 
     }
 

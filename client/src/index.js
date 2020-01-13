@@ -13,6 +13,7 @@ import {Navigation} from './Containers/Navbar/Components/Navbar';
 import {userService} from "./services/UserService";
 import {EventList} from './Containers/Event/Components/showEvents';
 import {sharedComponentData} from "react-simplified";
+import {EditEvent} from "./Containers/Event/Components/editEvent";
 
 const root = document.getElementById('root');
 if (root)
@@ -25,6 +26,7 @@ if (root)
         <Route path = "/Event" component = {RegistrationForm}/>
         <Route path = "/Login" component = {Login}/>
         <Route path = "/RegisterOrganization" component = {RegOrganization}/>
+        <Route path="/temp/:id" component={EditEvent}/>
       </div>
     </HashRouter>,
     root
