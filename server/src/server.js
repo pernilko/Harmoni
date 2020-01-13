@@ -320,6 +320,14 @@ app.get("/user/:id", (req: Request, res: Response)=>{
     });
 });
 
+app.get("/user/all/:id", (req: Request, res: Response) => {
+    console.log("/user/all/:id received get request from client");
+    userDao.getAllUsersByOrgId(req.params.id, (status, data)=>{
+        res.status(status);
+        res.json(data);
+    });
+});
+
 
 //Ticket
 //tested

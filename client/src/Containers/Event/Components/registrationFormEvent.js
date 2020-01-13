@@ -13,6 +13,7 @@ import {Alert} from "../../../widgets";
 import { createHashHistory } from 'history';
 import {User, userService} from '../../../services/UserService';
 import {sharedComponentData} from "react-simplified";
+import {Employees, EmployeesDetails} from "./employees";
 
 
 const history = createHashHistory();
@@ -84,6 +85,9 @@ export class RegistrationForm extends Component {
                     </div>
                     <div className="form-group" style={{marginTop: 20+"px"}}>
                         <TicketDetails/>
+                    </div>
+                    <div className="form-group" style={{marginTop: 20+"px"}}>
+                        <EmployeesDetails/>
                     </div>
                     <div className="btn-group"  style={{width: "20%", marginLeft: "40%", padding: "20px"}}>
                         <button className="btn btn-success"  onClick={this.regEvent}>Opprett</button>

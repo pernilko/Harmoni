@@ -102,7 +102,7 @@ class UserService {
         }).then(response=>response.data);
     }
     getUser(user_id){
-        return axios.get<User>(url+ 'user/'+ user_id).then(response=>response.data);
+        return axios.get<User>(url+ 'user/'+ user_id).then(response=>response.data[0]);
     }
     //to refresh token
     //not tested
@@ -117,6 +117,10 @@ class UserService {
                 body: JSON.stringify({"user_id": user_id})
             })
             .then(response => response.json());
+    }
+
+    getUserByOrgId(org_id: number){
+        return axios.get<User[]>(url +"user/all/"+ org_id).then(response => response.data);
     }
 
 }
