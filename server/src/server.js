@@ -150,7 +150,7 @@ app.get("/generateInvToken/:org_id", (req, res)=>{
     });
     console.log("generated and sent token: " + token);
     res.json({jwt: token});
-})
+});
 
 app.post("/invToken", (req, res)=>{
     let token: string = req.headers["x-access-token"];
@@ -164,7 +164,7 @@ app.post("/invToken", (req, res)=>{
             res.json({"org_id": decoded.org_id});
         }
     })
-})
+});
 
 //tested
 app.get("/artist/:id", (req : Request, res: Response) => {
