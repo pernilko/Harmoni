@@ -120,9 +120,9 @@ app.get("/artist/all", (req : Request, res: Response) => {
     });
 });
 
-app.get("/artist/event/:id", (req : Request, res: Response) => {
+app.get("/artist/event/:event_id", (req : Request, res: Response) => {
     console.log("/artist/event: received get request from client");
-    artistDao.getEventArtists((status, data) => {
+    artistDao.getEventArtists(req.params.event_id,(status, data) => {
         res.status(status);
         res.json(data);
     });
