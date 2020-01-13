@@ -3,8 +3,9 @@ import { compose, withStateHandlers } from "recompose";
 import { InfoWindow, withGoogleMap, withScriptjs, GoogleMap, Marker } from 'react-google-maps';
 import { Component } from "react-simplified";
 
-let LAT: number = 0;
-let LNG: number = 0;
+let LAT: float = 0;
+let LNG: float = 0;
+let show: boolean = false;
 
 export function getlatlng(){
   return [LAT, LNG];
@@ -26,21 +27,26 @@ const Map = compose(
     (props =>
         <GoogleMap
             defaultZoom={13}
-            defaultCenter={{ lat: 63.42972, lng: 10.39333 }}
+            defaultCenter={{ lat: LAT, lng: LNG }}
             onClick={(e) => {
+            if (!show){
               props.onMapClick(e);
               LAT = e.latLng.lat();
               LNG = e.latLng.lng();
-            }}
+            }}}
         >
+
+        {(show ? <Marker position={{lat: LAT, lng: LNG}}/> : <></>)}
             {props.isMarkerShown && <Marker position={props.markerPosition} />}
         </GoogleMap>
     )
 
-export default class MapContainer extends Component<{lat: number, lng: number}> {
-    position: any = null;
+export default class MapContainer extends Component<{lat?: float, lng?: float, show: boolean}> {
     constructor(props) {
-        super(props)
+        super(props);
+        LAT = this.props.lat || 63.43049 ;
+        LNG = this.props.lng || 10.39506;
+        show = this.props.show;
     }
 
     render() {

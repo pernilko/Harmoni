@@ -85,7 +85,7 @@ export class RegistrationForm extends Component {
                         <TicketDetails/>
                     </div>
                     <h2> Velg lokasjon på kartet: </h2>
-                    <MapContainer/>
+                    <MapContainer show={false}/>
                     <div className="btn-group"  style={{width: "20%", marginLeft: "40%", padding: "20px"}}>
                         <button className="btn btn-success"  onClick={this.regEvent}>Opprett</button>
                         <button className="btn btn-danger" onClick={this.cancel}>Avbryt</button>
