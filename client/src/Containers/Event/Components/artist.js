@@ -95,6 +95,7 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
 
     add(){
         if(this.pris < 0){
+            this.pris = 0;
             Alert.danger("Pris kan ikke være en negativ verdi");
             return;
         }

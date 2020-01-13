@@ -126,6 +126,7 @@ export class RegistrationForm extends Component {
             .then(response => {
                 this.addTickets(response[0]["LAST_INSERT_ID()"]);
                 this.addArtists(response[0]["LAST_INSERT_ID()"]);
+                history.push("/event/"+response[0]["LAST_INSERT_ID()"]);
             })
             .catch((error: Error) => console.log(error.message));
 

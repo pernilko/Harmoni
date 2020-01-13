@@ -76,6 +76,10 @@ export class TicketComp extends Component <{ticket: Ticket}>{
             Alert.danger("Pris kan ikke være en negativ verdi");
             return;
         }
+        if(this.billetter < 0){
+            Alert.danger("Antall billetter kan ikke være en negativ verdi");
+            return;
+        }
         const index = this.ticketList.indexOf(this.props.ticket);
         this.ticketList[index] = new Ticket(0, 0, this.type, parseInt(this.billetter), this.beskrivelse, parseInt(this.pris), 0);
     }
