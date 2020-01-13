@@ -21,7 +21,8 @@ if (root)
       <div>
         <Alert/>
         <Navigation/>
-        <Route exact path = "/allEvents" component={EventList}/>
+        <Route exact path = "/allEvents" render = {(props) => <EventList user={false}/>}/>
+        <Route exact path = "/myEvents" render = {(props) => <EventList user={true}/>}/>
         <Route path = "/Event" component = {RegistrationForm}/>
         <Route path = "/Login" component = {Login}/>
         <Route path = "/RegisterOrganization" component = {RegOrganization}/>
