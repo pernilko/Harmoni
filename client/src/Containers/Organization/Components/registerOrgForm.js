@@ -10,6 +10,9 @@ import{Component} from 'react-simplified';
 import {AdminUsrForm} from  '../../Organization/Components/AdminUsr';
 import {Alert} from "../../../widgets";
 import {Col} from "react-bootstrap";
+import { createHashHistory } from 'history';
+
+const history = createHashHistory();
 
 
 export class RegOrganization extends Component {
@@ -135,5 +138,6 @@ export class RegOrganization extends Component {
     }else{
       Alert.danger("alle felt må fylles og passord må ha minst 8 bokstaver");
     }
+    history.push("/allEvents");
   }
 }
