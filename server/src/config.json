@@ -1,1 +1,5 @@
-{"username": "g_scrum_4", "pwd": "n3I9XuKP"}
+{
+	"host": "mysql.stud.iie.ntnu.no",
+	"user": "g_scrum_4",
+	"password": "n3I9XuKP"
+}

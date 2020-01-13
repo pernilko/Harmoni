@@ -1,5 +1,4 @@
 //@flow
-require('dotenv').config();
 let express = require("express");
 let mysql = require("mysql");
 let bcrypt = require("bcryptjs");
@@ -8,6 +7,7 @@ const publicKEY = require('./keys/public.json');
 let jwt = require("jsonwebtoken");
 let bodyParser = require("body-parser");
 let nodemailer = require("nodemailer");
+let config: {host: string, user: string, password: string, database: string, key: string} = require("./config")
 
 let app = express();
 app.use(bodyParser.json());
@@ -17,10 +17,10 @@ type Response = express$Response;
 
 let pool = mysql.createPool({
     connectionLimit: 2,
-    host: "mysql.stud.idi.ntnu.no",
-    user: process.env.username,
-    password: process.env.pwd,
-    database: process.env.username,
+    host: config.host,
+    user: config.user,
+    password: config.password,
+    database: config.user,
     debug: false
 });
 
