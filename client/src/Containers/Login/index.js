@@ -122,6 +122,9 @@ export class Login extends Component{
                Alert.danger("Finner ikke email i systemet");
            }
            this.loading=false;
+       }).catch((error:Error)=>{
+           this.loading = false;
+           Alert.danger(error.message);
        });
         this.loading = true;
     }
@@ -136,7 +139,10 @@ export class Login extends Component{
                 this.loading=false;
                 Alert.success("Du ble logget inn");
                 history.push("/event");
-            }).catch((error: Error)=>Alert.danger(error.message));
+            }).catch((error: Error)=>{
+                Alert.danger(error.message);
+                this.loading = false;
+        });
     }
     registerNewOrganizationClicked(){
         console.log("newOrgClicked");
