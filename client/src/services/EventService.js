@@ -36,9 +36,10 @@ export class EventService {
         return axios.get<Event[]>(url + "event/" + id).then(response => response.data[0]);
     }
 
-    postEvent(org_id: number, event_name: string, description: string, place: string, event_start: any, event_end: any, longitude: number, latitude: number) {
+    postEvent(org_id: number, user_id: number, event_name: string, description: string, place: string, event_start: any, event_end: any, longitude: number, latitude: number) {
         return axios.post<{}, Event>(url + "event/add", {
             "org_id": org_id,
+            "user_id": user_id,
             "event_name": event_name,
             "description": description,
             "place": place,
