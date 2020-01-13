@@ -6,6 +6,7 @@ import {Alert} from "../../../widgets";
 import {sharedComponentData} from "react-simplified";
 import {userService} from "../../../services/UserService";
 import {Spinner} from "react-bootstrap";
+import Popup from 'reactjs-popup';
 
 const history = createHashHistory();
 
@@ -40,6 +41,15 @@ export class EventList extends Component<{user: boolean}>{
                                 <p>Du er blitt tilbudt en stilling som bartender</p>
                                 <a href="#" className="card-link">Aksepter</a>
                                 <a href="#" className="card-link">Avslå</a>
+                                <Popup trigger = {<button className="float-right btn btn-danger">Slett</button>} position="right center">
+                                  { close => (
+                                    <div>
+                                      <p><b>Vil du slette denne artikkelen?</b></p>
+                                      <button className="btn btn-warning float-left ml-3" onClick={() => {close();}}>Nei</button>
+                                      <button className="btn btn-success float-right mr-3" onClick={() => this.slett(event.event_id)}>Ja</button>
+                                    </div>
+                                  )}
+                                </Popup>
                             </div>
                         </div>
                     )}
@@ -71,6 +81,15 @@ export class EventList extends Component<{user: boolean}>{
         }
         this.loaded = true;
     }
+
+    slett(event_id: number){
+      console.log(event_id);
+      eventService
+        .deleteEvent(event_id)
+        .then(response => console.log(response))
+        .catch((error: Error) => console.log(error.message));
+    }
+
 /*
     mounted() {
             if (this.props.user) {
