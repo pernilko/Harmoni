@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { Component } from "react-simplified";
-import {eventService} from '../../../services/EventService';
+import {Event, eventService} from '../../../services/EventService';
 import { createHashHistory } from 'history';
+import {sharedComponentData} from "react-simplified";
+
 const history = createHashHistory();
 
 
-export class EventList extends Component {
+export class EventList extends Component<{user_id: number, org_id: number}>{
     constructor(props){
         super(props);
         this.state = {
