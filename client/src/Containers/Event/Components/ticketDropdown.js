@@ -8,24 +8,26 @@ import Accordion from "react-bootstrap/Accordion";
 import {Ticket} from "../../../services/TicketService.js";
 import {Artist} from "../../../services/ArtistService";
 import {ArtistDropdown} from "./artist";
+import {Alert} from "../../../widgets";
 
 export class TicketComp extends Component <{ticket: Ticket}>{
     ticketList: Ticket[] = [];
     type: string = "";
     beskrivelse: string = "";
-    billetter: string = "";
-    pris: string = "";
+    billetter: number = 0;
+    pris: number = 0;
 
     render(){
         return(
             <Accordion>
-                <Card>
-                    <Card.Header>
-                        <Accordion.Toggle as={Button} variant="success" eventKey="0">
+                <Card style={{border: "none"}}>
+                    <Card.Header style={{border: "none"}}>
+                        <Accordion.Toggle as={Button} variant="success" eventKey="0" style = {{float: "left"}}>
                            Rediger
                         </Accordion.Toggle>
+                        <button type="button" className="btn btn-danger" style={{marginLeft: 10+"px", float: "left"}} onClick={() => this.deleteTicket(this.props.ticket)}>Slett</button>
                     </Card.Header>
-                    <Accordion.Collapse eventKey="0">
+                    <Accordion.Collapse eventKey="0" style={{border: "none"}}>
                         <Card.Body>
                             <form style={{padding: 20 + 'px', width: "100%", position: "sticky", overflow: "visible"}}>
                                 <div className="form-group">
@@ -43,18 +45,18 @@ export class TicketComp extends Component <{ticket: Ticket}>{
                                         </div>
                                         <div className="form-group">
                                             <label>Antall billetter tilgjengelig: </label>
-                                            <input type="text" className="form-control" placeholder="75" value={this.billetter}
+                                            <input type="number" min={0} className="form-control" placeholder="75" value={this.billetter}
                                                    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.billetter = event.target.value)}/>
                                         </div>
                                         <div className="form-group">
                                             <label>Pris per billett: (kr) </label>
-                                            <input type="text" className="form-control" placeholder="350" value={this.pris}
+                                            <input type="number" min = "0" id="prisInput"className="form-control" placeholder="350" value={this.pris}
                                                    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.pris = event.target.value)}/>
                                         </div>
                                         <br/>
                                         <div className="form-group" align="center">
                                             <Accordion.Toggle type="button"  as={Button} variant="success" eventKey="0" onClick={this.add}>
-                                                Legg til
+                                                Lagre
                                             </Accordion.Toggle>
                                         </div>
                                     </row>
@@ -71,9 +73,22 @@ export class TicketComp extends Component <{ticket: Ticket}>{
         this.ticketList = s.ticketList;
     }
     add(){
-
+        if(this.pris < 0){
+            Alert.danger("Pris kan ikke være en negativ verdi");
+            return;
+        }
+        if(this.billetter < 0){
+            Alert.danger("Antall billetter kan ikke være en negativ verdi");
+            return;
+        }
         const index = this.ticketList.indexOf(this.props.ticket);
         this.ticketList[index] = new Ticket(0, 0, this.type, parseInt(this.billetter), this.beskrivelse, parseInt(this.pris), 0);
+    }
+    deleteTicket(t: Ticket) {
+        const index = this.ticketList.indexOf(t);
+        if (index > -1) {
+            this.ticketList.splice(index, 1);
+        }
     }
 }
 
@@ -95,13 +110,10 @@ export class TicketDetails extends Component {
                             <div className="col"><label>Beskrivelse: {ticket.description}</label></div>
                             <div className="col"><label>Pris: {ticket.price} kr</label></div>
                             <div className="col"><label>Antall: {ticket.amount}</label></div>
-                            <div className="col">
-                                <button type="button" className="btn btn-danger" style={{marginLeft: 10+"px", float: "right"}} onClick={() => this.deleteTicket(ticket)}>Slett</button>
-                            </div>
                         </div>
                         <div className={"row"}>
                             <div className={"col"}>
-                                <TicketComp buttonName={"Rediger"} editMode={false} ticket={ticket}/>
+                                <TicketComp buttonName={"Rediger"} ticket={ticket}/>
                             </div>
                         </div>
                     </div>
@@ -116,10 +128,4 @@ export class TicketDetails extends Component {
         this.ticketList.push(new Ticket(null, null, "", 0, "", 0, 0));
     }
 
-    deleteTicket(t: Ticket) {
-        const index = this.ticketList.indexOf(t);
-        if (index > -1) {
-            this.ticketList.splice(index, 1);
-        }
-    }
 }

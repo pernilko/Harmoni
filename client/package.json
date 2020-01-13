@@ -27,6 +27,7 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "flow-bin": "^0.112.0",
+    "google-maps-react": "^2.0.2",
     "jest": "^24.9.0",
     "jest-enzyme": "^7.1.2",
     "react-bootstrap": "^1.0.0-beta.14",
