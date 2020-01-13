@@ -39,6 +39,7 @@ export class EventService {
     postEvent(org_id: number, event_name: string, description: string, place: string, event_start: any, event_end: any, longitude: number, latitude: number) {
         return axios.post<{}, Event>(url + "event/add", {
             "org_id": org_id,
+            "user_id": user_id,
             "event_name": event_name,
             "description": description,
             "place": place,
@@ -74,4 +75,3 @@ export class EventService {
 }
 
 export let eventService = new EventService();
-
