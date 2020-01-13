@@ -22,12 +22,14 @@ export class RegistrationForm extends Component {
 
     event_id: number = 0;
     eventName: string = "";
+    user_id: number = 0;
     address: string = "";
     description: string = "";
     startDate: number = null;
     endDate: number = null;
     startTime: number = null;
     endTime: number = null;
+    image: File = null;
 
     render(){
         return(
@@ -120,7 +122,7 @@ export class RegistrationForm extends Component {
         console.log(this.startDate +", "+ this.startTime);
 
         eventService
-            .postEvent(userService.currentUser.org_id, this.eventName, this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", 0, 0)
+            .postEvent(userService.currentUser.org_id, this.eventName, userService.currentUser.user_id, this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", 0, 0, null)
             .then(response => {
                 this.addTickets(response[0]["LAST_INSERT_ID()"]);
                 this.addArtists(response[0]["LAST_INSERT_ID()"]);

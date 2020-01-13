@@ -101,7 +101,7 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
     }
 
     add(){
-        console.log(this.riders);
+        console.log(this.state);
         const index = this.artist.indexOf(this.props.artist);
         this.artist[index] = new Artist(0,0,this.artist_name, this.state.raider, this.state.hraider,this.state.contract,this.email, this.phone,this.image);
         this.artist_name = "";
@@ -146,7 +146,10 @@ export class ArtistDetails extends Component {
                             <div className="col"><label>Artist: {a.artist_name} </label></div>
                             <div className="col"><label>Email: {a.email}</label></div>
                             <div className="col"><label>Tlf: {a.phone}</label></div>
-                            <div className="col"><label>Dokumenter: {a.riders}</label></div>
+                            <div className="col"><label>Dokumenter:
+                                <label>{a.riders ? a.riders.name : 'Ingen rider valgt.'}</label>
+                                <label>{a.hospitality_riders ? a.hospitality_riders.name : 'Ingen hospitality rider valgt.'}</label>
+                                <label>{a.artist_contract ? a.artist_contract.name: 'Ingen kontrakt valgt.'}</label></label></div>
                             <div className="col">
                                 <button type="button" className="btn btn-danger" onClick={() => this.delete(a)} style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
                             </div>
