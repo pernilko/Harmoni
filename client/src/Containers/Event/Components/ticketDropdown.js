@@ -8,13 +8,14 @@ import Accordion from "react-bootstrap/Accordion";
 import {Ticket} from "../../../services/TicketService.js";
 import {Artist} from "../../../services/ArtistService";
 import {ArtistDropdown} from "./artist";
+import {Alert} from "../../../widgets";
 
 export class TicketComp extends Component <{ticket: Ticket}>{
     ticketList: Ticket[] = [];
     type: string = "";
     beskrivelse: string = "";
-    billetter: string = "";
-    pris: string = "";
+    billetter: number = 0;
+    pris: number = 0;
 
     render(){
         return(
@@ -43,18 +44,18 @@ export class TicketComp extends Component <{ticket: Ticket}>{
                                         </div>
                                         <div className="form-group">
                                             <label>Antall billetter tilgjengelig: </label>
-                                            <input type="text" className="form-control" placeholder="75" value={this.billetter}
+                                            <input type="number" min={0} className="form-control" placeholder="75" value={this.billetter}
                                                    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.billetter = event.target.value)}/>
                                         </div>
                                         <div className="form-group">
                                             <label>Pris per billett: (kr) </label>
-                                            <input type="text" className="form-control" placeholder="350" value={this.pris}
+                                            <input type="number" min = "0" id="prisInput"className="form-control" placeholder="350" value={this.pris}
                                                    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.pris = event.target.value)}/>
                                         </div>
                                         <br/>
                                         <div className="form-group" align="center">
                                             <Accordion.Toggle type="button"  as={Button} variant="success" eventKey="0" onClick={this.add}>
-                                                Legg til
+                                                Lagre
                                             </Accordion.Toggle>
                                         </div>
                                     </row>
@@ -71,7 +72,10 @@ export class TicketComp extends Component <{ticket: Ticket}>{
         this.ticketList = s.ticketList;
     }
     add(){
-
+        if(this.pris < 0){
+            Alert.danger("Pris kan ikke være en negativ verdi");
+            return;
+        }
         const index = this.ticketList.indexOf(this.props.ticket);
         this.ticketList[index] = new Ticket(0, 0, this.type, parseInt(this.billetter), this.beskrivelse, parseInt(this.pris), 0);
     }
@@ -101,7 +105,7 @@ export class TicketDetails extends Component {
                         </div>
                         <div className={"row"}>
                             <div className={"col"}>
-                                <TicketComp buttonName={"Rediger"} editMode={false} ticket={ticket}/>
+                                <TicketComp buttonName={"Rediger"} ticket={ticket}/>
                             </div>
                         </div>
                     </div>

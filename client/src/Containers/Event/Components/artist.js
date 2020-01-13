@@ -5,8 +5,9 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import {Artist} from "../../../services/ArtistService";
 import Accordion from "react-bootstrap/Accordion";
+import {Alert} from "../../../widgets";
 
-export class ArtistDropdown extends Component<{buttonName: string, editMode: boolean, artist: Artist}> {
+export class ArtistDropdown extends Component <{buttonName: string, artist: Artist}> {
 
     artist: Artist[] = [];
 
@@ -17,8 +18,6 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
     email: string = this.props.artist.email;
     phone: number = this.props.artist.phone;
     //image: string = this.props.image;
-
-    editMode: boolean = this.props.editMode;
 
     render() {
         return (
@@ -47,7 +46,7 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                     </div>
                                     <div className="form-group">
                                         <label>Mobilnummer: </label>
-                                        <input type="tlf" className="form-control" placeholder="+47 00000000" value={this.phone}
+                                        <input type="number" className="form-control" placeholder="+47 00000000" value={this.phone}
                                                onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.phone = event.target.value)}/>
                                     </div>
                                     <label>Rider:</label><br/>
@@ -83,14 +82,8 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                     </div>
                                     <br/>
                                     <div className="form-group" align="center">
-                                        <Accordion.Toggle type="button"  as={Button} variant="success" eventKey="0" onClick={() => {
-                                            if(this.editMode){
-                                                this.edit()
-                                            } else {
-                                                this.add()
-                                            };
-                                        }}>
-                                            {this.props.buttonName}
+                                        <Accordion.Toggle type="button"  as={Button} variant="success" eventKey="0" onClick={() => {this.add()}}>
+                                            Lagre
                                         </Accordion.Toggle>
                                     </div>
                                 </row>
@@ -104,6 +97,11 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
     }
 
     add(){
+        if(this.pris < 0){
+            Alert.danger("Pris kan ikke være en negativ verdi");
+            return;
+        }
+
         const index = this.artist.indexOf(this.props.artist);
         this.artist[index] = new Artist(0,0,this.artist_name, this.riders, this.hospitality_riders,this.artist_contract,this.email, this.phone,this.image);
 
@@ -137,7 +135,7 @@ export class ArtistDetails extends Component {
                         </div>
                         <div className={"row"}>
                             <div className={"col"}>
-                                <ArtistDropdown buttonName={"Rediger"} editMode={false} artist={a}/>
+                                <ArtistDropdown buttonName={"Rediger"} artist={a}/>
                             </div>
                         </div>
                     </div>
