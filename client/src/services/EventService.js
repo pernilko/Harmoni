@@ -75,4 +75,3 @@ export class EventService {
 }
 
 export let eventService = new EventService();
-
