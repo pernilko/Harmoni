@@ -6,6 +6,10 @@ import { Component } from "react-simplified";
 let LAT: number = 0;
 let LNG: number = 0;
 
+export function getlatlng(){
+  return [LAT, LNG];
+}
+
 const Map = compose(
     withStateHandlers(() => ({
         isMarkerShown: false,
@@ -23,13 +27,18 @@ const Map = compose(
         <GoogleMap
             defaultZoom={13}
             defaultCenter={{ lat: 63.42972, lng: 10.39333 }}
-            onClick={props.onMapClick}
+            onClick={(e) => {
+              props.onMapClick(e);
+              LAT = e.latLng.lat();
+              LNG = e.latLng.lng();
+            }}
         >
             {props.isMarkerShown && <Marker position={props.markerPosition} />}
         </GoogleMap>
     )
 
 export default class MapContainer extends Component {
+    position: any = null;
     constructor(props) {
         super(props)
     }
@@ -46,5 +55,9 @@ export default class MapContainer extends Component {
                 />
             </div>
         )
+    }
+
+    mounted() {
+      //this.position = Map.props.markerPosition;
     }
 }
