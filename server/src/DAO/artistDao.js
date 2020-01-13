@@ -20,10 +20,11 @@ module.exports = class artistDao extends Dao {
         );
     }
 
-    insertOne(json: {event_id: number, artist_name: string, riders: string, hospitality_riders: string,
-                  artist_contract: string, email: string, phone: string, image: string}, callback: function) {
+    insertOne(json: {event_id: number, artist_name: string, riders: Blob, hospitality_riders: Blob,
+                  artist_contract: Blob, email: string, phone: string, image: Blob}, callback: function) {
+        console.log(json.riders.toString());
         super.query(
-            "INSERT INTO artist (event_id, artist_name, riders, hospitality_riders, artist_contract, email, image) values (?,?,?,?,?,?,?)",
+            "INSERT INTO artist (event_id, artist_name, riders, hospitality_riders, artist_contract, email, phone, image) values (?,?,?,?,?,?,?,?)",
             [json.event_id, json.artist_name, json.riders, json.hospitality_riders, json.artist_contract, json.email, json.phone, json.image],
             callback
         );
