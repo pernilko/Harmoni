@@ -22,13 +22,14 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
     render() {
         return (
             <Accordion>
-                <Card>
-                    <Card.Header>
-                        <Accordion.Toggle as={Button} variant="success" eventKey="0">
+                <Card style={{border: "none"}}>
+                    <Card.Header style={{border: "none"}}>
+                        <Accordion.Toggle as={Button} variant="success" eventKey="0" style = {{float: "left"}}>
                             {this.props.buttonName}
                         </Accordion.Toggle>
+                        <button type="button" className="btn btn-danger" onClick={() => this.delete(this.props.artist)} style={{marginLeft: 10+"px", float: "left"}}>Slett</button>
                     </Card.Header>
-                    <Accordion.Collapse eventKey="0">
+                    <Accordion.Collapse eventKey="0" style={{border: "none"}}>
                         <Card.Body>
                             <form style={{padding: 20 + 'px', width: "100%" , position: "sticky", overflow: "visible"}}>
                             <div className="form-group">
@@ -128,6 +129,12 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
         let s: any = ArtistDetails.instance();
         this.artist = s.artist;
     }
+    delete(a: Artist){
+        const index = this.artist.indexOf(a);
+        if(index > -1){
+            this.artist.splice(index,1);
+        }
+    }
 }
 
 export class ArtistDetails extends Component {
@@ -150,9 +157,6 @@ export class ArtistDetails extends Component {
                                 <label>{a.riders ? a.riders.name : 'Ingen rider valgt.'}</label>
                                 <label>{a.hospitality_riders ? a.hospitality_riders.name : 'Ingen hospitality rider valgt.'}</label>
                                 <label>{a.artist_contract ? a.artist_contract.name: 'Ingen kontrakt valgt.'}</label></label></div>
-                            <div className="col">
-                                <button type="button" className="btn btn-danger" onClick={() => this.delete(a)} style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
-                            </div>
                         </div>
                         <div className={"row"}>
                             <div className={"col"}>
@@ -170,12 +174,4 @@ export class ArtistDetails extends Component {
     addNewArtist(){
         this.artist.push(new Artist(null, null, "", "", "", "", "", null, ""));
     }
-
-    delete(a: Artist){
-        const index = this.artist.indexOf(a);
-        if(index > -1){
-            this.artist.splice(index,1);
-        }
-    }
-
 }

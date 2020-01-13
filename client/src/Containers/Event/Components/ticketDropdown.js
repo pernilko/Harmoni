@@ -20,13 +20,14 @@ export class TicketComp extends Component <{ticket: Ticket}>{
     render(){
         return(
             <Accordion>
-                <Card>
-                    <Card.Header>
-                        <Accordion.Toggle as={Button} variant="success" eventKey="0">
+                <Card style={{border: "none"}}>
+                    <Card.Header style={{border: "none"}}>
+                        <Accordion.Toggle as={Button} variant="success" eventKey="0" style = {{float: "left"}}>
                            Rediger
                         </Accordion.Toggle>
+                        <button type="button" className="btn btn-danger" style={{marginLeft: 10+"px", float: "left"}} onClick={() => this.deleteTicket(this.props.ticket)}>Slett</button>
                     </Card.Header>
-                    <Accordion.Collapse eventKey="0">
+                    <Accordion.Collapse eventKey="0" style={{border: "none"}}>
                         <Card.Body>
                             <form style={{padding: 20 + 'px', width: "100%", position: "sticky", overflow: "visible"}}>
                                 <div className="form-group">
@@ -83,6 +84,12 @@ export class TicketComp extends Component <{ticket: Ticket}>{
         const index = this.ticketList.indexOf(this.props.ticket);
         this.ticketList[index] = new Ticket(0, 0, this.type, parseInt(this.billetter), this.beskrivelse, parseInt(this.pris), 0);
     }
+    deleteTicket(t: Ticket) {
+        const index = this.ticketList.indexOf(t);
+        if (index > -1) {
+            this.ticketList.splice(index, 1);
+        }
+    }
 }
 
 
@@ -103,9 +110,6 @@ export class TicketDetails extends Component {
                             <div className="col"><label>Beskrivelse: {ticket.description}</label></div>
                             <div className="col"><label>Pris: {ticket.price} kr</label></div>
                             <div className="col"><label>Antall: {ticket.amount}</label></div>
-                            <div className="col">
-                                <button type="button" className="btn btn-danger" style={{marginLeft: 10+"px", float: "right"}} onClick={() => this.deleteTicket(ticket)}>Slett</button>
-                            </div>
                         </div>
                         <div className={"row"}>
                             <div className={"col"}>
@@ -124,10 +128,4 @@ export class TicketDetails extends Component {
         this.ticketList.push(new Ticket(null, null, "", 0, "", 0, 0));
     }
 
-    deleteTicket(t: Ticket) {
-        const index = this.ticketList.indexOf(t);
-        if (index > -1) {
-            this.ticketList.splice(index, 1);
-        }
-    }
 }
