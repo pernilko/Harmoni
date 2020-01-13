@@ -197,6 +197,24 @@ app.get("/event/:id", (req : Request, res: Response) => {
     });
 });
 
+//tested
+app.get("/event/org/:id", (req : Request, res: Response) => {
+    console.log("/event/org/:id: received get request from client");
+    eventDao.getEventOrg(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+
+app.get("/event/user/:id", (req : Request, res: Response) => {
+    console.log("/event/user/:id: received get request from client");
+    eventDao.getEvent(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 app.post("/event/add", (req : Request, res: Response) => {
     pool.getConnection((err, connection: function) => {
         console.log("Connected to database");
