@@ -12,7 +12,7 @@ import {Alert} from "../../../widgets";
 import { createHashHistory } from 'history';
 import {User, userService} from '../../../services/UserService';
 import {sharedComponentData} from "react-simplified";
-import Map from "./map";
+import MapContainer from "./map";
 
 
 const history = createHashHistory();
@@ -87,13 +87,13 @@ export class RegistrationForm extends Component {
                         <button className="btn btn-danger" onClick={this.cancel}>Avbryt</button>
                     </div>
                 </form>
-                <Map/>
+                <MapContainer/>
             </div>
         )
     }
 
     mounted() {
-        let map = Map.instance();
+        let map = MapContainer.instance();
         console.log(map);
     }
 

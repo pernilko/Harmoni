@@ -1,6 +1,7 @@
 import React from 'react';
 import { compose, withStateHandlers } from "recompose";
 import { InfoWindow, withGoogleMap, withScriptjs, GoogleMap, Marker } from 'react-google-maps';
+import { Component } from "react-simplified";
 
 let LAT: number = 0;
 let LNG: number = 0;
@@ -28,7 +29,7 @@ const Map = compose(
         </GoogleMap>
     )
 
-export default class MapContainer extends React.Component {
+export default class MapContainer extends Component {
     constructor(props) {
         super(props)
     }
