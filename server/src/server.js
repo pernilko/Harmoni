@@ -209,7 +209,7 @@ app.get("/event/org/:id", (req : Request, res: Response) => {
 
 app.get("/event/user/:id", (req : Request, res: Response) => {
     console.log("/event/user/:id: received get request from client");
-    eventDao.getEvent(req.params.id, (status, data) => {
+    eventDao.getEventUser(req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
     });

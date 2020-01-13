@@ -16,6 +16,10 @@ module.exports = class eventDao extends Dao{
       super.query("SELECT * FROM event WHERE org_id=?", [org_id], callback );
     }
 
+    getEventUser(user_id: number, callback: function){
+      super.query("SELECT * FROM event INNER JOIN user_event ON event.event_id = user_event.event_id WHERE user_id=?", [user_id], callback );
+    }
+
     getEventLocation(event_id: number, callback:function){
         super.query("SELECT place FROM event WHERE event_id=?", [event_id], callback);
     }
