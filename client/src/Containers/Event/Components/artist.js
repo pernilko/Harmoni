@@ -7,8 +7,8 @@ import {Artist} from "../../../services/ArtistService";
 import Accordion from "react-bootstrap/Accordion";
 import {Alert} from "../../../widgets";
 
-export class ArtistDropdown extends Component <{buttonName: string, artist: Artist}> {
-
+export class ArtistDropdown extends Component<{buttonName: string, artist: Artist}> {
+    state: Object={raider: null, hraider: null,contract: null};
     artist: Artist[] = [];
 
     artist_name: string = this.props.artist.artist_name;
@@ -54,9 +54,8 @@ export class ArtistDropdown extends Component <{buttonName: string, artist: Arti
                                         <div className="input-group-prepend">
                                         </div>
                                         <div className="custom-file">
-                                            <input type="file" className="file-path validate" id="inputGroupFile01"
-                                                   aria-describedby="inputGroupFileAddon01" value={this.riders}
-                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.riders = event.target.value)}/>
+                                            <input type="file" className="file-path validate" id="raider" accept='.pdf'
+                                                   onChange={this.onChanger}/>
                                         </div>
                                     </div><br/>
                                     <label>Hospitality rider:</label><br/>
@@ -64,9 +63,8 @@ export class ArtistDropdown extends Component <{buttonName: string, artist: Arti
                                         <div className="input-group-prepend">
                                         </div>
                                         <div className="custom-file">
-                                            <input type="file" className="file-path validate" id="inputGroupFile01"
-                                                   aria-describedby="inputGroupFileAddon01" value={this.hospitality_riders}
-                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.hospitality_riders = event.target.value)}/>
+                                            <input type="file" className="file-path validate" id="hospitality-raider" accept='.pdf'
+                                                   onChange={this.onChangeh}/>
                                         </div>
                                     </div>
                                     <br/>
@@ -75,9 +73,8 @@ export class ArtistDropdown extends Component <{buttonName: string, artist: Arti
                                         <div className="input-group-prepend">
                                         </div>
                                         <div className="custom-file">
-                                            <input type="file" className="file-path validate" id="inputGroupFile01"
-                                                   aria-describedby="inputGroupFileAddon01" value={this.artist_contract}
-                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.artist_contract = event.target.value)}/>
+                                            <input type="file" className="file-path validate" id="contract" accept='.pdf'
+                                                   onChange={this.onChangec}/>
                                         </div>
                                     </div>
                                     <br/>
@@ -102,9 +99,29 @@ export class ArtistDropdown extends Component <{buttonName: string, artist: Arti
             return;
         }
 
-        const index = this.artist.indexOf(this.props.artist);
-        this.artist[index] = new Artist(0,0,this.artist_name, this.riders, this.hospitality_riders,this.artist_contract,this.email, this.phone,this.image);
+        console.log(this.state);
 
+        const index = this.artist.indexOf(this.props.artist);
+        this.artist[index] = new Artist(0,0,this.artist_name, this.state.raider, this.state.hraider,this.state.contract,this.email, this.phone,this.image);
+        this.artist_name = "";
+        this.email = "";
+        this.phone = "";
+        this.riders = "";
+        this.hospitality_riders = "";
+        this.artist_contract = "";
+        this.image = "";
+        //let s: any = ArtistDetails.instance();
+        //s.mounted();
+
+    }
+    onChanger(event:SyntheticInputEvent<HTMLInputElement>) {
+        this.state.raider=event.target.files[0];
+    }
+    onChangeh(event:SyntheticInputEvent<HTMLInputElement>) {
+        this.state.hraider=event.target.files[0];
+    }
+    onChangec(event:SyntheticInputEvent<HTMLInputElement>){
+        this.state.contract=event.target.files[0];
     }
     mounted(): unknown {
         let s: any = ArtistDetails.instance();
@@ -128,7 +145,10 @@ export class ArtistDetails extends Component {
                             <div className="col"><label>Artist: {a.artist_name} </label></div>
                             <div className="col"><label>Email: {a.email}</label></div>
                             <div className="col"><label>Tlf: {a.phone}</label></div>
-                            <div className="col"><label>Dokumenter: {a.riders}</label></div>
+                            <div className="col"><label>Dokumenter:
+                                <label>{a.riders ? a.riders.name : 'Ingen rider valgt.'}</label>
+                                <label>{a.hospitality_riders ? a.hospitality_riders.name : 'Ingen hospitality rider valgt.'}</label>
+                                <label>{a.artist_contract ? a.artist_contract.name: 'Ingen kontrakt valgt.'}</label></label></div>
                             <div className="col">
                                 <button type="button" className="btn btn-danger" onClick={() => this.delete(a)} style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
                             </div>

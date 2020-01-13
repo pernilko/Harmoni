@@ -7,7 +7,8 @@ import {Artist} from "../../../services/ArtistService";
 import {TicketComp, TicketDetails} from "./ticketDropdown";
 import {eventService} from "../../../services/EventService";
 import {artistService} from "../../../services/ArtistService";
-import {ticketService} from "../../../services/TicketService";
+import {Ticket, ticketService} from "../../../services/TicketService";
+
 import {Alert} from "../../../widgets";
 import { createHashHistory } from 'history';
 import {User, userService} from '../../../services/UserService';
@@ -19,13 +20,16 @@ const history = createHashHistory();
 export class RegistrationForm extends Component {
     artist: Artist[] = [];
 
+    event_id: number = 0;
     eventName: string = "";
+    user_id: number = 0;
     address: string = "";
     description: string = "";
     startDate: number = null;
     endDate: number = null;
     startTime: number = null;
     endTime: number = null;
+    image: File = null;
 
     render(){
         return(
@@ -116,15 +120,14 @@ export class RegistrationForm extends Component {
             return;
         }
         console.log(this.startDate +", "+ this.startTime);
-        console.log(this.endDate +", "+ this.endTime);
 
         eventService
-            .postEvent(userService.currentUser.org_id, this.eventName, this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", 0, 0)
+            .postEvent(userService.currentUser.org_id, this.eventName, userService.currentUser.user_id, this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", 0, 0, null)
             .then(response => {
                 this.addTickets(response[0]["LAST_INSERT_ID()"]);
                 this.addArtists(response[0]["LAST_INSERT_ID()"]);
             })
-            .catch((error: Error) => console.log(error.message))
+            .catch((error: Error) => console.log(error.message));
 
     }
 
@@ -152,5 +155,4 @@ export class RegistrationForm extends Component {
                 .catch((error: Error) => console.log(error.message))
             });
     }
-
 }
