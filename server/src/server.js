@@ -105,6 +105,11 @@ app.post("/register", (req, res) => {
     });
 });
 
+app.put("/Profile/editPB/:user_id", (req, res) =>{
+  console.log("/Profile/editPB: received an update request from client ");
+  userDao.updateUserPB(req.params.user_id, req.body, res)
+})
+
 /*
 app.get("/artist", (req, res) => {
     console.log("/test: received get request from client");

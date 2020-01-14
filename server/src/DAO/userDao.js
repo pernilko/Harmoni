@@ -49,4 +49,10 @@ module.exports = class userDao extends Dao {
     deleteUserById(id: number, callback: function){
         super.query("DELETE FROM user WHERE user_id = ?", [id], callback);
     }
+
+    //Only update the users profile picture
+    updateUserPB(user_id: number, json: {image: string}, callback: function){
+        super.query("UPDATE user SET image=? WHERE user_id=?", [json.image, user_id], callback);
+    }
+
 };
