@@ -254,6 +254,14 @@ app.get("/userevent/all/:id", (req : Request, res : Response) => {
     });
 });
 
+app.put("/userevent/accepted/", (req : Request, res : Response) => {
+    console.log("/test:received update request from user to get userevents");
+    eventDao.setAccepted(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 //Event
 //tested
 app.get("/event/all", (req : Request, res: Response) => {

@@ -23,6 +23,13 @@ class UserEventService {
     getAllUserEvent(id: number) {
         return axios.get<UserEvent[]>(url + "userevent/all/" + id).then(response => response.data);
     }
-}
 
+    setAccepted(user_id: number, event_id: number, accepted: number) {
+        return axios.put<{}>(url + "userevent/accepted/", {
+                "user_id": user_id,
+                "event_id": event_id,
+                "accepted": accepted
+            }).then(response => response.data);
+    }
+}
 export let userEventService: UserEventService = new UserEventService();
