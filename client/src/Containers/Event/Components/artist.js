@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import {Artist} from "../../../services/ArtistService";
 import Accordion from "react-bootstrap/Accordion";
+import {Alert} from "../../../widgets";
 
 export class ArtistDropdown extends Component<{buttonName: string, editMode: boolean, artist: Artist}> {
     artist: Artist[] = [];
@@ -24,13 +25,14 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
     render() {
         return (
             <Accordion>
-                <Card>
-                    <Card.Header>
-                        <Accordion.Toggle as={Button} variant="success" eventKey="0">
+                <Card style={{border: "none"}}>
+                    <Card.Header style={{border: "none"}}>
+                        <Accordion.Toggle as={Button} variant="success" eventKey="0" style = {{float: "left"}}>
                             {this.props.buttonName}
                         </Accordion.Toggle>
+                        <button type="button" className="btn btn-danger" onClick={() => this.delete(this.props.artist)} style={{marginLeft: 10+"px", float: "left"}}>Slett</button>
                     </Card.Header>
-                    <Accordion.Collapse eventKey="0">
+                    <Accordion.Collapse eventKey="0" style={{border: "none"}}>
                         <Card.Body>
                             <form style={{padding: 20 + 'px', width: "100%" , position: "sticky", overflow: "visible"}}>
                             <div className="form-group">
@@ -48,7 +50,7 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                     </div>
                                     <div className="form-group">
                                         <label>Mobilnummer: </label>
-                                        <input type="tlf" className="form-control" placeholder="+47 00000000" value={this.phone}
+                                        <input type="number" className="form-control" placeholder="+47 00000000" value={this.phone}
                                                onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.phone = event.target.value)}/>
                                     </div>
                                     <label>Rider:</label><br/>
@@ -92,14 +94,8 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                     </div>
                                     <br/>
                                     <div className="form-group" align="center">
-                                        <Accordion.Toggle type="button"  as={Button} variant="success" eventKey="0" onClick={() => {
-                                            if(this.editMode){
-                                                this.edit()
-                                            } else {
-                                                this.add()
-                                            };
-                                        }}>
-                                            {this.props.buttonName}
+                                        <Accordion.Toggle type="button"  as={Button} variant="success" eventKey="0" onClick={() => {this.add()}}>
+                                            Lagre
                                         </Accordion.Toggle>
                                     </div>
                                 </row>
@@ -120,6 +116,14 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
     }
 
     add(){
+        if(this.pris < 0){
+            this.pris = 0;
+            Alert.danger("Pris kan ikke være en negativ verdi");
+            return;
+        }
+
+        console.log(this.state);
+
         console.log("checking riders file"+ this.formData.get('riders').name);
         const index = this.artist.indexOf(this.props.artist);
         this.artist[index] = new Artist(0,0,this.artist_name, this.riders,this.hospitality_riders,this.artist_contract,this.email, this.phone,null, this.formData);
@@ -138,6 +142,12 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
     mounted(): unknown {
         let s: any = ArtistDetails.instance();
         this.artist = s.artist;
+    }
+    delete(a: Artist){
+        const index = this.artist.indexOf(a);
+        if(index > -1){
+            this.artist.splice(index,1);
+        }
     }
 }
 
@@ -160,14 +170,11 @@ export class ArtistDetails extends Component {
                             <div className="col"><label>Dokumenter:
                                 <label>{a.riders ? a.riders.name: 'Ingen rider valgt.'}</label>
                                 <label>{a.hospitality_riders ? a.hospitality_riders.name : 'Ingen hospitality rider valgt.'}</label>
-                                <label>{a.contract ? a.contract.name: 'Ingen kontrakt valgt.'}</label></label></div>
-                            <div className="col">
-                                <button type="button" className="btn btn-danger" onClick={() => this.delete(a)} style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
-                            </div>
+                                <label>{a.artist_contract ? a.artist_contract.name: 'Ingen kontrakt valgt.'}</label></label></div>
                         </div>
                         <div className={"row"}>
                             <div className={"col"}>
-                                <ArtistDropdown buttonName={"Rediger"} editMode={false} artist={a}/>
+                                <ArtistDropdown buttonName={"Rediger"} artist={a}/>
                             </div>
                         </div>
                     </div>
@@ -181,14 +188,6 @@ export class ArtistDetails extends Component {
     addNewArtist(){
         this.artist.push(new Artist(0, 0, "", {},{},{},"","", {},""));
     }
-
-    delete(a: Artist){
-        const index = this.artist.indexOf(a);
-        if(index > -1){
-            this.artist.splice(index,1);
-        }
-    }
-
 }
 
 export class UploadTest extends Component{

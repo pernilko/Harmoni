@@ -13,7 +13,8 @@ import {Alert} from "../../../widgets";
 import { createHashHistory } from 'history';
 import {User, userService} from '../../../services/UserService';
 import {sharedComponentData} from "react-simplified";
-
+import MapContainer from "./map";
+import {getlatlng} from "./map";
 
 const history = createHashHistory();
 
@@ -25,11 +26,14 @@ export class RegistrationForm extends Component {
     user_id: number = 0;
     address: string = "";
     description: string = "";
-    startDate: number = 0;
-    endDate: number = 0;
-    startTime: number = 0;
-    endTime: number = 0;
-    image: File = "";
+    startDate: number = null;
+    endDate: number = null;
+    startTime: number = null;
+    endTime: number = null;
+    lat: number = 0;
+    lng: number = 0;
+    image: File = null;
+
     render(){
         return(
             <div>
@@ -84,6 +88,8 @@ export class RegistrationForm extends Component {
                     <div className="form-group" style={{marginTop: 20+"px"}}>
                         <TicketDetails/>
                     </div>
+                    <h2> Velg lokasjon på kartet: </h2>
+                    <MapContainer show={false}/>
                     <div className="btn-group"  style={{width: "20%", marginLeft: "40%", padding: "20px"}}>
                         <button className="btn btn-success"  onClick={this.regEvent}>Opprett</button>
                         <button className="btn btn-danger" onClick={this.cancel}>Avbryt</button>
@@ -92,12 +98,16 @@ export class RegistrationForm extends Component {
             </div>
         )
     }
-
-    cancel(){
-
-    }
     regEvent(){
         console.log(this.eventName+"hei");
+
+        console.log(getlatlng()[0]);
+        console.log(getlatlng()[1]);
+
+        //getlatlng returns [LAT, LNG]
+        this.lat = getlatlng()[0];
+        this.lng = getlatlng()[1];
+
         if (this.eventName === "") {
             Alert.danger("Ugyldig arrangement navn");
             return;
@@ -123,19 +133,20 @@ export class RegistrationForm extends Component {
             return;
         }
         console.log(this.startDate +", "+ this.startTime);
+        console.log(this.endDate +", "+ this.endTime);
 
         eventService
-            .postEvent(userService.currentUser.org_id, this.eventName, userService.currentUser.user_id, this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", 0, 0, null)
+            .postEvent(userService.currentUser.org_id, this.eventName, userService.currentUser.user_id, this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00",this.lng,  this.lat)
             .then(response => {
                 this.addTickets(response[0]["LAST_INSERT_ID()"]);
                 this.addArtists(response[0]["LAST_INSERT_ID()"]);
+                history.push("/event/"+response[0]["LAST_INSERT_ID()"]);
             })
             .catch((error: Error) => console.log(error.message));
 
     }
 
     addArtists(val: number) {
-
         let artistDetails: any = ArtistDetails.instance();
         let artists = artistDetails.artist;
         console.log('printing the artist object'+artists.riders);
@@ -158,5 +169,9 @@ export class RegistrationForm extends Component {
                 .then(response => console.log(response))
                 .catch((error: Error) => console.log(error.message))
             });
+    }
+
+    cancel(){
+      history.push("/allEvents");
     }
 }
