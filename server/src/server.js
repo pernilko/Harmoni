@@ -31,12 +31,14 @@ const EventDao = require("./DAO/eventDao.js");
 const TicketDao = require("./DAO/ticketDao.js");
 const OrganizationDAO = require("./DAO/organizationDao.js");
 const UserDao = require("./DAO/userDao.js");
+const UserEventDao = require("./DAO/userEventDao.js");
 
 let artistDao = new ArtistDao(pool);
 let eventDao = new EventDao(pool);
 let ticketDao = new TicketDao(pool);
 let userDao = new UserDao(pool);
 let organizationDAO= new OrganizationDAO(pool);
+let userEventDao = new UserEventDao(pool);
 
 let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -417,6 +419,16 @@ app.get("/user/:id", (req: Request, res: Response)=>{
 app.get("/user/all/:id", (req: Request, res: Response) => {
     console.log("/user/all/:id received get request from client");
     userDao.getAllUsersByOrgId(req.params.id, (status, data)=>{
+        res.status(status);
+        res.json(data);
+    });
+});
+
+//UserEvent
+//not tested
+app.post("/userEvent/add", (req: Request, res: Response) => {
+    console.log("/userEvent/:id received post request from client");
+    userEventDao.addUserEvent(req.body ,(status, data) => {
         res.status(status);
         res.json(data);
     });
