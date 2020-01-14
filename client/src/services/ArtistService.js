@@ -55,6 +55,17 @@ class ArtistService {
         }).then(response => response.data);
     }
 
+    updateArtist(artist_id: number, artist_name, riders, hospitality_riders, artist_contract, email, phone) {
+        return axios.put<{}, Event>(url + "artist/"+artist_id, {
+            "artist_name": artist_name,
+            "riders": riders,
+            "hospitality_riders": hospitality_riders,
+            "artist_contract": artist_contract,
+            "email": email,
+            "phone": phone
+        }).then(response => response.data);
+    }
+
     deleteArtist(id: number) {
         return axios.delete<Artist, void>(url + "artist/delete/" + id).then(response => response.data);
     }

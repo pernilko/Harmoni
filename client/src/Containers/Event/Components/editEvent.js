@@ -9,6 +9,9 @@ import {TicketComp} from "./ticketDropdown";
 import {Artist, artistService} from "../../../services/ArtistService";
 import {Ticket, ticketService} from "../../../services/TicketService";
 import {TicketDetails} from "../Components/ticketDropdown";
+import MapContainer from "./map";
+import {getlatlng} from "./map";
+import {EmployeesDetails} from "./employees";
 
 const history = createHashHistory();
 
@@ -20,12 +23,12 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     endDate: number = null;
     startTime: number = null;
     endTime: number = null;
+    lat: float = 0;
+    lng: float = 0; 
 
 
     render() {
         if (this.event && this.tickets && this.artists) {
-            console.log("START: ",this.event.event_start);
-            console.log("SLUTT: ",this.event.event_end);
             return (
                 <div>
                     <div className="card-header">
@@ -80,6 +83,11 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                         <div className="form-group" style={{marginTop: 20 + "px"}}>
                             <TicketDetails/>
                         </div>
+                        <div className="form-group" style={{marginTop: 20+"px"}}>
+                        <EmployeesDetails/>
+                    </div>
+                    <h2> Velg lokasjon på kartet: </h2>
+                    <MapContainer lat={this.event.latitude} lng={this.event.longitude} show={true} edit={true}/>
                         <div className="btn-group" style={{width: "20%", marginLeft: "40%", padding: "20px"}}>
                             <button className="btn btn-success" type="button" onClick={this.edit}>Lagre</button>
                             <button className="btn btn-danger" type="button" onClick={this.cancel}>Avbryt</button>
@@ -95,7 +103,13 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     mounted() {
         eventService
             .getEventId(this.props.match.params.event_id)
-            .then(event => this.event = event)
+            .then(event => {
+                this.event = event;
+                this.startDate = this.event.event_start.slice(0,10);
+                this.startTime = this.event.event_start.slice(11,16);
+                this.endDate = this.event.event_end.slice(0,10);
+                this.endTime = this.event.event_end.slice(11,16);
+            })
             .then(() => {
                 this.getTickets(this.props.match.params.event_id);
                 this.getArtists(this.props.match.params.event_id);
@@ -125,9 +139,12 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     }
 
     edit(){
+        this.lat = getlatlng()[0];
+        this.lng = getlatlng()[1];
+        console.log(this.startDate);
         //Don't know what to do with lat and long. But Dilawar knows.
         eventService
-            .updateEvent(this.event.event_id, this.event.org_id, this.event.event_name, this.event.description, this.event.place,this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", 0,0)
+            .updateEvent(this.props.match.params.event_id, this.event.event_name, this.event.description, this.event.place,this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", this.lng, this.lat, null)
             .then(() => {
                 if (this.event) {
                     history.push("/");
