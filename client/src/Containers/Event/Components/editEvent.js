@@ -22,7 +22,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
 
 
     render() {
-        if (this.artists || this.tickets) {
+        if (this.artists && this.tickets && this.event) {
             return (
                 <div>
                     <div className="card-header">
@@ -142,7 +142,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             .getEventId(this.props.match.params.event_id)
             .then(event => this.event = event)
             .then(() => {
-                this.getArtists(this.props.match.params.event_id)
+                this.getArtists(this.props.match.params.event_id);
                 this.getTickets(this.props.match.params.event_id)
             })
             .catch((error: Error) => console.log(error.message))
