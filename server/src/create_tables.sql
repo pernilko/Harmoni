@@ -50,7 +50,7 @@ CREATE TABLE `user_event` (
  `user_id` int(11) NOT NULL,
  `event_id` int(11) NOT NULL,
  `job_position` varchar(45) NOT NULL,
- `accepted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'describes whether a user has agreed to work on a given event',
+ `accepted` tinyint(1) NOT NULL DEFAULT '2' COMMENT '0--> declined, 1-> accepted, 2-> no stance taken',
  PRIMARY KEY (`user_id`,`event_id`),
  KEY `event_id` (`event_id`),
  CONSTRAINT `user_event_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),

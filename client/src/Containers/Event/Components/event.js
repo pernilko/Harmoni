@@ -24,34 +24,33 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
 
     render() {
         if(this.loaded){
-        return (
-            <div>
-                <div className={"w-50 mx-auto"}>
-                <div className="card my-4" >
-                    <div className="card-body">
-                        
-                        <NavLink exact to={"/event/" +this.state["event"].event_id}>
-                            <h5 className="card-title">{this.state["event"].event_name}</h5>
-                        </NavLink>
-                        <h6> sted: {this.state["event"].place}</h6>
-                        <h6> lat: {this.state["event"].latitude} </h6>
-                        
+            let e: Event = this.state["event"];
+            return (
+                <div>
+                    <div className={"w-50 mx-auto"}>
+                    <div className="card my-4" >
+                        <div className="card-body">
+                            
+                            <h2 className="card-title">{e.event_name}</h2>
+                            <h6> <b> sted: </b> {e.place}</h6>
+                            <h6 className="card-subtitle mb-2 text-muted"> <b> tid: </b> {e.event_start.slice(0, 10)}, {e.event_start.slice(11, 16)}-{e.event_end.slice(11, 16)}</h6>
+                            <h6> <b> beskrivelse: </b> {e.description} </h6>
+                            
+                            <p>Du er blitt tilbudt en stilling som bartender</p>
+                            <a href="#" className="card-link">Aksepter</a>
+                            <a href="#" className="card-link">Avslå</a>
+                            
+                            <br/>
+                            <h6> <b> Place: </b> {e.place} </h6>
+                            <MapContainer lat={e.latitude} lng={e.longitude} show={true}/>
 
-                        <p className="card-text">Some quick example text to build on the card title and make
-                            up the bulk of the card's content.</p>
-                        <p>Du er blitt tilbudt en stilling som bartender</p>
-                        <a href="#" className="card-link">Aksepter</a>
-                        <a href="#" className="card-link">Avslå</a>
+                        </div>
                         
-                        <MapContainer lat={this.state["event"].latitude} lng={this.state["event"].longitude} show={true}/>
-
                     </div>
-                    
-                </div>
-            </div> : <></>)}
+                </div> : <></>)}
 
-            </div>
-        );
+                </div>
+            );
         }else{
             return <div/>
         }
