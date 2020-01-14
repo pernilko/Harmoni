@@ -47,6 +47,7 @@ export class Profile extends Component{
                   <Card>
                     <Card.Body>
                       <h2>Profil instillinger</h2>
+                      <br/>
                       <h6>Email knyttet til bruker: </h6>
                       <p style={{color:'grey'}}>{userService.currentUser.email}</p>
                       <Button variant="primary" onClick={this.click}>Endre</Button>
@@ -96,6 +97,7 @@ export class Profile extends Component{
                  <Card>
                    <Card.Body>
                      <h2>Endre brukernavn og/eller passord</h2>
+
 
                    </Card.Body>
                  </Card>
