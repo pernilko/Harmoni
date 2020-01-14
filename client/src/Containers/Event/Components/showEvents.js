@@ -28,6 +28,7 @@ export class EventList extends Component<{user: boolean}>{
 
     render() {
         if (userService.currentUser) {
+
             if(!this.loaded) {
                 this.load();
             }
@@ -36,24 +37,27 @@ export class EventList extends Component<{user: boolean}>{
             }
             return (
                 <div className={"w-50 mx-auto"}>
-                    {this.state["events"].map(event =>
-                        <div className="card my-4">
-                            <div className="card-body">
+                    {this.state["events"].map((event, i) =>
+                        <div className={"card my-4" + (this.getUserEvent(event.event_id) ? (this.getUserEvent(event.event_id).accepted === 0 ? " border-danger" : (this.getUserEvent(event.event_id).accepted === 1 ? " border-success" : "")) : "")}>
+                            <div className>
                                 <a href={'#/showEvent/' + event.event_id}>
                                     <h5 className="card-title">{event.event_name}</h5>
                                 </a>
                                 <h6>{event.place}</h6>
                                 <h6 className="card-subtitle mb-2 text-muted">{event.event_start.slice(0, 10)}, {event.event_start.slice(11, 16)}-{event.event_end.slice(11, 16)}</h6>
-                                <p className="card-text">Some quick example text to build on the card title and make
-                                    up the bulk of the card's content.</p>
-                                <p>Du er blitt tilbudt en stilling som bartender</p>
+                                <p className="card-text">{event.description}</p>
+                                
+                                {
+                                    //abolutely terrible code
+                                }
+
+                                {this.getUserEvent(event.event_id) ?  "Du er satt opp som " + this.getUserEvent(event.event_id).job_position : "Du er ikke satt på dette arrangementet"}
+                                <br/>
                                 <a href="#" className="card-link">Aksepter</a>
                                 <a href="#" className="card-link">Avslå</a>
                                 <div>
                                   <button className="btn btn-danger"  onClick={this.deleteEvent}>Delete</button>
                                 </div>
-
-                                
                             </div>
                         </div>
                     )}
@@ -65,6 +69,20 @@ export class EventList extends Component<{user: boolean}>{
             );
         }
         ;
+    }
+
+    getUserEvent(event_id: number){
+        if (userService.currentUser){
+            let e = this.state["events"].filter(ev => ev.event_id === event_id);
+            let u = this.state["users"];
+            let userList = u.filter(list => (list.length > 0 && list[0].event_id == event_id));
+            if (userList.length > 0){
+                let users = userList[0];
+                return users.find(user => user.event_id === event_id && userService.currentUser.user_id === user.user_id);
+            }
+            //return u.some(userList => userList.some(user => user.event_id === event_id && userService.currentUser.user_id === user.user_id));
+        }
+        return undefined;
     }
 
     load(){
@@ -90,7 +108,6 @@ export class EventList extends Component<{user: boolean}>{
             //gå gjennom alle event for å hente brukenrne som er tilknyttet dme
             console.log(this.state["events"].length);
             this.state["events"].map(e => {
-                console.log("YOOOOOOOO");
                 userEventService.getAllUserEvent(e.event_id).then( res => {
                     let users = this.state["users"];
                     users.push(res);
