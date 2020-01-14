@@ -10,7 +10,6 @@ import Popup from 'reactjs-popup';
 
 const history = createHashHistory();
 
-
 export class EventList extends Component<{user: boolean}>{
     loaded: boolean = false;
     constructor(props){
@@ -85,9 +84,9 @@ export class EventList extends Component<{user: boolean}>{
     slett(event_id: number){
       console.log(event_id);
       eventService
-        .deleteEvent(event_id)
-        .then(response => console.log(response))
-        .catch((error: Error) => console.log(error.message));
+          .deleteEvent(event_id)
+          .then(response => console.log(response))
+          .catch((error: Error) => console.log(error.message));
     }
 
 /*

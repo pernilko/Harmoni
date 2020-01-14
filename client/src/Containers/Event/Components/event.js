@@ -6,7 +6,6 @@ import { Alert, Card, NavBar, Button, Row, Column } from '../../../widgets.js';
 import {NavLink} from "react-router-dom";
 import MapContainer from "./map";
 
-
 let eventService = new EventService();
 
 export class EventDetails extends Component<{ match: { params: { id: number } } }>  {
