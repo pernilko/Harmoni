@@ -86,6 +86,7 @@ export class EventList extends Component<{user: boolean}>{
       eventService
           .deleteEvent(event_id)
           .then(response => console.log(response))
+          .then(()=>history.push("/allEvents"))
           .catch((error: Error) => console.log(error.message));
     }
 

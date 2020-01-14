@@ -23,6 +23,7 @@ let pool = mysql.createPool({
     user: config.user,
     password: config.password,
     database: config.user,
+    timezone: 'utc',
     debug: false
 });
 
