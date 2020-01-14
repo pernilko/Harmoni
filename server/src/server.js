@@ -95,7 +95,8 @@ app.post('/uploadRiders/:artist_id', function(req, res) {
     }
 
     // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-    let sampleFile = req.files.sampleFile;
+    let sampleFile = req.files.image;
+    console.log("from uploadRiders: ");
     console.log(sampleFile);
 
     artistDao.insertRider(sampleFile, req.params.artist_id, (status, data)=>{

@@ -1,5 +1,6 @@
 // @flow
 import axios from 'axios';
+import {User} from "./UserService";
 
 const url = "http://localhost:8080/";
 
@@ -10,9 +11,11 @@ export class Artist {
     email: string;
     phone: string;
     image: File;
-    riders:FormData;
+    riders:File;
+    hospitality_riders: File;
+    artist_contract: File;
 
-    constructor(artist_id: number, event_id: number, artist_name: string, email: string, phone: string, image: Object, riders:FormData) {
+    constructor(artist_id: number, event_id: number, artist_name: string, email: string, phone: string, image: Object, riders:File, hospitality_riders, artist_contract) {
         this.artist_id = artist_id;
         this.event_id = event_id;
         this.artist_name = artist_name;
@@ -20,30 +23,45 @@ export class Artist {
         this.phone = phone;
         this.image = image;
         this.riders=riders;
+        this.hospitality_riders = hospitality_riders;
+        this.artist_contract = artist_contract;
     }
 }
 
 class ArtistService {
     getAllArtists() {
-        axios.get<Artist[]>(url + "artist/all").then(response => response.data);
+        return axios.get<Artist[]>(url + "artist/all").then(response => response.data);
     }
 
     getEventArtists(event_id: number){
-        axios.get<Artist[]>(url + "artist/event/" + event_id).then(response => response.data);
+         return axios.get<Artist[]>(url + "artist/event/" + event_id).then(response => response.data);
     }
 
     getOneArtist(id: number) {
-        axios.get<Artist[]>(url + "artist/"+id).then(response => response.data[0]);
+        return axios.get<Artist[]>(url + "artist/"+id).then(response => response.data[0]);
     }
-    addArtist(event_id: number, artist_name: string, email: string, phone: number, ridersFile: FormData) {
-        axios.post<{}, Artist>(url + "artist/add", {
+    addArtist(event_id: number, artist_name: string, email: string, phone: number, ridersFile: File, hospitality_rider: File, artist_contract: File) {
+        let fd:FormData = new FormData();
+        fd.append("image", ridersFile);
+        console.log("ridersFile: ");
+        console.log(ridersFile);
+        console.log(artist_name);
+        return axios.post<{}, Artist>(url + "artist/add", {
             "event_id": event_id,
             "artist_name": artist_name,
             "email": email,
             "phone": phone
         }).then(response => {
-            axios.post<{}>(url + "uploadRider/" + response[0].artist_id, ridersFile
-            ).then(res=>res.data);
+            console.log("response from post artist/add");
+            console.log(response.data[0]);
+            return axios<{}>({
+                url: url +'uploadRiders/' + response.data[0].artist_id,
+                method: 'post',
+                data: fd,
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            }).then(res=>{console.log(response)});
         });
     }
 

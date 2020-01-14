@@ -12,15 +12,14 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
     formData:FormData=new FormData();
 
     artist_name: string = this.props.artist.artist_name;
-    riders: File = this.props.artist.riders;
-    hospitality_riders: File = this.props.artist.hospitality_riders;
-    artist_contract: File = this.props.artist.contract;
+    riders: File = null;
+    hospitality_riders: File = null;
+    artist_contract: File = null;
     email: string = this.props.artist.email;
     phone: string = this.props.artist.phone;
     image: File = this.props.artist.image;
 
-    editMode: boolean = this.props.editMode;
-
+    //editMode: boolean = this.props.editMode;
 
     render() {
         return (
@@ -61,6 +60,8 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                             <input type="file" className="file-path validate" id="raider" accept='.pdf'
                                                    onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>{
                                                        this.riders=event.target.files[0];
+                                                       console.log("riders file from artistDropDown: ");
+                                                       console.log(this.riders);
                                                        this.formData.append('riders',event.target.files[0]);
                                                    }
                                                    }/>
@@ -111,10 +112,6 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
 
     }
 
-    delete(){
-
-    }
-
     add(){
         if(this.pris < 0){
             this.pris = 0;
@@ -126,17 +123,13 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
 
         console.log("checking riders file"+ this.formData.get('riders').name);
         const index = this.artist.indexOf(this.props.artist);
-        this.artist[index] = new Artist(0,0,this.artist_name, this.riders,this.hospitality_riders,this.artist_contract,this.email, this.phone,null, this.formData);
+        this.artist[index] = new Artist(0,0,this.artist_name, this.email, this.phone,null, this.riders, this.hospitality_riders, this.artist_contract);
         this.artist_name = "";
-        this.riders="";
-        this.hospitality_riders="";
-        this.artist_contract="";
         this.email = "";
         this.phone = "";
         this.image = "";
         //let s: any = ArtistDetails.instance();
         //s.mounted();
-
     }
 
     mounted(): unknown {
@@ -161,7 +154,7 @@ export class ArtistDetails extends Component {
                     <h3>Artister:</h3>
                 </div>
                 <div className="card-body">
-                    {this.artist.map(a => (
+                    {this.artist.map(a => {if(a){return(
                     <div className="card-header">
                         <div className="row">
                             <div className="col"><label>Artist: {a.artist_name} </label></div>
@@ -178,7 +171,7 @@ export class ArtistDetails extends Component {
                             </div>
                         </div>
                     </div>
-                    ))}
+                    )}})}
                     <button type="button" className="btn btn-secondary" onClick={() => this.addNewArtist()}>Legg til artist</button>
                 </div>
             </div>
@@ -186,7 +179,7 @@ export class ArtistDetails extends Component {
     }
 
     addNewArtist(){
-        this.artist.push(new Artist(0, 0, "", {},{},{},"","", {},""));
+        this.artist.push(new Artist(0, 0, "", "","","",null, null, null));
     }
 }
 

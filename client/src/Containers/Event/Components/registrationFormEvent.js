@@ -152,10 +152,14 @@ export class RegistrationForm extends Component {
         console.log('printing the artist object'+artists.riders);
 
         artists.map(a => {
+            console.log("riders from regFORMEvent: ");
+            console.log(a.riders);
             artistService
-                .addArtist(val, a.artist_name, a.email, a.phone, a.image,a.riders)
-                //.catch((error: Error) => console.log(error.message))
+                .addArtist(val, a.artist_name, a.email, a.phone, a.riders, null, null).catch((error:Error)=>{
+                Alert.danger(error.message);
             });
+                //.catch((error: Error) => console.log(error.message))
+            })
     }
 
     addTickets(val: number) {
