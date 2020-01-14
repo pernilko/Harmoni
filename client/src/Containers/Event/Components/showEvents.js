@@ -44,7 +44,7 @@ export class EventList extends Component<{user: boolean}>{
                                 <Popup trigger = {<button className="float-right btn btn-danger">Slett</button>} position="right center">
                                   { close => (
                                     <div>
-                                      <p><b>Vil du slette denne artikkelen?</b></p>
+                                      <p><b>Vil du slette dette arrangementet?</b></p>
                                       <button className="btn btn-warning float-left ml-3" onClick={() => {close();}}>Nei</button>
                                       <button className="btn btn-success float-right mr-3" onClick={() => this.slett(event.event_id)}>Ja</button>
                                     </div>

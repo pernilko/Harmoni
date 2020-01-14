@@ -29,24 +29,24 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                 <div className={"w-50 mx-auto"}>
                 <div className="card my-4" >
                     <div className="card-body">
-                        
+
                         <NavLink exact to={"/event/" +this.state["event"].event_id}>
                             <h5 className="card-title">{this.state["event"].event_name}</h5>
                         </NavLink>
                         <h6> sted: {this.state["event"].place}</h6>
                         <h6> lat: {this.state["event"].latitude} </h6>
-                        
+
 
                         <p className="card-text">Some quick example text to build on the card title and make
                             up the bulk of the card's content.</p>
                         <p>Du er blitt tilbudt en stilling som bartender</p>
                         <a href="#" className="card-link">Aksepter</a>
                         <a href="#" className="card-link">Avslå</a>
-                        
+
                         <MapContainer lat={this.state["event"].latitude} lng={this.state["event"].longitude} show={true}/>
 
                     </div>
-                    
+
                 </div>
             </div> : <></>)}
 
@@ -67,7 +67,3 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
     }
 
 }
-<<<<<<< HEAD
-=======
-// <MapContainer lat={this.state["event"].latitude} lng={this.state["event"].longitude}/>
->>>>>>> 04513f806592ca528a181ae28fd29236774149cd
