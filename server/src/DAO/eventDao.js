@@ -24,13 +24,10 @@ module.exports = class eventDao extends Dao{
         super.query("SELECT place FROM event WHERE event_id=?", [event_id], callback);
     }
 
-    getEventTime(event_id: number, callback: function){
-        super.query("SELECT event_start, event_end FROM event WHERE event_id=?", [event_id], callback);
-    }
+    editEvent(event_id: number, json: {event_name: string, place: string, description: string, event_start: Date, event_end: Date, longitude: number, latitude: number, image: number}, callback:function) {
 
-    editEvent(
-      json: {event_name: string, place: string, event_start: Date, event_end: Date, longitude: number, latitude: number, event_id:number}, callback:function){
-    super.query("UPDATE event SET event_name=?, place=?, event_start=?, event_end=?, longitude=?, latitude=? WHERE event_id=?",
-      callback);
+      super.query("UPDATE event SET event_name=?, place=?, description=?, event_start=?, event_end=?, longitude=?, latitude=?, image=? WHERE event_id=?",
+                  [json.event_name, json.place, json.description, json.event_start, json.event_end, json.longitude, json.latitude, json.image, event_id],
+                  callback);
     }
 };
