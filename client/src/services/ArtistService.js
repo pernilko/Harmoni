@@ -13,6 +13,7 @@ export class Artist {
     email: string;
     phone: string;
     image: any;
+    is_new: bool = false;
 
     constructor(artist_id: number, event_id: number, artist_name: string, riders: any, hospitality_riders: any, artist_contract: any, email: string, phone: string, image: any) {
 

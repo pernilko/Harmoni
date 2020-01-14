@@ -15,6 +15,8 @@ import {EmployeesDetails} from "./employees";
 
 const history = createHashHistory();
 
+const original_artists: Artist[] = [];
+
 export class EditEvent extends Component <{match: {params: {event_id: number}}}> {
     event: any = null;
     artists: Artist[]=[];
@@ -124,6 +126,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             .then(() => {
                 let s: any = ArtistDetails.instance();
                 s.artist = this.artists;
+                s.artist.map(a => original_artists.push(a));
             })
     }
 
@@ -146,12 +149,65 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         eventService
             .updateEvent(this.props.match.params.event_id, this.event.event_name, this.event.description, this.event.place,this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", this.lng, this.lat, null)
             .then(() => {
-                if (this.event) {
-                    history.push("/");
-                    Alert.success("Arrangementet er oppdatert!");
-                }
+                this.updateArtists();
             })
             .catch((error: Error) => Alert.danger(error.message));
+    }
+
+    updateArtists() {
+        console.log(original_artists);
+        console.log(this.artists);
+        if (original_artists.length >= this.artists) {
+            original_artists.map(oa => {
+                let found: boolean = false;
+                let editedArtist: Artist = null;
+                this.artists.map(a => {
+                    if (a && oa) {
+                        if (oa.artist_id == a.artist_id) {
+                            found = true;
+                            editedArtist = a;
+                        }
+                    }
+                });
+                if (found) {
+                    artistService
+                        .updateArtist(editedArtist.artist_id, editedArtist.artist_name, editedArtist.riders, editedArtist.hospitality_riders, editedArtist.artist_contract, editedArtist.email, editedArtist.phone)
+                        .then(response => console.log(response))
+                } else {
+                    artistService
+                        .deleteArtist(oa.artist_id)
+                        .then(response => console.log(response))
+                }
+        });
+        } else {
+            this.artists.map(a => {
+                let found: boolean = false;
+                let editedArtist: Artist = null;
+                original_artists.map(oa => {
+                    if (a && oa) {
+                        if (oa.artist_id == a.artist_id) {
+                            found = true;
+                            editedArtist = a;
+                        }
+                    }
+                });
+                if (found) {
+                    artistService
+                        .updateArtist(editedArtist.artist_id, editedArtist.artist_name, editedArtist.riders, editedArtist.hospitality_riders, editedArtist.artist_contract, editedArtist.email, editedArtist.phone)
+                        .then(response => console.log(response))
+                } else {
+                    if (a.is_new) {
+                        artistService
+                            .addArtist(a.event_id, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone)
+                            .then(response => console.log(response))
+                    } else {
+                    artistService
+                        .deleteArtist(a.artist_id)
+                        .then(response => console.log(response))
+                }
+            }
+        });
+        }
     }
 
     deleteTicket(event_id: number){
