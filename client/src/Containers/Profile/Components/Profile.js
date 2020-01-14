@@ -5,14 +5,16 @@ import {Component} from 'react-simplified';
 import { Nav, Image, Tab, Col, Spinner, Button, Card } from 'react-bootstrap';
 import { User, userService } from '../../../services/UserService';
 import { createHashHistory } from 'history';
-import {Row} from '../../../widgets';
+import {Row, Alert} from '../../../widgets';
 import {sharedComponentData} from 'react-simplified';
 import Form from 'react-bootstrap/Form';
+
+const history = createHashHistory();
 
 
 
 export class Profile extends Component{
-  user: User[] = [];
+  user: User = new User();
   hidden: boolean = true;
 
   render() {
@@ -44,12 +46,10 @@ export class Profile extends Component{
                 <Tab.Pane eventKey="first">
                   <Card border="warning">
                     <Card.Body>
-                      <h2>Account settings</h2>
-                      <br/>
+                      <h3>Account settings</h3>
                       <h6>Email knyttet til bruker: </h6>
-                      <p>{userService.currentUser.email}</p>
-                      <Button variant="primary" type="button" onClick={this.change}>Endre</Button>
-
+                      <p style={{color:'grey'}}>{userService.currentUser.email}</p>
+                      <Button variant="primary" onClick={this.click}>Endre</Button>
                       <div hidden={this.hidden}>
                         <br/>
                         <Form.Group>
@@ -57,15 +57,25 @@ export class Profile extends Component{
                           <Form.Control style={{width: 600 + 'px'}}
                                         type="input"
                                         placeholder={userService.currentUser.email}
-                                        onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.user.mail =
+                                        onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.user.email =
                                         event.target.value}}/>
                         </Form.Group>
-                        <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.ok}>Bekreft</Button>
-
+                        <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.change}>Bekreft</Button>
+                        <br/>
+                        <br/>
                       </div>
                       <br/>
                       <br/>
 
+                      <h3>Endre profilbilde</h3>
+                      <Form.Group>
+                          <Form.Label>Last opp bilde</Form.Label>
+                          <Form.Control type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.user.image =
+                            event.target.value}}/>
+                      </Form.Group>
+                      <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.changePB}>Endre</Button>
+
+                      <br/>
                     </Card.Body>
                   </Card>
                 </Tab.Pane>
@@ -84,18 +94,39 @@ export class Profile extends Component{
       return <Spinner animation="border"/>
     }
   }
-  change() {
-    console.log(this.user.email);
-    if (this.user.email != 0) {
-      this.hidden = false;
+
+  click() {
+    this.hidden = false;
+  }
+
+  change(){
+    //Change email
+    if(this.user.email.length !==0){
+      userService
+        .updateEmail(userService.currentUser.user_id, this.user.email)
+        .then(() => {
+          if(userService.currentUser){
+            Alert.success("Mail er oppdatert");
+            userService.autoLogin();
+            history.push("/Profile");
+          }
+        })
     }
   }
 
-  ok(){
-    //Change email
-  }
-
-
   changePB(){
+    if(this.user.image.length !==0){
+      userService
+        .updateImage(userService.currentUser.image, this.user.image)
+        .then(() =>{
+          if(userService.currentUser){
+            Alert.success("Profil bildet er oppdatert");
+            userService.autoLogin();
+            history.push("/Profile");
+          }
+        })
+    }
   }
+
+
 }

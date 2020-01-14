@@ -150,11 +150,6 @@ app.post("/register", (req, res) => {
     });
 });
 
-app.put("/Profile/editPB/:user_id", (req, res) =>{
-  console.log("/Profile/editPB: received an update request from client ");
-  userDao.updateUserPB(req.params.user_id, req.body, res)
-})
-
 /*
 app.get("/artist", (req, res) => {
     console.log("/test: received get request from client");
@@ -400,6 +395,23 @@ app.put("/user/normal/:id", (req: Request, res: Response) => {
         res.json(data);
     });
 });
+
+app.put("/Profile/edit/:id", (req, res) =>{
+    console.log("/Profile/edit received an update request from client ");
+    userDao.updateUserEmail(req.params.id, req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.put("/Profile/edit/:id", (req, res) =>{
+    console.log("/Profile/edit received an update request from client ");
+    userDao.updateUserImage(req.params.id, req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 
 app.get("/user/:id", (req: Request, res: Response)=>{
     console.log("/user received get request from client");
