@@ -34,10 +34,11 @@ export class Navigation extends Component {
           <Nav>
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav.Link href="#/allEvents" > Alle arrangement</Nav.Link>
+              <Nav.Link href="#/inviterBruker"> Inviter Bruker</Nav.Link>
               <Navbar.Text> Logget inn som:
                 <a>
                   <NavDropdown title={userService.currentUser.user_name} id="basic-nav-dropdown">
-                    <NavDropdown.Item href="#"  style={{color: "black"}}>Mine arrangement</NavDropdown.Item>
+                    <NavDropdown.Item href="#/myEvents"  style={{color: "black"}}>Mine arrangement</NavDropdown.Item>
                     <NavDropdown.Item href="#/event" style={{color: "black"}}>Opprett arrangement</NavDropdown.Item>
                     <NavDropdown.Item href="#" style={{color: "black"}}>Rediger profil</NavDropdown.Item>
                     <NavDropdown.Divider/>
@@ -80,6 +81,8 @@ export class Navigation extends Component {
   logout(){
     history.push("/");
     this.user = null;
+    userService.currentUser = null;
+    localStorage.setItem("token", "");
     Alert.danger("Du er nå logget ut.");
   }
 
