@@ -8,14 +8,13 @@ import Accordion from "react-bootstrap/Accordion";
 import {Ticket} from "../../../services/TicketService.js";
 import {Alert} from "../../../widgets";
 
-export class TicketComp extends Component <{ticket: Ticket, editMode: boolean}>{
+export class TicketComp extends Component <{ticket: Ticket}>{
     ticketList: Ticket[] = [];
     type: string = "";
     beskrivelse: string = "";
     billetter: number = 0;
     pris: number = 0;
 
-    editMode: boolean = this.props.editMode;
 
     render(){
         return(
@@ -69,10 +68,8 @@ export class TicketComp extends Component <{ticket: Ticket, editMode: boolean}>{
         )
     }
     mounted() {
-        if (!this.props.editMode) {
             let s: any = TicketDetails.instance();
             this.ticketList = s.ticketList;
-        }
     }
     add(){
         if(this.pris < 0){
