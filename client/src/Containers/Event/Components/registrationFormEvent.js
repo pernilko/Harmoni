@@ -8,6 +8,8 @@ import {TicketComp, TicketDetails} from "./ticketDropdown";
 import {eventService} from "../../../services/EventService";
 import {artistService} from "../../../services/ArtistService";
 import {Ticket, ticketService} from "../../../services/TicketService";
+import {userEventService} from "../../../services/UserEventService";
+
 
 import {Alert} from "../../../widgets";
 import { createHashHistory } from 'history';
@@ -146,6 +148,7 @@ export class RegistrationForm extends Component {
             .then(response => {
                 this.addTickets(response[0]["LAST_INSERT_ID()"]);
                 this.addArtists(response[0]["LAST_INSERT_ID()"]);
+                this.addEmployee(response[0]["LAST_INSERT_ID()"]);
                 history.push("/event/"+response[0]["LAST_INSERT_ID()"]);
             })
             .catch((error: Error) => console.log(error.message));
@@ -174,6 +177,19 @@ export class RegistrationForm extends Component {
                 .then(response => console.log(response))
                 .catch((error: Error) => console.log(error.message))
             });
+    }
+
+    addEmployee(val: number){
+        let employeeDetails: any = EmployeesDetails.instance();
+        let employee = employeeDetails.emp;
+        console.log(employee);
+
+        employee.map(e => {
+            userEventService
+                .addUserEvent(e.user_id, val, e.job_position)
+                .then(response => console.log(response))
+                .catch((error: Error) => console.log(error.message))
+        });
     }
 
     cancel(){

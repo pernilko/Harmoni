@@ -74,7 +74,7 @@ export class Employees extends Component <{employee: UserEvent}> {
         let s: any = EmployeesDetails.instance();
         this.emp = s.emp;
         userService
-            .getUserByOrgId(12) //fiks dette slik at currentuser kan gi org_id
+            .getUserByOrgId(userService.currentUser.org_id) //fiks dette slik at currentuser kan gi org_id
             .then(res => {
                 this.users = res;
             })
