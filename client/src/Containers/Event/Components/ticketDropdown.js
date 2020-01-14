@@ -14,8 +14,7 @@ export class TicketComp extends Component <{ticket: Ticket}>{
     beskrivelse: string = "";
     billetter: number = 0;
     pris: number = 0;
-
-
+    
     render(){
         return(
             <Accordion>
