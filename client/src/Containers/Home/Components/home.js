@@ -12,7 +12,7 @@ export class Home extends Component {
 
     constructor(props){
         super(props);
-        this.loaded = false;
+        this.loaded = true;
         this.state = {
             org: Object
         };
@@ -27,7 +27,7 @@ export class Home extends Component {
                         <Row>
                             <Col md={4} style={{padding: '0'}}>
                                 <div className="card" style={{margin: "none"}}>
-                                    <div className="card-header">{this.state.org.org_name}</div>
+                                    <div className="card-header">Organisasjon</div>
                                     <div className="card-body">
                                     </div>
                                 </div>
@@ -36,6 +36,7 @@ export class Home extends Component {
                                 <div className="card" style={{margin: "none"}}>
                                     <div className="card-header">Kommende Arrangement</div>
                                     <div className="card-body">
+                                        
                                     </div>
                                 </div>
                             </Col>
@@ -69,6 +70,7 @@ export class Home extends Component {
         }
     }
     mounted() {
+        /*
         organizationService
             .getOrganization(userService.currentUser.org_id)
             .then(o => {
@@ -77,5 +79,7 @@ export class Home extends Component {
                 this.loaded = true;
             })
             .catch((error: Error) => console.log(error.message));
+            
+         */
     }
 }
