@@ -254,8 +254,9 @@ app.put("/artist/:id", (req:Request,res:Response)=>{
     console.log("/artist/:id received an update request from client to update values in artist");
     artistDao.updateArtist(req.params.id, req.body, (status,data)=>{
         res.status(status);
+        res.json(data);
     })
-})
+});
 
 //Event
 //tested
@@ -427,12 +428,41 @@ app.get("/user/all/:id", (req: Request, res: Response) => {
 //UserEvent
 //not tested
 app.post("/userEvent/add", (req: Request, res: Response) => {
-    console.log("/userEvent/:id received post request from client");
+    console.log("/userEvent/add received post request from client");
     userEventDao.addUserEvent(req.body ,(status, data) => {
         res.status(status);
         res.json(data);
     });
 });
+
+//not tested
+app.get("/userEvent/:id", (req: Request, res: Response) => {
+    console.log("/userEvent/:id received post request from client");
+    userEventDao.getAllbyId(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+//not tested
+app.delete("/userEvent/delete/:user_id/:event_id", (req: Request, res: Response) => {
+    console.log("/userEvent/delete/:user_id/:event_id received post request from client");
+    userEventDao.deleteUserEvent(req.params.user_id, req.params.event_id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+//not tested
+app.put("/userEvent/update/:user_id/:event_id", (req: Request, res: Response) => {
+    console.log("/userEvent/update/:user_id/:event_id received post request from client");
+    userEventDao.updateUserEvent(req.params.user_id, req.params.event_id, req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+
 
 
 //Ticket
@@ -645,5 +675,7 @@ app.put("/organization/edit/:id", (req : Request, res : Response) => {
         res.json(data);
     });
 });
+
+
 
 let server = app.listen(8080);
