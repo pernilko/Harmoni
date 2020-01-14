@@ -16,6 +16,7 @@ import {sharedComponentData} from "react-simplified";
 import {EventDetails} from './Containers/Event/Components/event';
 import {inviteUser} from './Containers/Organization/Components/inviteUser';
 import {userForm} from "./Containers/Organization/Components/User";
+import {Home} from "./Containers/Home/Components/home";
 
 
 const root = document.getElementById('root');
@@ -34,6 +35,7 @@ if (root)
         <Route path = "/user/:token" component = {userForm}/>
         <Route path = "/showEvent/:id" component = {EventDetails}/>
         <Route path = "/inviterBruker" component = {inviteUser}/>
+        <Route path = "/home" component = {Home}/>
       </div>
     </HashRouter>,
     root
