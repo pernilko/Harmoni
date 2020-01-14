@@ -3,16 +3,17 @@ import * as React from 'react';
 import { Component } from "react-simplified";
 import {Alert} from "../../../widgets";
 import { createHashHistory } from 'history';
-import {ArtistDropdown} from "./artist";
+import {ArtistDetails} from "./artist";
 import {eventService, Event} from "../../../services/EventService";
 import {TicketComp} from "./ticketDropdown";
 import {Artist, artistService} from "../../../services/ArtistService";
 import {Ticket, ticketService} from "../../../services/TicketService";
+import {TicketDetails} from "../Components/ticketDropdown";
 
 const history = createHashHistory();
 
 export class EditEvent extends Component <{match: {params: {event_id: number}}}> {
-    event: Event | any = new Event(2, 3, 1, "h", "h", "h", "h", "h", 1,0);
+    event: any = null;
     artists: Artist[]=[];
     tickets: Ticket[] = [];
     startDate: number = null;
@@ -22,7 +23,9 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
 
 
     render() {
-        if (this.artists && this.tickets && this.event) {
+        if (this.event && this.tickets && this.artists) {
+            console.log("START: ",this.event.event_start);
+            console.log("SLUTT: ",this.event.event_end);
             return (
                 <div>
                     <div className="card-header">
@@ -72,58 +75,10 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                             </div>
                         </div>
                         <div className="form-group" style={{marginTop: 20 + "px"}}>
-                            <div className="card">
-                                <div className="card-header">
-                                    <h3>Artister:</h3>
-                                </div>
-                                <div className="card-body">
-                                    {this.artists.map(a => (
-                                        <div className="card-header">
-                                            <div className="row">
-                                                <div className="col"><label>Artist: {a.artist_name} </label></div>
-                                                <div className="col"><label>Email: {a.email}</label></div>
-                                                <div className="col"><label>Tlf: {a.phone}</label></div>
-                                                <div className="col"><label>Dokumenter: {a.riders}</label></div>
-                                                <div className="col">
-                                                    <button className="btn btn-danger" onClick={() => this.delete(a)}
-                                                            style={{marginLeft: 10 + "px", float: "right"}}>Slett
-                                                    </button>
-                                                    <ArtistDropdown buttonName={"Rediger"} editMode={true} artist={a}/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                    <button type="button" className="btn btn-secondary" onClick={() => this.addNewArtist()}>Legg til artist</button>
-                                </div>
-                            </div>
+                            <ArtistDetails/>
                         </div>
                         <div className="form-group" style={{marginTop: 20 + "px"}}>
-                            <div className="card">
-                                <div className="card-header">
-                                    <h3>Billetter:</h3>
-                                </div>
-                                <div className="card-body">
-                                    {this.tickets.map(ticket => (
-                                        <div className="card-header">
-                                            <div className="row">
-                                                <div className="col"><label>Billett Type: {ticket.ticket_type}</label></div>
-                                                <div className="col"><label>Beskrivelse: {ticket.description}</label></div>
-                                                <div className="col"><label>Pris: {ticket.price} kr</label></div>
-                                                <div className="col"><label>Antall: {ticket.amount}</label></div>
-                                                <div className="col">
-                                                    <button type="button" className="btn btn-danger" style={{marginLeft: 10+"px", float: "right"}} onClick={() => this.deleteTicket(ticket)}>Slett</button>
-                                                </div>
-                                            </div>
-                                            <div className={"row"}>
-                                                <div className={"col"}>
-                                                    <TicketComp buttonName={"Rediger"} editMode={true} ticket={ticket}/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                    <button type="button" className="btn btn-secondary" onClick={() => this.addNewTicket()}>Legg til billett</button>
-                                </div>
-                            </div>
+                            <TicketDetails/>
                         </div>
                         <div className="btn-group" style={{width: "20%", marginLeft: "40%", padding: "20px"}}>
                             <button className="btn btn-success" type="button" onClick={this.edit}>Lagre</button>
@@ -142,8 +97,8 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             .getEventId(this.props.match.params.event_id)
             .then(event => this.event = event)
             .then(() => {
+                this.getTickets(this.props.match.params.event_id);
                 this.getArtists(this.props.match.params.event_id);
-                this.getTickets(this.props.match.params.event_id)
             })
             .catch((error: Error) => console.log(error.message))
     }
@@ -152,13 +107,21 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         artistService
             .getEventArtists(val)
             .then(artist => this.artists = artist)
+            .then(() => {
+                let s: any = ArtistDetails.instance();
+                s.artist = this.artists;
+            })
     }
 
     getTickets(val: number){
-        ticketService
+        ticketService   
             .getEventTickets(val)
             .then(ticket => this.tickets = ticket)
-
+            .then(() => {
+                let s: any = TicketDetails.instance();
+                s.ticketList = this.tickets;
+            })
+            .catch((error: Error) => console.log(error.message))
     }
 
     edit(){
