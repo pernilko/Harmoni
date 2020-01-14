@@ -13,6 +13,7 @@ import {Navigation} from './Containers/Navbar/Components/Navbar';
 import {userService} from "./services/UserService";
 import {EventList} from './Containers/Event/Components/showEvents';
 import {sharedComponentData} from "react-simplified";
+import { Profile } from './Containers/Profile/Components/Profile';
 
 const root = document.getElementById('root');
 if (root)
@@ -21,6 +22,12 @@ if (root)
       <div>
         <Alert/>
         <Navigation/>
+        <Route exact path="/profile" component={Profile}/>
+        <Route exact path="/profile/editPB" component={Profile}/>
+        <Route exact path="/profile/editInfo" component={Profile}/>
+        <Route exact path="/profile/editUP" component={Profile}/>
+        <Route exact path="/profile/deleteUser" component={Profile}/>
+
         <Route exact path = "/allEvents" component={EventList}/>
         <Route path = "/Event" component = {RegistrationForm}/>
         <Route path = "/Login" component = {Login}/>
