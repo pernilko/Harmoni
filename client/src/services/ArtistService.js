@@ -1,27 +1,29 @@
 // @flow
 import axios from 'axios';
-//import {FileReader} from "jsdom/lib/jsdom/browser/Window";
 
 const url = "http://localhost:8080/";
 
 export class Artist {
     artist_id: number;
     event_id: number;
+    artist_name: string;
+    riders: File;
+    hospitality_riders:File;
+    contract:File;
     email: string;
     phone: string;
-    image: Buffer;
-    readStates:Object;
-    states:Object;
+    image: File;
 
-    constructor(artist_id: number, event_id: number, artist_name: string,email: string, phone: string, image: any, readStates:Object,states:Object) {
+    constructor(artist_id: number, event_id: number, artist_name: string,riders:Object,hospitality_riders:Object, contract:Object, email: string, phone: string, image: Object) {
         this.artist_id = artist_id;
         this.event_id = event_id;
         this.artist_name = artist_name;
+        this.riders=riders;
+        this.hospitality_riders=hospitality_riders;
+        this.contract=contract;
         this.email = email;
         this.phone = phone;
         this.image = image;
-        this.readStates=readStates;
-        this.states=states;
     }
 }
 
@@ -37,13 +39,13 @@ class ArtistService {
     getOneArtist(id: number) {
         axios.get<Artist[]>(url + "artist/"+id).then(response => response.data[0]);
     }
-    addArtist(event_id: number, artist_name: string, email: string, phone: number,readStates:Object) {
+    addArtist(event_id: number, artist_name: string, riders:File, hospitality_riders:File,contract:File,email: string, phone: number, image:File) {
         axios.post<{}, Artist>(url + "artist/add", {
             "event_id": event_id,
             "artist_name": artist_name,
-            "riders": readStates.raiderReader,
-            "hospitality_riders": readStates.hRaiderReader,
-            "artist_contract":readStates.contractReader,
+            "riders": riders,
+            "hospitality_riders": hospitality_riders,
+            "artist_contract":contract,
             "email": email,
             "phone": phone
         }).then(response => response.data);
