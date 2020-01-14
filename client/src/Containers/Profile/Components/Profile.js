@@ -44,9 +44,9 @@ export class Profile extends Component{
             <Col lg={9}>
               <Tab.Content>
                 <Tab.Pane eventKey="first">
-                  <Card border="warning">
+                  <Card>
                     <Card.Body>
-                      <h3>Account settings</h3>
+                      <h2>Profil instillinger</h2>
                       <h6>Email knyttet til bruker: </h6>
                       <p style={{color:'grey'}}>{userService.currentUser.email}</p>
                       <Button variant="primary" onClick={this.click}>Endre</Button>
@@ -93,7 +93,12 @@ export class Profile extends Component{
                   </Card>
                 </Tab.Pane>
                 <Tab.Pane eventKey="second">
-                  <div/>
+                 <Card>
+                   <Card.Body>
+                     <h2>Endre brukernavn og/eller passord</h2>
+
+                   </Card.Body>
+                 </Card>
                 </Tab.Pane>
                 <Tab.Pane eventKey="third">
                   <div/>
@@ -126,7 +131,7 @@ export class Profile extends Component{
         })
     }
   }
-
+  // Change profile picture
   changePB(){
     if(this.user.image.length !==0){
       userService
@@ -140,7 +145,7 @@ export class Profile extends Component{
         })
     }
   }
-
+  // Change info
   changeInfo(){
     if(this.user.address.length !==0 || this.user.phone.length !==0){
       userService
@@ -154,8 +159,4 @@ export class Profile extends Component{
         })
     }
   }
-
-
-
-
 }
