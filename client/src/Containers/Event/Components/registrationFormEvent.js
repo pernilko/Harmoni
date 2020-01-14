@@ -143,8 +143,10 @@ export class RegistrationForm extends Component {
                 this.addArtists(response[0]["LAST_INSERT_ID()"]);
                 history.push("/event/"+response[0]["LAST_INSERT_ID()"]);
             })
-            .catch((error: Error) => console.log(error.message));
+            .catch((error: Error) => console.log(error.message))
 
+        history.push("/allEvents");
+        Alert.success("Arrangementet ble opprettet");
     }
 
     addArtists(val: number) {
