@@ -36,7 +36,6 @@ export class Home extends Component {
                                 <div className="card" style={{margin: "none"}}>
                                     <div className="card-header">Kommende Arrangement</div>
                                     <div className="card-body">
-                                        
                                     </div>
                                 </div>
                             </Col>
