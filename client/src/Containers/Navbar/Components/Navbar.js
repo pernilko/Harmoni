@@ -2,10 +2,10 @@
 
 import * as React from 'react';
 import {Component} from 'react-simplified';
-import { Button, Navbar, Nav, NavDropdown, Form, FormControl, Row } from 'react-bootstrap';
+import {Button,Navbar,Nav, NavDropdown, Form, FormControl} from 'react-bootstrap';
 import {User, userService} from '../../../services/UserService';
 import { createHashHistory } from 'history';
-import { Alert, Column } from '../../../widgets';
+import {Alert} from '../../../widgets'
 import {sharedComponentData} from "react-simplified";
 
 
@@ -15,47 +15,39 @@ const history = createHashHistory();
 export class Navigation extends Component {
 
   render() {
-  // if there is a logged in user
+    //If there is a logged in user
+    console.log(this.user);
+
     if (userService.currentUser) {
       return <div>
         <Navbar sticky="top" bg="dark" variant="dark" expand="lg">
-          <Row>
           <Navbar.Brand href="#home">Harmoni</Navbar.Brand>
-            <Form inline  style={{float: "left"}} >
-              <Column>
-                <FormControl type="search"
-                             className="ml-sm-2 navbar-nav "
-                             placeholder="Søk"
-                             value={this.search}
-                             onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
-                               (this.search = event.target.value)}/> <Button variant="outline-success">Search</Button>
-              </Column>
-            </Form>
-
-            <Column right={true}>
-            <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-              <Nav>
-                <Navbar.Collapse id="basic-navbar-nav">
-                  <Nav.Link href="#/allEvents"> Alle arrangement</Nav.Link>
-                    <Navbar.Text> Logget inn som:
-                      <a>
-                        <NavDropdown title={userService.currentUser.user_name} id="basic-nav-dropdown">
-                          <NavDropdown.Item href="#"  style={{color: "grey"}}>Mine arrangement</NavDropdown.Item>
-                          <NavDropdown.Item href="#/event" style={{color: "grey"}}>Opprett arrangement</NavDropdown.Item>
-                          <NavDropdown.Item href="#/Profile" style={{color: "grey"}}>Rediger profil</NavDropdown.Item>
-                          <NavDropdown.Divider/>
-                          <Button type="button"
-                                  variant="danger"
-                                  style={{float:"center"}}
-                                  onClick={this.logout}>Logg ut</Button>
-                        </NavDropdown>
-                      </a>
-                    </Navbar.Text>
-
-                </Navbar.Collapse>
-              </Nav>
-            </Column>
-          </Row>
+          <Form inline  style={{paddingRight: 60 + 'px'}} >
+            <FormControl type="search"
+                         className="ml-sm-2 navbar-nav "
+                         placeholder="Søk"
+                         value={this.search}
+                         onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
+                           (this.search = event.target.value)}/> <Button variant="outline-success">Search</Button>
+          </Form>
+          <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+          <Nav>
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav.Link href="#/allEvents" > Alle arrangement</Nav.Link>
+              <Nav.Link href="#/inviterBruker"> Inviter Bruker</Nav.Link>
+              <Navbar.Text> Logget inn som:
+                <a>
+                  <NavDropdown title={userService.currentUser.user_name} id="basic-nav-dropdown">
+                    <NavDropdown.Item href="#/myEvents"  style={{color: "black"}}>Mine arrangement</NavDropdown.Item>
+                    <NavDropdown.Item href="#/event" style={{color: "black"}}>Opprett arrangement</NavDropdown.Item>
+                    <NavDropdown.Item href="#/Profile" style={{color: "black"}}>Rediger profil</NavDropdown.Item>
+                    <NavDropdown.Divider/>
+                    <Button variant="danger" onClick={this.logout}>Logg ut</Button>
+                  </NavDropdown>
+                </a>
+              </Navbar.Text>
+            </Navbar.Collapse>
+          </Nav>
         </Navbar>
       </div>
     } else {
@@ -98,6 +90,8 @@ export class Navigation extends Component {
   logout(){
     history.push("/");
     this.user = null;
+    userService.currentUser = null;
+    localStorage.setItem("token", "");
     Alert.danger("Du er nå logget ut.");
   }
 

@@ -32,6 +32,7 @@ CREATE TABLE `user` (
 CREATE TABLE `event` (
  `event_id` int(11) NOT NULL AUTO_INCREMENT,
  `org_id` int(11) NOT NULL,
+ `user_id` int(11) NOT NULL,
  `event_name` varchar(45) NOT NULL,
  `description` text,
  `place` varchar(45) NOT NULL,
@@ -39,10 +40,11 @@ CREATE TABLE `event` (
  `event_end` datetime NOT NULL,
  `longitude` double NOT NULL,
  `latitude` double NOT NULL,
+ `image` blob,
  PRIMARY KEY (`event_id`),
  KEY `org_id` (`org_id`),
  CONSTRAINT `event_ibfk_1` FOREIGN KEY (`org_id`) REFERENCES `organization` (`org_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `user_event` (
  `user_id` int(11) NOT NULL,

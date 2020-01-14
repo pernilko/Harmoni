@@ -1,7 +1,8 @@
 // @flow
 import axios from 'axios';
-import {sharedComponentData} from "react-simplified";
 import {Alert} from "../widgets";
+import {sharedComponentData} from "react-simplified";
+import {Organization, organizationService} from "./OrganizationService";
 
 let url: string = "http://localhost:8080/";
 
@@ -34,13 +35,6 @@ export class User {
 class UserService {
     currentUser:_User;
     //auto login
-    autoLoginv2(){
-        if(localStorage.getItem("token")){
-            return axios.post<{}, User>(url+'token',{
-                
-            });
-        }
-    }
 
     autoLogin(){
         console.log("auto-logging in with token from localStorage: " + localStorage.getItem("token"));
@@ -58,9 +52,9 @@ class UserService {
                         localStorage.setItem("token", response.data.jwt);
                         console.log("user_id: " + response.data.user_id);
                         this.getUser(response.data.user_id).then(res=>{
-                            console.log(res[0]);
                             this.currentUser = new User();
-                            this.currentUser = res[0];
+                            this.currentUser = res;
+                            organizationService.setCurrentOrganization(res.org_id);
                         })
                     }
                     console.log(response.data);
@@ -81,8 +75,10 @@ class UserService {
             if(response.data.jwt){
                 localStorage.setItem("token", response.data.jwt)
                 userService.getUser(response.data.user_id).then(res=>{
+                    console.log("res: ", res);
                     this.currentUser = new User();
-                    this.currentUser = res[0];
+                    this.currentUser = res;
+                    organizationService.setCurrentOrganization(res.org_id);
                     console.log(this.currentUser);
                 });
             }
@@ -102,7 +98,7 @@ class UserService {
         }).then(response=>response.data);
     }
     getUser(user_id){
-        return axios.get<User>(url+ 'user/'+ user_id).then(response=>response.data);
+        return axios.get<User>(url+ 'user/'+ user_id).then(response=>response.data[0]);
     }
     //to refresh token
     //not tested
