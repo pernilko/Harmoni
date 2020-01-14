@@ -23,6 +23,7 @@ let pool = mysql.createPool({
     user: config.user,
     password: config.password,
     database: config.user,
+    timezone: 'utc',
     debug: false
 });
 
@@ -65,7 +66,7 @@ transporter.sendMail(mailOptions, function(err, data) {
 app.use(function (req, res, next: function) {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-Access-Token");
-    res.setHeader("Access-Control-Allow-Methods","PUT, POST, GET, OPTIONS");
+    res.setHeader("Access-Control-Allow-Methods","PUT, POST, GET, OPTIONS, DELETE");
     next();
 });
 
@@ -277,6 +278,15 @@ app.get("/event/:id", (req : Request, res: Response) => {
     console.log("/event/:id: received get request from client");
     eventDao.getEvent(req.params.id, (status, data) => {
         res.status(status);
+        console.log(data);
+        res.json(data);
+    });
+});
+
+app.get("/event/time/:id", (req : Request, res: Response) => {
+    console.log("/event/time/:id: received get request from client");
+    eventDao.getEventTime(req.params.id, (status, data) => {
+        res.status(status);
         res.json(data);
     });
 });
@@ -347,7 +357,7 @@ app.delete("/event/delete/:id", (req : Request, res: Response) => {
     pool.getConnection((err, connection: function) => {
           console.log("Connected to database");
           if (err) {
-              console.log("Feil ved kobling til databasen");    
+              console.log("Feil ved kobling til databasen");
               res.json({ error: "feil ved oppkobling" });
           } else {
               connection.query(
@@ -421,6 +431,68 @@ app.get("/user/:id", (req: Request, res: Response)=>{
     });
 });
 
+app.delete("/user/delete/:id", (req : Request, res: Response) => {
+    console.log("/user/delete/:id: received delete request from client");
+    pool.getConnection((err, connection: function) => {
+          console.log("Connected to database");
+          if (err) {
+              console.log("Feil ved kobling til databasen");
+              res.json({ error: "feil ved oppkobling" });
+          } else {
+              connection.query(
+  				          "DELETE artist FROM artist INNER JOIN event ON artist.event_id = event.event_id WHERE user_id=?",
+  				          [req.params.id],
+  				          (err, rows) => {
+  					               if (err) {
+  						                     console.log(err);
+  						                     res.json({ error: "error querying" });
+  					               } else {
+                             connection.query(
+                 				          "DELETE ticket FROM ticket INNER JOIN event ON ticket.event_id = event.event_id WHERE user_id=?",
+                 				          [req.params.id],
+                 				          (err, rows) => {
+                 					               if (err) {
+                 						                     console.log(err);
+                 						                     res.json({ error: "error querying" });
+                 					               } else {
+                                           connection.query(
+                               				          "DELETE FROM user_event WHERE user_id=?",
+                               				          [req.params.id],
+                               				          (err, rows) => {
+                               					               if (err) {
+                               						                     console.log(err);
+                               						                     res.json({ error: "error querying" });
+                               					               } else {
+                                                         connection.query(
+                                             				          "DELETE FROM event WHERE user_id=?",
+                                             				          [req.params.id],
+                                             				          (err, rows) => {
+                                             					               if (err) {
+                                             						                     console.log(err);
+                                             						                     res.json({ error: "error querying" });
+                                             					               } else {
+                                                                       console.log("/user received get request from client");
+                                                                       userDao.deleteUserById(req.params.id, (status, data)=>{
+                                                                           res.status(status);
+                                                                           res.json(data);
+                                                                       });
+                              					                             }
+                              				                        }
+                              			                    );
+
+                					                             }
+                				                        }
+                			                    );
+
+  					                             }
+  				                        }
+  			                    );
+                          }
+                    }
+            );
+        }
+      });
+});
 
 //Ticket
 //tested
