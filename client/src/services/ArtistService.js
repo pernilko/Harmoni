@@ -7,23 +7,19 @@ export class Artist {
     artist_id: number;
     event_id: number;
     artist_name: string;
-    riders: File;
-    hospitality_riders:File;
-    contract:File;
     email: string;
     phone: string;
     image: File;
+    riders:FormData;
 
-    constructor(artist_id: number, event_id: number, artist_name: string,riders:Object,hospitality_riders:Object, contract:Object, email: string, phone: string, image: Object) {
+    constructor(artist_id: number, event_id: number, artist_name: string, email: string, phone: string, image: Object, riders:FormData) {
         this.artist_id = artist_id;
         this.event_id = event_id;
         this.artist_name = artist_name;
-        this.riders=riders;
-        this.hospitality_riders=hospitality_riders;
-        this.contract=contract;
         this.email = email;
         this.phone = phone;
         this.image = image;
+        this.riders=riders;
     }
 }
 
@@ -39,7 +35,8 @@ class ArtistService {
     getOneArtist(id: number) {
         axios.get<Artist[]>(url + "artist/"+id).then(response => response.data[0]);
     }
-    addArtist(event_id: number, artist_name: string, riders:File, hospitality_riders:File,contract:File,email: string, phone: number, image:File) {
+    addArtist(event_id: number, artist_name: string,email: string, phone: number, image:File,riders:FormData) {
+        console.log('Reading ẗhe rider content: '+riders);
         axios.post<{}, Artist>(url + "artist/add", {
             "event_id": event_id,
             "artist_name": artist_name,

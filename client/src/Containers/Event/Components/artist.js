@@ -8,6 +8,7 @@ import Accordion from "react-bootstrap/Accordion";
 
 export class ArtistDropdown extends Component<{buttonName: string, editMode: boolean, artist: Artist}> {
     artist: Artist[] = [];
+    formData:FormData=new FormData();
 
     artist_name: string = this.props.artist.artist_name;
     riders: File = this.props.artist.riders;
@@ -43,7 +44,7 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                     <div className="form-group">
                                         <label>E-post: </label>
                                         <input type="epost" className="form-control" placeholder="olanordmann@gmail.com" value={this.email}
-                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.email = event.target.value)}/>
+                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {this.email = event.target.value}}/>
                                     </div>
                                     <div className="form-group">
                                         <label>Mobilnummer: </label>
@@ -56,7 +57,11 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                         </div>
                                         <div className="custom-file">
                                             <input type="file" className="file-path validate" id="raider" accept='.pdf'
-                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>(this.riders=event.target.files[0])}/>
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>{
+                                                       this.riders=event.target.files[0];
+                                                       this.formData.append('riders',event.target.files[0]);
+                                                   }
+                                                   }/>
                                         </div>
                                     </div><br/>
                                     <label>Hospitality rider:</label><br/>
@@ -65,7 +70,10 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                         </div>
                                         <div className="custom-file">
                                             <input type="file" className="file-path validate" id="hospitality-raider" accept='.pdf'
-                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>(this.hospitality_riders=event.target.files[0])}/>
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>{
+                                                       this.hospitality_riders=event.target.files[0];
+                                                       this.formData.append('hospitality_riders',event.target.files[0]);
+                                                   }}/>
                                         </div>
                                     </div>
                                     <br/>
@@ -75,7 +83,11 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                         </div>
                                         <div className="custom-file">
                                             <input type="file" className="file-path validate" id="contract" accept='.pdf'
-                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>(this.artist_contract=event.target.files[0])}/>
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>{
+                                                       this.artist_contract=event.target.files[0];
+                                                       this.formData.append('contract',event.target.files[0]);
+
+                                                   }}/>
                                         </div>
                                     </div>
                                     <br/>
@@ -108,9 +120,9 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
     }
 
     add(){
-        console.log(this.state);
+        console.log("checking riders file"+ this.formData.get('riders').name);
         const index = this.artist.indexOf(this.props.artist);
-        this.artist[index] = new Artist(0,0,this.artist_name, this.riders,this.hospitality_riders,this.artist_contract,this.email, this.phone);
+        this.artist[index] = new Artist(0,0,this.artist_name, this.riders,this.hospitality_riders,this.artist_contract,this.email, this.phone,null, this.formData);
         this.artist_name = "";
         this.riders="";
         this.hospitality_riders="";
@@ -167,7 +179,7 @@ export class ArtistDetails extends Component {
     }
 
     addNewArtist(){
-        this.artist.push(new Artist(0, 0, "", {},{},{},"","", {},));
+        this.artist.push(new Artist(0, 0, "", {},{},{},"","", {},""));
     }
 
     delete(a: Artist){

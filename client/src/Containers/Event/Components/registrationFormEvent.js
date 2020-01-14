@@ -30,7 +30,6 @@ export class RegistrationForm extends Component {
     startTime: number = 0;
     endTime: number = 0;
     image: File = "";
-
     render(){
         return(
             <div>
@@ -87,11 +86,15 @@ export class RegistrationForm extends Component {
                     </div>
                     <div className="btn-group"  style={{width: "20%", marginLeft: "40%", padding: "20px"}}>
                         <button className="btn btn-success"  onClick={this.regEvent}>Opprett</button>
-                        /*<button className="btn btn-danger" onClick={this.cancel}>Avbryt</button>*/
+                        <button className="btn btn-danger" onClick={this.cancel}>Avbryt</button>
                     </div>
                 </form>
             </div>
         )
+    }
+
+    cancel(){
+
     }
     regEvent(){
         console.log(this.eventName+"hei");
@@ -132,13 +135,14 @@ export class RegistrationForm extends Component {
     }
 
     addArtists(val: number) {
+
         let artistDetails: any = ArtistDetails.instance();
         let artists = artistDetails.artist;
-        console.log(artists);
+        console.log('printing the artist object'+artists.riders);
 
         artists.map(a => {
             artistService
-                .addArtist(val, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone, a.image)
+                .addArtist(val, a.artist_name, a.email, a.phone, a.image,a.riders)
                 //.catch((error: Error) => console.log(error.message))
             });
     }
