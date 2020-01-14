@@ -65,7 +65,7 @@ transporter.sendMail(mailOptions, function(err, data) {
 app.use(function (req, res, next: function) {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-Access-Token");
-    res.setHeader("Access-Control-Allow-Methods","PUT, POST, GET, OPTIONS");
+    res.setHeader("Access-Control-Allow-Methods","PUT, POST, GET, OPTIONS, DELETE");
     next();
 });
 
