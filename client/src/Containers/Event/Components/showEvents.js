@@ -5,6 +5,7 @@ import { createHashHistory } from 'history';
 import {Alert} from "../../../widgets";
 import {sharedComponentData} from "react-simplified";
 import {userService} from "../../../services/UserService";
+import {userEventService} from "../../../services/UserEventService";
 import {Spinner} from "react-bootstrap";
 
 const history = createHashHistory();
@@ -12,10 +13,15 @@ const history = createHashHistory();
 
 export class EventList extends Component<{user: boolean}>{
     loaded: boolean = false;
+    ready: boolean = false; 
+    
+
+     
     constructor(props){
         super(props);
         this.state = {
-            events: []
+            events: [],
+            users: []
         };
         //this.mounted = this.mounted.bind(this);
     }
@@ -24,6 +30,9 @@ export class EventList extends Component<{user: boolean}>{
         if (userService.currentUser) {
             if(!this.loaded) {
                 this.load();
+            }
+            if(!this.ready){
+                this.loadContent();
             }
             return (
                 <div className={"w-50 mx-auto"}>
@@ -43,6 +52,8 @@ export class EventList extends Component<{user: boolean}>{
                                 <div>
                                   <button className="btn btn-danger"  onClick={this.deleteEvent}>Delete</button>
                                 </div>
+
+                                
                             </div>
                         </div>
                     )}
@@ -67,13 +78,32 @@ export class EventList extends Component<{user: boolean}>{
         } else {
             eventService.getEventsByOrg_id(userService.currentUser.org_id).then(res => {
                 let events = res;
-                console.log(events);
+                console.log(events.length);
                 this.setState({events});
                 this.loaded = true;
             })
         }
-        this.loaded = true;
     }
+
+    loadContent(){
+        if (userService.currentUser && this.loaded){
+            //gå gjennom alle event for å hente brukenrne som er tilknyttet dme
+            console.log(this.state["events"].length);
+            this.state["events"].map(e => {
+                console.log("YOOOOOOOO");
+                userEventService.getAllUserEvent(e.event_id).then( res => {
+                    let users = this.state["users"];
+                    users.push(res);
+                    this.setState({users});
+                    console.log(users);
+                });   
+            });
+            
+            this.ready = true;
+        }
+    }
+
+
 
   
 /*

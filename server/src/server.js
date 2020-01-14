@@ -248,7 +248,7 @@ app.put("/artist/:id", (req:Request,res:Response)=>{
 //UserEvent
 app.get("/userevent/all/:id", (req : Request, res : Response) => {
     console.log("/test:received update request from user to get userevents");
-    eventDao.getUsersForEvent((status, data) => {
+    eventDao.getUsersForEvent(req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
     });
