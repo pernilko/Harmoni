@@ -5,21 +5,27 @@ import {Alert} from "../../../widgets";
 import { createHashHistory } from 'history';
 import {ArtistDetails} from "./artist";
 import {eventService, Event} from "../../../services/EventService";
-import {TicketComp} from "./ticketDropdown";
 import {Artist, artistService} from "../../../services/ArtistService";
 import {Ticket, ticketService} from "../../../services/TicketService";
-import {TicketDetails} from "../Components/ticketDropdown";
+import {TicketDetails} from "./ticketDropdown";
 import MapContainer from "./map";
 import {getlatlng} from "./map";
 import {EmployeesDetails} from "./employees";
+import {del_artist} from "./artist";
+import {del_ticket} from "./ticketDropdown";
 
 const history = createHashHistory();
 
 const original_artists: Artist[] = [];
+const original_tickets: Ticket[] = [];
 
 export class EditEvent extends Component <{match: {params: {event_id: number}}}> {
     event: any = null;
     artists: Artist[]=[];
+    add_artists: Artist[] = [];
+    update_artists: Artist[] = [];
+    add_tickets: Ticket[] = [];
+    update_tickets: Ticket[] = [];
     tickets: Ticket[] = [];
     startDate: number = null;
     endDate: number = null;
@@ -27,7 +33,6 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     endTime: number = null;
     lat: float = 0;
     lng: float = 0; 
-
 
     render() {
         if (this.event && this.tickets && this.artists) {
@@ -113,8 +118,8 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 this.endTime = this.event.event_end.slice(11,16);
             })
             .then(() => {
-                this.getTickets(this.props.match.params.event_id);
                 this.getArtists(this.props.match.params.event_id);
+                this.getTickets(this.props.match.params.event_id);
             })
             .catch((error: Error) => console.log(error.message))
     }
@@ -126,6 +131,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             .then(() => {
                 let s: any = ArtistDetails.instance();
                 s.artist = this.artists;
+                console.log(s.artist);
                 s.artist.map(a => original_artists.push(a));
             })
     }
@@ -137,87 +143,132 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             .then(() => {
                 let s: any = TicketDetails.instance();
                 s.ticketList = this.tickets;
+                console.log(s.ticketList);
+                s.ticketList.map(t => original_tickets.push(t));
             })
-            .catch((error: Error) => console.log(error.message))
     }
 
     edit(){
         this.lat = getlatlng()[0];
         this.lng = getlatlng()[1];
-        console.log(this.startDate);
+        //console.log(this.startDate);
         //Don't know what to do with lat and long. But Dilawar knows.
         eventService
             .updateEvent(this.props.match.params.event_id, this.event.event_name, this.event.description, this.event.place,this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", this.lng, this.lat, null)
-            .then(() => {
-                this.updateArtists();
+            .then(response => {
+                console.log(response);
+                this.updateAddArtists();
+                this.updateAddTickets();
+                this.updateArtists(this.update_artists);
+                this.addArtists(this.add_artists);
+                this.deleteArtists(del_artist);
+                this.updateTickets(this.update_tickets);
+                this.addTickets(this.add_tickets);
+                this.deleteTickets(del_ticket);
             })
             .catch((error: Error) => Alert.danger(error.message));
     }
 
-    updateArtists() {
-        console.log(original_artists);
-        console.log(this.artists);
-        if (original_artists.length >= this.artists) {
-            original_artists.map(oa => {
-                let found: boolean = false;
-                let editedArtist: Artist = null;
-                this.artists.map(a => {
-                    if (a && oa) {
-                        if (oa.artist_id == a.artist_id) {
-                            found = true;
-                            editedArtist = a;
-                        }
-                    }
-                });
-                if (found) {
-                    artistService
-                        .updateArtist(editedArtist.artist_id, editedArtist.artist_name, editedArtist.riders, editedArtist.hospitality_riders, editedArtist.artist_contract, editedArtist.email, editedArtist.phone)
-                        .then(response => console.log(response))
-                } else {
-                    artistService
-                        .deleteArtist(oa.artist_id)
-                        .then(response => console.log(response))
-                }
-        });
-        } else {
-            this.artists.map(a => {
-                let found: boolean = false;
-                let editedArtist: Artist = null;
+    updateAddArtists() {
+
+        //console.log(this.artists);
+        //console.log(original_artists);
+        //console.log(del_artist);
+        let update: Artist[] = [];
+        let add: Artist[] = [];
+        this.artists.map(a => {
+            if (a) {
+                let found: bool = false;
                 original_artists.map(oa => {
-                    if (a && oa) {
-                        if (oa.artist_id == a.artist_id) {
-                            found = true;
-                            editedArtist = a;
-                        }
+                    if (a.artist_id == oa.artist_id) {
+                        found = true;
                     }
                 });
                 if (found) {
-                    artistService
-                        .updateArtist(editedArtist.artist_id, editedArtist.artist_name, editedArtist.riders, editedArtist.hospitality_riders, editedArtist.artist_contract, editedArtist.email, editedArtist.phone)
-                        .then(response => console.log(response))
-                } else {
-                    if (a.is_new) {
-                        artistService
-                            .addArtist(a.event_id, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone)
-                            .then(response => console.log(response))
-                    } else {
-                    artistService
-                        .deleteArtist(a.artist_id)
-                        .then(response => console.log(response))
+                    update.push(a);
+                }
+                else {
+                    add.push(a);
                 }
             }
         });
-        }
+        this.add_artists = add;
+        this.update_artists = update;
     }
 
-    deleteTicket(event_id: number){
-        ticketService
-            .deleteTicket(event_id)
-            .then(this.mounted())
+    updateAddTickets() {
+
+        /*console.log(this.tickets);
+        console.log(original_tickets);
+        console.log(del_ticket);*/
+        
+        let update: Ticket[] = [];
+        let add: Ticket[] = [];
+        this.tickets.map(t => {
+            if (t) {
+                let found: bool = false;
+                original_tickets.map(ot => {
+                    if (t.ticket_id == ot.ticket_id) {
+                        found = true;
+                    }
+                });
+                if (found) {
+                    update.push(t);
+                }
+                else {
+                    add.push(t);
+                }
+            }
+        });
+        this.add_tickets = add;
+        this.update_tickets = update;
     }
 
-    editTicket(id: number, event_id: number, ticket_type: string, amount: number, description: string, price: number, amount_sold: number){
-        ticketService
-            .updateTicket(id,event_id,ticket_type,amount,description,price,amount_sold)
+    updateArtists(artists: Artist[]) {
+        artists.map(a => {
+           artistService
+            .updateArtist(a.artist_id, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone)
+            .then(response => console.log(response))
+        });
+    }
+
+    deleteArtists(artists: Artist[]) {
+        artists.map(a => {
+            artistService
+                .deleteArtist(a.artist_id)
+                .then(response => console.log(response))
+        })
+    }
+
+    addArtists(artists: Artist[]) {
+        artists.map(a => {
+            artistService
+                .addArtist(this.props.match.params.event_id, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone)
+                .then(response => console.log(response))     
+        })  
+    }
+
+    updateTickets(tickets: Ticket[]) {
+        tickets.map(t => {
+            ticketService
+                .updateTicket(t.ticket_id, t.event_id, t.ticket_type, t.amount, t.description, t.price, t.amount_sold)
+                .then(response => console.log(response))
+        })
+    }
+
+    addTickets(tickets: Ticket[]) {
+        tickets.map(t => {
+            ticketService
+                .addTicket(this.props.match.params.event_id, t.ticket_type, t.amount, t.description, t.price, t.amount_sold)
+                .then(response => console.log(response))
+        })
+    }
+
+    deleteTickets(tickets: Ticket[]) {
+        tickets.map(t => {
+            ticketService
+                .deleteTicket(t.ticket_id)
+                .then(response => console.log(response))
+        })
     }
 }

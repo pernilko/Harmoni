@@ -242,12 +242,41 @@ app.post("/artist/add", (req : Request, res: Response) => {
 });
 
 //tested
+
 app.delete("/artist/delete/:id", (req : Request, res: Response) => {
-    console.log("/artist/:id: received delete request from client");
-    artistDao.deleteArtist(req.params.id, (status, data) => {
-        res.status(status);
-        res.json(data);
-    });
+    console.log("/artist/delete/:id: received delete request from client");
+    pool.getConnection((err, connection: function) => {
+          console.log("Connected to database");
+          if (err) {
+              console.log("Feil ved kobling til databasen");    
+              res.json({ error: "feil ved oppkobling" });
+          } else {
+              connection.query(
+  				          "DELETE FROM file WHERE artist_id=?",
+  				          [req.params.id],
+  				          (err, rows) => {
+  					               if (err) {
+  						                console.log(err);
+  						                res.json({ error: "error querying" });
+  					               } else {
+                             connection.query(
+                 				          "DELETE FROM artist WHERE artist_id=?",
+                 				          [req.params.id],
+                 				          (err, rows) => {
+                 					               if (err) {
+                 						                     console.log(err);
+                 						                     res.json({ error: "error querying" });
+                 					               } else {
+                                                        console.log(rows);
+                                                        res.json(rows);
+  					                             }
+  				                        }
+  			                    );
+                          }
+                    }
+            );
+        }
+      });
 });
 
 app.put("/artist/:id", (req:Request,res:Response)=>{

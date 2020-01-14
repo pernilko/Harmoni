@@ -122,4 +122,3 @@ class UserService {
 }
 
 export let userService: UserService = sharedComponentData(new UserService());
-

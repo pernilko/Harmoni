@@ -7,6 +7,8 @@ import {Artist} from "../../../services/ArtistService";
 import Accordion from "react-bootstrap/Accordion";
 import {Alert} from "../../../widgets";
 
+let del_artist: Artist[] = [];
+
 export class ArtistDropdown extends Component<{buttonName: string, artist: Artist}> {
     state: Object={raider: null, hraider: null,contract: null};
     artist: Artist[] = [];
@@ -104,7 +106,7 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
         console.log(this.state);
 
         const index = this.artist.indexOf(this.props.artist);
-        this.artist[index] = new Artist(this.props.artist.artist_id,this.props.artist.event_id,this.artist_name, this.state.raider, this.state.hraider,this.state.contract,this.email, this.phone,this.image);
+        this.artist[index] = new Artist(this.props.artist.artist_id,this.props.artist.event_id,this.artist_name, this.state.raider, this.state.hraider,this.state.contract,this.email, this.phone);
 
         //let s: any = ArtistDetails.instance();
         //s.mounted();
@@ -128,6 +130,7 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
     }
 
     delete(a: Artist){
+        del_artist.push(a);
         const index = this.artist.indexOf(a);
         if (index > -1) {
             this.artist[index] = null;
@@ -170,8 +173,9 @@ export class ArtistDetails extends Component {
     }
 
     addNewArtist(){
-        let a: Artist = new Artist(null, null, "", "", "", "", "", null, "");
-        a.is_new = true;
+        let a: Artist = new Artist(-1, 0, "", null, null, null, "", "", true);
         this.artist.push(a);
     }
 }
+
+export { del_artist };

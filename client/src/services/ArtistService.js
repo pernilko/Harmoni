@@ -12,10 +12,8 @@ export class Artist {
     artist_contract: any;
     email: string;
     phone: string;
-    image: any;
-    is_new: bool = false;
 
-    constructor(artist_id: number, event_id: number, artist_name: string, riders: any, hospitality_riders: any, artist_contract: any, email: string, phone: string, image: any) {
+    constructor(artist_id: number, event_id: number, artist_name: string, riders: any, hospitality_riders: any, artist_contract: any, email: string, phone: string) {
 
         this.artist_id = artist_id;
         this.event_id = event_id;
@@ -25,7 +23,6 @@ export class Artist {
         this.artist_contract = artist_contract;
         this.email = email;
         this.phone = phone;
-        this.image = image;
     }
 }
 
@@ -45,7 +42,7 @@ class ArtistService {
 
 
     addArtist(event_id: number, artist_name: string, riders: File, hospitality_riders: File, artist_contract: File, email: string, phone: number) {
-        axios.post<{}, Artist>(url + "artist/add", {
+        return axios.post<{}, Artist>(url + "artist/add", {
             "event_id": event_id,
             "artist_name": artist_name,
             "riders": riders,
