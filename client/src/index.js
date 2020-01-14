@@ -29,10 +29,6 @@ if (root)
         <Route exact path = "/allEvents" render = {(props) => <EventList user={false}/>}/>
         <Route exact path = "/myEvents" render = {(props) => <EventList user={true}/>}/>
         <Route exact path="/profile" component={Profile}/>
-        <Route exact path="/profile/editPB" component={Profile}/>
-        <Route exact path="/profile/editInfo" component={Profile}/>
-        <Route exact path="/profile/editUP" component={Profile}/>
-        <Route exact path="/profile/deleteUser" component={Profile}/>
 
         <Route exact path = "/allEvents" component={EventList}/>
         <Route path = "/Event" component = {RegistrationForm}/>

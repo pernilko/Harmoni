@@ -81,7 +81,7 @@ export class Login extends Component{
                                     onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
                                         this.user.email = event.target.value
                                     }}
-                                    placeholder="olaNormann@mail.com"/>
+                                    placeholder="Ola.Normann@mail.com"/>
                             </Form>
                         <Row style = {{width: "60%", margin: "auto"}}>
                             <Col>

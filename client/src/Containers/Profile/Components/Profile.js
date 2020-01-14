@@ -2,87 +2,100 @@
 
 import * as React from 'react';
 import {Component} from 'react-simplified';
-import { Nav, Image, Container, Spinner, TabContent, FormLabel, TabPane } from 'react-bootstrap';
-import {User, userService} from '../../../services/UserService';
+import { Nav, Image, Tab, Col, Spinner, Button, Card } from 'react-bootstrap';
+import { User, userService } from '../../../services/UserService';
 import { createHashHistory } from 'history';
-import { Alert, Column, Row } from '../../../widgets';
+import {Row} from '../../../widgets';
 import {sharedComponentData} from 'react-simplified';
+import Form from 'react-bootstrap/Form';
+
 
 
 export class Profile extends Component{
+  user: User[] = [];
+  hidden: boolean = true;
 
-  active: boolean = true;
-  
   render() {
-
     if (userService.currentUser) {
-
 
       return <div>
         <h2 className="card-header"> Hei {userService.currentUser.user_name} </h2>
-        <Container style={{backgroundColor: "light"}}>
+        <Tab.Container id="left-tabs-" defaultActiveKey="first">
           <Row>
-            <Column width={40}>
-              <br/>
-              <Image src="https://about.gitlab.com/images/new_logo/A.jpg"
+            <Col lg={3}>
+              <Image src="https://purepng.com/public/uploads/large/purepng.com-mouth-smilemouth-smilefacial-expressionduchenne-smilesmileclipartlips-1421526971728gfkke.png"
                      roundedCircle width={280 + 'px'}
                      height={250 + 'px'}/>
               <br/>
-              <br/>
-
-              <Nav className="flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <Nav.Link  id="v-pills-changePB-tab"
-                           data-toggle="pill"
-                           href="#Profile/editPB"
-                           role="tab"
-                           aria-controls="v-pills-changePB" > Endre profil bilde</Nav.Link>
-                <Nav.Link id="v-pills-changeInfo-tab"
-                          data-toggle="pill" href="#Profile/editInfo"
-                          role="tab"
-                          aria-controls="v-pills-changeInfo"
-                          aria-selected="false">Endre kontaktinfo</Nav.Link>
-                <Nav.Link id="v-pills-changeUP-tab"
-                          data-toggle="pill"
-                          href="#Profile/editUP"
-                          role="tab"
-                          aria-controls="v-pills-changeUP"
-                          aria-selected="false">Endre brukernavn og/eller passord</Nav.Link>
-                <Nav.Link id="v-pills-deleteUser-tab"
-                          data-toggle="pill"
-                          href="#Profile/deleteUser"
-                          role="tab"
-                          aria-controls="v-pills-deleteUser"
-                          aria-selected="false">Slett brukerkonto</Nav.Link>
+              <Nav variant="pills" className="flex-column">
+                <Nav.Item>
+                  <Nav.Link eventKey="first">Bruker informasjon</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="second">Endre brukernavn og/eller passord</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="third">Slett brukerkonto</Nav.Link>
+                </Nav.Item>
               </Nav>
-            </Column>
-            <Column>
-              <TabContent id="tabContent">
-                <TabPane active={this.active} className="fade show" to="/Profile/v-pills-changePB" role="tabpanel" aria-labelledby="v-pills-changePB-tab">
+            </Col>
+            <Col lg={9}>
+              <Tab.Content>
+                <Tab.Pane eventKey="first">
+                  <Card border="warning">
+                    <Card.Body>
+                      <h2>Account settings</h2>
+                      <br/>
+                      <h6>Email knyttet til bruker: </h6>
+                      <p>{userService.currentUser.email}</p>
+                      <Button variant="primary" type="button" onClick={this.change}>Endre</Button>
 
-                </TabPane>
-                <TabPane className="fade" id="v-pills-changeInfo" role="tabpanel" aria-labelledby="v-pills-changeInfo-tab">
+                      <div hidden={this.hidden}>
+                        <br/>
+                        <Form.Group>
+                          <Form.Label> Fyll inn ny e-mail adresse</Form.Label>
+                          <Form.Control style={{width: 600 + 'px'}}
+                                        type="input"
+                                        placeholder={userService.currentUser.email}
+                                        onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.user.mail =
+                                        event.target.value}}/>
+                        </Form.Group>
+                        <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.ok}>Bekreft</Button>
 
-                </TabPane>
-                <TabPane className="fade" id="v-pills-changeUP" role="tabpanel" aria-labelledby="v-pills-changeUP-tab">
+                      </div>
+                      <br/>
+                      <br/>
 
-                </TabPane>
-                <TabPane className="fade" id="v-pills-deleteUser" role="tabpanel" aria-labelledby="v-pills-deleteUser-tab">
-
-                </TabPane>
-              </TabContent>
-            </Column>
+                    </Card.Body>
+                  </Card>
+                </Tab.Pane>
+                <Tab.Pane eventKey="second">
+                  <div/>
+                </Tab.Pane>
+                <Tab.Pane eventKey="third">
+                  <div/>
+                </Tab.Pane>
+              </Tab.Content>
+            </Col>
           </Row>
-        </Container>
+        </Tab.Container>
       </div>
     } else {
       return <Spinner animation="border"/>
     }
   }
-  change(){
-    if(this.active){
-      this.active = true;
-    }else {
-      this.active = false;
+  change() {
+    console.log(this.user.email);
+    if (this.user.email != 0) {
+      this.hidden = false;
     }
+  }
+
+  ok(){
+    //Change email
+  }
+
+
+  changePB(){
   }
 }
