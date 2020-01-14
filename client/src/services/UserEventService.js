@@ -11,4 +11,10 @@ export class UserEvent {
         this.event_id = event_id;
         this.job_position = job_position;
     }
+
+    class UserEventService {
+        getAllUserEvent(id: number) {
+            return axios.get<UserEvent[]>(url + "ticket/all").then(response => response.data);
+        }
+    }
 }
