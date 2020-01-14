@@ -66,7 +66,6 @@ export class Profile extends Component{
                       </div>
                       <br/>
                       <br/>
-
                       <h3>Endre profilbilde</h3>
                       <Form.Group>
                           <Form.Label>Last opp bilde</Form.Label>
@@ -74,8 +73,22 @@ export class Profile extends Component{
                             event.target.value}}/>
                       </Form.Group>
                       <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.changePB}>Endre</Button>
-
                       <br/>
+                      <br/>
+                      <h3>Kontakt informasjon</h3>
+                      <Form.Group>
+                        <Form.Label>Endre adresse</Form.Label>
+                        <Form.Control type="String" placeholder="Skriv inn adresse" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+                          this.user.address = event.target.value
+                        }}/>
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Endre telefon</Form.Label>
+                        <Form.Control type="number" placeholder="Skriv inn telefon nummer" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+                          this.user.phone = event.target.value
+                        }}/>
+                      </Form.Group>
+                      <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.changeInfo}>Endre</Button>
                     </Card.Body>
                   </Card>
                 </Tab.Pane>
@@ -117,8 +130,8 @@ export class Profile extends Component{
   changePB(){
     if(this.user.image.length !==0){
       userService
-        .updateImage(userService.currentUser.image, this.user.image)
-        .then(() =>{
+        .updateImage(userService.currentUser.user_id, this.user.image)
+        .then(() => {
           if(userService.currentUser){
             Alert.success("Profil bildet er oppdatert");
             userService.autoLogin();
@@ -127,6 +140,22 @@ export class Profile extends Component{
         })
     }
   }
+
+  changeInfo(){
+    if(this.user.address.length !==0 || this.user.phone.length !==0){
+      userService
+        .updateInfo(userService.currentUser.user_id, this.user.address, this.user.phone)
+        .then(() => {
+          if(userService.currentUser){
+            Alert.success("Kontaktinfo er oppdatert ");
+            userService.autoLogin();
+            history.push("/Profile");
+          }
+        })
+    }
+  }
+
+
 
 
 }

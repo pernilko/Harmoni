@@ -106,6 +106,12 @@ class UserService {
         return axios.put<{}, User>(url + 'Profile/edit/' + user_id,
           {"image": image}) .then(response => response.data);
     }
+    updateInfo(user_id:number, address:string, phone: string){
+        return axios.put<{}, User>(url + 'Profile/edit/' + user_id, {
+            "address": address,
+            "phone": phone
+        }) .then(response => response.data);
+    }
 
     getUser(user_id){
         return axios.get<User>(url+ 'user/'+ user_id).then(response=>response.data[0]);
