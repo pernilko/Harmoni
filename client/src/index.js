@@ -24,4 +24,4 @@ if (root)
     </HashRouter>,
     root
   );
-//userService.autoLogin();
+userService.autoLogin();

@@ -1,26 +1,25 @@
 // @flow
 import axios from 'axios';
-//import {FileReader} from "jsdom/lib/jsdom/browser/Window";
 
 const url = "http://localhost:8080/";
 
 export class Artist {
     artist_id: number;
     event_id: number;
+    artist_name: string;
     email: string;
     phone: string;
-    image: Buffer;
-    riders: FormData;
+    image: File;
+    riders:FormData;
 
-    constructor(artist_id: number, event_id: number, artist_name: string,email: string, phone: string, image: any, readStates:Object,states:Object) {
+    constructor(artist_id: number, event_id: number, artist_name: string, email: string, phone: string, image: Object, riders:FormData) {
         this.artist_id = artist_id;
         this.event_id = event_id;
         this.artist_name = artist_name;
         this.email = email;
         this.phone = phone;
         this.image = image;
-        this.readStates=readStates;
-        this.states=states;
+        this.riders=riders;
     }
 }
 

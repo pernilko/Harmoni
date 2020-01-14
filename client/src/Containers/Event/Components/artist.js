@@ -7,24 +7,21 @@ import {Artist} from "../../../services/ArtistService";
 import Accordion from "react-bootstrap/Accordion";
 
 export class ArtistDropdown extends Component<{buttonName: string, editMode: boolean, artist: Artist}> {
-    state: Object={raider: new FileReader(),hraider: new FileReader(),contract: new FileReader()};
-    readState: Object={raiderReader:null,hRaiderReader:null,contractReader:null};
     artist: Artist[] = [];
+    formData:FormData=new FormData();
 
     artist_name: string = this.props.artist.artist_name;
-    riders: Buffer = this.props.artist.riders;
-    hospitality_riders: Buffer = this.props.artist.hospitality_riders;
-    artist_contract: Buffer = this.props.artist.artist_contract;
+    riders: File = this.props.artist.riders;
+    hospitality_riders: File = this.props.artist.hospitality_riders;
+    artist_contract: File = this.props.artist.contract;
     email: string = this.props.artist.email;
     phone: string = this.props.artist.phone;
-    //image: string = this.props.image;
+    image: File = this.props.artist.image;
 
     editMode: boolean = this.props.editMode;
 
 
     render() {
-        let reader = new FileReader();
-
         return (
             <Accordion>
                 <Card>
@@ -47,7 +44,7 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                     <div className="form-group">
                                         <label>E-post: </label>
                                         <input type="epost" className="form-control" placeholder="olanordmann@gmail.com" value={this.email}
-                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.email = event.target.value)}/>
+                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {this.email = event.target.value}}/>
                                     </div>
                                     <div className="form-group">
                                         <label>Mobilnummer: </label>
@@ -60,7 +57,11 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                         </div>
                                         <div className="custom-file">
                                             <input type="file" className="file-path validate" id="raider" accept='.pdf'
-                                                   onChange={this.onChanger}/>
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>{
+                                                       this.riders=event.target.files[0];
+                                                       this.formData.append('riders',event.target.files[0]);
+                                                   }
+                                                   }/>
                                         </div>
                                     </div><br/>
                                     <label>Hospitality rider:</label><br/>
@@ -69,7 +70,10 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                         </div>
                                         <div className="custom-file">
                                             <input type="file" className="file-path validate" id="hospitality-raider" accept='.pdf'
-                                                   onChange={this.onChangeh}/>
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>{
+                                                       this.hospitality_riders=event.target.files[0];
+                                                       this.formData.append('hospitality_riders',event.target.files[0]);
+                                                   }}/>
                                         </div>
                                     </div>
                                     <br/>
@@ -79,7 +83,11 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                         </div>
                                         <div className="custom-file">
                                             <input type="file" className="file-path validate" id="contract" accept='.pdf'
-                                                   onChange={this.onChangec}/>
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>{
+                                                       this.artist_contract=event.target.files[0];
+                                                       this.formData.append('contract',event.target.files[0]);
+
+                                                   }}/>
                                         </div>
                                     </div>
                                     <br/>
@@ -103,45 +111,28 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
             </Accordion>
         );
     }
+    edit(){
+
+    }
+
+    delete(){
+
+    }
 
     add(){
-        console.log(this.state);
+        console.log("checking riders file"+ this.formData.get('riders').name);
         const index = this.artist.indexOf(this.props.artist);
-        this.artist[index] = new Artist(0,0,this.artist_name, this.state.raider, this.state.hraider,this.state.contract,this.email, this.phone,this.image);
+        this.artist[index] = new Artist(0,0,this.artist_name, this.riders,this.hospitality_riders,this.artist_contract,this.email, this.phone,null, this.formData);
         this.artist_name = "";
+        this.riders="";
+        this.hospitality_riders="";
+        this.artist_contract="";
         this.email = "";
         this.phone = "";
-        this.riders = "";
-        this.hospitality_riders = "";
-        this.artist_contract = "";
         this.image = "";
         //let s: any = ArtistDetails.instance();
         //s.mounted();
 
-    }
-
-    onChanger(event:SyntheticInputEvent<HTMLInputElement>) {
-        this.state.raider=event.target.files[0];
-        this.readState.raiderReader.onload=(function(data){
-            return function(e){data.src=e.target.result;};
-        });
-        this.readState.raiderBuffer.readAsArrayBuffer(this.state.raider);
-    }
-
-    onChangeh(event:SyntheticInputEvent<HTMLInputElement>) {
-        this.state.hraider=event.target.files[0];
-        this.readState.hRaiderReader.onload=(function(data){
-            return function(e){data.src=e.target.result;};
-        });
-        this.readState.hRaiderReader.readAsArrayBuffer(this.state.hospitality_riders)
-    };
-
-    onChangec(event:SyntheticInputEvent<HTMLInputElement>){
-        this.state.contract=event.target.files[0];
-        this.readState.contractReader.onload=(function(data){
-            return function(e){data.src=e.target.result;};
-        });
-        this.readState.contractReader.readAsArrayBuffer(this.state.hospitality_riders);
     }
 
     mounted(): unknown {
@@ -167,9 +158,9 @@ export class ArtistDetails extends Component {
                             <div className="col"><label>Email: {a.email}</label></div>
                             <div className="col"><label>Tlf: {a.phone}</label></div>
                             <div className="col"><label>Dokumenter:
-                                <label>{a.readStates.raiderReader ? a.states.raider.name: 'Ingen rider valgt.'}</label>
-                                <label>{a.readStates.hRaiderReader ? a.states.hospitality_riders.name : 'Ingen hospitality rider valgt.'}</label>
-                                <label>{a.readStates.contractReader ? a.states.artist_contract.name: 'Ingen kontrakt valgt.'}</label></label></div>
+                                <label>{a.riders ? a.riders.name: 'Ingen rider valgt.'}</label>
+                                <label>{a.hospitality_riders ? a.hospitality_riders.name : 'Ingen hospitality rider valgt.'}</label>
+                                <label>{a.contract ? a.contract.name: 'Ingen kontrakt valgt.'}</label></label></div>
                             <div className="col">
                                 <button type="button" className="btn btn-danger" onClick={() => this.delete(a)} style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
                             </div>
@@ -188,7 +179,7 @@ export class ArtistDetails extends Component {
     }
 
     addNewArtist(){
-        this.artist.push(new Artist(0, 0, "", "","", "", "",""));
+        this.artist.push(new Artist(0, 0, "", {},{},{},"","", {},""));
     }
 
     delete(a: Artist){

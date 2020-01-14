@@ -20,8 +20,8 @@ module.exports = class artistDao extends Dao {
         );
     }
 
-    insertOne(json: {event_id: number, artist_name: string, riders: File, hospitality_riders: File,
-                  artist_contract: File, email: string, phone: string, image: File}, callback: function) {
+    insertOne(json: {event_id: number, artist_name: string, riders: Object, hospitality_riders: Object,
+                  artist_contract: Object, email: string, phone: string, image: Object}, callback: function) {
 
         console.log('Printing the rider tostring'+json.riders);
         super.query(

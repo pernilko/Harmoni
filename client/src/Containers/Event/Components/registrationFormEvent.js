@@ -13,7 +13,6 @@ import {Alert} from "../../../widgets";
 import { createHashHistory } from 'history';
 import {User, userService} from '../../../services/UserService';
 import {sharedComponentData} from "react-simplified";
-import fs from 'fs';
 
 
 const history = createHashHistory();
@@ -26,12 +25,11 @@ export class RegistrationForm extends Component {
     user_id: number = 0;
     address: string = "";
     description: string = "";
-    startDate: number = null;
-    endDate: number = null;
-    startTime: number = null;
-    endTime: number = null;
-    image: File = null;
-
+    startDate: number = 0;
+    endDate: number = 0;
+    startTime: number = 0;
+    endTime: number = 0;
+    image: File = "";
     render(){
         return(
             <div>
@@ -94,6 +92,10 @@ export class RegistrationForm extends Component {
             </div>
         )
     }
+
+    cancel(){
+
+    }
     regEvent(){
         console.log(this.eventName+"hei");
         if (this.eventName === "") {
@@ -133,13 +135,14 @@ export class RegistrationForm extends Component {
     }
 
     addArtists(val: number) {
+
         let artistDetails: any = ArtistDetails.instance();
         let artists = artistDetails.artist;
-        console.log(artists);
+        console.log('printing the artist object'+artists.riders);
 
         artists.map(a => {
             artistService
-                .addArtist(val, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone, a.image)
+                .addArtist(val, a.artist_name, a.email, a.phone, a.image,a.riders)
                 //.catch((error: Error) => console.log(error.message))
             });
     }
