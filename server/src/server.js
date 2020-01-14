@@ -1,4 +1,5 @@
 //@flow
+const fileUpload = require('express-fileupload');
 let express = require("express");
 let mysql = require("mysql");
 let bcrypt = require("bcryptjs");
@@ -7,10 +8,13 @@ const publicKEY = require('./keys/public.json');
 let jwt = require("jsonwebtoken");
 let bodyParser = require("body-parser");
 let nodemailer = require("nodemailer");
+
 let config: {host: string, user: string, password: string, database: string, key: string} = require("./config")
 
 let app = express();
 app.use(bodyParser.json());
+
+app.use("/uploadRiders", fileUpload());
 
 type Request = express$Request;
 type Response = express$Response;
@@ -66,6 +70,31 @@ app.use("/api", (req, res, next) => {
         }
     });
 });
+
+app.post('/uploadRiders/:artist_id', function(req, res) {
+    console.log("received put request for uploading rider");
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let sampleFile = req.files.sampleFile;
+    console.log(sampleFile);
+
+    artistDao.insertRider(sampleFile, req.params.artist_id, (status, data)=>{
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.get('/Riders/:artist_id', (req, res)=>{
+    console.log("received get request for getting riders");
+
+    artistDao.getRider(req.params.artist_id, (status, data)=>{
+        res.status(status);
+        res.json(data);
+    })
+})
 
 app.post("/login", (req, res) => {
     console.log(config.username);
@@ -154,12 +183,49 @@ app.get("/artist/:id", (req : Request, res: Response) => {
 });
 
 //tested
+/*
 app.post("/artist/add", (req : Request, res: Response) => {
     console.log("/artist/add: received post request from client");
     artistDao.insertOne(req.body, (status, data) => {
         res.status(status);
         res.json(data);
         console.log(req.body);
+    });
+});
+ */
+
+app.post("/artist/add", (req : Request, res: Response) => {
+    pool.getConnection((err, connection: function) => {
+        console.log("Connected to database");
+        if (err) {
+            console.log("Feil ved oppkobling til databasen");
+            res.json({ error: "feil ved oppkobling"});
+        } else {
+            connection.query(
+                "INSERT INTO artist (event_id, artist_name, email, phone, image) values (?,?,?,?,?)",
+                [req.body.event_id, req.body.artist_name, req.body.email, req.body.phone, req.body.image],
+                err => {
+                    if (err) {
+                        console.log(err);
+                        res.json({ error: "error querying" });
+                    } else {
+                        connection.query(
+                            "SELECT LAST_INSERT_ID() as artist_id",
+                            (err, rows) => {
+                                connection.release();
+                                if (err) {
+                                    console.log(err);
+                                    res.json({ error: "error querying" });
+                                } else {
+                                    console.log(rows);
+                                    res.json(rows);
+                                }
+                            }
+                        )
+                    }
+                }
+            )
+        }
     });
 });
 

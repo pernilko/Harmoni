@@ -23,6 +23,7 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
 
 
     render() {
+        let reader = new FileReader();
 
         return (
             <Accordion>
@@ -197,4 +198,22 @@ export class ArtistDetails extends Component {
         }
     }
 
+}
+
+export class UploadTest extends Component{
+
+    render(){
+        return(
+            <div>
+                <p>HALLO</p>
+                <form ref='uploadForm'
+                      action='http://localhost:8080/uploadRiders/6'
+                      method='post'
+                      encType="multipart/form-data">
+                    <input type="file" name="sampleFile" />
+                    <input type='submit' value='Upload!' />
+                </form>
+            </div>
+        );
+    }
 }

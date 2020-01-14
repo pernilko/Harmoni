@@ -10,8 +10,7 @@ export class Artist {
     email: string;
     phone: string;
     image: Buffer;
-    readStates:Object;
-    states:Object;
+    riders: FormData;
 
     constructor(artist_id: number, event_id: number, artist_name: string,email: string, phone: string, image: any, readStates:Object,states:Object) {
         this.artist_id = artist_id;
@@ -37,16 +36,16 @@ class ArtistService {
     getOneArtist(id: number) {
         axios.get<Artist[]>(url + "artist/"+id).then(response => response.data[0]);
     }
-    addArtist(event_id: number, artist_name: string, email: string, phone: number,readStates:Object) {
+    addArtist(event_id: number, artist_name: string, email: string, phone: number, ridersFile: FormData) {
         axios.post<{}, Artist>(url + "artist/add", {
             "event_id": event_id,
             "artist_name": artist_name,
-            "riders": readStates.raiderReader,
-            "hospitality_riders": readStates.hRaiderReader,
-            "artist_contract":readStates.contractReader,
             "email": email,
             "phone": phone
-        }).then(response => response.data);
+        }).then(response => {
+            axios.post<{}>(url + "uploadRider/" + response[0].artist_id, ridersFile
+            ).then(res=>res.data);
+        });
     }
 
     deleteArtist(id: number) {

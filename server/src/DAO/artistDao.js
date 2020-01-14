@@ -31,6 +31,19 @@ module.exports = class artistDao extends Dao {
         );
     }
 
+    insertRider(riders_file: any, artist_id: number, callback: function){
+        super.query(
+            "INSERT INTO file (artist_id, name, data, size, encoding, tempFilePath, truncated, mimetype, md5) values(?,?,?,?,?,?,?,?,?)",
+            [artist_id, riders_file.name, riders_file.data, riders_file.size, riders_file.encoding, riders_file.tempFilePath, riders_file.truncated, riders_file.mimetype, riders_file.md5],
+            callback
+        );
+    }
+    getRider(artist_id: number, callback: function){
+        super.query(
+            "SELECT * FROM file WHERE artist_id = ?",[artist_id], callback
+        );
+    }
+
     updateArtist(artistID:number,json:{artist_name: string, riders: File, hospitality_riders: File,
         artist_contract: File, email: string, phone: string, image: File}, callback:function){
         super.query(
