@@ -58,8 +58,16 @@ module.exports = class userDao extends Dao {
     updateUserImage(user_id: number, json: {image: string}, callback: function){
         super.query("UPDATE user SET image=? WHERE user_id=?", [json.image, user_id], callback);
     }
-    updateUserInfo(user_id: number, json:{address: string, phone: phone}, callback: function){
+    updateUserInfo(user_id: number, json:{address: string, phone: string}, callback: function){
         super.query("UPDATE user SET address=?, phone=? WHERE user_id=?", [json.address, json.phone, user_id], callback);
+    }
+    updateUserPass(user_id: number, json:{user_name: string, password: string}, callback: function){
+        let salt: string = bcrypt.genSaltSync(saltRounds);
+        console.log(json.password);
+        let hash: string = bcrypt.hashSync(json.password, salt);
+        super.query("UPDATE user SET user_name=?, password=? WHERE user_id=?", [json.user_name, hash, user_id],
+          callback
+        );
     }
 
 };

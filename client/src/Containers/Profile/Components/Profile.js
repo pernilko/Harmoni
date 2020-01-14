@@ -16,6 +16,7 @@ const history = createHashHistory();
 export class Profile extends Component{
   user: User = new User();
   hidden: boolean = true;
+  repeatedPassword: string = "";
 
   render() {
     if (userService.currentUser) {
@@ -97,13 +98,41 @@ export class Profile extends Component{
                  <Card>
                    <Card.Body>
                      <h2>Endre brukernavn og/eller passord</h2>
+                     <Form.Group>
+                       <Form.Label>Endre brukernavn</Form.Label>
+                       <Form.Control type="username" placeholder="Velg nytt brukernavn" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+                         this.user.user_name = event.target.value
+                       }}/>
+                     </Form.Group>
+                     <Form.Row>
+                       <Form.Group as={Col}>
+                         <Form.Label>Endre passord</Form.Label>
+                         <Form.Control type="password" placeholder="Skriv inn nytt passord"onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+                           this.user.password = event.target.value;
+                         }}/>
 
-
+                       </Form.Group>
+                       <Form.Group as={Col}>
+                         <Form.Label>Bekreft passord</Form.Label>
+                         <Form.Control type="password" placeholder="Gjenta passord"
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+                           this.repeatedPassword = event.target.value
+                         }}/>
+                       </Form.Group>
+                     </Form.Row>
+                     <Button type="submit" variant="primary" onClick = {this.changeUP}>Endre</Button>
                    </Card.Body>
                  </Card>
                 </Tab.Pane>
                 <Tab.Pane eventKey="third">
-                  <div/>
+                 <Card>
+                   <Card.Body>
+                     <h2>Slett brukeren din</h2>
+                     <Button type="submit" variant="danger" onClick = {this.delete}>Slett bruker</Button>
+                     <Button type="submit" variant="secondary" onClick = {this.cancel}>Angre</Button>
+
+                   </Card.Body>
+                 </Card>
                 </Tab.Pane>
               </Tab.Content>
             </Col>
@@ -160,5 +189,42 @@ export class Profile extends Component{
           }
         })
     }
+  }
+  // Change username and password
+  changeUP() {
+    if (this.repeatedPassword != this.user.password && this.user.password.length >= 8) {
+      Alert.danger("Passord må være like og ha minst 8 tegn");
+    } else if (this.user.user_name.length !== 0) {
+      userService
+        .updateUsernamePassword(userService.currentUser.user_id, this.user.user_name, this.user.password)
+        .then(() => {
+          if (userService.currentUser) {
+            Alert.success("Brukernavn/passord er oppdatert");
+            userService.autoLogin();
+            history.push("/Profile");
+          }
+        })
+    }
+  }
+
+  //delete user
+  delete(){
+    console.log(userService.currentUser.user_id);
+    userService
+      .deleteUser(userService.currentUser.user_id)
+      .then(() => {
+        localStorage.setItem("token", "");
+        if(userService.currentUser){
+          Alert.success("Sletting gikk fint");
+          history.push("/login");
+        }
+      })
+  }
+
+  // Cancel user deletion
+  cancel(){
+    Alert.info("Bruker ble ikke slettet");
+    history.push("/Profile");
+
   }
 }
