@@ -20,9 +20,10 @@ module.exports = class artistDao extends Dao {
         );
     }
 
-    insertOne(json: {event_id: number, artist_name: string, riders: Blob, hospitality_riders: Blob,
-                  artist_contract: Blob, email: string, phone: string, image: Blob}, callback: function) {
-        console.log(json.riders.toString());
+    insertOne(json: {event_id: number, artist_name: string, riders: File, hospitality_riders: File,
+                  artist_contract: File, email: string, phone: string, image: File}, callback: function) {
+
+        console.log('Printing the rider tostring'+json.riders);
         super.query(
             "INSERT INTO artist (event_id, artist_name, riders, hospitality_riders, artist_contract, email, phone, image) values (?,?,?,?,?,?,?,?)",
             [json.event_id, json.artist_name, json.riders, json.hospitality_riders, json.artist_contract, json.email, json.phone, json.image],
@@ -30,11 +31,13 @@ module.exports = class artistDao extends Dao {
         );
     }
 
-    updateArtist(artistID:number,json:{artist_name: string, riders: Blob, hospitality_riders: Blob,
-        artist_contract: Blob, email: string, phone: string, image: Blob}, callback:function){
+    updateArtist(artistID:number,json:{artist_name: string, riders: File, hospitality_riders: File,
+        artist_contract: File, email: string, phone: string, image: File}, callback:function){
         super.query(
           "UPDATE artist SET artist_name=?,riders=?,hospitality_riders=?,artist_contract=?,email=?,phone=?,image=? WHERE artist_id=?",
-          [json.artist_name,json.riders,json.hospitality_riders,json.artist_contract,json.email,json.phone,json.image,artistID],
+          [json.artist_name,{file_type:'pdf',file_size: json.riders.length,file: json.riders},
+              {file_type:'pdf',file_size: json.hospitality_riders.length,file:json.hospitality_riders},
+              {file_type:'pdf',file_size: json.artist_contract.length,file:json.artist_contract},json.email,json.phone,json.image,artistID],
           callback
         );
     }

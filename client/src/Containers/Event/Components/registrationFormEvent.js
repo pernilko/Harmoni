@@ -13,6 +13,7 @@ import {Alert} from "../../../widgets";
 import { createHashHistory } from 'history';
 import {User, userService} from '../../../services/UserService';
 import {sharedComponentData} from "react-simplified";
+import fs from 'fs';
 
 
 const history = createHashHistory();

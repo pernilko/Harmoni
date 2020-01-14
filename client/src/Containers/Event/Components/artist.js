@@ -7,20 +7,23 @@ import {Artist} from "../../../services/ArtistService";
 import Accordion from "react-bootstrap/Accordion";
 
 export class ArtistDropdown extends Component<{buttonName: string, editMode: boolean, artist: Artist}> {
-    state: Object={raider: null,hraider: null,contract: null};
+    state: Object={raider: new FileReader(),hraider: new FileReader(),contract: new FileReader()};
+    readState: Object={raiderReader:null,hRaiderReader:null,contractReader:null};
     artist: Artist[] = [];
 
     artist_name: string = this.props.artist.artist_name;
-    riders: File = this.props.artist.riders;
-    hospitality_riders: File = this.props.artist.hospitality_riders;
-    artist_contract: File = this.props.artist.artist_contract;
+    riders: Buffer = this.props.artist.riders;
+    hospitality_riders: Buffer = this.props.artist.hospitality_riders;
+    artist_contract: Buffer = this.props.artist.artist_contract;
     email: string = this.props.artist.email;
-    phone: number = this.props.artist.phone;
+    phone: string = this.props.artist.phone;
     //image: string = this.props.image;
 
     editMode: boolean = this.props.editMode;
 
+
     render() {
+
         return (
             <Accordion>
                 <Card>
@@ -115,15 +118,31 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
         //s.mounted();
 
     }
+
     onChanger(event:SyntheticInputEvent<HTMLInputElement>) {
         this.state.raider=event.target.files[0];
+        this.readState.raiderReader.onload=(function(data){
+            return function(e){data.src=e.target.result;};
+        });
+        this.readState.raiderBuffer.readAsArrayBuffer(this.state.raider);
     }
+
     onChangeh(event:SyntheticInputEvent<HTMLInputElement>) {
         this.state.hraider=event.target.files[0];
-    }
+        this.readState.hRaiderReader.onload=(function(data){
+            return function(e){data.src=e.target.result;};
+        });
+        this.readState.hRaiderReader.readAsArrayBuffer(this.state.hospitality_riders)
+    };
+
     onChangec(event:SyntheticInputEvent<HTMLInputElement>){
         this.state.contract=event.target.files[0];
+        this.readState.contractReader.onload=(function(data){
+            return function(e){data.src=e.target.result;};
+        });
+        this.readState.contractReader.readAsArrayBuffer(this.state.hospitality_riders);
     }
+
     mounted(): unknown {
         let s: any = ArtistDetails.instance();
         this.artist = s.artist;
@@ -147,9 +166,9 @@ export class ArtistDetails extends Component {
                             <div className="col"><label>Email: {a.email}</label></div>
                             <div className="col"><label>Tlf: {a.phone}</label></div>
                             <div className="col"><label>Dokumenter:
-                                <label>{a.riders ? a.riders.name : 'Ingen rider valgt.'}</label>
-                                <label>{a.hospitality_riders ? a.hospitality_riders.name : 'Ingen hospitality rider valgt.'}</label>
-                                <label>{a.artist_contract ? a.artist_contract.name: 'Ingen kontrakt valgt.'}</label></label></div>
+                                <label>{a.readStates.raiderReader ? a.states.raider.name: 'Ingen rider valgt.'}</label>
+                                <label>{a.readStates.hRaiderReader ? a.states.hospitality_riders.name : 'Ingen hospitality rider valgt.'}</label>
+                                <label>{a.readStates.contractReader ? a.states.artist_contract.name: 'Ingen kontrakt valgt.'}</label></label></div>
                             <div className="col">
                                 <button type="button" className="btn btn-danger" onClick={() => this.delete(a)} style={{marginLeft: 10+"px", float: "right"}}>Slett</button>
                             </div>
@@ -168,7 +187,7 @@ export class ArtistDetails extends Component {
     }
 
     addNewArtist(){
-        this.artist.push(new Artist(null, null, "", "", "", "", "", null, ""));
+        this.artist.push(new Artist(0, 0, "", "","", "", "",""));
     }
 
     delete(a: Artist){
