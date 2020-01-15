@@ -64,22 +64,22 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                             <div className="row">
                                 <div className="col">
                                     <label>Start dato:</label>
-                                    <input id="startdate" className="form-control" type="date" value={this.event.event_start.slice(0,10)}
+                                    <input id="startdate" className="form-control" type="date" value={this.startDate}
                                            onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startDate = event.target.value)}/>
                                 </div>
                                 <div className="col">
                                     <label>Start tid:</label>
-                                    <input className="form-control" type="time" value={this.event.event_start.slice(11,16)}
+                                    <input className="form-control" type="time" value={this.startTime}
                                            onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startTime = event.target.value)}/>
                                 </div>
                                 <div className="col">
                                     <label>Slutt dato:</label>
-                                    <input id="enddate" className="form-control" type="date" value={this.event.event_end.slice(0,10)}
+                                    <input id="enddate" className="form-control" type="date" value={this.endDate}
                                            onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endDate = event.target.value)}/>
                                 </div>
                                 <div className="col">
                                     <label>Slutt tid:</label>
-                                    <input className="form-control" type="time" value={this.event.event_end.slice(11,16)}
+                                    <input className="form-control" type="time" value={this.endTime}
                                            onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endTime = event.target.value)}/>
                                 </div>
                             </div>
