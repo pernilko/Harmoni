@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import {Component} from 'react-simplified';
-import { Nav, Image, Tab, Col, Spinner, Button, Card } from 'react-bootstrap';
+import { Nav, Image, Tab, Col, Spinner, Button, Card, Container } from 'react-bootstrap';
 import { User, userService } from '../../../services/UserService';
 import { createHashHistory } from 'history';
 import {Row, Alert} from '../../../widgets';
@@ -22,14 +22,16 @@ export class Profile extends Component{
     if (userService.currentUser) {
       return <div>
         <h2 className="card-header"> Hei, {userService.currentUser.user_name}!</h2>
+        <Container style={{padding: "0px"}}>
         <Tab.Container id="left-tabs-" defaultActiveKey="first">
           <Row>
             <Col lg={3}>
+              <div>
               <Image src="https://i.ytimg.com/vi/_c1NJQ0UP_Q/maxresdefault.jpg"
-                     roundedCircle width={280 + 'px'}
-                     height={250 + 'px'}/>
+                     roundedCircle width={240 + 'px'}
+                     height={220 + 'px'} style={{marginTop: 10 + 'px' ,marginBottom: 20 +'px'}}/>
               <br/>
-              <Nav variant="pills" className="flex-column">
+              <Nav variant="pills" className="flex-column" >
                 <Nav.Item>
                   <Nav.Link eventKey="first">Bruker informasjon</Nav.Link>
                 </Nav.Item>
@@ -39,12 +41,16 @@ export class Profile extends Component{
                 <Nav.Item>
                   <Nav.Link eventKey="third">Slett brukerkonto</Nav.Link>
                 </Nav.Item>
+                <br/>
+                <text> Harmoni bruker siden {userService.currentUser.reg_date.slice(8,10) +"/" +
+                userService.currentUser.reg_date.slice(5,7) +"-" + userService.currentUser.reg_date.slice(0,4)}</text>
               </Nav>
+              </div>
             </Col>
             <Col lg={9}>
               <Tab.Content>
                 <Tab.Pane eventKey="first">
-                  <Card>
+                  <Card style={{ borderRight: 'none', borderTop: 'none', borderBottom: 'none', paddingLeft: 30 + 'px'}}>
                     <Card.Body>
                       <h2>Profil instillinger</h2>
                       <br/>
@@ -137,6 +143,7 @@ export class Profile extends Component{
             </Col>
           </Row>
         </Tab.Container>
+          </Container>
       </div>
     } else {
       return <Spinner animation="border"/>
