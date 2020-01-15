@@ -137,18 +137,22 @@ export class EventList extends Component<{user: boolean}>{
     }
 
     setAccepted(iterator: number, user_id: number, event_id: number, accepted: number) {
-        userEventService.setAccepted(event_id, user_id, accepted).then(()=>{
-                /*
-                Dette er det vi egentlig vil
+        userEventService.setAccepted(event_id, user_id, accepted);
+        console.log("hei")
+        let users = this.state["users"];    
 
-                this.loaded = false;
-                this.ready = false;
-                let events = [];
-                this.setState({events});*/
+        for(let i = 0; i < users.length; i++){
+            if (users[i].user_id == user_id && users[i].event_id == event_id) users[i].accepted = accepted;
+        }
+        
+        users = users.map(row => {
+            if (row.user_id === user_id && event_id === row.event_id){
+                row.accepted = accepted;
+            }
+            return row;
         });
-    
-        //brukes midlertidig for at det skal se riktig ut
-        window.location.reload(false);
+
+        this.setState({users});
     }
 
     getUserEvent(event_id: number){
