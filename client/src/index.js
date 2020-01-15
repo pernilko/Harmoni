@@ -13,6 +13,7 @@ import {Navigation} from './Containers/Navbar/Components/Navbar';
 import {userService} from "./services/UserService";
 import {EventList} from './Containers/Event/Components/showEvents';
 import {sharedComponentData} from "react-simplified";
+import {EditEvent} from "./Containers/Event/Components/editEvent";
 import {EventDetails} from './Containers/Event/Components/event';
 import {inviteUser} from './Containers/Organization/Components/inviteUser';
 import {userForm} from "./Containers/Organization/Components/User";
@@ -34,6 +35,9 @@ if (root)
         <Route path = "/Event" component = {RegistrationForm}/>
         <Route path = "/Login" component = {Login}/>
         <Route path = "/RegisterOrganization" component = {RegOrganization}/>
+        <Route path="/editEvent/:event_id" component={EditEvent}/>
+        <Route exact path = "/event/:id" component = {EventDetails}/>
+        <Route path = "/user" component = {userForm}/>
         <Route path = "/user/:token" component = {userForm}/>
         <Route path = "/showEvent/:id" component = {EventDetails}/>
         <Route path = "/inviterBruker" component = {inviteUser}/>

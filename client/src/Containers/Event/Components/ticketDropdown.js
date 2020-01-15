@@ -6,24 +6,25 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
 import {Ticket} from "../../../services/TicketService.js";
-import {Artist} from "../../../services/ArtistService";
-import {ArtistDropdown} from "./artist";
 import {Alert} from "../../../widgets";
 
-export class TicketComp extends Component <{ticket: Ticket}>{
-    ticketList: Ticket[] = [];
-    type: string = "";
-    beskrivelse: string = "";
-    billetter: number = 0;
-    pris: number = 0;
+let del_ticket: Ticket[] = [];
 
+export class TicketComp extends Component <{buttonName: string, ticket: Ticket}>{
+    ticketList: Ticket[] = [];
+
+    type: string = this.props.ticket.ticket_type;
+    beskrivelse: string = this.props.ticket.description;
+    billetter: number = this.props.ticket.amount;
+    pris: number = this.props.ticket.price;
+    
     render(){
         return(
             <Accordion>
                 <Card style={{border: "none"}}>
                     <Card.Header style={{border: "none"}}>
                         <Accordion.Toggle as={Button} variant="success" eventKey="0" style = {{float: "left"}}>
-                           Rediger
+                            {this.props.buttonName}
                         </Accordion.Toggle>
                         <button type="button" className="btn btn-danger" style={{marginLeft: 10+"px", float: "left"}} onClick={() => this.deleteTicket(this.props.ticket)}>Slett</button>
                     </Card.Header>
@@ -44,7 +45,7 @@ export class TicketComp extends Component <{ticket: Ticket}>{
                                                    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.beskrivelse = event.target.value)}/>
                                         </div>
                                         <div className="form-group">
-                                            <label>Antall billetter tilgjengelig: </label>
+                                            <label>Antall billetter: </label>
                                             <input type="number" min={0} className="form-control" placeholder="75" value={this.billetter}
                                                    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.billetter = event.target.value)}/>
                                         </div>
@@ -69,8 +70,8 @@ export class TicketComp extends Component <{ticket: Ticket}>{
         )
     }
     mounted() {
-        let s: any = TicketDetails.instance();
-        this.ticketList = s.ticketList;
+            let s: any = TicketDetails.instance();
+            this.ticketList = s.ticketList;
     }
     add(){
         if(this.pris < 0){
@@ -82,12 +83,13 @@ export class TicketComp extends Component <{ticket: Ticket}>{
             return;
         }
         const index = this.ticketList.indexOf(this.props.ticket);
-        this.ticketList[index] = new Ticket(0, 0, this.type, parseInt(this.billetter), this.beskrivelse, parseInt(this.pris), 0);
+        this.ticketList[index] = new Ticket(this.props.ticket.ticket_id, this.props.ticket.event_id, this.type, parseInt(this.billetter), this.beskrivelse, parseInt(this.pris), 0);
     }
     deleteTicket(t: Ticket) {
+        del_ticket.push(t);
         const index = this.ticketList.indexOf(t);
         if (index > -1) {
-            this.ticketList.splice(index, 1);
+            this.ticketList[index] = null;
         }
     }
 }
@@ -103,7 +105,7 @@ export class TicketDetails extends Component {
                     <h3>Billetter:</h3>
                 </div>
                 <div className="card-body">
-                {this.ticketList.map(ticket => (
+                {this.ticketList.map(ticket => {if (ticket) { return(
                     <div className="card-header">
                         <div className="row">
                             <div className="col"><label>Billett Type: {ticket.ticket_type}</label></div>
@@ -117,7 +119,7 @@ export class TicketDetails extends Component {
                             </div>
                         </div>
                     </div>
-                ))}
+                )}})}
                     <button type="button" className="btn btn-secondary" onClick={() => this.addNewTicket()}>Legg til billett</button>
                 </div>
             </div>
@@ -125,7 +127,9 @@ export class TicketDetails extends Component {
     }
 
     addNewTicket(){
-        this.ticketList.push(new Ticket(null, null, "", 0, "", 0, 0));
+        this.ticketList.push(new Ticket(-1, 0, "", 0, "", 0, 0));
     }
 
 }
+
+export { del_ticket };

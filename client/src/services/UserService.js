@@ -52,6 +52,7 @@ class UserService {
                         localStorage.setItem("token", response.data.jwt);
                         console.log("user_id: " + response.data.user_id);
                         this.getUser(response.data.user_id).then(res=>{
+                            console.log(res);
                             this.currentUser = new User();
                             this.currentUser = res;
                             organizationService.setCurrentOrganization(res.org_id);
@@ -75,7 +76,6 @@ class UserService {
             if(response.data.jwt){
                 localStorage.setItem("token", response.data.jwt)
                 userService.getUser(response.data.user_id).then(res=>{
-                    console.log("res: ", res);
                     this.currentUser = new User();
                     this.currentUser = res;
                     organizationService.setCurrentOrganization(res.org_id);
@@ -140,6 +140,10 @@ class UserService {
                 body: JSON.stringify({"user_id": user_id})
             })
             .then(response => response.json());
+    }
+
+    getUserByOrgId(org_id: number){
+        return axios.get<User[]>(url +"user/all/"+ org_id).then(response => response.data);
     }
 
 }

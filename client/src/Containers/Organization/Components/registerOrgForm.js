@@ -7,7 +7,6 @@ import {User, userService} from "../../../services/UserService";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import{Component} from 'react-simplified';
-import {AdminUsrForm} from  '../../Organization/Components/AdminUsr';
 import {Alert} from "../../../widgets";
 import {Col} from "react-bootstrap";
 import { createHashHistory } from 'history';

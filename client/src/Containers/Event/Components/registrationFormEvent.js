@@ -8,11 +8,15 @@ import {TicketComp, TicketDetails} from "./ticketDropdown";
 import {eventService} from "../../../services/EventService";
 import {artistService} from "../../../services/ArtistService";
 import {Ticket, ticketService} from "../../../services/TicketService";
+import {userEventService} from "../../../services/UserEventService";
+
 
 import {Alert} from "../../../widgets";
 import { createHashHistory } from 'history';
 import {User, userService} from '../../../services/UserService';
 import {sharedComponentData} from "react-simplified";
+import {Employees, EmployeesDetails} from "./employees";
+
 import MapContainer from "./map";
 import {getlatlng} from "./map";
 
@@ -88,6 +92,9 @@ export class RegistrationForm extends Component {
                     <div className="form-group" style={{marginTop: 20+"px"}}>
                         <TicketDetails/>
                     </div>
+                    <div className="form-group" style={{marginTop: 20+"px"}}>
+                        <EmployeesDetails/>
+                    </div>
                     <h2> Velg lokasjon på kartet: </h2>
                     <MapContainer show={false}/>
                     <div className="btn-group"  style={{width: "20%", marginLeft: "40%", padding: "20px"}}>
@@ -141,6 +148,7 @@ export class RegistrationForm extends Component {
             .then(response => {
                 this.addTickets(response[0]["LAST_INSERT_ID()"]);
                 this.addArtists(response[0]["LAST_INSERT_ID()"]);
+                this.addEmployee(response[0]["LAST_INSERT_ID()"]);
                 history.push("/event/"+response[0]["LAST_INSERT_ID()"]);
             })
             .catch((error: Error) => console.log(error.message))
@@ -157,7 +165,6 @@ export class RegistrationForm extends Component {
         artists.map(a => {
             artistService
                 .addArtist(val, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone, a.image)
-                //.catch((error: Error) => console.log(error.message))
             });
     }
 
@@ -172,6 +179,19 @@ export class RegistrationForm extends Component {
                 .then(response => console.log(response))
                 .catch((error: Error) => console.log(error.message))
             });
+    }
+
+    addEmployee(val: number){
+        let employeeDetails: any = EmployeesDetails.instance();
+        let employee = employeeDetails.emp;
+        console.log(employee);
+
+        employee.map(e => {
+            userEventService
+                .addUserEvent(e.user_id, val, e.job_position)
+                .then(response => console.log(response))
+                .catch((error: Error) => console.log(error.message))
+        });
     }
 
     cancel(){
