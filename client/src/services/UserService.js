@@ -52,7 +52,7 @@ class UserService {
                         localStorage.setItem("token", response.data.jwt);
                         console.log("user_id: " + response.data.user_id);
                         this.getUser(response.data.user_id).then(res=>{
-                            this.currentUser = new User();
+                            //this.currentUser = new User();
                             this.currentUser = res;
                             organizationService.setCurrentOrganization(res.org_id);
                         })
@@ -76,7 +76,7 @@ class UserService {
                 localStorage.setItem("token", response.data.jwt)
                 userService.getUser(response.data.user_id).then(res=>{
                     console.log("res: ", res);
-                    this.currentUser = new User();
+                    //this.currentUser = new User();
                     this.currentUser = res;
                     organizationService.setCurrentOrganization(res.org_id);
                     console.log(this.currentUser);

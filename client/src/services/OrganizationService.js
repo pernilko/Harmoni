@@ -41,7 +41,7 @@ class OrganizationService{
 
     setCurrentOrganization(org_id: number){
         this.getOrganization(org_id).then(response=>{
-            this.currentOrganization = new Organization();
+            //this.currentOrganization = new Organization();
             this.currentOrganization = response[0];
             console.log("current org: ");
             console.log(this.currentOrganization);
