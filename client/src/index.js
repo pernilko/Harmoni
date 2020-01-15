@@ -9,13 +9,15 @@ import {RegistrationForm} from "./Containers/Event/Components/registrationFormEv
 import {Ticket} from "./Containers/Event/Components/ticketDropdown";
 import {Artist} from "./Containers/Event/Components/artist";
 import { RegOrganization } from './Containers/Organization/Components/registerOrgForm';
-import {Navigation} from './Containers/Navbar/Components/Navbar';
+import {New, Navigation} from './Containers/Navbar/Components/Navbar';
 import {userService} from "./services/UserService";
 import {EventList} from './Containers/Event/Components/showEvents';
 import {sharedComponentData} from "react-simplified";
 import {EventDetails} from './Containers/Event/Components/event';
 import {inviteUser} from './Containers/Organization/Components/inviteUser';
 import {userForm} from "./Containers/Organization/Components/User";
+import {Home} from "./Containers/Home/Components/home";
+
 
 const root = document.getElementById('root');
 if (root)
@@ -33,6 +35,7 @@ if (root)
         <Route path = "/user/:token" component = {userForm}/>
         <Route path = "/showEvent/:id" component = {EventDetails}/>
         <Route path = "/inviterBruker" component = {inviteUser}/>
+        <Route path = "/home" component = {Home}/>
       </div>
     </HashRouter>,
     root
