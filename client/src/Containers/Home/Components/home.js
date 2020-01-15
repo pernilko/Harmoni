@@ -5,6 +5,7 @@ import {Alert} from "../../../widgets";
 import {Card, Col, Container, Row, Spinner} from "react-bootstrap";
 import {Organization, organizationService} from "../../../services/OrganizationService";
 import {userService} from "../../../services/UserService";
+import {Upcoming} from '../../Event/Components/showUpcoming';
 
 
 export class Home extends Component {
@@ -36,6 +37,7 @@ export class Home extends Component {
                                 <div className="card" style={{margin: "none"}}>
                                     <div className="card-header">Kommende Arrangement</div>
                                     <div className="card-body">
+                                      <Upcoming user={false}/>
                                     </div>
                                 </div>
                             </Col>
@@ -78,7 +80,7 @@ export class Home extends Component {
                 this.loaded = true;
             })
             .catch((error: Error) => console.log(error.message));
-            
+
          */
     }
 }

@@ -15,8 +15,6 @@ export class EventList extends Component<{user: boolean}>{
     loaded: boolean = false;
     ready: boolean = false;
 
-
-
     constructor(props){
         super(props);
         this.state = {
@@ -66,6 +64,9 @@ export class EventList extends Component<{user: boolean}>{
                                     </div>
                                   )}
                                 </Popup>
+                                </div>
+                                <div>
+                                  <button className="float-right btn btn-warning"onClick={() => history.push("/")}>Rediger</button>
                                 </div>
                             </div>
                         </div>
