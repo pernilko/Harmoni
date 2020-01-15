@@ -46,6 +46,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     render() {
         if (this.event && this.tickets && this.artists && userService.currentUser) {
             if (!this.loaded) {
+                console.log("USER FROM EDIT EVENT", userService.currentUser);
                 this.loaded = true;
             }
             return (
