@@ -248,7 +248,7 @@ app.delete("/artist/delete/:id", (req : Request, res: Response) => {
     pool.getConnection((err, connection: function) => {
           console.log("Connected to database");
           if (err) {
-              console.log("Feil ved kobling til databasen");    
+              console.log("Feil ved kobling til databasen");
               res.json({ error: "feil ved oppkobling" });
           } else {
               connection.query(
@@ -301,6 +301,15 @@ app.get("/event/all", (req : Request, res: Response) => {
 app.get("/event/:id", (req : Request, res: Response) => {
     console.log("/event/:id: received get request from client");
     eventDao.getEvent(req.params.id, (status, data) => {
+        res.status(status);
+        console.log(data);
+        res.json(data);
+    });
+});
+
+app.get("/event/time/:id", (req : Request, res: Response) => {
+    console.log("/event/time/:id: received get request from client");
+    eventDao.getEventTime(req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
     });
@@ -438,6 +447,41 @@ app.put("/user/normal/:id", (req: Request, res: Response) => {
     });
 });
 
+app.put("/Profile/editEmail/:id", (req, res) =>{
+    console.log("/Profile/edit received an update request from client ");
+    userDao.updateUserEmail(req.params.id, req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.put("/Profile/editImage/:id", (req, res) =>{
+    console.log("/Profile/edit received an update request from client ");
+    userDao.updateUserImage(req.params.id, req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.put("/Profile/editInfo/:id", (req, res) =>{
+    console.log("/Profile/edit received an update request from client ");
+    userDao.updateUserInfo(req.params.id, req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.put("/Profile/edit/:id", (req, res) =>{
+    console.log("/Profile/edit received an update request from client ");
+    userDao.updateUserPass(req.params.id, req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+
+
+
 app.get("/user/:id", (req: Request, res: Response)=>{
     console.log("/user received get request from client");
     userDao.getUserById(req.params.id, (status, data)=>{
@@ -445,6 +489,59 @@ app.get("/user/:id", (req: Request, res: Response)=>{
         res.json(data);
     });
 });
+
+app.delete("/user/delete/:id", (req : Request, res: Response) => {
+    console.log("/user/delete/:id: received delete request from client");
+    pool.getConnection((err, connection: function) => {
+          console.log("Connected to database");
+          if (err) {
+              console.log("Feil ved kobling til databasen");
+              res.json({ error: "feil ved oppkobling" });
+          } else {
+              connection.query(
+  				          "DELETE artist FROM artist INNER JOIN event ON artist.event_id = event.event_id WHERE user_id=?",
+  				          [req.params.id],
+  				          (err, rows) => {
+  					               if (err) {
+  						                     console.log(err);
+  						                     res.json({ error: "error querying" });
+  					               } else {
+                             connection.query(
+                 				          "DELETE ticket FROM ticket INNER JOIN event ON ticket.event_id = event.event_id WHERE user_id=?",
+                 				          [req.params.id],
+                 				          (err, rows) => {
+                 					               if (err) {
+                 						                     console.log(err);
+                 						                     res.json({ error: "error querying" });
+                 					               } else {
+                                           connection.query(
+                               				          "DELETE FROM user_event WHERE user_id=?",
+                               				          [req.params.id],
+                               				          (err, rows) => {
+                               					               if (err) {
+                               						                     console.log(err);
+                               						                     res.json({ error: "error querying" });
+                               					               } else {
+                                                         connection.query(
+                                             				          "DELETE FROM event WHERE user_id=?",
+                                             				          [req.params.id],
+                                             				          (err, rows) => {
+                                             					               if (err) {
+                                             						                     console.log(err);
+                                             						                     res.json({ error: "error querying" });
+                                             					               } else {
+                                                                       console.log("/user received get request from client");
+                                                                       userDao.deleteUserById(req.params.id, (status, data)=>{
+                                                                           res.status(status);
+                                                                           res.json(data);
+                                                                       });
+                              					                             }
+                              				                        }
+                              			                    );
+
+                					                             }
+                				                        }
+                			                    );
 
 app.get("/user/all/:id", (req: Request, res: Response) => {
     console.log("/user/all/:id received get request from client");
@@ -704,7 +801,5 @@ app.put("/organization/edit/:id", (req : Request, res : Response) => {
         res.json(data);
     });
 });
-
-
 
 let server = app.listen(8080);

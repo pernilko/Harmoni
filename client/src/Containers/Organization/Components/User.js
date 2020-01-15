@@ -12,7 +12,7 @@ const history = createHashHistory();
 export class userForm extends Component <{ match: { params: { token: string } } }>{
     user: User = new User();
     organization: Organization = new Organization();
-    loaded: bollean = false;
+    loaded: boolean = false;
     repeatedPassword: string = "";
     render(){
         if(this.loaded){
