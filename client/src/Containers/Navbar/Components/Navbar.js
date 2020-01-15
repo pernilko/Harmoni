@@ -14,6 +14,7 @@ const history = createHashHistory();
 
 export class Navigation extends Component {
 
+
   render() {
     //If there is a logged in user
     console.log(this.user);
@@ -30,7 +31,7 @@ export class Navigation extends Component {
                            value={this.search}
                            onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
                                (this.search = event.target.value)}/>
-              <Button className="btn btn-secondary">Search</Button>
+              <Button className="btn btn-secondary" onClick={this.find}>Search</Button>
             </Form>
           </Nav>
           <Navbar.Toggle aria-controls="basic-navbar-nav"/>
@@ -64,7 +65,7 @@ export class Navigation extends Component {
                                value={this.search}
                                onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
                                    (this.search = event.target.value)}/>
-                  <Button className="btn btn-secondary">Search</Button>
+                  <Button className="btn btn-secondary" onClick={this.find}>Search</Button>
                 </Form>
               </Nav>
               <Navbar.Toggle aria-controls="basic-navbar-nav"/>
@@ -80,6 +81,10 @@ export class Navigation extends Component {
           </div>
       )
     }
+  }
+
+  find(){
+    history.push("/search_result/" + this.search)
   }
 
 
