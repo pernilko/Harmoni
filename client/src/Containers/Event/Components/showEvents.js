@@ -58,11 +58,15 @@ export class EventList extends Component<{user: boolean}>{
                                 <div className={"banner" + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 1 ? " greenBG" : "") + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 0 ? " redBG" : "")} id = {i}>
                                     { this.getUserEvent(e.event_id) ? (this.getUserEvent(e.event_id).accepted === 2 ? 
                                     <div>
-                                        <div id="topButton" className= "mx-4">
-                                            <button id="top" type="button" className="btn btn-info btn-circle"><i className="fa fa-check" onClick={() => this.setAccepted(i, e.event_id, this.getUserEvent(e.event_id).user_id, 1)}></i></button>
+                                        <div id="topButton" className= "mx-4" onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 1)}>
+                                            <button id="top" type="button" className="btn btn-info btn-circle">
+                                                <i className="fa fa-check" ></i>
+                                            </button>
                                         </div>
-                                        <div className="button mx-4 my-3">
-                                            <button id="bot" type="button" className="btn btn-info btn-circle"><i className="fa fa-times" onClick={() => this.setAccepted(i, e.event_id, this.getUserEvent(e.event_id).user_id, 0)}></i></button>
+                                        <div className="button mx-4 my-3" onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 0)}>
+                                            <button id="bot" type="button" className="btn btn-info btn-circle">
+                                                <i className="fa fa-times" ></i>
+                                            </button>
                                         </div>
                                     </div>
                                     : <></>) : <></>}
@@ -137,19 +141,17 @@ export class EventList extends Component<{user: boolean}>{
     }
 
     setAccepted(iterator: number, user_id: number, event_id: number, accepted: number) {
-        userEventService.setAccepted(event_id, user_id, accepted);
-        console.log("hei")
-        let users = this.state["users"];    
-
-        for(let i = 0; i < users.length; i++){
-            if (users[i].user_id == user_id && users[i].event_id == event_id) users[i].accepted = accepted;
-        }
+        userEventService.setAccepted(user_id, event_id, accepted);
+        let users = this.state["users"];  
         
-        users = users.map(row => {
-            if (row.user_id === user_id && event_id === row.event_id){
-                row.accepted = accepted;
-            }
-            return row;
+        users = users.map(list => {
+            list = list.map(u => {
+                if (u.user_id === user_id && u.event_id === event_id){
+                    u.accepted = accepted;
+                }
+                return u;
+            });
+            return list;
         });
 
         this.setState({users});
@@ -159,7 +161,13 @@ export class EventList extends Component<{user: boolean}>{
         if (userService.currentUser){
             let e = this.state["events"].filter(ev => ev.event_id === event_id);
             let u = this.state["users"];
-            let userList = u.filter(list => (list.length > 0 && list[0].event_id == event_id));
+
+            let userList = u.filter(list => {
+                return (list.some(user => {
+                    if (user) return user.event_id === event_id;
+                    return false;
+                }))
+            });
             if (userList.length > 0){
                 let users = userList[0];
                 return users.find(user => user.event_id === event_id && userService.currentUser.user_id === user.user_id);
