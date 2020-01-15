@@ -13,7 +13,7 @@ import {User, userService} from "../../../services/UserService";
 import {TicketDetails} from "./ticketDropdown";
 import MapContainer from "./map";
 import {getlatlng} from "./map";
-import {EmployeesDetails} from "./employees";
+import {Employees, EmployeesDetails} from "./employees";
 import {del_artist} from "./artist";
 import {del_ticket} from "./ticketDropdown";
 import {del_employee} from "./employees";
@@ -34,6 +34,8 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     update_tickets: Ticket[] = [];
     tickets: Ticket[] = [];
     employees: UserEvent[] = [];
+    add_employees: UserEvent[] = [];
+    update_employees: UserEvent[] = [];
     users: User[] = [];
     startDate: number = null;
     endDate: number = null;
@@ -42,13 +44,10 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     lat: float = 0;
     lng: float = 0;
     loaded: bool = false;
+    empDet: any = null;
 
     render() {
         if (this.event && this.tickets && this.artists && userService.currentUser) {
-            if (!this.loaded) {
-                console.log("USER FROM EDIT EVENT", userService.currentUser);
-                this.loaded = true;
-            }
             return (
                 <div>
                     <div className="card-header">
@@ -119,7 +118,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             return <div>Something went wrong :(</div>
         }
     }
-
+    
     mounted() {
         eventService
             .getEventId(this.props.match.params.event_id)
@@ -129,13 +128,16 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 this.startTime = this.event.event_start.slice(11,16);
                 this.endDate = this.event.event_end.slice(0,10);
                 this.endTime = this.event.event_end.slice(11,16);
-            })
-            .then(() => {
                 this.getArtists(this.props.match.params.event_id);
                 this.getTickets(this.props.match.params.event_id);
                 this.getEmployees(this.props.match.params.event_id);
             })
-            .catch((error: Error) => console.log(error.message))
+            /*
+            .then(() => {
+                this.getArtists(this.props.match.params.event_id);
+                this.getTickets(this.props.match.params.event_id);
+                this.getEmployees(this.props.match.params.event_id);
+            })*/
     }
 
     getArtists(val: number) {
@@ -169,19 +171,10 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             .then(() => {
                 let s: any = EmployeesDetails.instance();
                 s.emp = this.employees;
+                s.hidden = true;
                 console.log(s.emp);
                 s.emp.map(e => original_employees.push(e));
             })
-    }
-
-    getUsers(val: number) {
-        userService
-            .getUserByOrgId(val)
-            .then(users => console.log("BRUKERE: ", users))
-            .then(() => {
-                let s: any = EmployeesDetails.instance();
-                s.users = this.users;
-        })
     }
 
     edit(){
@@ -201,6 +194,8 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 this.updateTickets(this.update_tickets);
                 this.addTickets(this.add_tickets);
                 this.deleteTickets(del_ticket);
+                this.addEmployees(this.employees);
+                this.deleteEmployees(del_employee);
             })
             .catch((error: Error) => Alert.danger(error.message));
     }
@@ -305,6 +300,28 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             ticketService
                 .deleteTicket(t.ticket_id)
                 .then(response => console.log(response))
+        })
+    }
+
+    addEmployees(employees: UserEvent[]) {
+        console.log("ADD", employees);
+        employees.map(e => {
+            e.event_id = this.props.match.params.event_id;
+            userEventService
+                .addUserEvent(e.user_id, e.event_id, e.job_position)
+                .then(response => console.log(response))
+                .catch((error: Error) => console.log(error.message))
+        })
+    }
+
+    deleteEmployees(employees: UserEvent[]) {
+        console.log("DELETE", employees);
+        employees.map(e => {
+            e.event_id = this.props.match.params.event_id;
+            userEventService
+                .deleteUserEvent(e.user_id, e.event_id)
+                .then(response => console.log(response))
+                .catch((error: Error) => console.log(error.message))
         })
     }
 }

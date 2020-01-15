@@ -41,13 +41,6 @@ class UserEventService {
     deleteUserEvent(user_id: number, event_id: number){
         return axios.delete<{}, UserEvent>(url + "userEvent/delete/" + user_id + "/" + event_id).then(response => response.data);
     }
-
-    updateUserEvent(user_id: number, event_id: number, job_position: string, accepted: number){
-        return axios.put<{}, UserEvent>(url+"userEvent/update/" + user_id + "/" + event_id, {
-            "job_position": job_position,
-            "accepted": accepted
-        }).then(response => response.data);
-    }
 }
 
 export let userEventService = new UserEventService();

@@ -22,10 +22,10 @@ module.exports = class userEventDao extends Dao{
         );
     }
 
-    updateUserEvent(user_id: number, event_id: number, json:{job_position: string, accepted: number}, callback: function){
+    updateUserEvent(user_id: number, event_id: number, json:{user_id: number, job_position: string, accepted: number}, callback: function){
         super.query(
-            "UPDATE user_event SET job_position = ?, accepted=? WHERE user_id = ? AND event_id = ?",
-            [json.job_position,json.accepted, user_id, event_id], callback
+            "UPDATE user_event SET user_id = ?, job_position = ?, accepted=? WHERE user_id = ? AND event_id = ?",
+            [json.user_id, json.job_position,json.accepted, user_id, event_id], callback
         )
     }
 

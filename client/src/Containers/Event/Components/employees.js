@@ -9,6 +9,7 @@ import {User, userService} from "../../../services/UserService";
 import {UserEvent} from "../../../services/UserEventService";
 import {Spinner} from "react-bootstrap";
 import {sharedComponentData} from "react-simplified";
+import Form from "react-bootstrap/Form";
 
 let del_employee: UserEvent[] = [];
 
@@ -16,12 +17,15 @@ export class Employees extends Component <{buttonName: string, employee: UserEve
     users: User[] = [];
     emp: UserEvent[] = [];
     position: string = this.props.employee.job_position;
+    user_name: string = this.props.employee.user_name;
+    user_id: number = 0;
+    hidden: bool = true;
     render(){
             return (
                 <Accordion>
                     <Card style={{border: "none"}}>
                         <Card.Header style={{border: "none"}}>
-                            <Accordion.Toggle as={Button} variant="success" eventKey="0" style = {{float: "left"}}>
+                            <Accordion.Toggle as={Button} hidden={this.hidden} variant="success" eventKey="0" style = {{float: "left"}}>
                                 {this.props.buttonName}
                             </Accordion.Toggle>
                             <button type="button" className="btn btn-danger"
@@ -42,10 +46,10 @@ export class Employees extends Component <{buttonName: string, employee: UserEve
                                             <h4>Registrer ansatte for arrangement: </h4><br/>
                                             <div className="form-group">
                                                 <label>Ansatte: </label>
-                                                <select multiple className="form-control" id="userSelect">
+                                                <select className="form-control" id="userSelect" value={this.user_id}
+                                                onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.user_id = event.target.value)}>
                                                     {this.users.map(user => (
-                                                        <option value={user.user_id}
-                                                                selected={true}>{user.user_name}</option>
+                                                        <option value={user.user_id}>{user.user_name}</option>
                                                     ))}
                                                 </select>
                                             </div>
@@ -75,8 +79,9 @@ export class Employees extends Component <{buttonName: string, employee: UserEve
     mounted() {
         let s: any = EmployeesDetails.instance();
         this.emp = s.emp;
-        this.users = s.users;
-        console.log(this.users);
+        this.hidden = s.hidden;
+        this.getUsers(userService.currentUser.org_id);
+        //this.users = s.users;
         /*
         if (userService.currentUser) {
             userService
@@ -88,16 +93,20 @@ export class Employees extends Component <{buttonName: string, employee: UserEve
         }*/
     }
 
+    getUsers(val: number) {
+        userService
+            .getUserByOrgId(val)
+            .then(users => this.users = users)
+    }
+
     add(){
-        let userId = document.getElementById("userSelect").value;
-        console.log(userId);
+        //let userId = document.getElementById("userSelect").value;
+        this.hidden = true;
         const index = this.emp.indexOf(this.props.employee);
         userService
-            .getUser(userId)
-            .then(res => {
-                this.emp[index] = new UserEvent(userId, 0, this.position,  res.user_name);
-            })
-            .catch((error: Error) => Alert.danger("kan ikke oppdatere navn"));
+            .getUser(this.user_id)
+            .then(res => this.emp[index] = new UserEvent(parseInt(this.user_id), 0, this.position,  res.user_name))
+            .catch((error: Error) => console.log(error.message))
     }
 
     deleteEmployee(e: UserEvent) {
@@ -111,7 +120,8 @@ export class Employees extends Component <{buttonName: string, employee: UserEve
 
 export class EmployeesDetails extends Component {
     emp: UserEvent[] = [];
-    users: User[] = [];
+    hidden: bool = true;
+    //users: User[] = [];
 
     render(){
         return(
@@ -124,7 +134,7 @@ export class EmployeesDetails extends Component {
                         <div className="card-header">
                             <div className="row">
                                 <div className="col"><label>Ansatt: {e.user_name}</label></div>
-                                <div className="col"><label>Stilling:{e.job_position} </label></div>
+                                <div className="col"><label>Stilling: {e.job_position} </label></div>
                             </div>
                             <div className={"row"}>
                                 <div className={"col"}>
@@ -140,6 +150,7 @@ export class EmployeesDetails extends Component {
     }
     addNewPosition(){
         this.emp.push(new UserEvent(0, 0, "", ""));
+        this.hidden = false;
     }
 }
 
