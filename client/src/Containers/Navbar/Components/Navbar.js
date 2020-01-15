@@ -38,12 +38,14 @@ export class Navigation extends Component {
             <Nav className="ml-auto">
                 <Nav.Link href="#/allEvents" style={{paddingLeft: 30+'px'}}> Alle arrangement</Nav.Link>
                 <Nav.Link href="#/inviterBruker" style={{paddingLeft: 30+'px'}}> Inviter Bruker</Nav.Link>
-                <NavDropdown title={"Logget inn som: "+userService.currentUser.user_name} id="basic-nav-dropdown" style={{paddingLeft: 30+'px'}}>
+                <NavDropdown title={"Logget inn som:" + userService.currentUser.user_name}
+                             id="basic-nav-dropdown"
+                             style={{paddingLeft: 30+'px'}}>
                   <NavDropdown.Item href="#/myEvents"  style={{color: "black"}}>Mine arrangement</NavDropdown.Item>
                   <NavDropdown.Item href="#/event" style={{color: "black"}}>Opprett arrangement</NavDropdown.Item>
                   <NavDropdown.Item href="#" style={{color: "black"}}>Rediger profil</NavDropdown.Item>
                   <NavDropdown.Divider/>
-                  <Button className="btn btn-danger" onClick={this.logout} style={{marginLeft: 20+'px'}}>Logg ut</Button>
+                  <NavDropdown.Item href="#" onClick={this.logout} style={{color: "black", backgroundColor: 'white'}}>Logg ut</NavDropdown.Item>
                 </NavDropdown>
             </Nav>
           </Navbar.Collapse>
@@ -80,9 +82,6 @@ export class Navigation extends Component {
     }
   }
 
-  mounted (newUsr: User|any){
-
-  }
 
   logout(){
     history.push("/");
