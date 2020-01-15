@@ -37,7 +37,6 @@ if (root)
         <Route path = "/RegisterOrganization" component = {RegOrganization}/>
         <Route path="/editEvent/:event_id" component={EditEvent}/>
         <Route exact path = "/event/:id" component = {EventDetails}/>
-        <Route path = "/user" component = {userForm}/>
         <Route path = "/user/:token" component = {userForm}/>
         <Route path = "/showEvent/:id" component = {EventDetails}/>
         <Route path = "/inviterBruker" component = {inviteUser}/>
