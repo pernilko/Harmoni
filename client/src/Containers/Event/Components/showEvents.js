@@ -21,7 +21,6 @@ export class EventList extends Component<{user: boolean}>{
             events: [],
             users: []
         };
-        //this.mounted = this.mounted.bind(this);
     }
 
     render() {
@@ -56,94 +55,39 @@ export class EventList extends Component<{user: boolean}>{
                                 </div>
 
                                 <div className={"banner" + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 1 ? " greenBG" : "") + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 0 ? " redBG" : "")} id = {i}>
+                                    
                                     { this.getUserEvent(e.event_id) ? (this.getUserEvent(e.event_id).accepted === 2 ? 
-                                    <div>
-                                        <div id="topButton" className= "mx-4" onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 1)}>
-                                            <button id="top" type="button" className="btn btn-info btn-circle">
-                                                <i className="fa fa-check" ></i>
-                                            </button>
+                                        <div>
+                                            <div id="topButton" className= "mx-4" onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 1)}>
+                                                <button id="top" type="button" className="btn btn-info btn-circle">
+                                                    <i className="fa fa-check" ></i>
+                                                </button>
+                                            </div>
+                                            <div className="button mx-4 my-3" onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 0)}>
+                                                <button id="bot" type="button" className="btn btn-info btn-circle">
+                                                    <i className="fa fa-times" ></i>
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div className="button mx-4 my-3" onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 0)}>
-                                            <button id="bot" type="button" className="btn btn-info btn-circle">
-                                                <i className="fa fa-times" ></i>
-                                            </button>
-                                        </div>
-                                    </div>
                                     : <></>) : <></>}
+
                                 </div>
                             </div>
                         </div>
                     )}
 
-               
-                    
-                        
-
-
-                        {/*<div id="event" className={"card my-5 bg-light" + (this.getUserEvent(event.event_id) ? (this.getUserEvent(event.event_id).accepted === 0 ? " border-danger" : (this.getUserEvent(event.event_id).accepted === 1 ? " border-success" : "")) : "")}>
-                            <div className>
-                                <a href={'#/showEvent/' + event.event_id}>
-                                    <h5 className="card-title">{event.event_name}</h5>
-                                </a>
-                                <h6>{event.place}</h6>
-                                <h6 className="card-subtitle mb-2 text-muted">{event.event_start.slice(0, 10)}, {event.event_start.slice(11, 16)}-{event.event_end.slice(11, 16)}</h6>
-                                <p className="card-text">{event.description}</p>
-                                
-                                {
-                                    //abolutely terrible code
-                                }
-
-                                {this.getUserEvent(event.event_id) ?  "Du er satt opp som " + this.getUserEvent(event.event_id).job_position: "Du er ikke satt på dette arrangementet"}
-                                <br/>
-                                {this.getUserEvent(event.event_id) ?
-                                    <div><button onClick={() => this.setAccepted(event.event_id, this.getUserEvent(event.event_id).user_id, 1)} className="btn-dark">Aksepter</button>
-                                        <button onClick={() => this.setAccepted(event.event_id, this.getUserEvent(event.event_id).user_id, 0)} className="btn-dark">Avslå</button></div> : <div></div>}
-                                <div>
-                                  <button className="btn btn-danger"  onClick={this.deleteEvent}>Delete</button>
-                                </div>
-                            </div>
-                        </div>
-
-                         <div className={"center"}>
-                    <div className="container">
-                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-                            
-                            <div className="card">
-                                <div className="additional">
-                                    <div className="user-card">
-                                        <div className="level center">
-                                            <button id="top" type="button" className="btn btn-info btn-circle"><i className="fa fa-check"></i></button>
-                                            <button id="bot" type="button" className="btn btn-info btn-circle"><i className="fa fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div className="card general">
-                                <img id="image" src="https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"/>
-                                <h1 id="content2ElectricBogaloo">Event Name </h1>
-                                <p className="content"> Din rolle</p>
-                                <p className="content"> Sted + tid </p>
-                                <p className="content"> deskripsjon </p>
-                            </div>
-                            
-                        </div>
-                        */}
-                    
-                    </div>
+                </div>
             )
         }else{
-            return(
-            <Spinner animation="border"></Spinner>
-            );
+            return( <Spinner animation="border"></Spinner>);
         }
-        ;
     }
 
     setAccepted(iterator: number, user_id: number, event_id: number, accepted: number) {
         userEventService.setAccepted(user_id, event_id, accepted);
         let users = this.state["users"];  
         
+        //endrer users lokalt for mest responsiv nettside
         users = users.map(list => {
             list = list.map(u => {
                 if (u.user_id === user_id && u.event_id === event_id){
@@ -172,7 +116,6 @@ export class EventList extends Component<{user: boolean}>{
                 let users = userList[0];
                 return users.find(user => user.event_id === event_id && userService.currentUser.user_id === user.user_id);
             }
-            //return u.some(userList => userList.some(user => user.event_id === event_id && userService.currentUser.user_id === user.user_id));
         }
         return undefined;
     }
@@ -181,14 +124,12 @@ export class EventList extends Component<{user: boolean}>{
         if (this.props.user) {
             eventService.getEventsByUser_id(userService.currentUser.user_id).then(res => {
                 let events = res;
-                console.log(events);
                 this.setState({events});
                 this.loaded = true;
             })
         } else {
             eventService.getEventsByOrg_id(userService.currentUser.org_id).then(res => {
                 let events = res;
-                console.log(events.length);
                 this.setState({events});
                 this.loaded = true;
             })
@@ -198,51 +139,15 @@ export class EventList extends Component<{user: boolean}>{
     loadContent(){
         if (userService.currentUser && this.loaded){
             //gå gjennom alle event for å hente brukenrne som er tilknyttet dme
-            console.log(this.state["events"].length);
             this.state["events"].map(e => {
                 userEventService.getAllUserEvent(e.event_id).then( res => {
                     let users = this.state["users"];
                     users.push(res);
                     this.setState({users});
-                    console.log(users);
                 });   
             });
             
             this.ready = true;
         }
     }
-
-
-
-  
-/*
-    mounted() {
-            if (this.props.user) {
-                eventService.getEventsByUser_id(userService.currentUser.user_id).then(res => {
-                    let events = res;
-                    console.log(events);
-                    this.setState({events});
-                })
-            } else {
-                eventService.getEventsByOrg_id(userService.currentUser.org_id).then(res => {
-                    let events = res;
-                    console.log(events);
-                    this.setState({events});
-                })
-            }
-
-        else {
-        eventService.getAllEvents().then(r => {
-            let events = r;
-            console.log(events);
-            //history.push("/AllEvents")
-            this.setState({events});
-
-        }).catch((error:Error)=>{
-            Alert.danger(error);
-            })
-        }
-
-    }
-    */
 }
