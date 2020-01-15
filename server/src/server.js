@@ -244,7 +244,7 @@ app.put("/artist/:id", (req:Request,res:Response)=>{
     artistDao.updateArtist(req.params.id, req.body, (status,data)=>{
         res.status(status);
     })
-})
+});
 
 //UserEvent
 app.get("/userevent/all/:id", (req : Request, res : Response) => {
@@ -402,6 +402,15 @@ app.delete("/event/delete/:id", (req : Request, res: Response) => {
             );
         }
       });
+});
+
+//not tested
+app.get("/event/search/:name", (req: Request, res: Response) => {
+    console.log("/event/search/:name received put request from client");
+    eventDao.getEventbySearch(req.params.name, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
 });
 
 //User

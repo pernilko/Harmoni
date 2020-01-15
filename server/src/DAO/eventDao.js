@@ -46,4 +46,11 @@ module.exports = class eventDao extends Dao{
       super.query("UPDATE user_event SET accepted = ? WHERE user_id = ? AND event_id = ?", [json.accepted, json.user_id, json.event_id],
           callback);
     }
+
+    getEventbySearch(search: string, callback: function){
+        super.query(
+            "SELECT * FROM event WHERE event_name LIKE ?",
+            ["%" + search + "%"], callback
+        )
+    }
 };

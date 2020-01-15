@@ -77,6 +77,10 @@ export class EventService {
     deleteEvent(id: number) {
         return axios.delete<Event, {}>(url + "event/delete/"+id).then(response => response.data);
     }
+
+    getEventbySearch(search: string){
+        return axios.get<Event[]>(url + "event/search/" + search).then(response => response.data);
+    }
 }
 
 export let eventService = new EventService();

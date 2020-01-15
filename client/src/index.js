@@ -17,6 +17,7 @@ import {EventDetails} from './Containers/Event/Components/event';
 import {inviteUser} from './Containers/Organization/Components/inviteUser';
 import {userForm} from "./Containers/Organization/Components/User";
 import {Home} from "./Containers/Home/Components/home";
+import {SearchResults} from "./Containers/Event/Components/search";
 
 
 const root = document.getElementById('root');
@@ -36,6 +37,7 @@ if (root)
         <Route path = "/showEvent/:id" component = {EventDetails}/>
         <Route path = "/inviterBruker" component = {inviteUser}/>
         <Route path = "/home" component = {Home}/>
+        <Route path="/search_result/:search" component={SearchResults}/>
       </div>
     </HashRouter>,
     root
