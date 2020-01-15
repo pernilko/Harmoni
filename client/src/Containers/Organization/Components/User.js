@@ -108,9 +108,9 @@ export class userForm extends Component <{ match: { params: { token: string } } 
                 Alert.danger(error.message);
                 this.loaded = true;
             })
-        })/*.catch((error:Error)=>{
+        }).catch((error:Error)=>{
             Alert.danger("Ugyldig link");
             history.push("/login");
-        })*/;
+        });
     }
 }

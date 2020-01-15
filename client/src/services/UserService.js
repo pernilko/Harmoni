@@ -59,7 +59,6 @@ class UserService {
                     }
                     console.log(response.data);
                 }).catch(error => {
-                    Alert.danger(error.message);
                     this.currentUser = null;
                 });
         }
@@ -115,6 +114,12 @@ class UserService {
             "user_name": user_name,
             "password": password
         }).then(response => response.data);
+    }
+
+    updateUserName(user_id: number, user_name: string){
+        return axios.put<{}, User>(url + 'Profile/updateUsername/'+ user_id, {
+            "user_name": user_name
+        }).then(response=>response.data);
     }
 
     deleteUser(user_id: number){

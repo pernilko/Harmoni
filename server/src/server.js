@@ -479,9 +479,13 @@ app.put("/Profile/edit/:id", (req, res) =>{
         res.json(data);
     });
 });
-
-
-
+app.put("/Profile/updateUsername/:id", (req, res)=>{
+    console.log("/Profile/edit received an update request from client ");
+    userDao.updateUserName(req.params.id, req.body, (status, data)=>{
+        res.status(status);
+        res.json(data);
+    })
+});
 
 app.get("/user/:id", (req: Request, res: Response)=>{
     console.log("/user received get request from client");

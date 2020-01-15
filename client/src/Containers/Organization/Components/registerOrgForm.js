@@ -42,7 +42,7 @@ export class RegOrganization extends Component {
 
           <Form.Group>
             <Form.Label>E-mail</Form.Label>
-            <Form.Control type="email" placeholder="Skriv inn organisjonens mail "
+            <Form.Control type="text" placeholder="Skriv inn organisjonens mail "
                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
                             this.organization.email = event.target.value
                           }}/>
@@ -123,7 +123,7 @@ export class RegOrganization extends Component {
 
   register(){
     // Register
-    if(this.repeatedPassword != this.user.password && this.user.password.length>=8){
+    if(this.repeatedPassword != this.user.password || this.user.password.length<8){
       Alert.danger("Passord må være like og ha minst 8 tegn");
     }
     else if(this.user.email.length !=0 && this.user.address.length != 0 && this.user.user_name.length!=0
