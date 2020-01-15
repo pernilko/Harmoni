@@ -93,6 +93,7 @@ export class Navigation extends Component {
     userService.currentUser = null;
     localStorage.setItem("token", "");
     Alert.danger("Du er nå logget ut.");
+
   }
 
   login(){

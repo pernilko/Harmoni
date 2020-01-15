@@ -215,6 +215,7 @@ export class Profile extends Component{
       .then(() => {
         localStorage.setItem("token", "");
         if(userService.currentUser){
+          userService.currentUser = null;
           Alert.success("Sletting gikk fint");
           history.push("/login");
         }
@@ -224,7 +225,7 @@ export class Profile extends Component{
   // Cancel user deletion
   cancel(){
     Alert.info("Bruker ble ikke slettet");
-    history.push("/Profile");
+    history.push("/allEvents");
 
   }
 }
