@@ -15,8 +15,6 @@ export class EventList extends Component<{user: boolean}>{
     loaded: boolean = false;
     ready: boolean = false;
 
-
-
     constructor(props){
         super(props);
         this.state = {
@@ -66,6 +64,9 @@ export class EventList extends Component<{user: boolean}>{
                                     </div>
                                   )}
                                 </Popup>
+                                </div>
+                                <div>
+                                  <button className="float-right btn btn-warning"onClick={() => history.push("/")}>Rediger</button>
                                 </div>
                             </div>
                         </div>
@@ -117,11 +118,11 @@ export class EventList extends Component<{user: boolean}>{
     }
 
     slett(event_id: number){
-      console.log(event_id);
       eventService
           .deleteEvent(event_id)
           .then(response => console.log(response))
-          .then(()=>history.push("/"))
+          .then(() => history.push("/"))
+          .then(Alert.danger("Arrangementet ble slettet"))
           .catch((error: Error) => console.log(error.message));
     }
 
@@ -141,10 +142,6 @@ export class EventList extends Component<{user: boolean}>{
             this.ready = true;
         }
     }
-
-
-
-
 /*
     mounted() {
             if (this.props.user) {
