@@ -22,11 +22,11 @@ export class Profile extends Component{
     if (userService.currentUser) {
 
       return <div>
-        <h2 className="card-header"> Hei {userService.currentUser.user_name} </h2>
+        <h2 className="card-header"> Hei, {userService.currentUser.user_name}!</h2>
         <Tab.Container id="left-tabs-" defaultActiveKey="first">
           <Row>
             <Col lg={3}>
-              <Image src="https://purepng.com/public/uploads/large/purepng.com-mouth-smilemouth-smilefacial-expressionduchenne-smilesmileclipartlips-1421526971728gfkke.png"
+              <Image src="https://i.ytimg.com/vi/_c1NJQ0UP_Q/maxresdefault.jpg"
                      roundedCircle width={280 + 'px'}
                      height={250 + 'px'}/>
               <br/>
