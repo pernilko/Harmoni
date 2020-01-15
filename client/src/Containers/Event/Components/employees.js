@@ -10,17 +10,19 @@ import {UserEvent} from "../../../services/UserEventService";
 import {Spinner} from "react-bootstrap";
 import {sharedComponentData} from "react-simplified";
 
-export class Employees extends Component <{employee: UserEvent}> {
+let del_employee: UserEvent[] = [];
+
+export class Employees extends Component <{buttonName: string, employee: UserEvent}> {
     users: User[] = [];
     emp: UserEvent[] = [];
-    position: string = "";
+    position: string = this.props.employee.job_position;
     render(){
             return (
                 <Accordion>
                     <Card style={{border: "none"}}>
                         <Card.Header style={{border: "none"}}>
-                            <Accordion.Toggle as={Button} variant="success" eventKey="0" style={{float: "left"}}>
-                                Rediger
+                            <Accordion.Toggle as={Button} variant="success" eventKey="0" style = {{float: "left"}}>
+                                {this.props.buttonName}
                             </Accordion.Toggle>
                             <button type="button" className="btn btn-danger"
                                     style={{marginLeft: 10 + "px", float: "left"}}
@@ -39,7 +41,7 @@ export class Employees extends Component <{employee: UserEvent}> {
                                         <row>
                                             <h4>Registrer ansatte for arrangement: </h4><br/>
                                             <div className="form-group">
-                                                <label>Ansatt: </label>
+                                                <label>Ansatte: </label>
                                                 <select multiple className="form-control" id="userSelect">
                                                     {this.users.map(user => (
                                                         <option value={user.user_id}
@@ -73,13 +75,17 @@ export class Employees extends Component <{employee: UserEvent}> {
     mounted() {
         let s: any = EmployeesDetails.instance();
         this.emp = s.emp;
-        userService
+        this.users = s.users;
+        console.log(this.users);
+        /*
+        if (userService.currentUser) {
+            userService
             .getUserByOrgId(userService.currentUser.org_id) //fiks dette slik at currentuser kan gi org_id
             .then(res => {
                 this.users = res;
             })
             .catch((error: Error) => Alert.danger("Noe gikk galt ved lasting av ansatte"));
-
+        }*/
     }
 
     add(){
@@ -95,15 +101,18 @@ export class Employees extends Component <{employee: UserEvent}> {
     }
 
     deleteEmployee(e: UserEvent) {
+        del_employee.push(e);
         const index = this.emp.indexOf(e);
         if (index > -1) {
-            this.emp.splice(index, 1);
+            this.emp[index] = null;
         }
     }
 }
 
 export class EmployeesDetails extends Component {
     emp: UserEvent[] = [];
+    users: User[] = [];
+
     render(){
         return(
             <div className="card">
@@ -111,7 +120,7 @@ export class EmployeesDetails extends Component {
                     <h3>Personell:</h3>
                 </div>
                 <div className="card-body">
-                    {this.emp.map( e => (
+                    {this.emp.map( e => {if (e) { return(
                         <div className="card-header">
                             <div className="row">
                                 <div className="col"><label>Ansatt: {e.user_name}</label></div>
@@ -123,7 +132,7 @@ export class EmployeesDetails extends Component {
                                 </div>
                             </div>
                         </div>
-                    ))}
+                    )}})}
                     <button type="button" className="btn btn-secondary" onClick={() => this.addNewPosition()}>Legg til personell</button>
                 </div>
             </div>
@@ -133,3 +142,5 @@ export class EmployeesDetails extends Component {
         this.emp.push(new UserEvent(0, 0, "", ""));
     }
 }
+
+export { del_employee }

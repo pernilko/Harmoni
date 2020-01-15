@@ -10,7 +10,7 @@ module.exports = class userEventDao extends Dao{
 
     getAllbyId(event_id: number, callback: function){
         super.query(
-            "SELECT * FROM user_event WHERE event_id = ?",
+            "SELECT user_event.user_id, event_id, job_position, accepted, user_name FROM user_event JOIN user ON (user_event.user_id = user.user_id) WHERE event_id = ?",
             [event_id],  callback
         );
     }

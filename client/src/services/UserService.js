@@ -33,7 +33,7 @@ export class User {
      */
 }
 class UserService {
-    currentUser:_User;
+    currentUser: User;
     //auto login
 
     autoLogin(){
@@ -116,6 +116,7 @@ class UserService {
     }
 
     getUserByOrgId(org_id: number){
+        console.log("ORG_ID: ", org_id)
         return axios.get<User[]>(url +"user/all/"+ org_id).then(response => response.data);
     }
 

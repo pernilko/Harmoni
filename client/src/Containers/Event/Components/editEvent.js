@@ -7,17 +7,23 @@ import {ArtistDetails} from "./artist";
 import {eventService, Event} from "../../../services/EventService";
 import {Artist, artistService} from "../../../services/ArtistService";
 import {Ticket, ticketService} from "../../../services/TicketService";
+import {UserEvent, userEventService} from "../../../services/UserEventService";
+import {Organization, organizationService} from "../../../services/OrganizationService";
+import {User, userService} from "../../../services/UserService";
 import {TicketDetails} from "./ticketDropdown";
 import MapContainer from "./map";
 import {getlatlng} from "./map";
 import {EmployeesDetails} from "./employees";
 import {del_artist} from "./artist";
 import {del_ticket} from "./ticketDropdown";
+import {del_employee} from "./employees";
+import {sharedComponentData} from "react-simplified";
 
 const history = createHashHistory();
 
 const original_artists: Artist[] = [];
 const original_tickets: Ticket[] = [];
+const original_employees: UserEvent[] = [];
 
 export class EditEvent extends Component <{match: {params: {event_id: number}}}> {
     event: any = null;
@@ -27,15 +33,21 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     add_tickets: Ticket[] = [];
     update_tickets: Ticket[] = [];
     tickets: Ticket[] = [];
+    employees: UserEvent[] = [];
+    users: User[] = [];
     startDate: number = null;
     endDate: number = null;
     startTime: number = null;
     endTime: number = null;
     lat: float = 0;
-    lng: float = 0; 
+    lng: float = 0;
+    loaded: bool = false;
 
     render() {
-        if (this.event && this.tickets && this.artists) {
+        if (this.event && this.tickets && this.artists && userService.currentUser) {
+            if (!this.loaded) {
+                this.loaded = true;
+            }
             return (
                 <div>
                     <div className="card-header">
@@ -120,6 +132,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             .then(() => {
                 this.getArtists(this.props.match.params.event_id);
                 this.getTickets(this.props.match.params.event_id);
+                this.getEmployees(this.props.match.params.event_id);
             })
             .catch((error: Error) => console.log(error.message))
     }
@@ -146,6 +159,28 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 console.log(s.ticketList);
                 s.ticketList.map(t => original_tickets.push(t));
             })
+    }
+
+    getEmployees(val: number) {
+        userEventService
+            .getAllbyId(val)
+            .then(employee => this.employees = employee)
+            .then(() => {
+                let s: any = EmployeesDetails.instance();
+                s.emp = this.employees;
+                console.log(s.emp);
+                s.emp.map(e => original_employees.push(e));
+            })
+    }
+
+    getUsers(val: number) {
+        userService
+            .getUserByOrgId(val)
+            .then(users => console.log("BRUKERE: ", users))
+            .then(() => {
+                let s: any = EmployeesDetails.instance();
+                s.users = this.users;
+        })
     }
 
     edit(){
