@@ -510,38 +510,50 @@ app.delete("/user/delete/:id", (req : Request, res: Response) => {
                  				          "DELETE ticket FROM ticket INNER JOIN event ON ticket.event_id = event.event_id WHERE user_id=?",
                  				          [req.params.id],
                  				          (err, rows) => {
-                 					               if (err) {
-                 						                     console.log(err);
-                 						                     res.json({ error: "error querying" });
-                 					               } else {
-                                           connection.query(
-                               				          "DELETE FROM user_event WHERE user_id=?",
-                               				          [req.params.id],
-                               				          (err, rows) => {
-                               					               if (err) {
-                               						                     console.log(err);
-                               						                     res.json({ error: "error querying" });
-                               					               } else {
-                                                         connection.query(
-                                             				          "DELETE FROM event WHERE user_id=?",
-                                             				          [req.params.id],
-                                             				          (err, rows) => {
-                                             					               if (err) {
-                                             						                     console.log(err);
-                                             						                     res.json({ error: "error querying" });
-                                             					               } else {
-                                                                       console.log("/user received get request from client");
-                                                                       userDao.deleteUserById(req.params.id, (status, data)=>{
-                                                                           res.status(status);
-                                                                           res.json(data);
-                                                                       });
-                              					                             }
-                              				                        }
-                              			                    );
+                                    if (err) {
+                                      console.log(err);
+                                      res.json({ error: "error querying" });
+                                    } else {
+                                      connection.query(
+                                        "DELETE FROM user_event WHERE user_id=?",
+                                        [req.params.id],
+                                        (err, rows) => {
+                                          if (err) {
+                                            console.log(err);
+                                            res.json({ error: "error querying" });
+                                          } else {
+                                            connection.query(
+                                              "DELETE FROM event WHERE user_id=?",
+                                              [req.params.id],
+                                              (err, rows) => {
+                                                if (err) {
+                                                  console.log(err);
+                                                  res.json({ error: "error querying" });
+                                                } else {
+                                                  console.log("/user received get request from client");
+                                                  userDao.deleteUserById(req.params.id, (status, data) => {
+                                                    res.status(status);
+                                                    res.json(data);
+                                                  });
+                                                }
+                                              }
+                                            );
 
-                					                             }
-                				                        }
-                			                    );
+                                          }
+                                        }
+                                      );
+                                    }
+                                  });
+  					               }
+
+  				          });
+          }
+    });
+});
+
+
+
+
 
 app.get("/user/all/:id", (req: Request, res: Response) => {
     console.log("/user/all/:id received get request from client");
@@ -550,6 +562,7 @@ app.get("/user/all/:id", (req: Request, res: Response) => {
         res.json(data);
     });
 });
+
 
 //UserEvent
 //not tested
@@ -710,7 +723,6 @@ app.post("/organization/add", (req : Request, res : Response) => {
         }
     });
 });
-
 
 
 
