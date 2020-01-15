@@ -25,7 +25,7 @@ export class Organization {
 
 class OrganizationService{
 
-    currentOrganization: Organization;
+    currentOrganization: Organization = null;
     //not tested
     getAllOrganizations(){
         return axios.get<Organization[]>(url + 'organization').then(response=>response.data);
@@ -41,7 +41,7 @@ class OrganizationService{
 
     setCurrentOrganization(org_id: number){
         this.getOrganization(org_id).then(response=>{
-            this.currentOrganization = response[0];
+            this.currentOrganization = response;
             console.log("current org: ");
             console.log(this.currentOrganization);
         });

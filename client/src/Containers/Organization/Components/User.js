@@ -102,7 +102,7 @@ export class userForm extends Component <{ match: { params: { token: string } } 
             console.log("fra USER: ");
             console.log(res.org_id);
             organizationService.getOrganization(res.org_id).then(response => {
-                this.organization = response[0];
+                this.organization = response;
                 this.loaded = true;
             }).catch((error:Error)=>{
                 Alert.danger(error.message);
