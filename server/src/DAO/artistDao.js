@@ -33,8 +33,21 @@ module.exports = class artistDao extends Dao {
 
     insertRider(riders_file: any, artist_id: number, callback: function){
         super.query(
-            "INSERT INTO file (artist_id, name, data, size, encoding, tempFilePath, truncated, mimetype, md5) values(?,?,?,?,?,?,?,?,?)",
+            "INSERT INTO ridersFile (artist_id, name, data, size, encoding, tempFilePath, truncated, mimetype, md5) values(?,?,?,?,?,?,?,?,?)",
             [artist_id, riders_file.name, riders_file.data, riders_file.size, riders_file.encoding, riders_file.tempFilePath, riders_file.truncated, riders_file.mimetype, riders_file.md5],
+            callback
+        );
+    }
+
+    insertHospitalityRider(hospitality_riders_file: any, artist_id: number, callback: function){
+        super.query("INSERT INTO hospitality_ridersFile (artist_id, name, data, size, encoding, tempFilePath, truncated, mimetype, md5) values(?,?,?,?,?,?,?,?,?)",
+            [artist_id, hospitality_riders_file.name, hospitality_riders_file.data, hospitality_riders_file.size, hospitality_riders_file.encoding, hospitality_riders_file.tempFilePath, hospitality_riders_file.truncated, hospitality_riders_file.mimetype, hospitality_riders_file.md5],
+            callback
+        );
+    }
+    insertArtistContract(artist_contract_file: any, artist_id: number, callback: function){
+        super.query("INSERT INTO artist_contractFile (artist_id, name, data, size, encoding, tempFilePath, truncated, mimetype, md5) values(?,?,?,?,?,?,?,?,?)",
+            [artist_id, artist_contract_file.name, artist_contract_file.data, artist_contract_file.size, artist_contract_file.encoding, artist_contract_file.tempFilePath, artist_contract_file.truncated, artist_contract_file.mimetype, artist_contract_file.md5],
             callback
         );
     }

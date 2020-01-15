@@ -155,7 +155,7 @@ export class RegistrationForm extends Component {
             console.log("riders from regFORMEvent: ");
             console.log(a.riders);
             artistService
-                .addArtist(val, a.artist_name, a.email, a.phone, a.riders, null, null).catch((error:Error)=>{
+                .addArtist(val, a.artist_name, a.email, a.phone, a.riders, a.hospitality_riders, a.artist_contract).catch((error:Error)=>{
                 Alert.danger(error.message);
             });
                 //.catch((error: Error) => console.log(error.message))

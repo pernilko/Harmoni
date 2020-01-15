@@ -9,7 +9,6 @@ import {Alert} from "../../../widgets";
 
 export class ArtistDropdown extends Component<{buttonName: string, editMode: boolean, artist: Artist}> {
     artist: Artist[] = [];
-    formData:FormData=new FormData();
 
     artist_name: string = this.props.artist.artist_name;
     riders: File = null;
@@ -62,7 +61,6 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                                        this.riders=event.target.files[0];
                                                        console.log("riders file from artistDropDown: ");
                                                        console.log(this.riders);
-                                                       this.formData.append('riders',event.target.files[0]);
                                                    }
                                                    }/>
                                         </div>
@@ -75,7 +73,6 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                             <input type="file" className="file-path validate" id="hospitality-raider" accept='.pdf'
                                                    onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>{
                                                        this.hospitality_riders=event.target.files[0];
-                                                       this.formData.append('hospitality_riders',event.target.files[0]);
                                                    }}/>
                                         </div>
                                     </div>
@@ -88,8 +85,6 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                             <input type="file" className="file-path validate" id="contract" accept='.pdf'
                                                    onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>{
                                                        this.artist_contract=event.target.files[0];
-                                                       this.formData.append('contract',event.target.files[0]);
-
                                                    }}/>
                                         </div>
                                     </div>
@@ -120,8 +115,6 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
         }
 
         console.log(this.state);
-
-        console.log("checking riders file"+ this.formData.get('riders').name);
         const index = this.artist.indexOf(this.props.artist);
         this.artist[index] = new Artist(0,0,this.artist_name, this.email, this.phone,null, this.riders, this.hospitality_riders, this.artist_contract);
         this.artist_name = "";
@@ -180,23 +173,5 @@ export class ArtistDetails extends Component {
 
     addNewArtist(){
         this.artist.push(new Artist(0, 0, "", "","","",null, null, null));
-    }
-}
-
-export class UploadTest extends Component{
-
-    render(){
-        return(
-            <div>
-                <p>HALLO</p>
-                <form ref='uploadForm'
-                      action='http://localhost:8080/uploadRiders/6'
-                      method='post'
-                      encType="multipart/form-data">
-                    <input type="file" name="sampleFile" />
-                    <input type='submit' value='Upload!' />
-                </form>
-            </div>
-        );
     }
 }

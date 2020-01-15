@@ -41,11 +41,21 @@ class ArtistService {
         return axios.get<Artist[]>(url + "artist/"+id).then(response => response.data[0]);
     }
     addArtist(event_id: number, artist_name: string, email: string, phone: number, ridersFile: File, hospitality_rider: File, artist_contract: File) {
-        let fd:FormData = new FormData();
-        fd.append("image", ridersFile);
-        console.log("ridersFile: ");
+        let fd_riders:FormData = new FormData();
+        fd_riders.append("riders", ridersFile);
+        fd_riders.append("hospitality_rider", hospitality_rider);
+        fd_riders.append("artist_contract", artist_contract);
+
+        let fd_hospitality_riders:FormData = new FormData();
+        fd_hospitality_riders.append("image",hospitality_rider);
+
+        let fd_artist_contract:FormData = new FormData();
+        fd_artist_contract.append("image", artist_contract);
+
+        console.log("ridersFile from service: ");
         console.log(ridersFile);
-        console.log(artist_name);
+        console.log(hospitality_rider);
+        console.log(artist_contract);
         return axios.post<{}, Artist>(url + "artist/add", {
             "event_id": event_id,
             "artist_name": artist_name,
@@ -57,11 +67,11 @@ class ArtistService {
             return axios<{}>({
                 url: url +'uploadRiders/' + response.data[0].artist_id,
                 method: 'post',
-                data: fd,
+                data: fd_riders,
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
-            }).then(res=>{console.log(response)});
+            });
         });
     }
 
