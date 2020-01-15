@@ -43,7 +43,8 @@ export class Navigation extends Component {
                              style={{paddingLeft: 30+'px'}}>
                   <NavDropdown.Item href="#/myEvents"  style={{color: "black"}}>Mine arrangement</NavDropdown.Item>
                   <NavDropdown.Item href="#/event" style={{color: "black"}}>Opprett arrangement</NavDropdown.Item>
-                  <NavDropdown.Item href="#" style={{color: "black"}}>Rediger profil</NavDropdown.Item>
+                  <NavDropdown.Item href="#/Profile" style={{color: "black"}}>Rediger profil</NavDropdown.Item>
+                  <NavDropdown.Item href={"#/organizationProfile"}style={{color: "black"}}>Min organisasjon</NavDropdown.Item>
                   <NavDropdown.Divider/>
                   <NavDropdown.Item href="#" onClick={this.logout} style={{color: "black", backgroundColor: 'white'}}>Logg ut</NavDropdown.Item>
                 </NavDropdown>

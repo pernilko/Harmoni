@@ -33,7 +33,7 @@ export class User {
      */
 }
 class UserService {
-    currentUser:_User;
+    currentUser: User;
     //auto login
 
     autoLogin(){
@@ -52,14 +52,13 @@ class UserService {
                         localStorage.setItem("token", response.data.jwt);
                         console.log("user_id: " + response.data.user_id);
                         this.getUser(response.data.user_id).then(res=>{
-                            this.currentUser = new User();
+                            console.log(res);
                             this.currentUser = res;
                             organizationService.setCurrentOrganization(res.org_id);
                         })
                     }
                     console.log(response.data);
                 }).catch(error => {
-                    Alert.danger(error.message);
                     this.currentUser = null;
                 });
         }
@@ -75,8 +74,6 @@ class UserService {
             if(response.data.jwt){
                 localStorage.setItem("token", response.data.jwt)
                 userService.getUser(response.data.user_id).then(res=>{
-                    console.log("res: ", res);
-                    this.currentUser = new User();
                     this.currentUser = res;
                     organizationService.setCurrentOrganization(res.org_id);
                     console.log(this.currentUser);
@@ -97,6 +94,39 @@ class UserService {
             "image": image
         }).then(response=>response.data);
     }
+
+    updateEmail(user_id: number, email: string){
+        return axios.put<{}, User>(url + 'Profile/editEmail/' + user_id,
+          {"email": email}) .then(response => response.data);
+    }
+    updateImage(user_id:number, image:string){
+        return axios.put<{}, User>(url + 'Profile/editImage/' + user_id,
+          {"image": image}) .then(response => response.data);
+    }
+    updateInfo(user_id:number, address:string, phone: string){
+        return axios.put<{}, User>(url + 'Profile/editInfo/' + user_id, {
+            "address": address,
+            "phone": phone
+        }) .then(response => response.data);
+    }
+    updateUsernamePassword(user_id:number, user_name: string, password: string){
+        return axios.put<{}, User>(url + 'Profile/edit/' + user_id, {
+            "user_name": user_name,
+            "password": password
+        }).then(response => response.data);
+    }
+
+    updateUserName(user_id: number, user_name: string){
+        return axios.put<{}, User>(url + 'Profile/updateUsername/'+ user_id, {
+            "user_name": user_name
+        }).then(response=>response.data);
+    }
+
+    deleteUser(user_id: number){
+        return axios.delete<{}, User>(url + 'user/delete/' + user_id).then(response => response.data);
+    }
+
+
     getUser(user_id){
         return axios.get<User>(url+ 'user/'+ user_id).then(response=>response.data[0]);
     }
@@ -113,6 +143,11 @@ class UserService {
                 body: JSON.stringify({"user_id": user_id})
             })
             .then(response => response.json());
+    }
+
+    getUserByOrgId(org_id: number){
+        console.log("ORG_ID: ", org_id)
+        return axios.get<User[]>(url +"user/all/"+ org_id).then(response => response.data);
     }
 
 }

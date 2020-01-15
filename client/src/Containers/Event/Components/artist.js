@@ -7,6 +7,8 @@ import {Artist} from "../../../services/ArtistService";
 import Accordion from "react-bootstrap/Accordion";
 import {Alert} from "../../../widgets";
 
+let del_artist: Artist[] = [];
+
 export class ArtistDropdown extends Component<{buttonName: string, artist: Artist}> {
     state: Object={raider: null, hraider: null,contract: null};
     artist: Artist[] = [];
@@ -104,16 +106,17 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
         console.log(this.state);
 
         const index = this.artist.indexOf(this.props.artist);
-        this.artist[index] = new Artist(0,0,this.artist_name, this.state.raider, this.state.hraider,this.state.contract,this.email, this.phone,this.image);
-        this.artist_name = "";
-        this.email = "";
-        this.phone = "";
-        this.riders = "";
-        this.hospitality_riders = "";
-        this.artist_contract = "";
-        this.image = "";
+        this.artist[index] = new Artist(this.props.artist.artist_id,this.props.artist.event_id,this.artist_name, this.state.raider, this.state.hraider,this.state.contract,this.email, this.phone);
+
         //let s: any = ArtistDetails.instance();
         //s.mounted();
+
+    }
+
+    mounted() {
+
+        let s: any = ArtistDetails.instance();
+        this.artist = s.artist;
 
     }
     onChanger(event:SyntheticInputEvent<HTMLInputElement>) {
@@ -125,14 +128,12 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
     onChangec(event:SyntheticInputEvent<HTMLInputElement>){
         this.state.contract=event.target.files[0];
     }
-    mounted(): unknown {
-        let s: any = ArtistDetails.instance();
-        this.artist = s.artist;
-    }
+
     delete(a: Artist){
+        del_artist.push(a);
         const index = this.artist.indexOf(a);
-        if(index > -1){
-            this.artist.splice(index,1);
+        if (index > -1) {
+            this.artist[index] = null;
         }
     }
 }
@@ -147,7 +148,7 @@ export class ArtistDetails extends Component {
                     <h3>Artister:</h3>
                 </div>
                 <div className="card-body">
-                    {this.artist.map(a => (
+                    {this.artist.map(a => {if (a) { return(
                     <div className="card-header">
                         <div className="row">
                             <div className="col"><label>Artist: {a.artist_name} </label></div>
@@ -164,7 +165,7 @@ export class ArtistDetails extends Component {
                             </div>
                         </div>
                     </div>
-                    ))}
+                    )}})}
                     <button type="button" className="btn btn-secondary" onClick={() => this.addNewArtist()}>Legg til artist</button>
                 </div>
             </div>
@@ -172,6 +173,9 @@ export class ArtistDetails extends Component {
     }
 
     addNewArtist(){
-        this.artist.push(new Artist(null, null, "", "", "", "", "", null, ""));
+        let a: Artist = new Artist(-1, 0, "", null, null, null, "", "", true);
+        this.artist.push(a);
     }
 }
+
+export { del_artist };
