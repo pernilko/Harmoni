@@ -13,6 +13,8 @@ import { createHashHistory } from 'history';
 
 const history = createHashHistory();
 
+let emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 
 export class RegOrganization extends Component {
   organization: Organization = new Organization();
@@ -113,10 +115,10 @@ export class RegOrganization extends Component {
     console.log(this.organization.org_name);
     console.log(this.organization.phone);
     console.log(this.organization.email);
-    if(this.organization.org_name.length != 0 && this.organization.email.length != 0 && this.organization.phone != 0) {
+    if(this.organization.org_name.length != 0 && this.organization.email.length != 0 && this.organization.phone != 0 && emailRegEx.test(this.organization.email)) {
       this.hidden = false;
     }else{
-      Alert.danger("Alle felt må fylles ut");
+      Alert.danger("Alle felt må fylles ut, og gyldig e-post addresse må skrives inn");
     }
     //Supposed to reveal a new component for registering an Admin-user
   }
@@ -126,8 +128,11 @@ export class RegOrganization extends Component {
     if(this.repeatedPassword != this.user.password || this.user.password.length<8){
       Alert.danger("Passord må være like og ha minst 8 tegn");
     }
+    else if(!emailRegEx.test(this.user.email)){
+      Alert.danger("Ikke gyldig E-mail addresse");
+    }
     else if(this.user.email.length !=0 && this.user.address.length != 0 && this.user.user_name.length!=0
-        &&this.user.phone.length != 0){
+        &&this.user.phone.length != 0 && emailRegEx.test(this.user.email)){
       console.log(this.organization.org_name);
       organizationService.addOrganization(this.organization.org_name, this.organization.phone, this.organization.email)
           .then(response=>{

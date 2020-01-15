@@ -10,7 +10,7 @@ import {sharedComponentData} from 'react-simplified';
 import Form from 'react-bootstrap/Form';
 
 const history = createHashHistory();
-
+let emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 
 export class Profile extends Component{
@@ -103,6 +103,7 @@ export class Profile extends Component{
                  <Card>
                    <Card.Body>
                      <h2>Endre brukernavn og/eller passord</h2>
+                     <p>(La felt stå tomt om det ikke skal endres)</p>
                      <Form.Group>
                        <Form.Label>Endre brukernavn</Form.Label>
                        <Form.Control type="username" placeholder={userService.currentUser.user_name} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
@@ -156,7 +157,7 @@ export class Profile extends Component{
 
   change(){
     //Change email
-    if(this.user.email.length !==0){
+    if(this.user.email.length !==0 && emailRegEx.test(this.user.email)){
       userService
         .updateEmail(userService.currentUser.user_id, this.user.email)
         .then(() => {
@@ -166,6 +167,8 @@ export class Profile extends Component{
             history.push("/Profile");
           }
         })
+    }else{
+      Alert.danger("Ikke gyldig E-mail addresse");
     }
   }
   // Change profile picture
