@@ -7,6 +7,7 @@ import {sharedComponentData} from "react-simplified";
 import {userService} from "../../../services/UserService";
 import {userEventService} from "../../../services/UserEventService";
 import {Spinner} from "react-bootstrap";
+import "./showEvents.css";
 
 const history = createHashHistory();
 
@@ -15,8 +16,6 @@ export class EventList extends Component<{user: boolean}>{
     loaded: boolean = false;
     ready: boolean = false; 
     
-
-     
     constructor(props){
         super(props);
         this.state = {
@@ -38,7 +37,7 @@ export class EventList extends Component<{user: boolean}>{
             return (
                 <div className={"w-50 mx-auto"}>
                     {this.state["events"].map((event, i) =>
-                        <div className={"card my-4" + (this.getUserEvent(event.event_id) ? (this.getUserEvent(event.event_id).accepted === 0 ? " border-danger" : (this.getUserEvent(event.event_id).accepted === 1 ? " border-success" : "")) : "")}>
+                        <div id="event" className={"card my-5 bg-light" + (this.getUserEvent(event.event_id) ? (this.getUserEvent(event.event_id).accepted === 0 ? " border-danger" : (this.getUserEvent(event.event_id).accepted === 1 ? " border-success" : "")) : "")}>
                             <div className>
                                 <a href={'#/showEvent/' + event.event_id}>
                                     <h5 className="card-title">{event.event_name}</h5>
