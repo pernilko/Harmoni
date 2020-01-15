@@ -17,10 +17,10 @@ export class OrgProfile extends Component {
                 <div className="col-6" style={{padding: 0, paddingLeft: 0+"px", height: "100%"}}>
                     <div className="card" style={{border: "none", height: "100%"}}>
                         <div className="card-body" style={{padding: 0}}>
-                            <div className="card-img" style={{marginLeft: 20+"px"}}>
+                            <div className="card-img" style={{textAlign: "center"}}>
                                 <img src={"https://s1.logaster.com/static/v3/img/products/logo.png"}/>
                             </div>
-                            <div className="card-body" style={{paddingBottom: 0}}>
+                            <div className="card-body" style={{paddingBottom: 0, textAlign: "center"}}>
                                 <h2>Organisasjon AS</h2>
                                 <p>Opprettet: 20. Januar, 2020</p>
                             </div>
@@ -30,9 +30,7 @@ export class OrgProfile extends Component {
                                 <div className="card-text" style={{margin: 10+"px"}}>Tlf: +47 33333333</div>
                                 <div className="card-text" style={{margin: 10+"px"}}>Admin: Navn Navnesen</div>
                             </div>
-                        </div>
-                        <div>
-                        <Button variant="outline-secondary" style={{marginLeft: 20, marginTop: 9}}>rediger</Button>
+                            <Button variant="outline-secondary" style={{marginRight: 20, marginTop: 9, float: "right"}}>rediger</Button>
                         </div>
                     </div>
                 </div>
