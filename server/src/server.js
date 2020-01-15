@@ -301,6 +301,23 @@ app.get("/event/org/:id", (req : Request, res: Response) => {
 });
 
 
+app.get("/event/upcoming/user/:id", (req : Request, res: Response) => {
+    console.log("/event/user/:id: received get request from client");
+    eventDao.getEventUpcomingUser(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.get("/event/upcoming/org/:id", (req : Request, res: Response) => {
+    console.log("/event/org/:id: received get request from client");
+    eventDao.getEventUpcomingOrg(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+
 app.get("/event/user/:id", (req : Request, res: Response) => {
     console.log("/event/user/:id: received get request from client");
     eventDao.getEventUser(req.params.id, (status, data) => {
