@@ -6,6 +6,7 @@ import { Component } from "react-simplified";
 let LAT: float = 0;
 let LNG: float = 0;
 let show: boolean = false;
+let edit: boolean = false;
 
 export function getlatlng(){
   return [LAT, LNG];
@@ -33,6 +34,10 @@ const Map = compose(
               props.onMapClick(e);
               LAT = e.latLng.lat();
               LNG = e.latLng.lng();
+            } else if (edit){
+                props.onMapClick(e);
+                LAT = e.latLng.lat();
+                LNG = e.latLng.lng();
             }}}
         >
 
@@ -41,12 +46,13 @@ const Map = compose(
         </GoogleMap>
     )
 
-export default class MapContainer extends Component<{lat?: float, lng?: float, show: boolean}> {
+export default class MapContainer extends Component<{lat?: float, lng?: float, show: boolean, edit?: boolean}> {
     constructor(props) {
         super(props);
         LAT = this.props.lat || 63.43049 ;
         LNG = this.props.lng || 10.39506;
         show = this.props.show;
+        edit = this.props.edit;
     }
 
     render() {
