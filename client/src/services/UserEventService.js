@@ -1,5 +1,6 @@
 // @flow
 import axios from 'axios';
+import {User} from './UserService';
 
 const url = "http://localhost:8080/";
 
@@ -28,8 +29,13 @@ class UserEventService {
     }
 
     getAllbyId(event_id: number) {
-        return axios.get<{}, UserEvent>(url + "userEvent/" + event_id)
+        return axios.get<UserEvent[]>(url + "userEvent/" + event_id)
             .then(response => response.data);
+    }
+
+    getUserbyId(event_id: number) {
+        return axios.get<User[]>(url + "userEvent/users/" + event_id)
+        .then(response => response.data);
     }
 
     deleteUserEvent(user_id: number, event_id: number){

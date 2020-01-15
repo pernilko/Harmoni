@@ -576,11 +576,19 @@ app.post("/userEvent/add", (req: Request, res: Response) => {
 
 //not tested
 app.get("/userEvent/:id", (req: Request, res: Response) => {
-    console.log("/userEvent/:id received post request from client");
+    console.log("/userEvent/:id received get request from client");
     userEventDao.getAllbyId(req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
     });
+});
+
+app.get("/userEvent/users/:id", (req: Request, res: Response) => {
+    console.log("/userEvent/users/:id received get request from client");
+    userEventDao.getUserbyId(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    })
 });
 
 //not tested
