@@ -7,25 +7,32 @@ import {Artist} from "../../../services/ArtistService";
 import {TicketComp, TicketDetails} from "./ticketDropdown";
 import {eventService} from "../../../services/EventService";
 import {artistService} from "../../../services/ArtistService";
-import {ticketService} from "../../../services/TicketService";
+import {Ticket, ticketService} from "../../../services/TicketService";
+
 import {Alert} from "../../../widgets";
 import { createHashHistory } from 'history';
 import {User, userService} from '../../../services/UserService';
 import {sharedComponentData} from "react-simplified";
-
+import MapContainer from "./map";
+import {getlatlng} from "./map";
 
 const history = createHashHistory();
 
 export class RegistrationForm extends Component {
     artist: Artist[] = [];
 
+    event_id: number = 0;
     eventName: string = "";
+    user_id: number = 0;
     address: string = "";
     description: string = "";
     startDate: number = null;
     endDate: number = null;
     startTime: number = null;
     endTime: number = null;
+    lat: number = 0;
+    lng: number = 0;
+    image: File = null;
 
     render(){
         return(
@@ -81,6 +88,8 @@ export class RegistrationForm extends Component {
                     <div className="form-group" style={{marginTop: 20+"px"}}>
                         <TicketDetails/>
                     </div>
+                    <h2> Velg lokasjon på kartet: </h2>
+                    <MapContainer show={false}/>
                     <div className="btn-group"  style={{width: "20%", marginLeft: "40%", padding: "20px"}}>
                         <button className="btn btn-success"  onClick={this.regEvent}>Opprett</button>
                         <button className="btn btn-danger" onClick={this.cancel}>Avbryt</button>
@@ -89,8 +98,17 @@ export class RegistrationForm extends Component {
             </div>
         )
     }
+
     regEvent(){
         console.log(this.eventName+"hei");
+
+        console.log(getlatlng()[0]);
+        console.log(getlatlng()[1]);
+
+        //getlatlng returns [LAT, LNG]
+        this.lat = getlatlng()[0];
+        this.lng = getlatlng()[1];
+
         if (this.eventName === "") {
             Alert.danger("Ugyldig arrangement navn");
             return;
@@ -119,13 +137,16 @@ export class RegistrationForm extends Component {
         console.log(this.endDate +", "+ this.endTime);
 
         eventService
-            .postEvent(userService.currentUser.org_id, this.eventName, this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", 0, 0)
+            .postEvent(userService.currentUser.org_id, this.eventName, userService.currentUser.user_id, this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00",this.lng,  this.lat)
             .then(response => {
                 this.addTickets(response[0]["LAST_INSERT_ID()"]);
                 this.addArtists(response[0]["LAST_INSERT_ID()"]);
+                history.push("/event/"+response[0]["LAST_INSERT_ID()"]);
             })
             .catch((error: Error) => console.log(error.message))
 
+        history.push("/allEvents");
+        Alert.success("Arrangementet ble opprettet");
     }
 
     addArtists(val: number) {
@@ -153,4 +174,7 @@ export class RegistrationForm extends Component {
             });
     }
 
+    cancel(){
+      history.push("/allEvents");
+    }
 }

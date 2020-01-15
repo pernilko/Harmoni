@@ -7,10 +7,12 @@ const publicKEY = require('./keys/public.json');
 let jwt = require("jsonwebtoken");
 let bodyParser = require("body-parser");
 let nodemailer = require("nodemailer");
-let config: {host: string, user: string, password: string, database: string, key: string} = require("./config")
+let config: {host: string, user: string, password: string, email: string, email_passord: string} = require("./config")
 
 let app = express();
 app.use(bodyParser.json());
+
+let DOMAIN = "localhost:3000/"
 
 type Request = express$Request;
 type Response = express$Response;
@@ -21,6 +23,7 @@ let pool = mysql.createPool({
     user: config.user,
     password: config.password,
     database: config.user,
+    timezone: 'utc',
     debug: false
 });
 
@@ -39,15 +42,31 @@ let organizationDAO= new OrganizationDAO(pool);
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: process.env.email,
-        pass: process.env.password,
+        user: config.email,
+        pass: config.email_passord,
     }
 });
+/*
+let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: "dilawarmm@outlook.com",
+        subject: "Email",
+        text: "Email"
+    };
+
+transporter.sendMail(mailOptions, function(err, data) {
+    if (err) {
+        console.log("Error occurs, ", err);
+    }
+    else {
+        console.log("Success!");
+    }
+});*/
 
 app.use(function (req, res, next: function) {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-Access-Token");
-    res.setHeader("Access-Control-Allow-Methods","PUT, POST, GET, OPTIONS");
+    res.setHeader("Access-Control-Allow-Methods","PUT, POST, GET, OPTIONS, DELETE");
     next();
 });
 
@@ -64,6 +83,33 @@ app.use("/api", (req, res, next) => {
             console.log("Token ok: " + decoded.user_id);
             next();
         }
+    });
+});
+
+app.post("/inviteUser", (req, res) => {
+    let email: string = req.body.email;
+    let org_id: number = req.body.org_id;
+    let org_name: string = req.body.org_name;
+    let token: string = jwt.sign({org_id: org_id}, privateKEY.key, {
+        expiresIn: 3600
+    });
+    let url: string = DOMAIN + "#/user/" + token;
+
+    let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: email,
+        subject: "Invitasjon fra " + org_name,
+        text: url
+    };
+
+    transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Email sent!");
+        }
+
+        res.json(url);
     });
 });
 
@@ -144,6 +190,28 @@ app.post("/token", (req, res) => {
     });
 });
 
+app.get("/generateInvToken/:org_id", (req, res)=>{
+    let token = jwt.sign({org_id: req.params.org_id}, privateKEY.key, {
+        expiresIn: 3600
+    });
+    console.log("generated and sent token: " + token);
+    res.json({jwt: token});
+});
+
+app.post("/invToken", (req, res)=>{
+    let token: string = req.headers["x-access-token"];
+    jwt.verify(token, privateKEY.key, (err, decoded)=>{
+        if (err){
+            res.status(401);
+            res.json({error: "Not Authorized"});
+        }else{
+            console.log("Token ok, returning org_id");
+            console.log(decoded.org_id);
+            res.json({"org_id": decoded.org_id});
+        }
+    })
+});
+
 //tested
 app.get("/artist/:id", (req : Request, res: Response) => {
     console.log("/artist/:id: received get request from client");
@@ -178,6 +246,23 @@ app.put("/artist/:id", (req:Request,res:Response)=>{
     })
 })
 
+//UserEvent
+app.get("/userevent/all/:id", (req : Request, res : Response) => {
+    console.log("/test:received update request from user to get userevents");
+    eventDao.getUsersForEvent(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.put("/userevent/accepted/", (req : Request, res : Response) => {
+    console.log("/test:received update request from user to get userevents");
+    eventDao.setAccepted(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 //Event
 //tested
 app.get("/event/all", (req : Request, res: Response) => {
@@ -193,6 +278,33 @@ app.get("/event/:id", (req : Request, res: Response) => {
     console.log("/event/:id: received get request from client");
     eventDao.getEvent(req.params.id, (status, data) => {
         res.status(status);
+        console.log(data);
+        res.json(data);
+    });
+});
+
+app.get("/event/time/:id", (req : Request, res: Response) => {
+    console.log("/event/time/:id: received get request from client");
+    eventDao.getEventTime(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+//tested
+app.get("/event/org/:id", (req : Request, res: Response) => {
+    console.log("/event/org/:id: received get request from client");
+    eventDao.getEventOrg(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+
+app.get("/event/user/:id", (req : Request, res: Response) => {
+    console.log("/event/user/:id: received get request from client");
+    eventDao.getEventUser(req.params.id, (status, data) => {
+        res.status(status);
         res.json(data);
     });
 });
@@ -205,8 +317,8 @@ app.post("/event/add", (req : Request, res: Response) => {
             res.json({ error: "feil ved oppkobling"});
         } else {
             connection.query(
-                "INSERT INTO event (org_id, event_name, place, event_start, event_end, longitude, latitude) VALUES (?,?,?,?,?,?,?)",
-                [req.body.org_id, req.body.event_name, req.body.place, req.body.event_start, req.body.event_end, req.body.longitude, req.body.latitude],
+                "INSERT INTO event (org_id, user_id, event_name, place, event_start, event_end, longitude, latitude) VALUES (?,?,?,?,?,?,?,?)",
+                [req.body.org_id, req.body.user_id, req.body.event_name, req.body.place, req.body.event_start, req.body.event_end, req.body.longitude, req.body.latitude],
                 err => {
                     if (err) {
                         console.log(err);
@@ -319,6 +431,68 @@ app.get("/user/:id", (req: Request, res: Response)=>{
     });
 });
 
+app.delete("/user/delete/:id", (req : Request, res: Response) => {
+    console.log("/user/delete/:id: received delete request from client");
+    pool.getConnection((err, connection: function) => {
+          console.log("Connected to database");
+          if (err) {
+              console.log("Feil ved kobling til databasen");
+              res.json({ error: "feil ved oppkobling" });
+          } else {
+              connection.query(
+  				          "DELETE artist FROM artist INNER JOIN event ON artist.event_id = event.event_id WHERE user_id=?",
+  				          [req.params.id],
+  				          (err, rows) => {
+  					               if (err) {
+  						                     console.log(err);
+  						                     res.json({ error: "error querying" });
+  					               } else {
+                             connection.query(
+                 				          "DELETE ticket FROM ticket INNER JOIN event ON ticket.event_id = event.event_id WHERE user_id=?",
+                 				          [req.params.id],
+                 				          (err, rows) => {
+                 					               if (err) {
+                 						                     console.log(err);
+                 						                     res.json({ error: "error querying" });
+                 					               } else {
+                                           connection.query(
+                               				          "DELETE FROM user_event WHERE user_id=?",
+                               				          [req.params.id],
+                               				          (err, rows) => {
+                               					               if (err) {
+                               						                     console.log(err);
+                               						                     res.json({ error: "error querying" });
+                               					               } else {
+                                                         connection.query(
+                                             				          "DELETE FROM event WHERE user_id=?",
+                                             				          [req.params.id],
+                                             				          (err, rows) => {
+                                             					               if (err) {
+                                             						                     console.log(err);
+                                             						                     res.json({ error: "error querying" });
+                                             					               } else {
+                                                                       console.log("/user received get request from client");
+                                                                       userDao.deleteUserById(req.params.id, (status, data)=>{
+                                                                           res.status(status);
+                                                                           res.json(data);
+                                                                       });
+                              					                             }
+                              				                        }
+                              			                    );
+
+                					                             }
+                				                        }
+                			                    );
+
+  					                             }
+  				                        }
+  			                    );
+                          }
+                    }
+            );
+        }
+      });
+});
 
 //Ticket
 //tested
