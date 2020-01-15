@@ -32,7 +32,7 @@ class OrganizationService{
     }
     //not tested
     getOrganization(org_id: number){
-        return axios.get<Organization>(url + 'organization/id/'+org_id).then(response=> response.data);
+        return axios.get<Organization>(url + 'organization/id/'+org_id).then(response=> response.data[0]);
     }
     //tested
     getOrganizationByEmail(email: string){

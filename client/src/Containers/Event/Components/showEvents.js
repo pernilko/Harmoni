@@ -50,10 +50,11 @@ export class EventList extends Component<{user: boolean}>{
                                     //abolutely terrible code
                                 }
 
-                                {this.getUserEvent(event.event_id) ?  "Du er satt opp som " + this.getUserEvent(event.event_id).job_position : "Du er ikke satt på dette arrangementet"}
+                                {this.getUserEvent(event.event_id) ?  "Du er satt opp som " + this.getUserEvent(event.event_id).job_position: "Du er ikke satt på dette arrangementet"}
                                 <br/>
-                                <a href="#" className="card-link">Aksepter</a>
-                                <a href="#" className="card-link">Avslå</a>
+                                {this.getUserEvent(event.event_id) ?
+                                    <div><button onClick={() => this.setAccepted(event.event_id, this.getUserEvent(event.event_id).user_id, 1)} className="btn-dark">Aksepter</button>
+                                        <button onClick={() => this.setAccepted(event.event_id, this.getUserEvent(event.event_id).user_id, 0)} className="btn-dark">Avslå</button></div> : <div></div>}
                                 <div>
                                   <button className="btn btn-danger"  onClick={this.deleteEvent}>Delete</button>
                                 </div>
@@ -68,6 +69,10 @@ export class EventList extends Component<{user: boolean}>{
             );
         }
         ;
+    }
+
+    setAccepted(user_id: number, event_id: number, accepted: number) {
+        userEventService.setAccepted(event_id, user_id, accepted);
     }
 
     getUserEvent(event_id: number){
