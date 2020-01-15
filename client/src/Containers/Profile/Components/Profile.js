@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import {Component} from 'react-simplified';
-import { Nav, Image, Tab, Col, Spinner, Button, Card } from 'react-bootstrap';
+import { Nav, Image, Tab, Col, Spinner, Button, Card, Container } from 'react-bootstrap';
 import { User, userService } from '../../../services/UserService';
 import { createHashHistory } from 'history';
 import {Row, Alert} from '../../../widgets';
@@ -10,7 +10,7 @@ import {sharedComponentData} from 'react-simplified';
 import Form from 'react-bootstrap/Form';
 
 const history = createHashHistory();
-
+let emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 
 export class Profile extends Component{
@@ -20,17 +20,18 @@ export class Profile extends Component{
 
   render() {
     if (userService.currentUser) {
-
       return <div>
         <h2 className="card-header"> Hei, {userService.currentUser.user_name}!</h2>
+        <Container style={{padding: "0px"}}>
         <Tab.Container id="left-tabs-" defaultActiveKey="first">
           <Row>
             <Col lg={3}>
+              <div>
               <Image src="https://i.ytimg.com/vi/_c1NJQ0UP_Q/maxresdefault.jpg"
-                     roundedCircle width={280 + 'px'}
-                     height={250 + 'px'}/>
+                     roundedCircle width={240 + 'px'}
+                     height={220 + 'px'} style={{marginTop: 10 + 'px' ,marginBottom: 20 +'px'}}/>
               <br/>
-              <Nav variant="pills" className="flex-column">
+              <Nav variant="pills" className="flex-column" >
                 <Nav.Item>
                   <Nav.Link eventKey="first">Bruker informasjon</Nav.Link>
                 </Nav.Item>
@@ -40,12 +41,16 @@ export class Profile extends Component{
                 <Nav.Item>
                   <Nav.Link eventKey="third">Slett brukerkonto</Nav.Link>
                 </Nav.Item>
+                <br/>
+                <text> Harmoni bruker siden {userService.currentUser.reg_date.slice(8,10) +"/" +
+                userService.currentUser.reg_date.slice(5,7) +"-" + userService.currentUser.reg_date.slice(0,4)}</text>
               </Nav>
+              </div>
             </Col>
             <Col lg={9}>
               <Tab.Content>
                 <Tab.Pane eventKey="first">
-                  <Card>
+                  <Card style={{ borderRight: 'none', borderTop: 'none', borderBottom: 'none', paddingLeft: 30 + 'px'}}>
                     <Card.Body>
                       <h2>Profil instillinger</h2>
                       <br/>
@@ -80,13 +85,13 @@ export class Profile extends Component{
                       <h3>Kontakt informasjon</h3>
                       <Form.Group>
                         <Form.Label>Endre adresse</Form.Label>
-                        <Form.Control type="String" placeholder="Skriv inn adresse" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+                        <Form.Control type="address" placeholder={userService.currentUser.address} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
                           this.user.address = event.target.value
                         }}/>
                       </Form.Group>
                       <Form.Group>
                         <Form.Label>Endre telefon</Form.Label>
-                        <Form.Control type="number" placeholder="Skriv inn telefon nummer" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+                        <Form.Control type="number" placeholder={userService.currentUser.phone} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
                           this.user.phone = event.target.value
                         }}/>
                       </Form.Group>
@@ -98,9 +103,10 @@ export class Profile extends Component{
                  <Card>
                    <Card.Body>
                      <h2>Endre brukernavn og/eller passord</h2>
+                     <p>(La felt stå tomt om det ikke skal endres)</p>
                      <Form.Group>
                        <Form.Label>Endre brukernavn</Form.Label>
-                       <Form.Control type="username" placeholder="Velg nytt brukernavn" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+                       <Form.Control type="username" placeholder={userService.currentUser.user_name} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
                          this.user.user_name = event.target.value
                        }}/>
                      </Form.Group>
@@ -138,6 +144,7 @@ export class Profile extends Component{
             </Col>
           </Row>
         </Tab.Container>
+          </Container>
       </div>
     } else {
       return <Spinner animation="border"/>
@@ -150,7 +157,7 @@ export class Profile extends Component{
 
   change(){
     //Change email
-    if(this.user.email.length !==0){
+    if(this.user.email.length !==0 && emailRegEx.test(this.user.email)){
       userService
         .updateEmail(userService.currentUser.user_id, this.user.email)
         .then(() => {
@@ -160,6 +167,8 @@ export class Profile extends Component{
             history.push("/Profile");
           }
         })
+    }else{
+      Alert.danger("Ikke gyldig E-mail addresse");
     }
   }
   // Change profile picture
@@ -169,7 +178,7 @@ export class Profile extends Component{
         .updateImage(userService.currentUser.user_id, this.user.image)
         .then(() => {
           if(userService.currentUser){
-            Alert.success("Profil bildet er oppdatert");
+            Alert.success("Profilbildet er oppdatert");
             userService.autoLogin();
             history.push("/Profile");
           }
@@ -179,6 +188,11 @@ export class Profile extends Component{
   // Change info
   changeInfo(){
     if(this.user.address.length !==0 || this.user.phone.length !==0){
+      if(this.user.address.length == 0){
+        this.user.address = userService.currentUser.address;
+      }else if(this.user.phone.length == 0){
+        this.user.phone = userService.currentUser.phone;
+      }
       userService
         .updateInfo(userService.currentUser.user_id, this.user.address, this.user.phone)
         .then(() => {
@@ -192,18 +206,35 @@ export class Profile extends Component{
   }
   // Change username and password
   changeUP() {
-    if (this.repeatedPassword != this.user.password && this.user.password.length >= 8) {
+    if(this.repeatedPassword.length == 0 && this.user.user_name.length>=1){
+      userService.updateUserName(userService.currentUser.user_id, this.user.user_name)
+          .then(()=>{
+            Alert.success("Brukernavn endret");
+            userService.autoLogin();
+            history.push("/Profile")
+          })
+    }
+    else if (this.repeatedPassword != this.user.password || this.user.password.length < 8) {
       Alert.danger("Passord må være like og ha minst 8 tegn");
-    } else if (this.user.user_name.length !== 0) {
+    }else if (this.user.user_name.length !== 0 && this.repeatedPassword == this.user.password && this.user.password.length >=8) {
       userService
         .updateUsernamePassword(userService.currentUser.user_id, this.user.user_name, this.user.password)
         .then(() => {
           if (userService.currentUser) {
-            Alert.success("Brukernavn/passord er oppdatert");
+            Alert.success("Brukernavn OG passord er oppdatert");
             userService.autoLogin();
             history.push("/Profile");
           }
         })
+    }else if(this.user.user_name.length == 0 &&this.repeatedPassword == this.user.password && this.user.password >=8){
+      userService.updateUsernamePassword(userService.currentUser.user_id, userService.currentUser.user_name, this.user.password)
+          .then(()=>{
+            Alert.success("Passord oppdatert");
+            userService.autoLogin();
+            history.push("/Profile");
+          }).catch((error: Error) =>{
+            Alert.danger(error.message);
+      })
     }
   }
 

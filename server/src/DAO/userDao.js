@@ -73,5 +73,10 @@ module.exports = class userDao extends Dao {
           callback
         );
     }
+    updateUserName(user_id: number, json: {user_name: string}, callback: function){
+        super.query("UPDATE user SET user_name = ? WHERE user_id = ?", [json.user_name, user_id],
+            callback
+        );
+    }
 
 };
