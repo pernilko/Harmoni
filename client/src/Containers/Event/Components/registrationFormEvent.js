@@ -8,7 +8,7 @@ import {TicketComp, TicketDetails} from "./ticketDropdown";
 import {eventService} from "../../../services/EventService";
 import {artistService} from "../../../services/ArtistService";
 import {Ticket, ticketService} from "../../../services/TicketService";
-import {userEventService} from "../../../services/UserEventService";
+import {UserEvent, userEventService} from "../../../services/UserEventService";
 
 
 import {Alert} from "../../../widgets";
@@ -23,7 +23,9 @@ import {getlatlng} from "./map";
 const history = createHashHistory();
 
 export class RegistrationForm extends Component {
-    artist: Artist[] = [];
+    artists: Artist[] = [];
+    tickets: Ticket[] = [];
+    employees: UserEvent[] = [];
 
     event_id: number = 0;
     eventName: string = "";
@@ -106,6 +108,28 @@ export class RegistrationForm extends Component {
         )
     }
 
+    mounted() {
+        this.getArtists();
+        this.getTickets();
+        this.getEmployees();
+    }
+
+    getArtists() {
+        let s: any = ArtistDetails.instance();
+        this.artists = s.artist;
+    }
+
+    getTickets() {
+        let s: any = TicketDetails.instance();
+        this.tickets = s.ticketList;
+    }
+
+    getEmployees() {
+        let s: any = EmployeesDetails.instance();
+        this.employees = s.emp;
+
+    }
+
     regEvent(){
         console.log(this.eventName+"hei");
 
@@ -146,10 +170,10 @@ export class RegistrationForm extends Component {
         eventService
             .postEvent(userService.currentUser.org_id, this.eventName, userService.currentUser.user_id, this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00",this.lng,  this.lat)
             .then(response => {
-                this.addTickets(response[0]["LAST_INSERT_ID()"]);
-                this.addArtists(response[0]["LAST_INSERT_ID()"]);
-                this.addEmployee(response[0]["LAST_INSERT_ID()"]);
-                history.push("/event/"+response[0]["LAST_INSERT_ID()"]);
+                this.addTickets(response[0]["LAST_INSERT_ID()"], this.tickets);
+                this.addArtists(response[0]["LAST_INSERT_ID()"], this.artists);
+                this.addEmployee(response[0]["LAST_INSERT_ID()"], this.employees);
+                //history.push("/event/"+response[0]["LAST_INSERT_ID()"]);
             })
             .catch((error: Error) => console.log(error.message))
 
@@ -157,40 +181,38 @@ export class RegistrationForm extends Component {
         Alert.success("Arrangementet ble opprettet");
     }
 
-    addArtists(val: number) {
-        let artistDetails: any = ArtistDetails.instance();
-        let artists = artistDetails.artist;
-        console.log(artists);
-
+    addArtists(val: number, artists: Artist[]) {
+        console.log("ARTISTER: ", artists);
         artists.map(a => {
-            artistService
-                .addArtist(val, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone, a.image)
+            if(a) {
+                artistService
+                    .addArtist(val, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone)
+                    .then(res => console.log(res))
+                }
             });
-    }
+        }
 
-    addTickets(val: number) {
-        let ticketDetails: any = TicketDetails.instance();
-        let tickets = ticketDetails.ticketList;
-        console.log(tickets);
+    addTickets(val: number, tickets: Ticket[]) {
+        console.log("BILLETTER: ", tickets);
 
         tickets.map(t => {
-            ticketService
-                .addTicket(val, t.ticket_type, t.amount, t.description, t.price, t.amount_sold)
-                .then(response => console.log(response))
-                .catch((error: Error) => console.log(error.message))
-            });
+            if (t) {
+                ticketService
+                    .addTicket(val, t.ticket_type, t.amount, t.description, t.price, t.amount_sold)
+                    .then(response => console.log(response))
+            }
+        });
     }
 
-    addEmployee(val: number){
-        let employeeDetails: any = EmployeesDetails.instance();
-        let employee = employeeDetails.emp;
-        console.log(employee);
+    addEmployee(val: number, employees: UserEvent[]){
+        console.log("ANSATTE: ", employees);
 
-        employee.map(e => {
-            userEventService
-                .addUserEvent(e.user_id, val, e.job_position)
-                .then(response => console.log(response))
-                .catch((error: Error) => console.log(error.message))
+        employees.map(e => {
+            if (e) {
+                userEventService
+                    .addUserEvent(e.user_id, val, e.job_position, e.accepted)
+                    .then(response => console.log(response))
+            }
         });
     }
 

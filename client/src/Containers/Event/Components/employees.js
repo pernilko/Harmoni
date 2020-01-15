@@ -18,7 +18,7 @@ export class Employees extends Component <{buttonName: string, employee: UserEve
     emp: UserEvent[] = [];
     position: string = this.props.employee.job_position;
     user_name: string = this.props.employee.user_name;
-    user_id: number = 0;
+    user_id: number = userService.currentUser.user_id;
     hidden: bool = true;
     render(){
             return (
@@ -103,9 +103,10 @@ export class Employees extends Component <{buttonName: string, employee: UserEve
         //let userId = document.getElementById("userSelect").value;
         this.hidden = true;
         const index = this.emp.indexOf(this.props.employee);
+        console.log(this.user_id);
         userService
             .getUser(this.user_id)
-            .then(res => this.emp[index] = new UserEvent(parseInt(this.user_id), 0, this.position,  res.user_name))
+            .then(res => this.emp[index] = new UserEvent(parseInt(this.user_id), 0, this.position, res.user_name, 2))
             .catch((error: Error) => console.log(error.message))
     }
 

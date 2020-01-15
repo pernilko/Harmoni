@@ -22,11 +22,12 @@ export class UserEvent {
 
 class UserEventService {
 
-    addUserEvent(user_id: number, event_id: number, job_position: string){
+    addUserEvent(user_id: number, event_id: number, job_position: string, accepted: number){
         return axios.post<{}, UserEvent>(url+"userEvent/add", {
             "user_id": user_id,
             "event_id": event_id,
-            "job_position": job_position
+            "job_position": job_position,
+            "accepted": accepted
         }).then(response => response.data);
     }
 
