@@ -17,11 +17,8 @@ import {EventDetails} from './Containers/Event/Components/event';
 import {inviteUser} from './Containers/Organization/Components/inviteUser';
 import {userForm} from "./Containers/Organization/Components/User";
 import {Home} from "./Containers/Home/Components/home";
-<<<<<<< HEAD
 import {SearchResults} from "./Containers/Event/Components/search";
-=======
 import {OrgProfile} from "./Containers/Organization/Components/Profile";
->>>>>>> profileorg
 
 
 const root = document.getElementById('root');
