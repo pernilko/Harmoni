@@ -9,6 +9,9 @@ import Button from 'react-bootstrap/Button';
 import{Component} from 'react-simplified';
 import {Alert} from "../../../widgets";
 import {Col} from "react-bootstrap";
+import { createHashHistory } from 'history';
+
+const history = createHashHistory();
 
 
 export class RegOrganization extends Component {
@@ -130,6 +133,7 @@ export class RegOrganization extends Component {
           .then(response=>{
             userService.register(response[0].org_id,this.user.email, this.user.privileges, this.user.user_name, this.user.password, this.user.address, this.user.phone, this.user.image);
           }).then(()=>Alert.success("Du og din organisasjon ble registret"))
+          .then(()=>history.push("/Login"))
           .catch((error:Error)=>Alert.danger(error.message));
     }else{
       Alert.danger("alle felt må fylles og passord må ha minst 8 bokstaver");

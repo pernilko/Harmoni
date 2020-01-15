@@ -97,7 +97,34 @@ class UserService {
             "image": image
         }).then(response=>response.data);
     }
-    getUser(user_id: number){
+
+    updateEmail(user_id: number, email: string){
+        return axios.put<{}, User>(url + 'Profile/editEmail/' + user_id,
+          {"email": email}) .then(response => response.data);
+    }
+    updateImage(user_id:number, image:string){
+        return axios.put<{}, User>(url + 'Profile/editImage/' + user_id,
+          {"image": image}) .then(response => response.data);
+    }
+    updateInfo(user_id:number, address:string, phone: string){
+        return axios.put<{}, User>(url + 'Profile/editInfo/' + user_id, {
+            "address": address,
+            "phone": phone
+        }) .then(response => response.data);
+    }
+    updateUsernamePassword(user_id:number, user_name: string, password: string){
+        return axios.put<{}, User>(url + 'Profile/edit/' + user_id, {
+            "user_name": user_name,
+            "password": password
+        }).then(response => response.data);
+    }
+
+    deleteUser(user_id: number){
+        return axios.delete<{}, User>(url + 'user/delete/' + user_id).then(response => response.data);
+    }
+
+
+    getUser(user_id){
         return axios.get<User>(url+ 'user/'+ user_id).then(response=>response.data[0]);
     }
     //to refresh token
@@ -123,3 +150,4 @@ class UserService {
 }
 
 export let userService: UserService = sharedComponentData(new UserService());
+

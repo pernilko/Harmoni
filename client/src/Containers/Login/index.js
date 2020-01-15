@@ -81,7 +81,7 @@ export class Login extends Component{
                                     onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
                                         this.user.email = event.target.value
                                     }}
-                                    placeholder="olaNormann@mail.com"/>
+                                    placeholder="Ola.Normann@mail.com"/>
                             </Form>
                         <Row style = {{width: "60%", margin: "auto"}}>
                             <Col>
@@ -89,7 +89,7 @@ export class Login extends Component{
                             </Col>
                             <Col>
                                 <NavLink to = "/RegisterOrganization">
-                                <Button variant="primary" onClick={this.registerNewOrganizationClicked}>Registrer ny
+                                <Button type="button" variant="primary" onClick={this.registerNewOrganizationClicked}>Registrer ny
                                     organisasjon</Button>
                                 </NavLink>
                             </Col>
@@ -138,7 +138,7 @@ export class Login extends Component{
         userService.logIn(this.pickedOrg.org_id, this.user.email, this.user.password).then(() => {
                 this.loading=false;
                 Alert.success("Du ble logget inn");
-                history.push("/event");
+                history.push("/allEvents");
             }).catch((error: Error)=>{
                 Alert.danger(error.message);
                 this.loading = false;

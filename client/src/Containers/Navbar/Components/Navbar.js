@@ -40,7 +40,7 @@ export class Navigation extends Component {
                   <NavDropdown title={userService.currentUser.user_name} id="basic-nav-dropdown">
                     <NavDropdown.Item href="#/myEvents"  style={{color: "black"}}>Mine arrangement</NavDropdown.Item>
                     <NavDropdown.Item href="#/event" style={{color: "black"}}>Opprett arrangement</NavDropdown.Item>
-                    <NavDropdown.Item href="#" style={{color: "black"}}>Rediger profil</NavDropdown.Item>
+                    <NavDropdown.Item href="#/Profile" style={{color: "black"}}>Rediger profil</NavDropdown.Item>
                     <NavDropdown.Divider/>
                     <Button variant="danger" onClick={this.logout}>Logg ut</Button>
                   </NavDropdown>
@@ -52,11 +52,15 @@ export class Navigation extends Component {
       </div>
     } else {
       return <div>
-        <Navbar sticky="top" bg="dark" variant="dark" expand="lg">
+        <Navbar sticky="top"
+                bg="dark"
+                variant="dark"
+                expand="lg">
           <Navbar.Brand href="#home">Harmoni</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav"/>
           <Navbar.Collapse id="basic-navbar-nav">
-            <Form inline  style={{paddingRight: 60 + 'px'}} >
+            <Form inline
+                  style={{paddingRight: 60 + 'px'}} >
               <FormControl type="text"
                          placeholder="Search"
                          className="ml-sm-2"
@@ -64,9 +68,14 @@ export class Navigation extends Component {
                          onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
                            (this.search = event.target.value)}/><Button variant="outline-success">Search</Button>
             </Form>
-            <Nav className="mr-sm-2" style={{paddingLeft: 700 + 'px'}}>
+            <Nav className="mr-sm-2"
+                 style={{paddingLeft: 700 + 'px'}}>
               <Navbar.Text>
-                <Button variant="success" onClick={this.login} >Logg inn</Button>
+                <Button
+                  type="button"
+                  variant="success"
+                  onClick={this.login}
+                  style={{float:"left"}}> Logg inn</Button>
               </Navbar.Text>
             </Nav>
           </Navbar.Collapse>
@@ -84,6 +93,7 @@ export class Navigation extends Component {
     userService.currentUser = null;
     localStorage.setItem("token", "");
     Alert.danger("Du er nå logget ut.");
+
   }
 
   login(){
