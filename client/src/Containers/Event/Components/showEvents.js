@@ -117,11 +117,11 @@ export class EventList extends Component<{user: boolean}>{
     }
 
     slett(event_id: number){
-      console.log(event_id);
       eventService
           .deleteEvent(event_id)
           .then(response => console.log(response))
-          .then(()=>history.push("/allEvents"))
+          .then(() => history.push("/"))
+          .then(Alert.danger("Arrangementet ble slettet"))
           .catch((error: Error) => console.log(error.message));
     }
 
