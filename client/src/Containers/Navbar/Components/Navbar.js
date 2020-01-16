@@ -57,23 +57,9 @@ export class Navigation extends Component {
       return (
           <div>
             <Navbar sticky="top" bg="dark" variant="dark" expand="lg">
-              <Navbar.Brand href="#home">Harmoni</Navbar.Brand>
-              <Nav className="mr-auto">
-                <Form inline>
-                  <FormControl type="search" style={{paddingLeft: 10 + 'px'}}
-                               className="ml-sm-2 navbar-nav "
-                               placeholder="Søk"
-                               value={this.search}
-                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
-                                   (this.search = event.target.value)}/>
-                  <Button className="btn btn-secondary" onClick={this.find}>Search</Button>
-                </Form>
-              </Nav>
+              <Navbar.Brand href="#/login">Harmoni</Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav"/>
               <Navbar.Collapse className="ml-auto">
-                <Nav className="ml-auto">
-                  <Nav.Link href="#/allEvents" style={{paddingLeft: 30 + 'px'}}>Alle arrangement</Nav.Link>
-                </Nav>
               </Navbar.Collapse>
               <Navbar.Text>
                 <Button variant="success" onClick={this.login}>Logg inn</Button>
