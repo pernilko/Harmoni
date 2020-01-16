@@ -198,6 +198,8 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 this.deleteEmployees(del_employee);
             })
             .catch((error: Error) => Alert.danger(error.message));
+        history.push("/allEvents");
+        Alert.success("Arrangementet ble redigert.");
     }
 
     updateAddArtists() {
