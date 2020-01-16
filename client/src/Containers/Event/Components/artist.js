@@ -154,13 +154,13 @@ export class ArtistDetails extends Component {
                             <div className="col"><label>Email: {a.email}</label></div>
                             <div className="col"><label>Tlf: {a.phone}</label></div>
                             <div className="col"><label>Dokumenter:
-                                <label>{a.riders ? a.riders.name: 'Ingen rider valgt.'}</label>
-                                <label>{a.hospitality_riders ? a.hospitality_riders.name : 'Ingen hospitality rider valgt.'}</label>
-                                <label>{a.artist_contract ? a.artist_contract.name: 'Ingen kontrakt valgt.'}</label></label></div>
+                                <label id="rider">{a.riders ? <a href={window.URL.createObjectURL(a.riders)}>{a.riders.name}</a>: 'Ingen rider valgt.'}</label>
+                                <label>{a.hospitality_riders ? <a href={window.URL.createObjectURL(a.hospitality_riders)}>{a.hospitality_riders.name}</a>: 'Ingen hospitality rider valgt.'}</label>
+                                <label>{a.artist_contract ? <a href={window.URL.createObjectURL(a.artist_contract)}>{a.artist_contract.name}</a>: 'Ingen kontrakt valgt.'}</label></label></div>
                         </div>
                         <div className={"row"}>
                             <div className={"col"}>
-                                <ArtistDropdown buttonName={"Rediger"} artist={a}/>
+                                <ArtistDropdown buttonName={"Rediger"} artist={a} editMode={false}/>
                             </div>
                         </div>
                     </div>
@@ -169,6 +169,16 @@ export class ArtistDetails extends Component {
                 </div>
             </div>
         )
+    }
+    createDownloadLink(file:File){
+        let URL=window.URL.createObjectURL(file);
+        let hyperlink=document.createElement('a');
+        hyperlink.innerHTML=file.name;
+        hyperlink.href=URL;
+        hyperlink.download="success.pdf";
+        document.rider.append(hyperlink);
+        hyperlink.click();
+        return hyperlink;
     }
 
     addNewArtist(){
