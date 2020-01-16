@@ -5,6 +5,11 @@ import {Event} from "../../../services/EventService.js";
 import { Alert, Card, NavBar, Button, Row, Column } from '../../../widgets.js';
 import {NavLink} from "react-router-dom";
 import MapContainer from "./map";
+import Popup from "reactjs-popup";
+import { createHashHistory } from 'history';
+
+const history = createHashHistory();
+
 let eventService = new EventService();
 export class EventDetails extends Component<{ match: { params: { id: number } } }>  {
     event_id = this.props.match.params.id;
@@ -40,6 +45,15 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                             <a href="#" className="card-link">Aksepter</a>
                             <a href="#" className="card-link">Avslå</a>
                             <a href={"#/editEvent/"+this.event_id} className="card-link">Rediger</a>
+                            <Popup trigger = {<a className="card-link">Slett</a>} >
+                                { close => (
+                                    <div>
+                                        <p><b>Vil du slette dette arrangementet?</b></p>
+                                        <button className="btn btn-warning float-left ml-3" onClick={() => {close();}}>Nei</button>
+                                        <button className="btn btn-success float-right mr-3" onClick={() => this.slett(this.event_id)}>Ja</button>
+                                    </div>
+                                )}
+                            </Popup>
                             <br/>
                             <MapContainer lat={e.latitude} lng={e.longitude} show={true}/>
                         </div>
@@ -56,7 +70,27 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             console.log(event);
             this.setState({event});
             this.loaded = true;
+/*
+            <Popup trigger = {<button className="float-right btn btn-danger">Slett</button>} position="right center">
+                { close => (
+                    <div>
+                        <p><b>Vil du slette dette arrangementet?</b></p>
+                        <button className="btn btn-warning float-left ml-3" onClick={() => {close();}}>Nei</button>
+                        <button className="btn btn-success float-right mr-3" onClick={() => this.slett(event.event_id)}>Ja</button>
+                    </div>
+                )}
+            </Popup>
+*/
         })
     }
+    slett(event_id: number){
+        eventService
+            .deleteEvent(event_id)
+            .then(response => console.log(response))
+            .then(() => history.push("/allEvents"))
+            .then(Alert.danger("Arrangementet ble slettet"))
+            .catch((error: Error) => console.log(error.message));
+    }
+
 }
 // <MapContainer lat={this.state["event"].latitude} lng={this.state["event"].longitude}/>
