@@ -39,6 +39,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                             <p>Du er blitt tilbudt en stilling som bartender</p>
                             <a href="#" className="card-link">Aksepter</a>
                             <a href="#" className="card-link">Avslå</a>
+                            <a href={"#/editEvent/"+this.event_id} className="card-link">Rediger</a>
                             <br/>
                             <MapContainer lat={e.latitude} lng={e.longitude} show={true}/>
                         </div>

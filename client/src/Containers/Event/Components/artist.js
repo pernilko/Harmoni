@@ -114,11 +114,11 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
     }
 
     mounted() {
-
         let s: any = ArtistDetails.instance();
         this.artist = s.artist;
 
     }
+
     onChanger(event:SyntheticInputEvent<HTMLInputElement>) {
         this.state.raider=event.target.files[0];
     }
