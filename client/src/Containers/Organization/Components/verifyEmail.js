@@ -28,13 +28,13 @@ export class verifyEmail extends Component<{ match: { params: { token: string } 
         organizationService.checkVerifyToken(this.props.match.params.token).then(res=>{
             organizationService.addOrganization(res.org_name, res.org_phone, res.org_email)
                 .then(response=>{
-                    userService.register(response[0].org_id, res.user_email, 1, res.user_name, res.user_password, res.user_address, res.user_phone, "");
+                    userService.register(response[0].org_id, res.user_email, 1, res.user_name, res.user_password, res.user_address, res.user_phone, "hei");
                 }).then(()=>Alert.success("Du og din organisasjon '" + res.org_name + "' ble registret"))
                 .then(()=>history.push("/Login"))
                 .catch((error:Error)=>{
                     Alert.danger("Noe gikk feil under oppretting og verifisering, prøv igjen");
                     history.push("/RegisterOrganization");
                 });
-        });
+        }).catch((error:Error)=>Alert.danger(error.message));
     }
 }

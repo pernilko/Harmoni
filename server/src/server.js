@@ -232,7 +232,7 @@ app.post("/verifyEmail", (req, res) => {
     let user_email = req.body.user_email;
     let user_privileges = req.body.user_privileges;
     let user_name = req.body.user_user_name;
-    let user_password = req.body.user_name;
+    let user_password = req.body.user_password;
     let user_address = req.body.user_address;
     let user_phone = req.body.user_phone;
 
@@ -350,6 +350,7 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
+    console.log("req.body from server: ");
     console.log(req.body);
     userDao.addUser(req.body, (status, data) => {
         res.status(status);
