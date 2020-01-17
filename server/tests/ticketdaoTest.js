@@ -1,6 +1,6 @@
 // @flow
 let mysql = require("mysql");
-const ticketDao = require("../src/DAO/ticketDao.js");
+const TicketDao = require("../src/DAO/ticketDao.js");
 const runsqlfile = require("../src/keys/runsqlfile.js");
 
 let pool = mysql.createPool({
@@ -13,7 +13,7 @@ let pool = mysql.createPool({
   multipleStatements: true
 });
 
-let ticketDao = new ticketDao(pool);
+let ticketDao = new TicketDao(pool);
 
 beforeAll(done => {
   runsqlfile("./src/keys/create_tables.sql", pool, () => {
