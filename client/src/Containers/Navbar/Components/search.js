@@ -4,7 +4,6 @@ import {eventService} from "../../../services/EventService";
 import {Container, Image, ListGroup, ListGroupItem, Nav} from "react-bootstrap";
 import {sharedComponentData} from "react-simplified";
 import {userService} from "../../../services/UserService";
-import{organizationService} from "../../../services/OrganizationService";
 
 
 export class SearchResults extends Component <{match: {params: {search: string}}}> {
@@ -25,8 +24,8 @@ export class SearchResults extends Component <{match: {params: {search: string}}
                     <Container style={{padding: 0}}>
                         <div className="card-header" style={{color: 'white', backgroundColor: '#53265F'}}>
                             <h4> Søkeresultater for: {this.props.match.params.search}</h4></div>
-                        <a href="#">Dato </a>
-                        <a href="#">Kommende </a>
+                        <a href={"#/search_result/" + this.props.match.params.search} onClick={this.filter}>Dato </a>
+                        <a onClick={this.filter}>Kommende </a>
                         <a href="#">Utløpte </a>
                         {this.events.map(e => (
                             <div style={{maxHeight: 100 + '%'}}>
@@ -73,5 +72,9 @@ export class SearchResults extends Component <{match: {params: {search: string}}
             .then(event => this.events = event)
             .then(console.log(this.events))
             .catch((error: Error) => console.log(error.message));
+    }
+
+    filter(){
+        this.events.filter(a => new Date(a.event_start) - new Date > 0);
     }
 }
