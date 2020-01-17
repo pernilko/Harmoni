@@ -583,9 +583,9 @@ app.delete("/event/delete/:id", (req : Request, res: Response) => {
 });
 
 //not tested
-app.get("/event/search/:name", (req: Request, res: Response) => {
-    console.log("/event/search/:name received put request from client");
-    eventDao.getEventbySearch(req.params.name, (status, data) => {
+app.get("/event/search/:name/:org_id", (req: Request, res: Response) => {
+    console.log("/event/search/:name/:org_id received put request from client");
+    eventDao.getEventbySearch(req.params.name, req.params.org_id, (status, data) => {
         res.status(status);
         res.json(data);
     });

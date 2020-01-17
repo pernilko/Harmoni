@@ -53,10 +53,10 @@ editEvent(event_id: number, json: {event_name: string, place: string, descriptio
           callback);
     }
 
-    getEventbySearch(search: string, callback: function){
+    getEventbySearch(search: string, org_id: number, callback: function){
         super.query(
-            "SELECT * FROM event WHERE event_name LIKE ?",
-            ["%" + search + "%"], callback
+            "SELECT * FROM event WHERE event_name LIKE ? AND org_id = ?",
+            ["%" + search + "%", org_id], callback
         )
     }
 };
