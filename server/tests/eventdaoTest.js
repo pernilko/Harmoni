@@ -1,7 +1,7 @@
 // @flow
 let mysql = require("mysql");
 const eventDao = require("../src/DAO/eventDao.js");
-const runsqlfile = require("../src/DAO/runsqlfile.js");
+const runsqlfile = require("../src/keys/runsqlfile.js");
 
 let pool = mysql.createPool({
   connectionLimit: 1,
@@ -16,8 +16,8 @@ let pool = mysql.createPool({
 let eventDao = new eventDao(pool);
 
 beforeAll(done => {
-  runsqlfile("create_tables.sql", pool, () => {
-    runsqlfile("create_testdata.sql", pool, done);
+  runsqlfile("./src/keys/create_tables.sql", pool, () => {
+    runsqlfile("./src/keys/create_testdata.sql", pool, done);
   });
 });
 
