@@ -13,7 +13,7 @@ const history = createHashHistory();
 
 export class EventList extends Component<{user: boolean}>{
     loaded: boolean = false;
-    ready: boolean = false; 
+    ready: boolean = false;
     
     constructor(props){
         super(props);

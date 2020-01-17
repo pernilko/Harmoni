@@ -73,6 +73,16 @@ module.exports = class userDao extends Dao {
           callback
         );
     }
+
+    resetPass(json:{org_id: number, email: string, password: string}, callback: function){
+        let salt: string = bcrypt.genSaltSync(saltRounds);
+        console.log(json.password);
+        let hash: string = bcrypt.hashSync(json.password, salt);
+        super.query("UPDATE user SET password=? WHERE org_id=? AND email=?", [hash, json.org_id, json.email],
+          callback
+        );
+    }
+
     updateUserName(user_id: number, json: {user_name: string}, callback: function){
         super.query("UPDATE user SET user_name = ? WHERE user_id = ?", [json.user_name, user_id],
             callback

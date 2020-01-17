@@ -13,6 +13,7 @@ import {Artist, artistService} from "../../../services/ArtistService";
 import {userService} from "../../../services/UserService";
 import {userEventService} from "../../../services/UserEventService";
 import "./event.css";
+import {organizationService} from "../../../services/OrganizationService";
 
 const history = createHashHistory();
 let eventService = new EventService();
@@ -20,6 +21,9 @@ let eventService = new EventService();
 export class EventDetails extends Component<{ match: { params: { id: number } } }>  {
     event_id = this.props.match.params.id;
     loaded = [false, false, false, false];
+    hidden: boolean = true;
+    bugreport: string = "";
+
     constructor(props){
         super(props);
         this.state = {
@@ -121,6 +125,15 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                     </div>
                                 )}
                             </Popup>
+                            <a href={"#/showEvent/" + this.event_id} className="card-link" onClick={this.show}> Rapporter problem
+                                <div hidden={this.hidden}>
+                                    <textarea rows="4" cols="40" style={{margin: '10px',}} placeholder="Beskriv feilmelding"
+                                              onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.bugreport = event.target.value)}/>
+                                    <br/>
+                                    <button className="btn btn-primary submit" style={{margin:10 +'px'}} onClick={this.sendReport}>Rapporter problem</button>
+                                </div>
+                            </a>
+
                             <br/>
                             {console.log(this.state["users"])}
                             <table className={"table"}>
@@ -227,6 +240,22 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             .then(() => history.push("/allEvents"))
             .then(Alert.danger("Arrangementet ble slettet"))
             .catch((error: Error) => console.log(error.message));
+    }
+    show(){
+        this.hidden = false;
+    }
+
+    sendReport(){
+        organizationService.reportBug("pernilko@stud.ntnu.no", userService.currentUser.org_id, organizationService.currentOrganization.org_name, this.bugreport)
+            .then((e) => {
+                Alert.success("Bug report sendt!");
+                this.hidden = true;
+                this.email = "";
+            })
+            .catch((error: Error) => console.log(error.message))
+
+
+
     }
 }
 // <MapContainer lat={this.state["event"].latitude} lng={this.state["event"].longitude}/>

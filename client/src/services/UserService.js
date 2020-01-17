@@ -151,6 +151,14 @@ class UserService {
         return axios.get<User[]>(url +"user/all/"+ org_id).then(response => response.data);
     }
 
+    resetPass(org_id: number, email: string, password: string) {
+        return axios.put<{}, User>(url + "user/resetPass", {
+            "org_id": org_id,
+            "email": email,
+            "password": password
+        }).then(res => res.data);
+    }
+
 }
 
 export let userService: UserService = sharedComponentData(new UserService());

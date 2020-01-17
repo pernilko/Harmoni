@@ -114,8 +114,7 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
 
         console.log(this.state);
         const index = this.artist.indexOf(this.props.artist);
-        this.artist[index] = new Artist(this.props.artist.artist_id,this.props.artist.event_id,this.artist_name ,this.email, this.phone, null, this.riders, this.hospitality_riders, this.artist_contract);
-
+        this.artist[index] = new Artist(this.props.artist.artist_id,this.props.artist.event_id,this.artist_name ,this.email, this.phone, this.riders, this.hospitality_riders, this.artist_contract);
         //let s: any = ArtistDetails.instance();
         //s.mounted();
     }
