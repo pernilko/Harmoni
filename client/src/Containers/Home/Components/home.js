@@ -6,6 +6,7 @@ import {Card, Col, Container, Row, Spinner} from "react-bootstrap";
 import {Organization, organizationService} from "../../../services/OrganizationService";
 import {userService} from "../../../services/UserService";
 import {EventList} from '../../Event/Components/showEvents';
+import {Pending} from "../../Event/Components/showPending";
 
 export class Home extends Component {
     loaded: boolean = false;
@@ -28,7 +29,7 @@ export class Home extends Component {
                                 <div className="card" style={{margin: "none"}}>
                                     <div className="card-header">Pending</div>
                                     <div className="card-body"></div>
-                                    <EventList user={true} time={0}/>
+                                    <Pending/>
                                 </div>
                             </Col>
                             <Col md={6} style={{padding: '0'}}>

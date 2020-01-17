@@ -11,11 +11,20 @@ import "./showEvents.css";
 
 export class Pending extends Component<{}> {
     pending: Event[] = [];
+    loaded: boolean = false;
+
+
 
     render() {
+        if (!this.loaded) {
+            if (userService.currentUser) {
+                this.load();
+                this.loaded = true;
+            }
+        }
         return (
              <div className={"w-50 mx-auto "}>
-                    {this.pending.map( e =>
+                    {this.pending.map( (e, i) =>
                         <div className="my-4">
                             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
                             <link href="https://fonts.googleapis.com/css?family=PT+Serif|Ubuntu&display=swap" rel="stylesheet"/>
@@ -26,7 +35,6 @@ export class Pending extends Component<{}> {
                                         <div className="m-3">
                                             <h1 className="my-3">  {e.event_name}  </h1>
                                             <p> <b> Sted: </b> {e.place} </p>
-                                            <p> <b> Stilling: </b>{this.getUserEvent(e.event_id) ?  "Du er satt opp som " + this.getUserEvent(e.event_id).job_position: "Du er ikke satt på dette arrangementet"}. </p>
                                             <p> <b> Tidspunkt: </b> {e.event_start.slice(0, 10)}, {e.event_start.slice(11, 16)}-{e.event_end.slice(11, 16)} </p>
                                         </div>
                                     </div>
@@ -73,8 +81,33 @@ export class Pending extends Component<{}> {
         )
     }
 
-    mounted() {
+    getUserEvent(event_id: number){
+        /*
+        if (userService.currentUser){
+            let e = this.state["events"].filter(ev => ev.event_id === event_id);
+            let u = this.state["users"];
+
+            let userList = u.filter(list => {
+                return (list.some(user => {
+                    if (user) return user.event_id === event_id;
+                    return false;
+                }))
+            });
+            if (userList.length > 0){
+                let users = userList[0];
+                return users.find(user => user.event_id === event_id && userService.currentUser.user_id === user.user_id);
+            }
+        }
+        return undefined;*/
+    }
+
+    load() {
         eventService
-            .getEventsPending()
+            .getEventsPending(userService.currentUser.user_id)  
+            .then(res => {
+                this.pending = res;
+                console.log("PENDING: ", this.pending);
+            })
+            .catch((error: Errror) => console.log(error.message))
     }
 }

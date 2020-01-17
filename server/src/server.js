@@ -586,7 +586,7 @@ app.post("/event/add", (req : Request, res: Response) => {
 
 app.get("/event/current/user/:id", (req: Request, res: Response) => {
     console.log("/event/current/user/:id: received put request from client");
-    eventDao.getEventCurrentUser(req.params.id, req.body, (status, data) => {
+    eventDao.getEventCurrentUser(req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
     });
@@ -594,7 +594,7 @@ app.get("/event/current/user/:id", (req: Request, res: Response) => {
 
 app.get("/event/current/org/:id", (req: Request, res: Response) => {
     console.log("/event/current/org/:id: received put request from client");
-    eventDao.getEventCurrentOrg(req.params.id, req.body, (status, data) => {
+    eventDao.getEventCurrentOrg(req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
     });

@@ -21,8 +21,6 @@ export class EventList extends Component<{user: boolean, time: number}>{
         };
     }
 
-    pending: Event[] = [];
-
     render() {
         let ev = [];
         if (userService.currentUser) {
@@ -38,7 +36,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
             }
             return (
                 <div className={"w-50 mx-auto "}>
-                    {this.state["events"].map (e =>
+                    {this.state["events"].map((e, i) =>
                         <div className="my-4">
                             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
                             <link href="https://fonts.googleapis.com/css?family=PT+Serif|Ubuntu&display=swap" rel="stylesheet"/>
@@ -71,6 +69,22 @@ export class EventList extends Component<{user: boolean, time: number}>{
                                             </div>
                                         </div>
                                     : <></>) : <></>}
+
+                                    { this.getUserEvent(e.event_id) ? (this.getUserEvent(e.event_id).accepted === 2 ?
+                                        <div>
+                                            <div id="topButton" className= "mx-4" onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 1)}>
+                                                <button id="top" type="button" className="btn btn-info btn-circle">
+                                                    <i className="fa fa-check" ></i>
+                                                </button>
+                                            </div>
+                                            <div className="button mx-4 my-3" onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 0)}>
+                                                <button id="bot" type="button" className="btn btn-info btn-circle">
+                                                    <i className="fa fa-times" ></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    : <></>) : <></>}
+
                                 </div>
                             </div>
                         </div>
@@ -119,8 +133,6 @@ export class EventList extends Component<{user: boolean, time: number}>{
         }
         return undefined;
     }
-
-    getPending(ev)
 
     load(){
         if (this.props.user && this.props.time == 0) {

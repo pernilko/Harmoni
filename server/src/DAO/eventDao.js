@@ -43,7 +43,7 @@ module.exports = class eventDao extends Dao{
 
     getEventCurrentUser(user_id: number, callback: function) {
       super.query(
-          "SELECT * FROM event WHERE user_id=? AND CURDATE() >= event_start AND event_end <= CURDATE()",
+          "SELECT * FROM event WHERE user_id=? AND CURDATE() >= event_start AND CURDATE() <= event_end",
           [user_id],
           callback
       );
@@ -51,8 +51,8 @@ module.exports = class eventDao extends Dao{
 
     getEventCurrentOrg(org_id: number, callback: function) {
       super.query(
-          "SELECT * FROM event WHERE org_id = ? AND CURDATE() >= event_start AND event_end <= CURDATE()",
-          [user_id],
+          "SELECT * FROM event WHERE org_id = ? AND CURDATE() >= event_start AND CURDATE() <= event_end",
+          [org_id],
           callback
       );
     }
