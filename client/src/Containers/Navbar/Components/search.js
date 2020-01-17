@@ -41,8 +41,7 @@ export class SearchResults extends Component <{match: {params: {search: string}}
                                     <input id="help" className="form-control" type="date" value={this.event_end}
                                            onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event_end = event.target.value)}/>
                                 </div>
-                                <br/>
-                                <button className="btn btn-primary submit" style={{margin:10 +'px'}} onClick={this.date(this.event_start, this.event_end)}>Søk</button>
+                                <button className="btn btn-primary submit" style={{margin:10 +'px'}} onClick={this.date}>Søk</button>
                             </div>
                         </a>
 
@@ -89,7 +88,6 @@ export class SearchResults extends Component <{match: {params: {search: string}}
     load(id: number) {
         eventService.getEventbySearch(this.props.match.params.search, id)
             .then(event => this.events = event)
-            .then(console.log(this.events))
             .catch((error: Error) => console.log(error.message));
     }
 
@@ -98,17 +96,20 @@ export class SearchResults extends Component <{match: {params: {search: string}}
     }
 
     upcoming(){
-        this.events = this.events.filter(a => new Date(a.event_start.slice(0,10)) - new Date > 0);
+       this.loaded = false;
+        this.events = this.events.filter(a => new Date(a.event_start.slice(0,10)) - new Date > 0)
 
     }
 
     finished(){
-        this.events = this.events.filter(a => new Date(a.event_start.slice(0,10)) - new Date < 0);
+        this.loaded = false;
+        this.events = this.events.filter(a => new Date(a.event_start.slice(0,10)) - new Date < 0)
 
     }
 
-    date(event_start: string, event_end: string){
-        this.events = this.events.filter(a => new Date(a.event_start.slice(0,10)) >= event_start && a.event_end.slice(0,10) <= event_end)
+    date(){
+        this.loaded = false;
+        this.events = this.events.filter(a => new Date(a.event_start.slice(0,10)) >= this.event_start && a.event_end.slice(0,10) <= this.event_end);
         this.hidden = true;
     }
 }
