@@ -102,6 +102,7 @@ app.post('/uploadRiders/:artist_id', function(req, res) {
     let hospitality_ridersFile = req.files.hospitality_rider;
     let artist_contractFile = req.files.artist_contract;
     console.log("frrom uploadRiders: ");
+    console.log(req.files);
 
     if(req.files.riders) {
         artistDao.insertRider(ridersFile, req.params.artist_id, (status, data) => {
