@@ -248,6 +248,14 @@ app.get("/artist/all", (req : Request, res: Response) => {
     });
 });
 
+app.get("artist/:id/rider"){
+    console.log("/artist/:id/rider: received get request from client");
+    artistDao.getRider(req.params.id, (status,data)=>{
+        res.status(status);
+        res.json(data);
+    })
+}
+
 app.get("/artist/event/:event_id", (req : Request, res: Response) => {
     console.log("/artist/event: received get request from client");
     artistDao.getEventArtists(req.params.event_id,(status, data) => {

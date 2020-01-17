@@ -25,6 +25,7 @@ export class Artist {
     }
 }
 
+
 class ArtistService {
     getAllArtists() {
         return axios.get<Artist[]>(url + "artist/all").then(response => response.data);
@@ -32,6 +33,12 @@ class ArtistService {
 
     getEventArtists(event_id: number) {
         return axios.get<Artist[]>(url + "artist/event/" + event_id).then(response => response.data);
+    }
+
+    getArtistRider(artist_id:number){
+         axios.get<Object>(url+"artist/"+artist_id+"/rider").then(response=>{
+             return new File(response.data.data, response.data.name,{type:response.data.mimeType});
+        });
     }
 
     getOneArtist(id: number) {
