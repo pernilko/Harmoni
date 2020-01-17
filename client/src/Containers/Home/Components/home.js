@@ -20,19 +20,18 @@ export class Home extends Component {
     }
 
     render(){
-        if(this.loaded){
             return(
                 <div>
                     <Container fluid={true}>
                         <Row>
-                            <Col md={4} style={{padding: '0'}}>
+                            <Col md={6} style={{padding: '0'}}>
                                 <div className="card" style={{margin: "none"}}>
-                                    <div className="card-header">Organisasjon</div>
-                                    <div className="card-body">
-                                    </div>
+                                    <div className="card-header">Pending</div>
+                                    <div className="card-body"></div>
+                                    <EventList user={true} prev={true}/>
                                 </div>
                             </Col>
-                            <Col md={8} style={{padding: '0'}}>
+                            <Col md={6} style={{padding: '0'}}>
                                 <div className="card" style={{margin: "none"}}>
                                     <div className="card-header">Kommende Arrangement</div>
                                     <div className="card-body">
@@ -44,30 +43,6 @@ export class Home extends Component {
                     </Container>
                 </div>
             )
-        } else {
-            return (
-                <div>
-                    <Container fluid={true}>
-                        <Row>
-                            <Col md={4} style={{padding: '0'}}>
-                                <div className="card" style={{margin: "none"}}>
-                                    <div className="card-header"><Spinner animation="border"/></div>
-                                    <div className="card-body">
-                                    </div>
-                                </div>
-                            </Col>
-                            <Col md={8} style={{padding: '0'}}>
-                                <div className="card" style={{margin: "none"}}>
-                                    <div className="card-header">Kommende Arrangement</div>
-                                    <div className="card-body">
-                                    </div>
-                                </div>
-                            </Col>
-                        </Row>
-                    </Container>
-                </div>
-            )
-        }
     }
     mounted() {
         /*
