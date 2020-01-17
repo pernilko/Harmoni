@@ -24,9 +24,9 @@ export class SearchResults extends Component <{match: {params: {search: string}}
                     <Container style={{padding: 0}}>
                         <div className="card-header" style={{color: 'white', backgroundColor: '#53265F'}}>
                             <h4> Søkeresultater for: {this.props.match.params.search}</h4></div>
-                        <a href={"#/search_result/" + this.props.match.params.search} onClick={this.filter}>Dato </a>
-                        <a onClick={this.filter}>Kommende </a>
-                        <a href="#">Utløpte </a>
+                        <a href={"#/search_result/" + this.props.match.params.search} onClick={this.upcoming}>Kommende </a>
+                        <a href={"#/search_result/" + this.props.match.params.search} onClick={this.finished}>Utløpte </a>
+                        <a href="#">X </a>
                         {this.events.map(e => (
                             <div style={{maxHeight: 100 + '%'}}>
                                 <ListGroup>
@@ -74,7 +74,17 @@ export class SearchResults extends Component <{match: {params: {search: string}}
             .catch((error: Error) => console.log(error.message));
     }
 
-    filter(){
-        this.events.filter(a => new Date(a.event_start) - new Date > 0);
+    upcoming(){
+        this.events = this.events.filter(a => new Date(a.event_start.slice(0,10)) - new Date > 0);
+
+    }
+
+    finished(){
+        this.events = this.events.filter(a => new Date(a.event_start.slice(0,10)) - new Date < 0);
+
+    }
+
+    date(event_start: number, event_end: number){
+        this.events = this.events.filter(a => new Date(a.event_start.slice(0,10)) >= event_start && a.event_end.slice(0,10) <= event_end)
     }
 }
