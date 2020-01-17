@@ -11,6 +11,9 @@ export class SearchResults extends Component <{match: {params: {search: string}}
     org_id: number = 0;
     loaded: boolean = false;
     today: Date = new Date();
+    hidden: boolean = true;
+    event_start: string = "";
+    event_end: string = "";
 
     render() {
         if (userService.currentUser) {
@@ -26,7 +29,23 @@ export class SearchResults extends Component <{match: {params: {search: string}}
                             <h4> Søkeresultater for: {this.props.match.params.search}</h4></div>
                         <a href={"#/search_result/" + this.props.match.params.search} onClick={this.upcoming}>Kommende </a>
                         <a href={"#/search_result/" + this.props.match.params.search} onClick={this.finished}>Utløpte </a>
-                        <a href="#">X </a>
+                        <a href={"#/search_result/" + this.props.match.params.search} onClick={this.show}> Dato
+                            <div hidden={this.hidden}>
+                                <div className="col">
+                                    <label>Søk fra dato:</label>
+                                    <input id="help" className="form-control" type="date" value={this.event_start}
+                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event_start = event.target.value)}/>
+                                </div>
+                                <div className="col">
+                                    <label>til dato:</label>
+                                    <input id="help" className="form-control" type="date" value={this.event_end}
+                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event_end = event.target.value)}/>
+                                </div>
+                                <br/>
+                                <button className="btn btn-primary submit" style={{margin:10 +'px'}} onClick={this.date(this.event_start, this.event_end)}>Søk</button>
+                            </div>
+                        </a>
+
                         {this.events.map(e => (
                             <div style={{maxHeight: 100 + '%'}}>
                                 <ListGroup>
@@ -74,6 +93,10 @@ export class SearchResults extends Component <{match: {params: {search: string}}
             .catch((error: Error) => console.log(error.message));
     }
 
+    show(){
+        this.hidden = false;
+    }
+
     upcoming(){
         this.events = this.events.filter(a => new Date(a.event_start.slice(0,10)) - new Date > 0);
 
@@ -84,7 +107,8 @@ export class SearchResults extends Component <{match: {params: {search: string}}
 
     }
 
-    date(event_start: number, event_end: number){
+    date(event_start: string, event_end: string){
         this.events = this.events.filter(a => new Date(a.event_start.slice(0,10)) >= event_start && a.event_end.slice(0,10) <= event_end)
+        this.hidden = true;
     }
 }
