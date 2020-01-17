@@ -186,8 +186,9 @@ export class RegistrationForm extends Component {
         artists.map(a => {
             if(a) {
                 artistService
-                    .addArtist(val, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone)
+                    .addArtist(val, a.artist_name, a.email, a.phone, a.riders, a.hospitality_riders, a.artist_contract)
                     .then(res => console.log(res))
+                    .catch((error:Error)=>Alert.danger(error.message));
                 }
             });
         }
