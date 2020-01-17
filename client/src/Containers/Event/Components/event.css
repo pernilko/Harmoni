@@ -1,0 +1,16 @@
+.text{
+    font-family: 'PT Serif', serif;
+}
+
+body {
+    background-color: #9933ff;
+}
+
+.artist {
+
+    background-color: #e6ccff;
+    border-radius: 6px;
+ }
+
+.artistContainer {
+}

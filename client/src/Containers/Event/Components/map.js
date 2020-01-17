@@ -57,7 +57,7 @@ export default class MapContainer extends Component<{lat?: float, lng?: float, s
 
     render() {
         return (
-            <div style={{ height: '100%' }}>
+            <div style={{ height: '100%', width: '80%', marginLeft: '10%'}}>
                 <Map
                     googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyYQy7LmG8h3r4M8CEDiy1SGBHJ_4QUrI"
                     loadingElement={<div style={{ height: `100%` }} />}
