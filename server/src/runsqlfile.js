@@ -7,7 +7,7 @@ let path = require("path");
 
 module.exports = function run(filename: string, pool: function, done: function) {
   console.log("runsqlfile: reading file " + filename);
-  let sql = fs.readFileSync( filename, "utf8");
+  let sql = fs.readFileSync(filename, "utf8");
   pool.getConnection((err, connection) => {
     if (err) {
       console.log("runsqlfile: error connecting");
