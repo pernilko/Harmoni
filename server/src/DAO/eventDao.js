@@ -66,4 +66,13 @@ module.exports = class eventDao extends Dao{
             ["%" + search + "%", org_id], callback
         )
     }
+
+    getPending(user_id: number, callback: function) {
+      super.query(
+          "SELECT * FROM event WHERE completed = FALSE AND user_id=? AND event_start < CURDATE()",
+          [user_id],
+          callback
+      )
+    }
 };
+
