@@ -16,8 +16,8 @@ let pool = mysql.createPool({
 let artistDao = new ArtistDao(pool);
 
 beforeAll(done => {
-  runsqlfile("../src/create_tables.sql", pool, () => {
-    runsqlfile("../src/create_testdata.sql", pool, done);
+  runsqlfile("./src/create_tables.sql", pool, () => {
+    runsqlfile("./src/create_testdata.sql", pool, done);
   });
 });
 
