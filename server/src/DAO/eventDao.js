@@ -28,6 +28,14 @@ module.exports = class eventDao extends Dao{
       super.query("SELECT * FROM event WHERE user_id=? AND event_start > CURDATE()", [user_id], callback );
     }
 
+    getEventPreviousOrg(org_id: number, callback: function){
+      super.query("SELECT * FROM event WHERE org_id=? AND event_start < CURDATE()", [org_id], callback );
+    }
+
+    getEventPreviousUser(user_id: number, callback: function){
+      super.query("SELECT * FROM event WHERE user_id=? AND event_start < CURDATE()", [user_id], callback );
+    }
+
     getEventLocation(event_id: number, callback:function){
         super.query("SELECT place FROM event WHERE event_id=?", [event_id], callback);
     }

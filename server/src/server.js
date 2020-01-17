@@ -288,23 +288,6 @@ app.put("/artist/:id", (req:Request,res:Response)=>{
     })
 });
 
-//UserEvent
-app.get("/userevent/all/:id", (req : Request, res : Response) => {
-    console.log("/test:received update request from user to get userevents");
-    eventDao.getUsersForEvent(req.params.id, (status, data) => {
-        res.status(status);
-        res.json(data);
-    });
-});
-
-app.put("/userevent/accepted/", (req : Request, res : Response) => {
-    console.log("/test:received update request from user to get userevents");
-    eventDao.setAccepted(req.body, (status, data) => {
-        res.status(status);
-        res.json(data);
-    });
-});
-
 //Event
 //tested
 app.get("/event/all", (req : Request, res: Response) => {
@@ -354,6 +337,22 @@ app.get("/event/upcoming/user/:id", (req : Request, res: Response) => {
 app.get("/event/upcoming/org/:id", (req : Request, res: Response) => {
     console.log("/event/org/:id: received get request from client");
     eventDao.getEventUpcomingOrg(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.get("/event/previous/user/:id", (req : Request, res: Response) => {
+    console.log("/event/user/:id: received get request from client");
+    eventDao.getEventPreviousUser(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.get("/event/previous/org/:id", (req : Request, res: Response) => {
+    console.log("/event/org/:id: received get request from client");
+    eventDao.getEventPreviousOrg(req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
     });
@@ -613,6 +612,22 @@ app.get("/user/all/:id", (req: Request, res: Response) => {
 
 
 //UserEvent
+app.get("/userevent/all/:id", (req : Request, res : Response) => {
+    console.log("/test:received update request from user to get userevents");
+    eventDao.getUsersForEvent(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.put("/userevent/accepted/", (req : Request, res : Response) => {
+    console.log("/test:received update request from user to get userevents");
+    eventDao.setAccepted(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 //not tested
 app.post("/userEvent/add", (req: Request, res: Response) => {
     console.log("/userEvent/add received post request from client");
@@ -656,9 +671,6 @@ app.put("/userEvent/update/:user_id/:event_id", (req: Request, res: Response) =>
         res.json(data);
     });
 });
-
-
-
 
 //Ticket
 //tested

@@ -37,12 +37,12 @@ export class Navigation extends Component {
           <Navbar.Toggle aria-controls="basic-navbar-nav"/>
           <Navbar.Collapse className="ml-auto">
             <Nav className="ml-auto">
-                <Nav.Link href="#/allEvents" style={{paddingLeft: 30+'px'}}> Alle arrangement</Nav.Link>
+                <Nav.Link href="#/alleEvents" style={{paddingLeft: 30+'px'}}> Alle arrangement</Nav.Link>
                 <Nav.Link href="#/inviterBruker" style={{paddingLeft: 30+'px'}}> Inviter Bruker</Nav.Link>
                 <NavDropdown title={"Logget inn som:" + userService.currentUser.user_name}
                              id="basic-nav-dropdown"
                              style={{paddingLeft: 30+'px'}}>
-                  <NavDropdown.Item href="#/myEvents"  style={{color: "black"}}>Mine arrangement</NavDropdown.Item>
+                  <NavDropdown.Item href="#/mineEvents"  style={{color: "black"}}>Mine arrangement</NavDropdown.Item>
                   <NavDropdown.Item href="#/event" style={{color: "black"}}>Opprett arrangement</NavDropdown.Item>
                   <NavDropdown.Item href="#/Profile" style={{color: "black"}}>Rediger profil</NavDropdown.Item>
                   <NavDropdown.Item href={"#/organizationProfile"}style={{color: "black"}}>Min organisasjon</NavDropdown.Item>
