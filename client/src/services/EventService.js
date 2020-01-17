@@ -15,8 +15,9 @@ export class Event {
     longitude: number;
     latitude: number;
     image: File;
+    completed: boolean;
 
-    constructor(event_id: number, org_id: number, user_id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number, image: File) {
+    constructor(event_id: number, org_id: number, user_id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number, image: File, completed: boolean) {
 
         this.event_id = event_id;
         this.org_id = org_id;
@@ -29,6 +30,7 @@ export class Event {
         this.longitude = longitude;
         this.latitude = latitude;
         this.image = image;
+        this.completed = completed;
     }
 }
 

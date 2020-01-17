@@ -67,4 +67,13 @@ editEvent(event_id: number, json: {event_name: string, place: string, descriptio
             ["%" + search + "%", org_id], callback
         )
     }
+
+    getPending(user_id: number, callback: function) {
+      super.query(
+          "SELECT * FROM event WHERE completed = FALSE AND user_id=? AND event_start < CURDATE()",
+          [user_id],
+          callback
+      )
+    }
 };
+

@@ -41,6 +41,7 @@ CREATE TABLE `event` (
  `longitude` double NOT NULL,
  `latitude` double NOT NULL,
  `image` blob,
+ `completed` BOOLEAN NOT NULL DEFAULT FALSE,
  PRIMARY KEY (`event_id`),
  KEY `org_id` (`org_id`),
  CONSTRAINT `event_ibfk_1` FOREIGN KEY (`org_id`) REFERENCES `organization` (`org_id`)

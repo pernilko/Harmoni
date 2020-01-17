@@ -653,6 +653,14 @@ app.get("/event/search/:name/:org_id", (req: Request, res: Response) => {
     });
 });
 
+app.get("/event/pending/:id", (req: Request, res: Response) => {
+    console.log("/event/pending/:id received get request from client");
+    eventDao.getPending(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 //User
 //tested
 app.put("/user/admin/:id", (req: Request, res: Response) => {
