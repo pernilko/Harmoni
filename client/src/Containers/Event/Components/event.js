@@ -70,17 +70,6 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             console.log(event);
             this.setState({event});
             this.loaded = true;
-/*
-            <Popup trigger = {<button className="float-right btn btn-danger">Slett</button>} position="right center">
-                { close => (
-                    <div>
-                        <p><b>Vil du slette dette arrangementet?</b></p>
-                        <button className="btn btn-warning float-left ml-3" onClick={() => {close();}}>Nei</button>
-                        <button className="btn btn-success float-right mr-3" onClick={() => this.slett(event.event_id)}>Ja</button>
-                    </div>
-                )}
-            </Popup>
-*/
         })
     }
     slett(event_id: number){
@@ -91,6 +80,5 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             .then(Alert.danger("Arrangementet ble slettet"))
             .catch((error: Error) => console.log(error.message));
     }
-
 }
 // <MapContainer lat={this.state["event"].latitude} lng={this.state["event"].longitude}/>
