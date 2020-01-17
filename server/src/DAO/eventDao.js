@@ -21,19 +21,24 @@ module.exports = class eventDao extends Dao{
     }
 
     getEventUpcomingOrg(org_id: number, callback: function){
-      super.query("SELECT * FROM event WHERE org_id=? AND event_start > CURDATE()", [org_id], callback );
+      super.query("SELECT * FROM event WHERE org_id=? AND event_end > CURDATE()", [org_id], callback );
     }
 
     getEventUpcomingUser(user_id: number, callback: function){
-      super.query("SELECT * FROM event WHERE user_id=? AND event_start > CURDATE()", [user_id], callback );
+      super.query("SELECT * FROM event WHERE user_id=? AND event_end > CURDATE()", [user_id], callback );
     }
 
     getEventPreviousOrg(org_id: number, callback: function){
-      super.query("SELECT * FROM event WHERE org_id=? AND completed = TRUE AND event_start < CURDATE()", [org_id], callback );
+      super.query("SELECT * FROM event WHERE org_id=? AND completed = TRUE AND event_end < CURDATE()", [org_id], callback );
     }
 
     getEventPreviousUser(user_id: number, callback: function){
-      super.query("SELECT * FROM event WHERE user_id=? AND completed = TRUE AND event_start < CURDATE()", [user_id], callback );
+      super.query("SELECT * FROM event WHERE user_id=? AND completed = TRUE AND event_end < CURDATE()", [user_id], callback );
+    }
+
+    getPending(user_id: number, callback: function) {
+      super.query(
+          "SELECT * FROM event WHERE user_id=? AND completed = FALSE AND event_end < CURDATE()", [user_id], callback);
     }
 
     getEventLocation(event_id: number, callback:function){
@@ -67,12 +72,4 @@ module.exports = class eventDao extends Dao{
         )
     }
 
-    getPending(user_id: number, callback: function) {
-      super.query(
-          "SELECT * FROM event WHERE completed = FALSE AND user_id=? AND event_start < CURDATE()",
-          [user_id],
-          callback
-      )
-    }
 };
-
