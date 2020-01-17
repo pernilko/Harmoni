@@ -7,6 +7,8 @@ import {NavLink} from "react-router-dom";
 import MapContainer from "./map";
 import Popup from "reactjs-popup";
 import { createHashHistory } from 'history';
+import {organizationService} from "../../../services/OrganizationService";
+import {userService} from "../../../services/UserService";
 
 const history = createHashHistory();
 
@@ -90,6 +92,8 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
     }
     sendReport(){
         this.hidden = false;
+
+        organizationService.reportBug(this.email, userService.currentUser.org_id, organizationService.currentOrganization.org_name, )
 
     }
 }

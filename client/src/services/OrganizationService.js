@@ -86,6 +86,15 @@ class OrganizationService{
         }).then(response => response.data);
     }
 
+    reportBug(email: string, org_id: number, org_name: string, text: string) {
+        return axios.post<{}, {}>(url + 'bugreport', {
+            "email": email,
+            "org_id": org_id,
+            "org_name": org_name,
+            "text" : text
+        }).then(response => response.data);
+    }
+
     /*
     updateOrganization(org_id: number, org_name: string, phone: string, phone:string, email: string){
         return axios.put<{}, Organization>(url+'organization'+org_id, {
