@@ -21,7 +21,7 @@ type Request = express$Request;
 type Response = express$Response;
 
 let pool = mysql.createPool({
-    connectionLimit: 2,
+    connectionLimit: 3,
     host: config.host,
     user: config.user,
     password: config.password,
@@ -724,6 +724,14 @@ app.delete("/user/delete/:id", (req : Request, res: Response) => {
 app.get("/user/all/:id", (req: Request, res: Response) => {
     console.log("/user/all/:id received get request from client");
     userDao.getAllUsersByOrgId(req.params.id, (status, data)=>{
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.get("/user/admin/:org_id", (req: Request, res: Response) => {
+    console.log("/user/admin/:org_id received get request from client");
+    userDao.getAdminByOrgId(req.params.org_id, (status, data)=>{
         res.status(status);
         res.json(data);
     });
