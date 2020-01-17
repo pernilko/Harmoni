@@ -58,11 +58,13 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                     </div>
                                 )}
                             </Popup>
-                            <a className="card-link"> Rapporter problem
+                            <a href={"#/showEvent/" + this.event_id} className="card-link" onClick={this.show}> Rapporter problem
                                 <div hidden={this.hidden}>
-                                <textarea>Rapporter problem </textarea>
-                                <button className="submit" onClick={this.sendReport}></button>
-                            </div></a>
+                                    <textarea rows="4" cols="40" style={{margin: '10px',}} placeholder="Beskriv feilmelding "/>
+                                    <br/>
+                                    <button className="btn btn-primary submit" style={{margin:10 +'px'}} onClick={this.sendReport}>Rapporter problem</button>
+                                </div>
+                            </a>
 
                             <br/>
                             <MapContainer lat={e.latitude} lng={e.longitude} show={true}/>
@@ -90,8 +92,13 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             .then(Alert.danger("Arrangementet ble slettet"))
             .catch((error: Error) => console.log(error.message));
     }
-    sendReport(){
+    show(){
         this.hidden = false;
+    }
+
+    sendReport(){
+        
+
 
         organizationService.reportBug(this.email, userService.currentUser.org_id, organizationService.currentOrganization.org_name, )
 
