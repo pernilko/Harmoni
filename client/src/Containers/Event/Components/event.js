@@ -14,6 +14,8 @@ let eventService = new EventService();
 export class EventDetails extends Component<{ match: { params: { id: number } } }>  {
     event_id = this.props.match.params.id;
     loaded: boolean = false;
+    hidden: boolean = true;
+
     constructor(props){
         super(props);
         this.loaded = false;
@@ -54,6 +56,12 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                     </div>
                                 )}
                             </Popup>
+                            <a className="card-link"> Rapporter problem
+                                <div hidden={this.hidden}>
+                                <textarea>Rapporter problem </textarea>
+                                <button className="submit" onClick={this.sendReport}></button>
+                            </div></a>
+
                             <br/>
                             <MapContainer lat={e.latitude} lng={e.longitude} show={true}/>
                         </div>
@@ -79,6 +87,10 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             .then(() => history.push("/allEvents"))
             .then(Alert.danger("Arrangementet ble slettet"))
             .catch((error: Error) => console.log(error.message));
+    }
+    sendReport(){
+        this.hidden = false;
+
     }
 }
 // <MapContainer lat={this.state["event"].latitude} lng={this.state["event"].longitude}/>
