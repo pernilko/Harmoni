@@ -114,6 +114,15 @@ class UserService {
             "phone": phone
         }) .then(response => response.data);
     }
+
+    updatePrivileges(user_id: number, p_create_event: number, p_read_contract: number, p_read_riders: number, p_archive: number){
+        return axios.put<{}, User>(url+ 'user/updatePrivileges/'+ user_id, {
+            "p_create_event": p_create_event,
+            "p_read_contract": p_read_contract,
+            "p_read_riders": p_read_riders,
+            "p_archive":p_archive
+        }).then(response=>response.data);
+    }
     updateUsernamePassword(user_id:number, user_name: string, password: string){
         return axios.put<{}, User>(url + 'Profile/edit/' + user_id, {
             "user_name": user_name,

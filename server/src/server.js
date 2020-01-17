@@ -778,7 +778,7 @@ app.put("/user/resetPass", (req, res) => {
     });
 });
 
-app.put("/user/updatePriviliges/:id", (req, res)=>{
+app.put("/user/updatePrivileges/:id", (req, res)=>{
     console.log("/user/updatePriviliges received an update request from client ");
     userDao.setPrivilegesId(req.params.id, req.body, (status, data)=>{
         res.status(status);
