@@ -173,7 +173,7 @@ app.post("/inviteUser", (req, res) => {
     let email: string = req.body.email;
     let org_id: number = req.body.org_id;
     let org_name: string = req.body.org_name;
-    let token: string = jwt.sign({org_id: org_id}, privateKEY.key, {
+    let token: string = jwt.sign({org_id: org_id, email: email}, privateKEY.key, {
         expiresIn: 3600
     });
     let url: string = DOMAIN + "#/user/" + token;
@@ -423,7 +423,8 @@ app.post("/invToken", (req, res)=>{
         }else{
             console.log("Token ok, returning org_id");
             console.log(decoded.org_id);
-            res.json({"org_id": decoded.org_id});
+            console.log(decoded.email);
+            res.json({"org_id": decoded.org_id, "email": decoded.email});
         }
     })
 });
