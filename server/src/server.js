@@ -196,6 +196,35 @@ app.post("/inviteUser", (req, res) => {
     });
 });
 
+app.post("/bugreport", (req, res) => {
+    let email: string = req.body.email;
+    let org_id: number = req.body.org_id;
+    let org_name: string = req.body.org_name;
+    let report: string = req.body.text;
+    let token: string = jwt.sign({org_id: org_id}, privateKEY.key, {
+        expiresIn: 3600
+    });
+    let url: string = DOMAIN + "#/user/" + token;
+
+    let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: email,
+        subject: "Bugreport fra " + org_name,
+        text: report
+    };
+
+    transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Email sent!");
+        }
+
+        res.json(url);
+    });
+});
+
+
 app.post("/login", (req, res) => {
     console.log(config.username);
     console.log(req.body);
