@@ -82,8 +82,9 @@ export class EventService {
     getEventsPreviousByOrg_id(org_id: number){
         return axios.get<Event[]>(url+"event/previous/org/" + org_id).then(response=>response.data);
     }
-
-
+    getEventsPending(user_id: number){
+        return axios.get<Event[]>(url+"event/pending/" + user_id).then(response=>response.data);
+    }
     updateEvent(id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number, image: File) {
         return axios.put<{}, Event>(url + "event/edit/"+id, {
             "event_name": event_name,
