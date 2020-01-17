@@ -21,6 +21,7 @@ import { Profile } from './Containers/Profile/Components/Profile';
 import {Home} from "./Containers/Home/Components/home";
 import {SearchResults} from "./Containers/Event/Components/search";
 import {OrgProfile} from "./Containers/Organization/Components/Profile";
+import {resetPass} from "./Containers/Organization/Components/resetPass";
 
 
 const root = document.getElementById('root');
@@ -40,6 +41,7 @@ if (root)
         <Route path="/editEvent/:event_id" component={EditEvent}/>
         <Route exact path = "/event/:id" component = {EventDetails}/>
         <Route path = "/user/:token" component = {userForm}/>
+        <Route path = "/resetPass/:token" component = {resetPass}/>
         <Route path = "/showEvent/:id" component = {EventDetails}/>
         <Route path = "/inviterBruker" component = {inviteUser}/>
         <Route path = "/home" component = {Home}/>

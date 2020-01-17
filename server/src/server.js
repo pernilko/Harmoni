@@ -115,6 +115,36 @@ app.post("/inviteUser", (req, res) => {
     });
 });
 
+app.post("/forgotPass", (req, res) => {
+    let email: string = req.body.email;
+    let org_id: number = req.body.org_id;
+    let org_name: string = req.body.org_name;
+    console.log(email);
+    console.log(org_id);
+    console.log(org_name);
+    let token: string = jwt.sign({org_id: org_id, email: email}, privateKEY.key, {
+        expiresIn: 3600
+    });
+    let url: string = DOMAIN + "#/resetPass/" + token;
+
+    let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: email,
+        subject: "Gjenopprett passordet ditt til " + org_name,
+        text: url
+    };
+
+    transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Email sent!");
+        }
+        
+        res.json(url);
+    });
+});
+
 app.post("/login", (req, res) => {
     console.log(config.username);
     console.log(req.body);
@@ -220,6 +250,21 @@ app.post("/invToken", (req, res)=>{
             console.log("Token ok, returning org_id");
             console.log(decoded.org_id);
             res.json({"org_id": decoded.org_id});
+        }
+    })
+});
+
+app.post("/resetToken", (req, res) => {
+    let token: string = req.headers["x-access-token"];
+    jwt.verify(token, privateKEY.key, (err, decoded)=> {
+        if (err) {
+            res.status(401);
+            res.json({error: "Not Authorized"});
+        } else {
+            console.log("Token ok, returning org_id and email");
+            console.log(decoded.org_id);
+            console.log(decoded.email);
+            res.json({"org_id": decoded.org_id, "email": decoded.email});
         }
     })
 });
@@ -522,6 +567,15 @@ app.put("/Profile/edit/:id", (req, res) =>{
         res.json(data);
     });
 });
+
+app.put("/user/resetPass", (req, res) => {
+    console.log("/user/resetPass received an update request from client ");
+    userDao.resetPass(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 app.put("/Profile/updateUsername/:id", (req, res)=>{
     console.log("/Profile/edit received an update request from client ");
     userDao.updateUserName(req.params.id, req.body, (status, data)=>{
