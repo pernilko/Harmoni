@@ -76,7 +76,21 @@ class OrganizationService{
         }
     }
 
-
+    checkResetToken() {
+        console.log(localStorage.getItem("resetToken"));
+        if (localStorage.getItem("resetToken")) {
+            return axios<User>({
+                url: url + "resetToken",
+                method: "post",
+                headers: {
+                    "x-access-token": localStorage.getItem("resetToken"),
+                    "Content-type": "application/json; charset=utf-8"
+                }
+            }).then(res => res.data);
+        } else {
+            Alert.danger("Mangler token");
+        }
+    }
 
     inviteUser(email: string, org_id: number, org_name: string) {
         return axios.post<{}, {}>(url + 'inviteUser', {
@@ -93,6 +107,17 @@ class OrganizationService{
             "org_name": org_name,
             "text" : text
         }).then(response => response.data);
+    }
+
+    forgotPass(email: string, org_id: number, org_name: string) {
+        console.log("EMAIL: ", email);
+        console.log("ORG_ID: ", org_id);
+        console.log("ORG_NAME: ", org_name);
+        return axios.post<{}, {}>(url + "forgotPass", {
+            "email": email,
+            "org_id": org_id,
+            "org_name": org_name
+        }).then(res => res.data);
     }
 
     /*

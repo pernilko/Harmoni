@@ -43,7 +43,12 @@ export class Login extends Component{
                                 placeholder="Skriv passord her"/>
                         </Form>
                         <Row style = {{width: "60%", margin: "auto"}}>
+                            <Col>
                                 <Button variant="success" onClick={this.login} block>Logg inn</Button>
+                            </Col>
+                            <Col>
+                                <Button variant="dark" onClick={this.forgottenPass}>Glemt passord</Button>
+                            </Col>
                         </Row>
                     </Card.Body>
                 </Card>
@@ -111,6 +116,17 @@ export class Login extends Component{
             )
         }
     }
+
+    forgottenPass() {
+        organizationService
+            .forgotPass(this.user.email, this.pickedOrg.org_id, this.pickedOrg.org_name)
+            .then(res => {
+                console.log(res);
+                Alert.success("Sjekk din email for å gjenopprette passordet ditt.");
+                history.push("/login");
+            })
+    }
+
     checkEmail(){
         console.log(this.user.email);
         this.message = "Checking email";
