@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS event;
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS organization;
 
-CREATE TABLE `organization` (
+CREATE TABLE organization (
  `org_id` int(11) NOT NULL AUTO_INCREMENT,
  `org_name` varchar(45) NOT NULL,
  `phone` varchar(20) DEFAULT NULL COMMENT 'Some organization might not have own phone number...?',
@@ -13,7 +13,7 @@ CREATE TABLE `organization` (
  PRIMARY KEY (`org_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `user` (
+CREATE TABLE user (
  `user_id` int(11) NOT NULL AUTO_INCREMENT,
  `org_id` int(11) NOT NULL,
  `email` varchar(45) NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE `user` (
  CONSTRAINT `user_ibfk_1` FOREIGN KEY (`org_id`) REFERENCES `organization` (`org_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `event` (
+CREATE TABLE event (
  `event_id` int(11) NOT NULL AUTO_INCREMENT,
  `org_id` int(11) NOT NULL,
  `user_id` int(11) NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE `event` (
  CONSTRAINT `event_ibfk_1` FOREIGN KEY (`org_id`) REFERENCES `organization` (`org_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-CREATE TABLE `user_event` (
+CREATE TABLE user_event (
  `user_id` int(11) NOT NULL,
  `event_id` int(11) NOT NULL,
  `job_position` varchar(45) NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE `user_event` (
  CONSTRAINT `user_event_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `event` (`event_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `artist` (
+CREATE TABLE artist (
  `artist_id` int(11) NOT NULL AUTO_INCREMENT,
  `event_id` int(11) NOT NULL,
  `artist_name` varchar(45) NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE `artist` (
  CONSTRAINT `artist_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `event` (`event_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
-CREATE TABLE `ticket` (
+CREATE TABLE ticket (
  `ticket_id` int(11) NOT NULL AUTO_INCREMENT,
  `event_id` int(11) NOT NULL,
  `ticket_type` varchar(45) NOT NULL,
