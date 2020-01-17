@@ -21,6 +21,8 @@ export class EventList extends Component<{user: boolean, time: number}>{
         };
     }
 
+    pending: Event[] = [];
+
     render() {
         let ev = [];
         if (userService.currentUser) {
@@ -133,6 +135,8 @@ export class EventList extends Component<{user: boolean, time: number}>{
         }
         return undefined;
     }
+
+    getPending(ev)
 
     load(){
         if (this.props.user && this.props.time == 0) {
