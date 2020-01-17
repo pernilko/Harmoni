@@ -584,6 +584,22 @@ app.post("/event/add", (req : Request, res: Response) => {
     });
 });
 
+app.get("/event/current/user/:id", (req: Request, res: Response) => {
+    console.log("/event/current/user/:id: received put request from client");
+    eventDao.getEventCurrentUser(req.params.id, req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.get("/event/current/org/:id", (req: Request, res: Response) => {
+    console.log("/event/current/org/:id: received put request from client");
+    eventDao.getEventCurrentOrg(req.params.id, req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 app.put("/event/edit/:id", (req : Request, res: Response) => {
     console.log("/event/edit/:id: received put request from client");
     eventDao.editEvent(req.params.id, req.body, (status, data) => {

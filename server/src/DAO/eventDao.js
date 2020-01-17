@@ -41,6 +41,22 @@ module.exports = class eventDao extends Dao{
           "SELECT * FROM event WHERE user_id=? AND completed = FALSE AND event_end < CURDATE()", [user_id], callback);
     }
 
+    getEventCurrentUser(user_id: number, callback: function) {
+      super.query(
+          "SELECT * FROM event WHERE user_id=? AND CURDATE() >= event_start AND event_end <= CURDATE()",
+          [user_id],
+          callback
+      );
+    }
+
+    getEventCurrentOrg(org_id: number, callback: function) {
+      super.query(
+          "SELECT * FROM event WHERE org_id = ? AND CURDATE() >= event_start AND event_end <= CURDATE()",
+          [user_id],
+          callback
+      );
+    }
+
     getEventLocation(event_id: number, callback:function){
         super.query("SELECT place FROM event WHERE event_id=?", [event_id], callback);
     }
