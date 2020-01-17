@@ -17,6 +17,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
     event_id = this.props.match.params.id;
     loaded: boolean = false;
     hidden: boolean = true;
+    bugreport: string = "";
 
     constructor(props){
         super(props);
@@ -60,7 +61,8 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                             </Popup>
                             <a href={"#/showEvent/" + this.event_id} className="card-link" onClick={this.show}> Rapporter problem
                                 <div hidden={this.hidden}>
-                                    <textarea rows="4" cols="40" style={{margin: '10px',}} placeholder="Beskriv feilmelding "/>
+                                    <textarea rows="4" cols="40" style={{margin: '10px',}} placeholder="Beskriv feilmelding"
+                                              onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.bugreport = event.target.value)}/>
                                     <br/>
                                     <button className="btn btn-primary submit" style={{margin:10 +'px'}} onClick={this.sendReport}>Rapporter problem</button>
                                 </div>
@@ -97,10 +99,15 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
     }
 
     sendReport(){
-        
+        organizationService.reportBug("pernilko@stud.ntnu.no", userService.currentUser.org_id, organizationService.currentOrganization.org_name, this.bugreport)
+            .then((e) => {
+                Alert.success("Bug report sendt!");
+                this.hidden = true;
+                this.email = "";
+            })
+            .catch((error: Error) => console.log(error.message))
 
 
-        organizationService.reportBug(this.email, userService.currentUser.org_id, organizationService.currentOrganization.org_name, )
 
     }
 }
