@@ -22,7 +22,7 @@ import {Home} from "./Containers/Home/Components/home";
 import {SearchResults} from "./Containers/Event/Components/search";
 import {OrgProfile} from "./Containers/Organization/Components/Profile";
 import {resetPass} from "./Containers/Organization/Components/resetPass";
-
+import {ShowTab} from './Containers/Event/Components/showTab';
 
 const root = document.getElementById('root');
 if (root)
@@ -32,8 +32,6 @@ if (root)
         <Alert/>
         <Navigation/>
         <Route path = "/opprettEvent" component = {RegistrationForm}/>
-        <Route exact path = "/allEvents" render = {(props) => <EventList user={false}/>}/>
-        <Route exact path = "/myEvents" render = {(props) => <EventList user={true}/>}/>
         <Route exact path="/profile" component={Profile}/>
         <Route path = "/Event" component = {RegistrationForm}/>
         <Route path = "/Login" component = {Login}/>
@@ -47,6 +45,8 @@ if (root)
         <Route path = "/home" component = {Home}/>
         <Route path="/search_result/:search" component={SearchResults}/>
         <Route path = "/organizationProfile" component = {OrgProfile}/>
+        <Route exact path = "/alleEvents" render = {(props) => <ShowTab all={true}/>}/>
+        <Route exact path = "/mineEvents" render = {(props) => <ShowTab all={false}/>}/>
       </div>
     </HashRouter>,
     root
