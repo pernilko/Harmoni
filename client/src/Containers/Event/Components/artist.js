@@ -7,7 +7,10 @@ import {Artist} from "../../../services/ArtistService";
 import Accordion from "react-bootstrap/Accordion";
 import {Alert} from "../../../widgets";
 
-export class ArtistDropdown extends Component<{buttonName: string, editMode: boolean, artist: Artist}> {
+let del_artist: Artist[] = [];
+
+export class ArtistDropdown extends Component<{buttonName: string, artist: Artist}> {
+    state: Object={raider: null, hraider: null,contract: null};
     artist: Artist[] = [];
 
     artist_name: string = this.props.artist.artist_name;
@@ -15,10 +18,8 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
     hospitality_riders: File = null;
     artist_contract: File = null;
     email: string = this.props.artist.email;
-    phone: string = this.props.artist.phone;
-    image: File = this.props.artist.image;
-
-    //editMode: boolean = this.props.editMode;
+    phone: number = this.props.artist.phone;
+    //image: string = this.props.image;
 
     render() {
         return (
@@ -44,7 +45,7 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
                                     <div className="form-group">
                                         <label>E-post: </label>
                                         <input type="epost" className="form-control" placeholder="olanordmann@gmail.com" value={this.email}
-                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {this.email = event.target.value}}/>
+                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.email = event.target.value)}/>
                                     </div>
                                     <div className="form-group">
                                         <label>Mobilnummer: </label>
@@ -103,9 +104,6 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
             </Accordion>
         );
     }
-    edit(){
-
-    }
 
     add(){
         if(this.pris < 0){
@@ -116,11 +114,8 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
 
         console.log(this.state);
         const index = this.artist.indexOf(this.props.artist);
-        this.artist[index] = new Artist(0,0,this.artist_name, this.email, this.phone,null, this.riders, this.hospitality_riders, this.artist_contract);
-        this.artist_name = "";
-        this.email = "";
-        this.phone = "";
-        this.image = "";
+        this.artist[index] = new Artist(this.props.artist.artist_id,this.props.artist.event_id,this.artist_name ,this.email, this.phone, null, this.riders, this.hospitality_riders, this.artist_contract);
+
         //let s: any = ArtistDetails.instance();
         //s.mounted();
     }
@@ -130,9 +125,10 @@ export class ArtistDropdown extends Component<{buttonName: string, editMode: boo
         this.artist = s.artist;
     }
     delete(a: Artist){
+        del_artist.push(a);
         const index = this.artist.indexOf(a);
-        if(index > -1){
-            this.artist.splice(index,1);
+        if (index > -1) {
+            this.artist[index] = null;
         }
     }
 }
@@ -147,7 +143,7 @@ export class ArtistDetails extends Component {
                     <h3>Artister:</h3>
                 </div>
                 <div className="card-body">
-                    {this.artist.map(a => {if(a){return(
+                    {this.artist.map(a => {if (a) { return(
                     <div className="card-header">
                         <div className="row">
                             <div className="col"><label>Artist: {a.artist_name} </label></div>
@@ -160,7 +156,7 @@ export class ArtistDetails extends Component {
                         </div>
                         <div className={"row"}>
                             <div className={"col"}>
-                                <ArtistDropdown buttonName={"Rediger"} artist={a} editMode={false}/>
+                                <ArtistDropdown buttonName={"Rediger"} artist={a}/>
                             </div>
                         </div>
                     </div>
@@ -170,18 +166,11 @@ export class ArtistDetails extends Component {
             </div>
         )
     }
-    createDownloadLink(file:File){
-        let URL=window.URL.createObjectURL(file);
-        let hyperlink=document.createElement('a');
-        hyperlink.innerHTML=file.name;
-        hyperlink.href=URL;
-        hyperlink.download="success.pdf";
-        document.rider.append(hyperlink);
-        hyperlink.click();
-        return hyperlink;
-    }
 
     addNewArtist(){
-        this.artist.push(new Artist(0, 0, "", "","","",null, null, null));
+        let a: Artist = new Artist(-1, 0, "", "", "", null, null, null, null);
+        this.artist.push(a);
     }
 }
+
+export { del_artist };

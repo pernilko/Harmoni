@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import {Component} from 'react-simplified';
-import {Button,Navbar,Nav, NavDropdown, Form, FormControl} from 'react-bootstrap';
+import {Button, Navbar, Nav, NavDropdown, Form, FormControl, Row, Col, Container} from 'react-bootstrap';
 import {User, userService} from '../../../services/UserService';
 import { createHashHistory } from 'history';
 import {Alert} from '../../../widgets'
@@ -14,6 +14,7 @@ const history = createHashHistory();
 
 export class Navigation extends Component {
 
+
   render() {
     //If there is a logged in user
     console.log(this.user);
@@ -22,61 +23,57 @@ export class Navigation extends Component {
       return <div>
         <Navbar sticky="top" bg="dark" variant="dark" expand="lg">
           <Navbar.Brand href="#home">Harmoni</Navbar.Brand>
-          <Form inline  style={{paddingRight: 60 + 'px'}} >
-            <FormControl type="search"
-                         className="ml-sm-2 navbar-nav "
-                         placeholder="Søk"
-                         value={this.search}
-                         onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
-                           (this.search = event.target.value)}/> <Button variant="outline-success">Search</Button>
-          </Form>
-          <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-          <Nav>
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav.Link href="#/allEvents" > Alle arrangement</Nav.Link>
-              <Nav.Link href="#/inviterBruker"> Inviter Bruker</Nav.Link>
-              <Navbar.Text> Logget inn som:
-                <a>
-                  <NavDropdown title={userService.currentUser.user_name} id="basic-nav-dropdown">
-                    <NavDropdown.Item href="#/myEvents"  style={{color: "black"}}>Mine arrangement</NavDropdown.Item>
-                    <NavDropdown.Item href="#/event" style={{color: "black"}}>Opprett arrangement</NavDropdown.Item>
-                    <NavDropdown.Item href="#" style={{color: "black"}}>Rediger profil</NavDropdown.Item>
-                    <NavDropdown.Divider/>
-                    <Button variant="danger" onClick={this.logout}>Logg ut</Button>
-                  </NavDropdown>
-                </a>
-              </Navbar.Text>
-            </Navbar.Collapse>
-          </Nav>
-        </Navbar>
-      </div>
-    } else {
-      return <div>
-        <Navbar sticky="top" bg="dark" variant="dark" expand="lg">
-          <Navbar.Brand href="#home">Harmoni</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Form inline  style={{paddingRight: 60 + 'px'}} >
-              <FormControl type="text"
-                         placeholder="Search"
-                         className="ml-sm-2"
-                         value={this.search}
-                         onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
-                           (this.search = event.target.value)}/><Button variant="outline-success">Search</Button>
+          <Nav className="mr-auto">
+            <Form inline>
+              <FormControl type="search" style={{paddingLeft: 10+'px'}}
+                           className="ml-sm-2 navbar-nav "
+                           placeholder="Søk"
+                           value={this.search}
+                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
+                               (this.search = event.target.value)}/>
+              <Button className="btn btn-secondary" onClick={this.find}>Search</Button>
             </Form>
-            <Nav className="mr-sm-2" style={{paddingLeft: 700 + 'px'}}>
-              <Navbar.Text>
-                <Button variant="success" onClick={this.login} >Logg inn</Button>
-              </Navbar.Text>
+          </Nav>
+          <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+          <Navbar.Collapse className="ml-auto">
+            <Nav className="ml-auto">
+                <Nav.Link href="#/allEvents" style={{paddingLeft: 30+'px'}}> Alle arrangement</Nav.Link>
+                <Nav.Link href="#/inviterBruker" style={{paddingLeft: 30+'px'}}> Inviter Bruker</Nav.Link>
+                <NavDropdown title={"Logget inn som:" + userService.currentUser.user_name}
+                             id="basic-nav-dropdown"
+                             style={{paddingLeft: 30+'px'}}>
+                  <NavDropdown.Item href="#/myEvents"  style={{color: "black"}}>Mine arrangement</NavDropdown.Item>
+                  <NavDropdown.Item href="#/event" style={{color: "black"}}>Opprett arrangement</NavDropdown.Item>
+                  <NavDropdown.Item href="#/Profile" style={{color: "black"}}>Rediger profil</NavDropdown.Item>
+                  <NavDropdown.Item href={"#/organizationProfile"}style={{color: "black"}}>Min organisasjon</NavDropdown.Item>
+                  <NavDropdown.Divider/>
+                  <NavDropdown.Item href="#" onClick={this.logout} style={{color: "black", backgroundColor: 'white'}}>Logg ut</NavDropdown.Item>
+                </NavDropdown>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
       </div>
+    } else {
+      return (
+          <div>
+            <Navbar sticky="top" bg="dark" variant="dark" expand="lg">
+              <Navbar.Brand href="#/login">Harmoni</Navbar.Brand>
+              <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+              <Navbar.Collapse className="ml-auto">
+              </Navbar.Collapse>
+              <Navbar.Text>
+                <Button variant="success" onClick={this.login}>Logg inn</Button>
+              </Navbar.Text>
+            </Navbar>
+          </div>
+      )
     }
   }
-  mounted (newUsr: User|any){
 
+  find(){
+    history.push("/search_result/" + this.search)
   }
+
 
   logout(){
     history.push("/");

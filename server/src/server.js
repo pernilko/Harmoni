@@ -26,6 +26,7 @@ let pool = mysql.createPool({
     user: config.user,
     password: config.password,
     database: config.user,
+    timezone: 'utc',
     debug: false
 });
 
@@ -34,12 +35,14 @@ const EventDao = require("./DAO/eventDao.js");
 const TicketDao = require("./DAO/ticketDao.js");
 const OrganizationDAO = require("./DAO/organizationDao.js");
 const UserDao = require("./DAO/userDao.js");
+const UserEventDao = require("./DAO/userEventDao.js");
 
 let artistDao = new ArtistDao(pool);
 let eventDao = new EventDao(pool);
 let ticketDao = new TicketDao(pool);
 let userDao = new UserDao(pool);
 let organizationDAO= new OrganizationDAO(pool);
+let userEventDao = new UserEventDao(pool);
 
 let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -68,7 +71,7 @@ transporter.sendMail(mailOptions, function(err, data) {
 app.use(function (req, res, next: function) {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-Access-Token");
-    res.setHeader("Access-Control-Allow-Methods","PUT, POST, GET, OPTIONS");
+    res.setHeader("Access-Control-Allow-Methods","PUT, POST, GET, OPTIONS, DELETE");
     next();
 });
 
@@ -245,10 +248,20 @@ app.get("/artist/all", (req : Request, res: Response) => {
     });
 });
 
-app.get("/artist/event/:id", (req : Request, res: Response) => {
+app.get("/artist/event/:event_id", (req : Request, res: Response) => {
     console.log("/artist/event: received get request from client");
-    artistDao.getEventArtists((status, data) => {
+    artistDao.getEventArtists(req.params.event_id,(status, data) => {
         res.status(status);
+        console.log(data);
+        res.json(data);
+    });
+});
+
+app.get("/ticket/event/:event_id", (req : Request, res: Response) => {
+    console.log("/ticket/event: received get request from client");
+    ticketDao.getEventTickets(req.params.event_id,(status, data) => {
+        res.status(status);
+        console.log(data);
         res.json(data);
     });
 });
@@ -348,20 +361,67 @@ app.post("/artist/add", (req : Request, res: Response) => {
 });
 
 //tested
+
 app.delete("/artist/delete/:id", (req : Request, res: Response) => {
-    console.log("/artist/:id: received delete request from client");
-    artistDao.deleteArtist(req.params.id, (status, data) => {
-        res.status(status);
-        res.json(data);
-    });
+    console.log("/artist/delete/:id: received delete request from client");
+    pool.getConnection((err, connection: function) => {
+          console.log("Connected to database");
+          if (err) {
+              console.log("Feil ved kobling til databasen");
+              res.json({ error: "feil ved oppkobling" });
+          } else {
+              connection.query(
+  				          "DELETE FROM file WHERE artist_id=?",
+  				          [req.params.id],
+  				          (err, rows) => {
+  					               if (err) {
+  						                console.log(err);
+  						                res.json({ error: "error querying" });
+  					               } else {
+                             connection.query(
+                 				          "DELETE FROM artist WHERE artist_id=?",
+                 				          [req.params.id],
+                 				          (err, rows) => {
+                 					               if (err) {
+                 						                     console.log(err);
+                 						                     res.json({ error: "error querying" });
+                 					               } else {
+                                                        console.log(rows);
+                                                        res.json(rows);
+  					                             }
+  				                        }
+  			                    );
+                          }
+                    }
+            );
+        }
+      });
 });
 
 app.put("/artist/:id", (req:Request,res:Response)=>{
     console.log("/artist/:id received an update request from client to update values in artist");
     artistDao.updateArtist(req.params.id, req.body, (status,data)=>{
         res.status(status);
+        res.json(data);
     })
-})
+});
+
+//UserEvent
+app.get("/userevent/all/:id", (req : Request, res : Response) => {
+    console.log("/test:received update request from user to get userevents");
+    eventDao.getUsersForEvent(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.put("/userevent/accepted/", (req : Request, res : Response) => {
+    console.log("/test:received update request from user to get userevents");
+    eventDao.setAccepted(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
 
 //Event
 //tested
@@ -378,6 +438,15 @@ app.get("/event/:id", (req : Request, res: Response) => {
     console.log("/event/:id: received get request from client");
     eventDao.getEvent(req.params.id, (status, data) => {
         res.status(status);
+        console.log(data);
+        res.json(data);
+    });
+});
+
+app.get("/event/time/:id", (req : Request, res: Response) => {
+    console.log("/event/time/:id: received get request from client");
+    eventDao.getEventTime(req.params.id, (status, data) => {
+        res.status(status);
         res.json(data);
     });
 });
@@ -386,6 +455,23 @@ app.get("/event/:id", (req : Request, res: Response) => {
 app.get("/event/org/:id", (req : Request, res: Response) => {
     console.log("/event/org/:id: received get request from client");
     eventDao.getEventOrg(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+
+app.get("/event/upcoming/user/:id", (req : Request, res: Response) => {
+    console.log("/event/user/:id: received get request from client");
+    eventDao.getEventUpcomingUser(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.get("/event/upcoming/org/:id", (req : Request, res: Response) => {
+    console.log("/event/org/:id: received get request from client");
+    eventDao.getEventUpcomingOrg(req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
     });
@@ -408,8 +494,8 @@ app.post("/event/add", (req : Request, res: Response) => {
             res.json({ error: "feil ved oppkobling"});
         } else {
             connection.query(
-                "INSERT INTO event (org_id, user_id, event_name, place, event_start, event_end, longitude, latitude) VALUES (?,?,?,?,?,?,?,?)",
-                [req.body.org_id, req.body.user_id, req.body.event_name, req.body.place, req.body.event_start, req.body.event_end, req.body.longitude, req.body.latitude],
+                "INSERT INTO event (org_id, user_id, event_name, place, event_start, event_end, longitude, latitude, description) VALUES (?,?,?,?,?,?,?,?,?)",
+                [req.body.org_id, req.body.user_id, req.body.event_name, req.body.place, req.body.event_start, req.body.event_end, req.body.longitude, req.body.latitude, req.body.description],
                 err => {
                     if (err) {
                         console.log(err);
@@ -495,6 +581,15 @@ app.delete("/event/delete/:id", (req : Request, res: Response) => {
       });
 });
 
+//not tested
+app.get("/event/search/:name", (req: Request, res: Response) => {
+    console.log("/event/search/:name received put request from client");
+    eventDao.getEventbySearch(req.params.name, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 //User
 //tested
 app.put("/user/admin/:id", (req: Request, res: Response) => {
@@ -514,6 +609,45 @@ app.put("/user/normal/:id", (req: Request, res: Response) => {
     });
 });
 
+app.put("/Profile/editEmail/:id", (req, res) =>{
+    console.log("/Profile/edit received an update request from client ");
+    userDao.updateUserEmail(req.params.id, req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.put("/Profile/editImage/:id", (req, res) =>{
+    console.log("/Profile/edit received an update request from client ");
+    userDao.updateUserImage(req.params.id, req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.put("/Profile/editInfo/:id", (req, res) =>{
+    console.log("/Profile/edit received an update request from client ");
+    userDao.updateUserInfo(req.params.id, req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.put("/Profile/edit/:id", (req, res) =>{
+    console.log("/Profile/edit received an update request from client ");
+    userDao.updateUserPass(req.params.id, req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+app.put("/Profile/updateUsername/:id", (req, res)=>{
+    console.log("/Profile/edit received an update request from client ");
+    userDao.updateUserName(req.params.id, req.body, (status, data)=>{
+        res.status(status);
+        res.json(data);
+    })
+});
+
 app.get("/user/:id", (req: Request, res: Response)=>{
     console.log("/user received get request from client");
     userDao.getUserById(req.params.id, (status, data)=>{
@@ -521,6 +655,127 @@ app.get("/user/:id", (req: Request, res: Response)=>{
         res.json(data);
     });
 });
+
+app.delete("/user/delete/:id", (req : Request, res: Response) => {
+    console.log("/user/delete/:id: received delete request from client");
+    pool.getConnection((err, connection: function) => {
+          console.log("Connected to database");
+          if (err) {
+              console.log("Feil ved kobling til databasen");
+              res.json({ error: "feil ved oppkobling" });
+          } else {
+              connection.query(
+  				          "DELETE artist FROM artist INNER JOIN event ON artist.event_id = event.event_id WHERE user_id=?",
+  				          [req.params.id],
+  				          (err, rows) => {
+  					               if (err) {
+  						                     console.log(err);
+  						                     res.json({ error: "error querying" });
+  					               } else {
+                             connection.query(
+                 				          "DELETE ticket FROM ticket INNER JOIN event ON ticket.event_id = event.event_id WHERE user_id=?",
+                 				          [req.params.id],
+                 				          (err, rows) => {
+                                    if (err) {
+                                      console.log(err);
+                                      res.json({ error: "error querying" });
+                                    } else {
+                                      connection.query(
+                                        "DELETE FROM user_event WHERE user_id=?",
+                                        [req.params.id],
+                                        (err, rows) => {
+                                          if (err) {
+                                            console.log(err);
+                                            res.json({ error: "error querying" });
+                                          } else {
+                                            connection.query(
+                                              "DELETE FROM event WHERE user_id=?",
+                                              [req.params.id],
+                                              (err, rows) => {
+                                                if (err) {
+                                                  console.log(err);
+                                                  res.json({ error: "error querying" });
+                                                } else {
+                                                  console.log("/user received get request from client");
+                                                  userDao.deleteUserById(req.params.id, (status, data) => {
+                                                    res.status(status);
+                                                    res.json(data);
+                                                  });
+                                                }
+                                              }
+                                            );
+
+                                          }
+                                        }
+                                      );
+                                    }
+                                  });
+  					               }
+
+  				          });
+          }
+    });
+});
+
+
+
+
+
+app.get("/user/all/:id", (req: Request, res: Response) => {
+    console.log("/user/all/:id received get request from client");
+    userDao.getAllUsersByOrgId(req.params.id, (status, data)=>{
+        res.status(status);
+        res.json(data);
+    });
+});
+
+
+//UserEvent
+//not tested
+app.post("/userEvent/add", (req: Request, res: Response) => {
+    console.log("/userEvent/add received post request from client");
+    userEventDao.addUserEvent(req.body ,(status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+//not tested
+app.get("/userEvent/:id", (req: Request, res: Response) => {
+    console.log("/userEvent/:id received get request from client");
+    userEventDao.getAllbyId(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.get("/userEvent/users/:id", (req: Request, res: Response) => {
+    console.log("/userEvent/users/:id received get request from client");
+    userEventDao.getUserbyId(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    })
+});
+
+//not tested
+app.delete("/userEvent/delete/:user_id/:event_id", (req: Request, res: Response) => {
+    console.log("/userEvent/delete/:user_id/:event_id received post request from client");
+    userEventDao.deleteUserEvent(req.params.user_id, req.params.event_id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+//not tested
+app.put("/userEvent/update/:user_id/:event_id", (req: Request, res: Response) => {
+    console.log("/userEvent/update/:user_id/:event_id received post request from client");
+    userEventDao.updateUserEvent(req.params.user_id, req.params.event_id, req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+
 
 
 //Ticket
@@ -642,7 +897,6 @@ app.post("/organization/add", (req : Request, res : Response) => {
         }
     });
 });
-
 
 
 

@@ -5,14 +5,15 @@ import {Event} from "../../../services/EventService.js";
 import { Alert, Card, NavBar, Button, Row, Column } from '../../../widgets.js';
 import {NavLink} from "react-router-dom";
 import MapContainer from "./map";
+import Popup from "reactjs-popup";
+import { createHashHistory } from 'history';
 
+const history = createHashHistory();
 
 let eventService = new EventService();
-
 export class EventDetails extends Component<{ match: { params: { id: number } } }>  {
     event_id = this.props.match.params.id;
     loaded: boolean = false;
-
     constructor(props){
         super(props);
         this.loaded = false;
@@ -21,42 +22,48 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         };
         this.mounted = this.mounted.bind(this);
     }
-
     render() {
         if(this.loaded){
-        return (
-            <div>
-                <div className={"w-50 mx-auto"}>
-                <div className="card my-4" >
-                    <div className="card-body">
-                        
-                        <NavLink exact to={"/event/" +this.state["event"].event_id}>
-                            <h5 className="card-title">{this.state["event"].event_name}</h5>
-                        </NavLink>
-                        <h6> sted: {this.state["event"].place}</h6>
-                        <h6> lat: {this.state["event"].latitude} </h6>
-                        
-
-                        <p className="card-text">Some quick example text to build on the card title and make
-                            up the bulk of the card's content.</p>
-                        <p>Du er blitt tilbudt en stilling som bartender</p>
-                        <a href="#" className="card-link">Aksepter</a>
-                        <a href="#" className="card-link">Avslå</a>
-                        
-                        <MapContainer lat={this.state["event"].latitude} lng={this.state["event"].longitude} show={true}/>
-
+            let e: Event = this.state["event"];
+            return (
+                <div className={"w-50 mx-auto shadow-lg mt-4"}>
+                    <div className="card card-cascade wider reverse C">
+                        <div className="view view-cascade overlay">
+                            <img className="card-img-top shadow-lg"
+                                 src="https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg"
+                                 alt="Card image cap"></img>
+                            <a href="#!">
+                                <div className="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
+                        <div className="card-body card-body-cascade text-center">
+                            <h4 className="card-title"><strong>{e.event_name}</strong></h4>
+                            <h6 className="font-weight-bold indigo-text py-2">{e.place}</h6>
+                            <h6 className="card-subtitle mb-2 text-muted"> <b></b> {e.event_start.slice(0, 10)}, {e.event_start.slice(11, 16)}-{e.event_end.slice(11, 16)}</h6>
+                            <p className="card-text">{e.description}</p>
+                            <p>Du er blitt tilbudt en stilling som bartender</p>
+                            <a href="#" className="card-link">Aksepter</a>
+                            <a href="#" className="card-link">Avslå</a>
+                            <a href={"#/editEvent/"+this.event_id} className="card-link">Rediger</a>
+                            <Popup trigger = {<a className="card-link">Slett</a>} >
+                                { close => (
+                                    <div>
+                                        <p><b>Vil du slette dette arrangementet?</b></p>
+                                        <button className="btn btn-warning float-left ml-3" onClick={() => {close();}}>Nei</button>
+                                        <button className="btn btn-success float-right mr-3" onClick={() => this.slett(this.event_id)}>Ja</button>
+                                    </div>
+                                )}
+                            </Popup>
+                            <br/>
+                            <MapContainer lat={e.latitude} lng={e.longitude} show={true}/>
+                        </div>
                     </div>
-                    
                 </div>
-            </div> : <></>)}
-
-            </div>
-        );
+            );
         }else{
             return <div/>
         }
     }
-
     mounted() {
         eventService.getEventId(this.event_id).then(r => {
             let event = r;
@@ -65,6 +72,13 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             this.loaded = true;
         })
     }
-
+    slett(event_id: number){
+        eventService
+            .deleteEvent(event_id)
+            .then(response => console.log(response))
+            .then(() => history.push("/allEvents"))
+            .then(Alert.danger("Arrangementet ble slettet"))
+            .catch((error: Error) => console.log(error.message));
+    }
 }
 // <MapContainer lat={this.state["event"].latitude} lng={this.state["event"].longitude}/>

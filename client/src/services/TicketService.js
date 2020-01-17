@@ -1,5 +1,6 @@
 // @flow
 import axios from 'axios';
+import {Artist} from "./ArtistService";
 
 const url = "http://localhost:8080/";
 
@@ -26,6 +27,10 @@ export class Ticket {
 class TicketService {
     getAllTickets() {
         return axios.get<Ticket[]>(url + "ticket/all").then(response => response.data);
+    }
+
+    getEventTickets(event_id: number){
+        return axios.get<Ticket[]>(url + "ticket/event/" + event_id).then(response => response.data);
     }
 
     getOneTicket(id: number) {

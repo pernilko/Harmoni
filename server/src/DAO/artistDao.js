@@ -21,12 +21,12 @@ module.exports = class artistDao extends Dao {
     }
 
     insertOne(json: {event_id: number, artist_name: string, riders: Object, hospitality_riders: Object,
-                  artist_contract: Object, email: string, phone: string, image: Object}, callback: function) {
+                  artist_contract: Object, email: string, phone: string}, callback: function) {
 
         console.log('Printing the rider tostring'+json.riders);
         super.query(
-            "INSERT INTO artist (event_id, artist_name, riders, hospitality_riders, artist_contract, email, phone, image) values (?,?,?,?,?,?,?,?)",
-            [json.event_id, json.artist_name, json.riders, json.hospitality_riders, json.artist_contract, json.email, json.phone, json.image],
+            "INSERT INTO artist (event_id, artist_name, riders, hospitality_riders, artist_contract, email, phone) values (?,?,?,?,?,?,?)",
+            [json.event_id, json.artist_name, json.riders, json.hospitality_riders, json.artist_contract, json.email, json.phone],
             callback
         );
     }
@@ -38,6 +38,7 @@ module.exports = class artistDao extends Dao {
             callback
         );
     }
+
 
     insertHospitalityRider(hospitality_riders_file: any, artist_id: number, callback: function){
         super.query("INSERT INTO hospitality_ridersFile (artist_id, name, data, size, encoding, tempFilePath, truncated, mimetype, md5) values(?,?,?,?,?,?,?,?,?)",
@@ -60,19 +61,18 @@ module.exports = class artistDao extends Dao {
     updateArtist(artistID:number,json:{artist_name: string, riders: File, hospitality_riders: File,
         artist_contract: File, email: string, phone: string, image: File}, callback:function){
         super.query(
-          "UPDATE artist SET artist_name=?,riders=?,hospitality_riders=?,artist_contract=?,email=?,phone=?,image=? WHERE artist_id=?",
-          [json.artist_name,{file_type:'pdf',file_size: json.riders.length,file: json.riders},
-              {file_type:'pdf',file_size: json.hospitality_riders.length,file:json.hospitality_riders},
-              {file_type:'pdf',file_size: json.artist_contract.length,file:json.artist_contract},json.email,json.phone,json.image,artistID],
+          "UPDATE artist SET artist_name=?,riders=?,hospitality_riders=?,artist_contract=?,email=?,phone=? WHERE artist_id=?",
+          [json.artist_name,json.riders,json.hospitality_riders,json.artist_contract,json.email,json.phone,artistID],
           callback
         );
     }
 
+    /*
     deleteArtist(artist_id: number, callback: function) {
       super.query(
           "DELETE FROM artist WHERE artist_id = ?", [artist_id],
           callback
         );
-    }
+    }*/
 
 };
