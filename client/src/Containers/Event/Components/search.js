@@ -11,6 +11,7 @@ export class SearchResults extends Component <{match: {params: {search: string}}
     events: Event[] | any = [];
     org_id: number = 0;
     loaded: boolean = false;
+    today: Date = new Date();
 
     render() {
         if (userService.currentUser) {
@@ -24,6 +25,7 @@ export class SearchResults extends Component <{match: {params: {search: string}}
                     <Container style={{padding: 0}}>
                         <div className="card-header" style={{color: 'white', backgroundColor: '#53265F'}}>
                             <h4> Søkeresultater for: {this.props.match.params.search}</h4></div>
+
                         {this.events.map(e => (
                             <div style={{maxHeight: 100 + '%'}}>
                                 <ListGroup>
