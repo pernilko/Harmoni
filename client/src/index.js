@@ -19,7 +19,7 @@ import {inviteUser} from './Containers/Organization/Components/inviteUser';
 import {userForm} from "./Containers/Organization/Components/User";
 import { Profile } from './Containers/Profile/Components/Profile';
 import {Home} from "./Containers/Home/Components/home";
-import {SearchResults} from "./Containers/Event/Components/search";
+import {SearchResults} from "./Containers/Navbar/Components/search";
 import {OrgProfile} from "./Containers/Organization/Components/Profile";
 
 

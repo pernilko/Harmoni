@@ -25,7 +25,9 @@ export class SearchResults extends Component <{match: {params: {search: string}}
                     <Container style={{padding: 0}}>
                         <div className="card-header" style={{color: 'white', backgroundColor: '#53265F'}}>
                             <h4> Søkeresultater for: {this.props.match.params.search}</h4></div>
-
+                        <a href="#">Dato </a>
+                        <a href="#">Kommende </a>
+                        <a href="#">Utløpte </a>
                         {this.events.map(e => (
                             <div style={{maxHeight: 100 + '%'}}>
                                 <ListGroup>
