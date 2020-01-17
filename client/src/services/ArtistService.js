@@ -15,7 +15,7 @@ export class Artist {
     hospitality_riders: File;
     artist_contract: File;
 
-    constructor(artist_id: number, event_id: number, artist_name: string, email: string, phone: string, image: Object, riders:File, hospitality_riders, artist_contract) {
+    constructor(artist_id: number, event_id: number, artist_name: string, email: string, phone: string, image: Object, riders:File, hospitality_riders:File, artist_contract:File) {
         this.artist_id = artist_id;
         this.event_id = event_id;
         this.artist_name = artist_name;
