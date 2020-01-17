@@ -38,7 +38,7 @@ export class Navigation extends Component {
           <Navbar.Collapse className="ml-auto">
             <Nav className="ml-auto">
                 <Nav.Link href="#/allEvents" style={{paddingLeft: 30+'px'}}> Alle arrangement</Nav.Link>
-                <Nav.Link href="#/inviterBruker" style={{paddingLeft: 30+'px'}}> Inviter Bruker</Nav.Link>
+                <Nav.Link href="#/inviterBruker" style={{paddingLeft: 30+'px'}} hidden = {userService.currentUser.privileges != 1}> Inviter Bruker</Nav.Link>
                 <NavDropdown title={"Logget inn som:" + userService.currentUser.user_name}
                              id="basic-nav-dropdown"
                              style={{paddingLeft: 30+'px'}}>
