@@ -779,6 +779,14 @@ app.put("/user/resetPass", (req, res) => {
     });
 });
 
+app.put("/user/updatePriviliges/:id", (req, res)=>{
+    console.log("/user/updatePriviliges received an update request from client ");
+    userDao.setPrivilegesId(req.params.id, req.body, (status, data)=>{
+        res.status(status);
+        res.json(data);
+    })
+})
+
 app.put("/Profile/updateUsername/:id", (req, res)=>{
     console.log("/Profile/edit received an update request from client ");
     userDao.updateUserName(req.params.id, req.body, (status, data)=>{

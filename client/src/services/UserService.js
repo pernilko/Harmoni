@@ -17,6 +17,10 @@ export class User {
     phone: string = "";
     image: string = "";
     reg_date: string = "";
+    p_create_event: number = 0;
+    p_read_contract: number = 0;
+    p_read_riders: number = 0;
+    p_archive: number = 0;
 
     /*constructor(user_id: number, org_id: number, email: string, privileges: number, user_name: string, password: string, address: string, phone: string, image: string, reg_date: string) {
         this.user_id = user_id;
