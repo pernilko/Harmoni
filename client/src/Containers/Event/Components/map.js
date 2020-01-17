@@ -35,9 +35,9 @@ const Map = compose(
               LAT = e.latLng.lat();
               LNG = e.latLng.lng();
             } else if (edit){
-                props.onMapClick(e);
                 LAT = e.latLng.lat();
                 LNG = e.latLng.lng();
+                props.onMapClick(e);
             }}}
         >
 

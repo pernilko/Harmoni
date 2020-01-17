@@ -143,8 +143,8 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     getArtists(val: number) {
         artistService
             .getEventArtists(val)
-            .then(artist => this.artists = artist)
-            .then(() => {
+            .then(artist => {
+                this.artists = artist;
                 let s: any = ArtistDetails.instance();
                 s.artist = this.artists;
                 console.log(s.artist);
@@ -155,8 +155,8 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     getTickets(val: number){
         ticketService   
             .getEventTickets(val)
-            .then(ticket => this.tickets = ticket)
-            .then(() => {
+            .then(ticket => {
+                this.tickets = ticket
                 let s: any = TicketDetails.instance();
                 s.ticketList = this.tickets;
                 console.log(s.ticketList);
@@ -167,8 +167,8 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     getEmployees(val: number) {
         userEventService
             .getAllbyId(val)
-            .then(employee => this.employees = employee)
-            .then(() => {
+            .then(employee => {
+                this.employees = employee
                 let s: any = EmployeesDetails.instance();
                 s.emp = this.employees;
                 s.hidden = true;
@@ -188,16 +188,19 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 console.log(response);
                 this.updateAddArtists();
                 this.updateAddTickets();
+                this.updateAddEmployees();
                 this.updateArtists(this.update_artists);
                 this.addArtists(this.add_artists);
                 this.deleteArtists(del_artist);
                 this.updateTickets(this.update_tickets);
                 this.addTickets(this.add_tickets);
                 this.deleteTickets(del_ticket);
-                this.addEmployees(this.employees);
                 this.deleteEmployees(del_employee);
+                this.addEmployees(this.add_employees);
             })
             .catch((error: Error) => Alert.danger(error.message));
+        history.push("/allEvents");
+        Alert.success("Arrangementet ble redigert.");
     }
 
     updateAddArtists() {
@@ -255,7 +258,27 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         this.update_tickets = update;
     }
 
+    updateAddEmployees() {
+        let add: UserEvent[] = [];
+        this.employees.map(e => {
+            if (e) {
+                let found: bool = false;
+                original_employees.map(oe => {
+                    if (e.user_id == oe.user_id && e.event_id == oe.event_id) {
+                        found = true;
+                    }
+                });
+                if (!found) {
+                    let emp: UserEvent = new UserEvent(e.user_id, parseInt(this.props.match.params.event_id), e.job_position, e.user_name, 2);
+                    add.push(emp);
+                }
+            }
+        });
+        this.add_employees = add;
+    }
+
     updateArtists(artists: Artist[]) {
+        console.log("UPDATE ARTISTS: ", artists);
         artists.map(a => {
            artistService
             .updateArtist(a.artist_id, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone)
@@ -264,6 +287,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     }
 
     deleteArtists(artists: Artist[]) {
+        console.log("DELETE ARTISTS: ", artists);
         artists.map(a => {
             artistService
                 .deleteArtist(a.artist_id)
@@ -272,6 +296,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     }
 
     addArtists(artists: Artist[]) {
+        console.log("ADD ARTISTS: ", artists);
         artists.map(a => {
             artistService
                 .addArtist(this.props.match.params.event_id, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone)
@@ -280,6 +305,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     }
 
     updateTickets(tickets: Ticket[]) {
+        console.log("UPDATE TICKETS: ", tickets);
         tickets.map(t => {
             ticketService
                 .updateTicket(t.ticket_id, t.event_id, t.ticket_type, t.amount, t.description, t.price, t.amount_sold)
@@ -288,6 +314,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     }
 
     addTickets(tickets: Ticket[]) {
+        console.log("ADD TICKETS: ", tickets);
         tickets.map(t => {
             ticketService
                 .addTicket(this.props.match.params.event_id, t.ticket_type, t.amount, t.description, t.price, t.amount_sold)
@@ -296,6 +323,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     }
 
     deleteTickets(tickets: Ticket[]) {
+        console.log("DELETE TICKETS: ", tickets);
         tickets.map(t => {
             ticketService
                 .deleteTicket(t.ticket_id)
@@ -304,11 +332,12 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     }
 
     addEmployees(employees: UserEvent[]) {
-        console.log("ADD", employees);
+        console.log("ADD EMPLOYEES: ", employees);
+        
         employees.map(e => {
             e.event_id = this.props.match.params.event_id;
             userEventService
-                .addUserEvent(e.user_id, e.event_id, e.job_position)
+                .addUserEvent(e.user_id, e.event_id, e.job_position, e.accepted)
                 .then(response => console.log(response))
                 .catch((error: Error) => console.log(error.message))
         })
