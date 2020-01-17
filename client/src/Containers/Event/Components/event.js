@@ -7,8 +7,6 @@ import {NavLink} from "react-router-dom";
 import MapContainer from "./map";
 import Popup from "reactjs-popup";
 import { createHashHistory } from 'history';
-
-const history = createHashHistory();
 import {ticketService} from "../../../services/TicketService";
 import axios from "axios";
 import {Artist, artistService} from "../../../services/ArtistService";
@@ -16,9 +14,8 @@ import {userService} from "../../../services/UserService";
 import {userEventService} from "../../../services/UserEventService";
 import "./event.css";
 
+const history = createHashHistory();
 let eventService = new EventService();
-
-
 
 export class EventDetails extends Component<{ match: { params: { id: number } } }>  {
     event_id = this.props.match.params.id;
