@@ -159,6 +159,9 @@ class UserService {
         }).then(res => res.data);
     }
 
+    getAdminByOrgId(org_id: number){
+        return axios.get<User>(url +"user/admin/"+ org_id).then(response => response.data[0])
+    }
 }
 
 export let userService: UserService = sharedComponentData(new UserService());
