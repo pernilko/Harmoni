@@ -85,10 +85,12 @@ export class SearchResults extends Component <{match: {params: {search: string}}
         }
     }
 
+
     load(id: number) {
         eventService.getEventbySearch(this.props.match.params.search, id)
             .then(event => this.events = event)
             .catch((error: Error) => console.log(error.message));
+        this.loaded = true;
     }
 
     show(){
@@ -96,19 +98,18 @@ export class SearchResults extends Component <{match: {params: {search: string}}
     }
 
     upcoming(){
-       this.loaded = false;
         this.events = this.events.filter(a => new Date(a.event_start.slice(0,10)) - new Date > 0)
+       }
 
-    }
 
     finished(){
-        this.loaded = false;
+
         this.events = this.events.filter(a => new Date(a.event_start.slice(0,10)) - new Date < 0)
+
 
     }
 
     date(){
-        this.loaded = false;
         this.events = this.events.filter(a => new Date(a.event_start.slice(0,10)) >= this.event_start && a.event_end.slice(0,10) <= this.event_end);
         this.hidden = true;
     }
