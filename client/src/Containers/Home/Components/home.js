@@ -28,14 +28,14 @@ export class Home extends Component {
                                 <div className="card" style={{margin: "none"}}>
                                     <div className="card-header">Pending</div>
                                     <div className="card-body"></div>
-                                    <EventList user={true} prev={true}/>
+                                    <EventList user={true} time={0}/>
                                 </div>
                             </Col>
                             <Col md={6} style={{padding: '0'}}>
                                 <div className="card" style={{margin: "none"}}>
                                     <div className="card-header">Kommende Arrangement</div>
                                     <div className="card-body">
-                                      <EventList user={false} prev={false}/>
+                                      <EventList user={false} time={2}/>
                                     </div>
                                 </div>
                             </Col>
