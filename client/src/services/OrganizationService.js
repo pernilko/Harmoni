@@ -92,6 +92,17 @@ class OrganizationService{
         }
     }
 
+    checkVerifyToken(token: string) {
+        return axios({
+            url: url + "verifyToken",
+            method: "post",
+            headers: {
+                "x-access-token": token,
+                "Content-type": "application/json; charset=utf-8"
+            }
+        }).then(res=>res.data);
+    }
+
     inviteUser(email: string, org_id: number, org_name: string) {
         return axios.post<{}, {}>(url + 'inviteUser', {
             "email": email,

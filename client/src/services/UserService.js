@@ -158,7 +158,19 @@ class UserService {
             "password": password
         }).then(res => res.data);
     }
-
+    verifiserAdminOgOrg(org_name: string, org_email: string, org_phone: string, user_email: string, user_privileges, user_user_name, user_password, user_address, user_phone){
+        return axios.post<{}>(url+"verifyEmail", {
+            "org_name": org_name,
+            "org_email": org_email,
+            "org_phone": org_phone,
+            "user_email": user_email,
+            "user_privileges": user_privileges,
+            "user_user_name": user_user_name,
+            "user_password": user_password,
+            "user_address": user_address,
+            "user_phone": user_phone
+        }).then(res=>res.data);
+    }
 }
 
 export let userService: UserService = sharedComponentData(new UserService());

@@ -22,6 +22,7 @@ import {Home} from "./Containers/Home/Components/home";
 import {SearchResults} from "./Containers/Event/Components/search";
 import {OrgProfile} from "./Containers/Organization/Components/Profile";
 import {resetPass} from "./Containers/Organization/Components/resetPass";
+import {verifyEmail} from "./Containers/Organization/Components/verifyEmail";
 
 
 const root = document.getElementById('root');
@@ -47,6 +48,7 @@ if (root)
         <Route path = "/home" component = {Home}/>
         <Route path="/search_result/:search" component={SearchResults}/>
         <Route path = "/organizationProfile" component = {OrgProfile}/>
+        <Route path = "/verifyEmail/:token" component={verifyEmail}/>
       </div>
     </HashRouter>,
     root
