@@ -119,3 +119,43 @@ test("Test edit", done =>{
 
   eventDao.getEvent(1, callback);
 });
+
+test("Test employees for an event", done =>{
+  function callback (status, data) {
+    console.log(
+      "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
+    );
+
+    expect(data.length).toBe(2);
+    done();
+  }
+
+  eventDao.getUsersForEvent(1, callback);
+});
+
+test("Test user accepting an event", done =>{
+  function callback (status, data) {
+    console.log(
+      "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
+    );
+
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+
+  eventDao.setAccepted({user_id: 1, event_id: 1, accepted: 2}, callback);
+});
+
+test("Test event search", done =>{
+  function callback (status, data) {
+    console.log(
+      "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
+    );
+
+    expect(data.length).toBe(1);
+    expect(data[0].event_name).toBe("Konsert med Karpe");
+    done();
+  }
+
+  eventDao.getEventbySearch("Karpe", 2, callback);
+});
