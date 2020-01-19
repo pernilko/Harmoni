@@ -87,7 +87,7 @@ test("Test update artist", done =>{
     );
 
     expect(data.length).toBe(1);
-    expect(data.user_name).toBe("Cool artist");
+    expect(data[0].user_name).toBe("Cool artist");
     done();
   }
 
