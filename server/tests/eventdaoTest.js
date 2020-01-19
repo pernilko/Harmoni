@@ -103,7 +103,7 @@ test("Edit an event", done => {
     done();
   }
 
-  eventDao.editEvent(1, {event_name: "Cool event", place: "Mysen", description: "Gutta", event_start: "", event_end: "", longitude: 1, latitude: 2, image: ""}, callback)
+  eventDao.editEvent(1, {event_name: "Cool event", place: "Mysen", description: "Gutta", event_start: "2020-01-26", event_end: "2020-01-26", longitude: 1, latitude: 2, image: ""}, callback)
 });
 
 test("Test edit", done =>{
