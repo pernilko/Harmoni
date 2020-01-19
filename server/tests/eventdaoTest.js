@@ -25,8 +25,6 @@ afterAll(() => {
   pool.end();
 });
 
-
-
 test("Retrieve all events", done =>{
   function callback (status, data) {
     console.log(
