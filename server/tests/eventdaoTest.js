@@ -153,9 +153,9 @@ test("Test event search", done =>{
     );
 
     expect(data.length).toBe(1);
-    expect(data[0].event_name).toBe("Konsert med Karpe");
+    expect(data[0].event_name).toBe("Fotball-turnering");
     done();
   }
 
-  eventDao.getEventbySearch("Karpe", 2, callback);
+  eventDao.getEventbySearch("Fotball", 3, callback);
 });
