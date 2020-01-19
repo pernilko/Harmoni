@@ -85,7 +85,6 @@ test("Get remaining tickets", done =>{
       "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
     );
 
-    expect(data.length).toBe(1);
     expect(data[0].remaining).toBe(28);
     done();
   }
