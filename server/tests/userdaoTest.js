@@ -2,8 +2,8 @@
 
 let mysql = require("mysql");
 
-const userDao = require("../src/DAO/userDao.js");
-const runsqlfile = require("../src/runsqlfile.js");
+const UserDao = require("../src/DAO/userDao.js");
+const runsqlfile = require("../src/DAO/runsqlfile.js");
 
 let pool = mysql.createPool({
     connectionLimit: 1,
@@ -15,7 +15,7 @@ let pool = mysql.createPool({
     multipleStatements: true
 });
 
-let userdao = new userDao(pool);
+let userdao = new UserDao(pool);
 
 beforeAll(done => {
   runsqlfile("create_tables.sql", pool, () => {
