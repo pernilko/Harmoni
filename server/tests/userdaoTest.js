@@ -1,8 +1,9 @@
 // @flow
 
 let mysql = require("mysql");
-const UserDao = require("../src/DAO/userDao.js");
-const runsqlfile = require("../src/DAO/runsqlfile.js");
+
+const userDao = require("../src/DAO/userDao.js");
+const runsqlfile = require("../src/runsqlfile.js");
 
 let pool = mysql.createPool({
     connectionLimit: 1,
@@ -14,7 +15,7 @@ let pool = mysql.createPool({
     multipleStatements: true
 });
 
-let userdao = new UserDao(pool);
+let userdao = new userDao(pool);
 
 beforeAll(done => {
   runsqlfile("create_tables.sql", pool, () => {
@@ -32,7 +33,8 @@ test("Make a normal user an admin", done => {
     console.log(
       "Test callback: status=" + status + ", data=" + JSON.stringify(data)
     );
-    expect(data.affectedRows).toBe(1);
+    expect(data.length).toBe(1);
+    expect(data[0].privileges).toBe(1); // privileges 1 => admin user
     done();
   }
   
@@ -44,7 +46,8 @@ test("Make an admin user a normal user", done => {
     console.log(
       "Test callback: status=" + status + ", data=" + JSON.stringify(data)
     );
-    expect(data.affectedRows).toBe(1);
+    expect(data.length).toBe(1);
+    expect(data[0].privileges).toBe(0); // privileges 0 => normal user
     done();
   }
   
@@ -56,7 +59,8 @@ test("Make a normal user an admin", done => {
     console.log(
       "Test callback: status=" + status + ", data=" + JSON.stringify(data)
     );
-    expect(data.affectedRows).toBe(1);
+    expect(data.length).toBe(1);
+    expect(data[0].privileges).toBe(1); // privileges 1 => admin user
     done();
   }
   
@@ -68,7 +72,8 @@ test("Make an admin user a normal user", done => {
     console.log(
       "Test callback: status=" + status + ", data=" + JSON.stringify(data)
     );
-    expect(data.affectedRows).toBe(1);
+    expect(data.length).toBe(1);
+    expect(data[0].privileges).toBe(0); // privileges 0 => normal user
     done();
   }
   
