@@ -38,7 +38,7 @@ test("Retrieve all events", done =>{
   eventDao.getAll(callback);
 });
 
-/*
+
 test("Get an event", done =>{
   function callback (status, data) {
     console.log(
@@ -46,13 +46,14 @@ test("Get an event", done =>{
     );
 
     expect(data.length).toBe(1);
-    expect(data[0].event_name).toBe("Event name");
+    expect(data[0].event_name).toBe("Konsert med Karpe");
     done();
   }
 
   eventDao.getEvent(1, callback);
 });
 
+/*
 test("Add an event", done => {
   function callback(status, data) {
     console.log(
