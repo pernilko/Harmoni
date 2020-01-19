@@ -45,7 +45,7 @@ test("Get one user event", done =>{
       "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
     );
 
-    expect(data.length).toBe(2);
+    expect(data.length).toBe(3);
     expect(data[0].user_name).toBe("Navn Navnesen")
     done();
   }
