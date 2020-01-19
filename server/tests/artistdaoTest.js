@@ -50,7 +50,20 @@ test("Get an artist", done =>{
     done();
   }
 
-  artistDao.getOne(1, callback);
+  artistDao.getOne(4, callback);
+});
+
+test("Get an artist", done =>{
+  function callback (status, data) {
+    console.log(
+      "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
+    );
+
+    expect(data.length).toBe(2);
+    done();
+  }
+
+  artistDao.getEventArtists(1, callback);
 });
 
 test("Update an artist", done =>{
@@ -63,7 +76,7 @@ test("Update an artist", done =>{
     done();
   }
 
-  artistDao.updateArtist(1, {artist_name: "Cool artist", riders: "fil", hospitality_riders: "File",
+  artistDao.updateArtist(4, {artist_name: "Cool artist", riders: "fil", hospitality_riders: "File",
         artist_contract: "File", email: "a@a.a", phone: "123", image: "File"}, callback);
 });
 
@@ -78,5 +91,5 @@ test("Test update artist", done =>{
     done();
   }
 
-  artistDao.getOne(1, callback);
+  artistDao.getOne(4, callback);
 });
