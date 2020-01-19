@@ -76,6 +76,6 @@ test("Update user event", done =>{
     done();
   }
 
-  userEventDao.updateUserEvent(1, 3, {user_id: 1, job_position: "cool boy", accepted: 2} callback);
+  userEventDao.updateUserEvent(1, 3, {user_id: 1, job_position: "cool boy", accepted: 2}, callback);
 });
 
