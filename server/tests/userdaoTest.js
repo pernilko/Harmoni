@@ -32,8 +32,7 @@ test("Make a normal user an admin", done => {
     console.log(
       "Test callback: status=" + status + ", data=" + JSON.stringify(data)
     );
-    expect(data.length).toBe(1);
-    expect(data[0].privileges).toBe(1); // privileges 1 => admin user
+    expect(data.affectedRows).toBe(1);
     done();
   }
   
@@ -45,8 +44,7 @@ test("Make an admin user a normal user", done => {
     console.log(
       "Test callback: status=" + status + ", data=" + JSON.stringify(data)
     );
-    expect(data.length).toBe(1);
-    expect(data[0].privileges).toBe(0); // privileges 0 => normal user
+    expect(data.affectedRows).toBe(1);
     done();
   }
   
@@ -58,8 +56,7 @@ test("Make a normal user an admin", done => {
     console.log(
       "Test callback: status=" + status + ", data=" + JSON.stringify(data)
     );
-    expect(data.length).toBe(1);
-    expect(data[0].privileges).toBe(1); // privileges 1 => admin user
+    expect(data.affectedRows).toBe(1);
     done();
   }
   
@@ -71,8 +68,7 @@ test("Make an admin user a normal user", done => {
     console.log(
       "Test callback: status=" + status + ", data=" + JSON.stringify(data)
     );
-    expect(data.length).toBe(1);
-    expect(data[0].privileges).toBe(0); // privileges 0 => normal user
+    expect(data.affectedRows).toBe(1);
     done();
   }
   
