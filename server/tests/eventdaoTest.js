@@ -74,7 +74,6 @@ test("Get events for one user", done =>{
     );
 
     expect(data.length).toBe(1);
-    expect(data[0].location).toBe("location");
     done();
   }
 
