@@ -29,7 +29,6 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         };
     }
     render() {
-        {console.log(this.loaded)}
         if (this.loaded.some(l => !l)) {
             this.load();
             return <div/>
@@ -49,14 +48,25 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                 <div className="mask rgba-white-slight"></div>
                             </a>
                         </div>
-                        {console.log(this.state["users"])}
+
+                        <br/>
+                        <Row>
+                            <Column width="10">
+                                <div id="topBanner" className={"artistBanner w-100" + (false ? " greenBG" : " redBG")}> 
+                                    Arrangementet er under planlegging
+                                </div>
+                            </Column>
+                            <Column width="2">
+                                
+                            </Column>
+                        </Row>
                         <div className="card-body card-body-cascade text-center">
                             <h1 className="card-title text">{e.event_name}</h1>
+
                             <h6 className="font-weight-bold indigo-text py-2">{e.place}</h6>
                             <h6 className="card-subtitle mb-2 text-muted"> <b></b> {e.event_start.slice(0, 10)}, {e.event_start.slice(11, 16)}-{e.event_end.slice(11, 16)}</h6>
                             <p className="card-text">{e.description}</p>
                             <br/>
-                            {console.log(this.state["artists"])}
                             <br/>
                             <p>Du kan akseptere din stilling i vaktlisten nedenfor.</p>
                             <br/>
@@ -67,6 +77,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                 {this.state["artists"].map(a =>
                                     <Column className="card artist" width={6}>
                                         <div className="card-body artist shadow-lg artistCard">
+                                            <div className={"artistBanner" + (a.accepted === 1 ? " greenBG" : " redBG")}/>
                                             <h5 className="card-title">{a.artist_name}</h5>
                                             <p className="card-text">
                                                 <h6> Epost: {a.email}</h6>
@@ -75,17 +86,18 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                             <a href={""}> nedlasting av filer skjer her </a>
                                             <br/>
 
-                                            <div className="artistButton" onClick={() => this.setAccepted(userService.currentUser.user_id, e.event_id, 0)}>
-                                                <button id="bot" type="button" className="btn btn-info btn-circle">
-                                                    <i className="fa fa-times" ></i>
-                                                </button>
+                                            <div className={"buttonContainer"}>
+                                                <div className="artistButton" onClick={() => this.acceptArtist(a.artist_id, 0)}>
+                                                    <button id="bot" type="button" className="btn btn-info btn-circle">
+                                                        <i className="fa fa-times" ></i>
+                                                    </button>
+                                                </div>
+                                                <div className= "artistButton px-1" onClick={() => this.acceptArtist(a.artist_id, 1)}>
+                                                    <button id="top" type="button" className="btn btn-info btn-circle">
+                                                        <i className="fa fa-check" ></i>
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <div className= "artistButton px-1" onClick={() => this.setAccepted(userService.currentUser.user_id, e.event_id, 1)}>
-                                                <button id="top" type="button" className="btn btn-info btn-circle">
-                                                    <i className="fa fa-check" ></i>
-                                                </button>
-                                            </div>
-                                            
                                         </div>
                                     </Column>
                                 )}
@@ -143,15 +155,12 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                 </tbody>
                             </table>
 
-
                             <br/>
                             <h2 className={"text"}>Kart</h2>
                             <br/>
                             <MapContainer lat={e.latitude} lng={e.longitude} show={true}/>
                             <br/>
                             <a href={"#/editEvent/"+this.event_id} className="card-link">Rediger</a>
-
-
 
                         </div>
                     </div>
@@ -163,28 +172,24 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         if (userService.currentUser) {
             eventService.getEventId(this.event_id).then(r => {
                 let event = r;
-                console.log(event);
                 this.setState({event});
                 this.loaded[0] = true;
             });
 
             ticketService.getEventTickets(this.event_id).then(r => {
                 let tickets = r;
-                console.log(tickets);
                 this.setState({tickets});
                 this.loaded[1] = true;
             });
 
             artistService.getEventArtists(this.event_id).then(r => {
                 let artists = r;
-                console.log(artists);
                 this.setState({artists});
                 this.loaded[2] = true;
             });
 
             userEventService.getAllbyId(this.event_id).then( res => {
                 let users = res;
-                console.log(users);
                 this.setState({users});
                 this.loaded[3] = true;
             });
@@ -203,6 +208,19 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             return u;
         });
         this.setState({users});
+    }
+
+    acceptArtist(id: number, accepted: number){
+        artistService.setAccepted(id, accepted);
+
+        let artists: Artist[] = this.state["artists"];
+        artists = artists.map(a => {
+            if (a.artist_id === id) {
+                a.accepted = accepted;
+            }
+            return a;
+        });
+        this.setState({artists});
     }
 
     getUserEvent(BANG){

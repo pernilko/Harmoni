@@ -20,7 +20,14 @@
 }
 
 .tableHead{
-    background-color: #e6ccff;
+    background-color: #e6e6ff;
+}
+
+#topBanner{
+    height: 40px;
+    margin-left: 15px;
+    padding-top: 5px;
+    text-align: center;
 }
 
 p {
@@ -33,7 +40,7 @@ p {
 }
 
 .borderControl {
-    border-right: solid #e6ccff 4px;
+    border-right: solid #e6e6ff 4px;
 }
 
 .noBorder {
@@ -41,15 +48,17 @@ p {
 }
 
 .artist {
-    background-color: #e6ccff;
+    background-color: #e6e6ff;
     border-radius: 6px;
  }
 
 .artistContainer {
 }
 
+
 .redBG{
     background: #dE685E;
+    color: white;
 }
 
 .greenBG{
@@ -65,4 +74,11 @@ p {
     display: inline-block;
     padding-right: 35%;
     float: right;
+}
+
+.artistBanner{
+    margin-bottom: 20px;
+    height: 25px;
+    border-radius: 20px;
+    text-align: center;
 }

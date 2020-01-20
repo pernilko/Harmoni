@@ -71,7 +71,7 @@ class ArtistService {
     }
 
     setAccepted(id: number, accepted: number) {
-        return axios.put<Artist, void>(url + "artist/accepted/" + id).then(response => response.data);
+        return axios.put<Artist, void>(url + "artist/accepted/" + id, {"accepted": accepted}).then(response => response.data);
     }
 }
 
