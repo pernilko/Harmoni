@@ -13,7 +13,6 @@ export class EventList extends Component<{user: boolean, prev: boolean}>{
     loaded: boolean = false;
     ready: boolean = false;
     eventURL: string = "#/showEvent/";
-    cancelledURL: string ="#/cancel/";
 
     constructor(props){
         super(props);
@@ -47,7 +46,7 @@ export class EventList extends Component<{user: boolean, prev: boolean}>{
                                     <link href="https://fonts.googleapis.com/css?family=PT+Serif|Ubuntu&display=swap"
                                           rel="stylesheet"/>
                                     <div className="eventCard shadow-lg text">
-                                        <a href={this.eventURL + e.event_id}>
+                                        <ahref={this.eventURL + e.event_id}>
                                             <div className="content">
                                                 <img id="image"
                                                      src="https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"/>
