@@ -88,10 +88,10 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
     }
     cancelled(event_id: number){
         eventService
-            .deleteEvent(event_id)
+            .cancelEvent(event_id)
             .then(response => console.log(response))
             .then(() => history.push("/allEvents"))
-            .then(Alert.danger("Arrangementet ble slettet"))
+            .then(Alert.danger("Arrangementet ble avlyst"))
             .catch((error: Error) => console.log(error.message));
     }
     show(){
