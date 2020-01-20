@@ -2,9 +2,10 @@
 
 .eventCard{
     position: relative;
-    height: 350px;
+    height: 400px;
     width: 650px;
     border-radius: 6px;
+    background-color: white;
 }
 
 .content:hover{

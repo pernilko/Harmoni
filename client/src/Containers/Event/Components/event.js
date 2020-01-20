@@ -34,7 +34,6 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         };
     }
     render() {
-        {console.log(this.loaded)}
         if (this.loaded.some(l => !l)) {
             this.load();
             return <div/>
@@ -55,44 +54,57 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                 <div className="mask rgba-white-slight"></div>
                             </a>
                         </div>
+
+                        <br/>
+                        <Row>
+                            <Column width="10">
+                                <div id="topBanner" className={"artistBanner w-100" + (false ? " greenBG" : " redBG")}> 
+                                    Arrangementet er under planlegging
+                                </div>
+                            </Column>
+                            <Column width="2">
+                                
+                            </Column>
+                        </Row>
                         <div className="card-body card-body-cascade text-center">
                             <h1 className="card-title text">{e.event_name}</h1>
+
                             <h6 className="font-weight-bold indigo-text py-2">{e.place}</h6>
                             <h6 className="card-subtitle mb-2 text-muted"> <b></b> {e.event_start.slice(0, 10)}, {e.event_start.slice(11, 16)}-{e.event_end.slice(11, 16)}</h6>
                             <p className="card-text">{e.description}</p>
-                            {this.state["artists"].map(artist =>
-                                <div>{artist.artist_name}</div>
-                            )}
-                            {this.state["tickets"].map(ticket =>
-                                <div>{ticket.ticket_type}</div>
-                            )}
-                            <div>
-                                <div className= "mx-4" onClick={() => this.setAccepted(this.getUserEvent(e.event_id).user_id, e.event_id, 1)}>
-                                    <button id="top" type="button" className="btn btn-info btn-circle">
-                                        <i className="fa fa-check" ></i>
-                                    </button>
-                                </div>
-                                <div className="button mx-4 my-3" onClick={() => this.setAccepted(this.getUserEvent(e.event_id).user_id, e.event_id, 0)}>
-                                    <button id="bot" type="button" className="btn btn-info btn-circle">
-                                        <i className="fa fa-times" ></i>
-                                    </button>
-                                </div>
-                            </div>
+                            <br/>
+                            <br/>
+                            <p>Du kan akseptere din stilling i vaktlisten nedenfor.</p>
+                            <br/>
                             <br/>
                             <h2 className={"text"}>Artister</h2>
                             <br/>
                             <Row className={"artistContainer"}>
                                 {this.state["artists"].map(a =>
                                     <Column className="card artist" width={6}>
-                                        <div className="card-body artist shadow-lg">
+                                        <div className="card-body artist shadow-lg artistCard">
+                                            <div className={"artistBanner" + (a.accepted === 1 ? " greenBG" : " redBG")}/>
                                             <h5 className="card-title">{a.artist_name}</h5>
                                             <p className="card-text">
                                                 <h6> Epost: {a.email}</h6>
                                                 <h6> tlf: {a.phone} </h6>
                                             </p>
+
                                             {a.riders ? <a href={window.URL.createObjectURL(a.riders)}>{a.riders.name}</a>: 'Ingen rider valgt.'}
-                                            <a href="#" className="card-link">Aksepter</a>
-                                            <a href="#" className="card-link">Avslå</a>
+                                            <br/>
+
+                                            <div className={"buttonContainer"}>
+                                                <div className="artistButton" onClick={() => this.acceptArtist(a.artist_id, 0)}>
+                                                    <button id="bot" type="button" className="btn btn-info btn-circle">
+                                                        <i className="fa fa-times" ></i>
+                                                    </button>
+                                                </div>
+                                                <div className= "artistButton px-1" onClick={() => this.acceptArtist(a.artist_id, 1)}>
+                                                    <button id="top" type="button" className="btn btn-info btn-circle">
+                                                        <i className="fa fa-check" ></i>
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </Column>
                                 )}
@@ -135,26 +147,47 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                 </div>
                             </a>
 
+                            <h2 className={"text"}>Vakter</h2>
                             <br/>
-                            {console.log(this.state["users"])}
-                            <table className={"table"}>
-                                <thead className="thead-dark"/>
+                            <table className={"table shadow-lg text"}>
+                                <thead className="tableHead">
                                 <tr>
-                                    <th scope="col">Navn</th>
-                                    <th scope="col">Stilling</th>
+                                    <th scope="col" className={"nameCol"}>Navn</th>
+                                    <th scope="col" className={"positionCol"}>Stilling</th>
+                                    <th scope="col" className={"buttonCol"}></th>
                                 </tr>
+                                </thead>
 
                                 <tbody>
-                                    {this.state["users"].map(row =>
-                                        <tr>
-                                            <th scope="row"></th>
-                                            <td>{row.user_name}</td>
-                                            <td>{row.job_position}</td>
-                                        </tr>
-                                    )}
+                                {this.state["users"].map(row =>
+                                    <tr className={(row.accepted === 1 ? "greenBG" : "") + (row.accepted === 0 ? "redBG" : "")}>
+                                        <td className={"borderControl"}>{row.user_name}</td>
+                                        <td>{row.job_position}
+                                        </td>
+                                        {this.getUserEvent(row.user_id) ?
+                                            <td className={"noBorder"}>
+                                                <div className="buttonHorizontal" onClick={() => this.setAccepted(userService.currentUser.user_id, e.event_id, 0)}>
+                                                    <button id="bot" type="button" className="btn btn-info btn-circle">
+                                                        <i className="fa fa-times" ></i>
+                                                    </button>
+                                                </div>
+                                                <div className= "buttonHorizontal px-1" onClick={() => this.setAccepted(userService.currentUser.user_id, e.event_id, 1)}>
+                                                    <button id="top" type="button" className="btn btn-info btn-circle">
+                                                        <i className="fa fa-check" ></i>
+                                                    </button>
+                                                </div>
+                                            </td> : <div/>}
+                                    </tr>
+                                )}
                                 </tbody>
                             </table>
+
+                            <br/>
+                            <h2 className={"text"}>Kart</h2>
+                            <br/>
                             <MapContainer lat={e.latitude} lng={e.longitude} show={true}/>
+                            <br/>
+
                         </div>
                     </div>
                 </div>
@@ -165,21 +198,18 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         if (userService.currentUser) {
             eventService.getEventId(this.event_id).then(r => {
                 let event = r;
-                console.log(event);
                 this.setState({event});
                 this.loaded[0] = true;
             });
 
             ticketService.getEventTickets(this.event_id).then(r => {
                 let tickets = r;
-                console.log(tickets);
                 this.setState({tickets});
                 this.loaded[1] = true;
             });
 
             artistService.getEventArtists(this.event_id).then(r => {
                 let artists = r;
-                console.log(artists);
                 this.setState({artists});
                 this.state.artists.map(a=>{
                     console.log("Artist: "+a.artist_id);
@@ -191,9 +221,8 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                 this.loaded[2] = true;
             });
 
-            userEventService.getAllUserEvent(this.event_id).then( res => {
+            userEventService.getAllbyId(this.event_id).then( res => {
                 let users = res;
-                console.log(users);
                 this.setState({users});
                 this.loaded[3] = true;
             });
@@ -205,34 +234,36 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         userEventService.setAccepted(user_id, event_id, accepted);
         let users = this.state["users"];
 
-        //endrer users lokalt for mest responsiv nettside
-        users = users.map(list => {
-            list = list.map(u => {
-                if (u.user_id === user_id && u.event_id === event_id){
-                    u.accepted = accepted;
-                }
-                return u;
-            });
-            return list;
+        users = users.map(u => {
+            if (u.user_id === user_id) {
+                u.accepted = accepted;
+            }
+            return u;
         });
-
         this.setState({users});
     }
 
-    getUserEvent(event_id: number){
+    acceptArtist(id: number, accepted: number){
+        artistService.setAccepted(id, accepted);
+
+        let artists: Artist[] = this.state["artists"];
+        artists = artists.map(a => {
+            if (a.artist_id === id) {
+                a.accepted = accepted;
+            }
+            return a;
+        });
+        this.setState({artists});
+    }
+
+    getUserEvent(BANG){
         if (userService.currentUser){
             let u = this.state["users"];
 
-            let userList = u.filter(list => {
-                return (list.some(user => {
-                    if (user) return user.event_id === event_id;
-                    return false;
-                }))
-            });
-            if (userList.length > 0){
-                let users = userList[0];
-                return users.find(user => user.event_id === event_id && userService.currentUser.user_id === user.user_id);
+            if (u.length > 0){
+                return u.find(user => userService.currentUser.user_id === BANG);
             }
+            return undefined;
         }
         return undefined;
     }

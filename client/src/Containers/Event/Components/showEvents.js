@@ -35,8 +35,9 @@ export class EventList extends Component<{user: boolean, prev: boolean}>{
             }
             return (
                 <div className={"w-50 mx-auto "}>
-                    {this.state["events"].map((e, i) =>
-                        <div className="my-4">
+                    
+                    {this.state["events"].map((e, i) => 
+                        <div className="my-4" >
                             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
                             <link href="https://fonts.googleapis.com/css?family=PT+Serif|Ubuntu&display=swap" rel="stylesheet"/>
                             <div className="eventCard shadow-lg text">
@@ -45,9 +46,9 @@ export class EventList extends Component<{user: boolean, prev: boolean}>{
                                         <img id="image" src="https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"/>
                                         <div className="m-3">
                                             <h1 className="my-3"> {e.event_name} </h1>
-                                            <p> <b> Sted: </b> {e.place} </p>
-                                            <p> <b> Stilling: </b>{this.getUserEvent(e.event_id) ?  "Du er satt opp som " + this.getUserEvent(e.event_id).job_position + ".\n Bekreft valget ditt med knappene på venstre side.": "Du er ikke satt på dette arrangementet"}. </p>
-                                            <p> <b> Tidspunkt: </b> {e.event_start.slice(0, 10)}, {e.event_start.slice(11, 16)}-{e.event_end.slice(11, 16)} </p>
+                                            <p> <b> Sted: </b> {e.place} </p><br/>
+                                            <p> <b> Stilling: </b>{this.getUserEvent(e.event_id) ?  "Du er satt opp som " + this.getUserEvent(e.event_id).job_position + ".\n Bekreft valget ditt med knappene på venstre side.": "Du er ikke satt på dette arrangementet"}. </p><br/>
+                                            <p> <b> Tidspunkt: </b> {e.event_start.slice(0, 10)}, {e.event_start.slice(11, 16)}-{e.event_end.slice(11, 16)} </p><br/>
                                         </div>
                                     </div>
                                 </a>

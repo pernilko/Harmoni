@@ -12,13 +12,16 @@ export class Artist {
     riders:File;
     hospitality_riders: File;
     artist_contract: File;
+    accepted: number;
 
-    constructor(artist_id: number, event_id: number, artist_name: string, email: string, phone: string, riders:File, hospitality_riders: File, artist_contract: File) {
+    constructor(artist_id: number, event_id: number, artist_name: string, email: string, phone: string, riders:File, hospitality_riders: File, artist_contract: File,accepted: number) {
+
         this.artist_id = artist_id;
         this.event_id = event_id;
         this.artist_name = artist_name;
         this.email = email;
         this.phone = phone;
+        this.accepted = accepted;
         this.riders=riders;
         this.hospitality_riders = hospitality_riders;
         this.artist_contract = artist_contract;
@@ -108,6 +111,10 @@ class ArtistService {
 
     deleteArtist(id: number) {
         return axios.delete<Artist, void>(url + "artist/delete/" + id).then(response => response.data);
+    }
+
+    setAccepted(id: number, accepted: number) {
+        return axios.put<Artist, void>(url + "artist/accepted/" + id, {"accepted": accepted}).then(response => response.data);
     }
 }
 
