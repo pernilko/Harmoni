@@ -319,7 +319,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         console.log("ADD ARTISTS: ", artists);
         artists.map(a => {
             artistService
-                .addArtist(this.props.match.params.event_id, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone)
+                .addArtist(this.props.match.params.event_id, a.artist_name, a.email, a.phone, a.riders, a.hospitality_riders, a.artist_contract)
                 .then(response => console.log(response))     
         })  
     }

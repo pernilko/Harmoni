@@ -37,7 +37,7 @@ class ArtistService {
     getOneArtist(id: number) {
         return axios.get<Artist[]>(url + "artist/"+id).then(response => response.data[0]);
     }
-    addArtist(event_id: number, artist_name: string, email: string, phone: number, ridersFile: File, hospitality_rider: File, artist_contract: File) {
+    addArtist(event_id: number, artist_name: string, email: string, phone: string, ridersFile: File, hospitality_rider: File, artist_contract: File) {
         let fd_riders:FormData = new FormData();
         fd_riders.append("riders", ridersFile);
         fd_riders.append("hospitality_rider", hospitality_rider);
@@ -54,7 +54,7 @@ class ArtistService {
             "phone": phone
         }).then(response => {
             console.log("response from post artist/add");
-            console.log(response.data);
+            console.log(response.data[0]);
             return axios<{}>({
                 url: url +'uploadRiders/' + response.data[0].artist_id,
                 method: 'post',
