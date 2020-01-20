@@ -98,6 +98,7 @@ export class SearchResults extends Component <{match: {params: {search: string}}
 
     finished(){
         this.events = this.events.filter(a => new Date(a.event_start.slice(0,10)) - new Date < 0)
+        
     }
 
     date() {
