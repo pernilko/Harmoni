@@ -390,7 +390,6 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-    console.log("req.body from server: ");
     console.log(req.body);
     userDao.addUser(req.body, (status, data) => {
         res.status(status);
@@ -576,7 +575,43 @@ app.put("/artist/:id", (req:Request,res:Response)=>{
     })
 });
 
+app.put("/artist/accepted/:id", (req:Request,res:Response)=>{
+    console.log("/artist/:id received an update request from client to update values in artist");
+    artistDao.setAccepted(req.params.id, req.body, (status,data)=>{
+        res.status(status);
+        res.json(data);
+    })
+});
+
+
+
+//UserEvent
+app.get("/userevent/all/:id", (req : Request, res : Response) => {
+    console.log("/test:received update request from user to get userevents");
+    eventDao.getUsersForEvent(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.put("/userevent/accepted/", (req : Request, res : Response) => {
+    console.log("/test:received update request from user to get userevents");
+    eventDao.setAccepted(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 //Event
+
+app.put("/event/accepted/:id", (req:Request,res:Response)=>{
+    console.log("/artist/:id received an update request from client to update values in artist");
+    eventDao.setAcceptedEvent(req.params.id, req.body, (status,data)=>{
+        res.status(status);
+        res.json(data);
+    })
+});
+
 //tested
 app.get("/event/all", (req : Request, res: Response) => {
     console.log("/event/all: received get request from client");
@@ -822,7 +857,7 @@ app.post("/event/delete/notify/:event_id", (req: Request, res: Response) => {
     let name: string = req.body.name;
     let job_position: number = req.body.job_position;
     let email: string = req.body.email;
-    
+
     let url: string = DOMAIN + "#/showEvent/" + req.params.event_id;
 
     let mailOptions = {
@@ -848,7 +883,7 @@ app.post("/event/edit/notify/:event_id", (req: Request, res: Response) => {
     let name: string = req.body.name;
     let job_position: number = req.body.job_position;
     let email: string = req.body.email;
-    
+
     let url: string = DOMAIN + "#/showEvent/" + req.params.event_id;
 
     let mailOptions = {

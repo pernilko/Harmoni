@@ -239,11 +239,12 @@ export class OrgProfile extends Component {
             user.p_read_contract = document.getElementById("" + user.user_id + "p_read_contract").checked ? 1 : 0;
             user.p_read_riders = document.getElementById("" + user.user_id + "p_read_riders").checked ? 1 : 0;
             user.p_archive = document.getElementById("" + user.user_id + "p_archive").checked ? 1 : 0;
-            console.log(user.p_create_event);
-            console.log(user.p_read_contract);
-            console.log(user.p_read_riders);
-            console.log(user.p_archive);
-            userService.updatePrivileges(user.user_id, user.p_create_event, user.p_read_contract, user.p_read_riders, user.p_archive).catch((error: Error) => {
+            userService.updatePrivileges(user.user_id, user.p_create_event, user.p_read_contract, user.p_read_riders, user.p_archive).then(()=>{
+                userService.currentUser.p_create_event = user.p_create_event;
+                userService.currentUser.p_read_contract = user.p_read_contract;
+                userService.currentUser.p_read_riders = user.p_read_riders;
+                userService.currentUser.p_archive = user.p_archive;
+            }).catch((error: Error) => {
                 Alert.danger(error.message);
             });
         }else{

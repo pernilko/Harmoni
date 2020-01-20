@@ -12,8 +12,9 @@ export class Artist {
     riders:File;
     hospitality_riders: File;
     artist_contract: File;
+    accepted: number;
 
-    constructor(artist_id: number, event_id: number, artist_name: string, email: string, phone: string, riders:File, hospitality_riders: File, artist_contract: File) {
+    constructor(artist_id: number, event_id: number, artist_name: string, email: string, phone: string, riders:File, hospitality_riders: File, artist_contract: File, accepted: number) {
         this.artist_id = artist_id;
         this.event_id = event_id;
         this.artist_name = artist_name;
@@ -22,6 +23,9 @@ export class Artist {
         this.riders=riders;
         this.hospitality_riders = hospitality_riders;
         this.artist_contract = artist_contract;
+        this.email = email;
+        this.phone = phone;
+        this.accepted = accepted;
     }
 }
 
@@ -37,6 +41,7 @@ class ArtistService {
     getOneArtist(id: number) {
         return axios.get<Artist[]>(url + "artist/"+id).then(response => response.data[0]);
     }
+
     addArtist(event_id: number, artist_name: string, email: string, phone: string, ridersFile: File, hospitality_riders: File, artist_contract: File) {
         let fd_riders:FormData = new FormData();
         fd_riders.append("riders", ridersFile);
@@ -66,6 +71,7 @@ class ArtistService {
         });
     }
 
+
     updateArtist(artist_id: number, artist_name, ridersFile: File, hospitality_ridersFile: File, artist_contract: File, email, phone) {
         let fd_riders:FormData = new FormData();
         fd_riders.append("riders", ridersFile);
@@ -90,6 +96,10 @@ class ArtistService {
 
     deleteArtist(id: number) {
         return axios.delete<Artist, void>(url + "artist/delete/" + id).then(response => response.data);
+    }
+
+    setAccepted(id: number, accepted: number) {
+        return axios.put<Artist, void>(url + "artist/accepted/" + id, {"accepted": accepted}).then(response => response.data);
     }
 }
 
