@@ -24,7 +24,7 @@ import {OrgProfile} from "./Containers/Organization/Components/Profile";
 import {resetPass} from "./Containers/Organization/Components/resetPass";
 import {ShowTab} from './Containers/Event/Components/showTab';
 
-const root = document.getElementById('root');
+const root = document.getElementById('root');    
 if (root)
   ReactDOM.render(
     <HashRouter>
