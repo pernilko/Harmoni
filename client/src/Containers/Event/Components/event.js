@@ -291,7 +291,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
     }
 
     loadRider(rider: File){
-      
+
     }
 }
 // <MapContainer lat={this.state["event"].latitude} lng={this.state["event"].longitude}/>
