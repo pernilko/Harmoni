@@ -41,21 +41,11 @@ export class Pending extends Component<{}> {
                                 </a>
 
                                 <div className={"banner" + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 1 ? " greenBG" : "") + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 0 ? " redBG" : "")} id = {i}>
-
-                                    { this.getUserEvent(e.event_id) ? (this.getUserEvent(e.event_id).accepted === 2 ?
-                                        <div>
-                                            <div id="topButton" className= "mx-4" onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 1)}>
-                                                <button id="top" type="button" className="btn btn-info btn-circle">
-                                                    <i className="fa fa-check" ></i>
-                                                </button>
-                                            </div>
-                                            <div className="button mx-4 my-3" onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 0)}>
-                                                <button id="bot" type="button" className="btn btn-info btn-circle">
-                                                    <i className="fa fa-times" ></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    : <></>) : <></>}
+                                  <div id="topButton" className= "mx-4" onClick={() => this.completed(e.event_id)}>
+                                      <button id="top" type="button" className="btn btn-info btn-circle">
+                                          <i className="fa fa-check" ></i>
+                                      </button>
+                                  </div>
                                 </div>
                             </div>
                         </div>
@@ -83,6 +73,13 @@ export class Pending extends Component<{}> {
             }
         }
         return undefined;*/
+    }
+
+    completed(event_id: number){
+        eventService
+          .setCompleted(event_id)
+          .then(response => console.log(response))
+          .catch((error: Errror) => console.log(error.message));
     }
 
     load() {
