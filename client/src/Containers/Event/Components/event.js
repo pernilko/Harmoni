@@ -8,8 +8,8 @@ import MapContainer from "./map";
 import Popup from "reactjs-popup";
 import { createHashHistory } from 'history';
 import {organizationService} from "../../../services/OrganizationService";
-import {userService} from "../../../services/UserService";
-import {userEventService} from "../../../services/UserEventService";
+import {User, userService} from "../../../services/UserService";
+import {UserEvent, userEventService} from "../../../services/UserEventService";
 
 const history = createHashHistory();
 
@@ -20,7 +20,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
     hidden: boolean = true;
     cancel: boolean = true;
     bugreport: string = "";
-    employees: string[] = "";
+    employees: UserEvent[] = [];
 
     constructor(props){
         super(props);
@@ -81,13 +81,25 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         }
     }
     mounted() {
+        this.getEvent();
+        this.getEmployees();
+    }
+
+    getEmployees() {
+        userEventService.getAllUserEvent(this.event_id)
+            .then(e => this.employees = e)
+            .then(console.log(this.employees))
+    }
+
+    getEvent() {
         eventService.getEventId(this.event_id).then(r => {
             let event = r;
             console.log(event);
             this.setState({event});
             this.loaded = true;
-        })
+        });
     }
+
     cancelled(event_id: number) {
         eventService
           .cancelEvent(event_id)
@@ -119,8 +131,8 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
     }
 
     sendCancellationMail(){
-
-        employees.map(e => {
+        console.log("EMPLOYEES: ", this.employees);
+        this.employees.map(e => {
             if (e) {
                 organizationService.sendCancellationMail(e.email, userService.currentUser.org_id, organizationService.currentOrganization.org_name, this.event_id)
                     .then((e) => {
