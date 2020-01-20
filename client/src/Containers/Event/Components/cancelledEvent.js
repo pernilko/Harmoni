@@ -37,9 +37,14 @@ export class cancelledEvent extends Component<{ match: { params: { id: number } 
             <div className="view view-cascade overlay">
               <img className="card-img-top shadow-lg"
                    src="https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg"
-                   alt="Card image cap"></img>
+                   alt="Card image cap"
+                   style={{filter:"grayscale(90%"}}/>
+
+                   <div className="text-block">
+                     <h1>Avlyst</h1>
+                   </div>
               <a href="#!">
-                <div className="mask rgba-white-slight"></div>
+                <div className="mask rgba-white-slight"> </div>
               </a>
             </div>
             <div className="card-body card-body-cascade text-center">
