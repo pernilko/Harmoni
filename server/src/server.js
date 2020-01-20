@@ -207,7 +207,7 @@ app.get('/Riders/:artist_id', (req, res)=>{
         res.status(status);
         res.json(data);
     })
-})
+});
 
 app.post("/inviteUser", (req, res) => {
     let email: string = req.body.email;
@@ -251,6 +251,34 @@ app.post("/bugreport", (req, res) => {
         to: email,
         subject: "Bugreport fra " + org_name,
         text: report
+    };
+
+    transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Email sent!");
+        }
+
+        res.json(url);
+    });
+});
+
+app.post("/cancelled", (req, res) => {
+    let email: string = req.body.email;
+    let org_id: number = req.body.org_id;
+    let org_name: string = req.body.org_name;
+    let event: string = req.body.event_name;
+    let token: string = jwt.sign({org_id: org_id}, privateKEY.key, {
+        expiresIn: 3600
+    });
+    let url: string = DOMAIN + "#/user/" + token;
+
+    let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: email,
+        subject: "ARRANGEMENT AVLYST FOR " + org_name,
+        text: "Arrangementet " + event + " har blitt avlyst av arrangøren "
     };
 
     transporter.sendMail(mailOptions, function(err, data) {
@@ -397,11 +425,7 @@ app.post("/register", (req, res) => {
     });
 });
 
-/*
-app.get("/artist", (req, res) => {
-    console.log("/test: received get request from client");
-}
-*/
+
 //Artist
 //tested
 app.get("/artist/all", (req : Request, res: Response) => {
@@ -749,6 +773,16 @@ app.put("/event/edit/:id", (req : Request, res: Response) => {
     });
 });
 
+
+app.put("/event/cancel/:id", (req : Request, res: Response) => {
+    console.log("/event/cancel/:id");
+    eventDao.cancelEvent(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+        });
+});
+
+
 app.delete("/event/delete/:id", (req : Request, res: Response) => {
     console.log("/event/delete/:id: received delete request from client");
     pool.getConnection((err, connection: function) => {
@@ -969,7 +1003,7 @@ app.put("/user/updatePrivileges/:id", (req, res)=>{
         res.status(status);
         res.json(data);
     })
-})
+});
 
 app.put("/Profile/updateUsername/:id", (req, res)=>{
     console.log("/Profile/edit received an update request from client ");
@@ -1072,7 +1106,7 @@ app.get("/user/admin/:org_id", (req: Request, res: Response) => {
 //UserEvent
 app.get("/userevent/all/:id", (req : Request, res : Response) => {
     console.log("/test:received update request from user to get userevents");
-    eventDao.getUsersForEvent(req.params.id, (status, data) => {
+    userEventDao.getAllbyId(req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
     });
