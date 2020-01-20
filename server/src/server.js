@@ -316,6 +316,15 @@ app.put("/userevent/accepted/", (req : Request, res : Response) => {
 });
 
 //Event
+
+app.put("/event/accepted/:id", (req:Request,res:Response)=>{
+    console.log("/artist/:id received an update request from client to update values in artist");
+    eventDao.setAccepted(req.params.id, req.body, (status,data)=>{
+        res.status(status);
+        res.json(data);
+    })
+});
+
 //tested
 app.get("/event/all", (req : Request, res: Response) => {
     console.log("/event/all: received get request from client");

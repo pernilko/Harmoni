@@ -15,9 +15,8 @@ export class Event {
     longitude: number;
     latitude: number;
     image: File;
-
-    constructor(event_id: number, org_id: number, user_id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number, image: File) {
-
+    accepted: number;
+    constructor(event_id: number, org_id: number, user_id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number, image: File, accepted: number) {
         this.event_id = event_id;
         this.org_id = org_id;
         this.user_id = user_id;
@@ -29,6 +28,7 @@ export class Event {
         this.longitude = longitude;
         this.latitude = latitude;
         this.image = image;
+        this.accepted = accepted;
     }
 }
 
@@ -88,6 +88,10 @@ export class EventService {
 
     getEventbySearch(search: string){
         return axios.get<Event[]>(url + "event/search/" + search).then(response => response.data);
+    }
+
+     setAcceptedEvent(id: number, accepted: number) {
+        return axios.put<Event, void>(url + "event/accepted/" + id).then(response => response.data);
     }
 }
 
