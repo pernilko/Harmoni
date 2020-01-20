@@ -1,6 +1,8 @@
 import { User } from '../../../services/UserService';
 import { Organization } from '../../../services/OrganizationService';
-
+import "./login.css";
+import {Component} from 'react-simplified';
+import * as React from 'react';
 
 export class NewLogin extends Component {
   organization: Organization = new Organization();
@@ -10,18 +12,18 @@ export class NewLogin extends Component {
 
   render() {
     return (
-      <div className={loginCss.body}>
-        <div className={loginCss.mid}>
-          <div className={loginCss.splits}>
+      <div className="body">
+        <div className="mid">
+          <div className="splits">
             <p>Ny organisasjon?</p>
-            <button className={loginCss.rgstrBtn} onClick={this.move}>Register</button>
+            <button className="rgstr-btn"onClick={this.move}>Register</button>
           </div>
-          <div className={loginCss.splits}>
+          <div className="splits">
             <p>Bruker allerede?</p>
-            <button className={loginCss.active} onClick={this.loginMove}>Login</button>
+            <button className="active" onClick={this.loginMove}>Login</button>
           </div>
 
-          <div className={loginCss.wrapper}>
+          <div className="wrapper">
             <form>
               <h3> Registrer ny organisasjon</h3>
               <div>
@@ -43,13 +45,13 @@ export class NewLogin extends Component {
                 <label>Email</label>
               </div>
               <div>
-                <button className={loginCss.dark} type="button" onClick={this.next}>Neste</button>
+                <button className="btn dark" type="button" onClick={this.next}>Neste</button>
               </div>
             </form>
           </div>
 
 
-          <div hidden={this.hidden} className={loginCss.registerOrg}>
+          <div hidden={this.hidden} className="registerOrg">
             <form>
               <h3>Registrer admin bruker for </h3> <b>{this.organization.org_name}</b>
               <div>
@@ -98,7 +100,7 @@ export class NewLogin extends Component {
                 <input type="file"/>
                 <label>Last opp bilde</label>
               </div>
-              <button className={loginCss.light} type="submit" style={{ marginTop: 20 + 'px' }}
+              <button className="btn light" type="submit" style={{ marginTop: 20 + 'px' }}
                       onClick={this.register}> Registrer
               </button>
             </form>
@@ -108,5 +110,16 @@ export class NewLogin extends Component {
 
     )
   }
+
+  loginMove(){
+
+  }
+
+  register(){
+
+  }
+
+
+}
 
 

@@ -55,17 +55,8 @@ export class Navigation extends Component {
       </div>
     } else {
       return (
-          <div>
-            <Navbar sticky="top" bg="dark" variant="dark" expand="lg">
-              <Navbar.Brand href="#/login">Harmoni</Navbar.Brand>
-              <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-              <Navbar.Collapse className="ml-auto">
-              </Navbar.Collapse>
-              <Navbar.Text>
-                <Button variant="success" onClick={this.login}>Logg inn</Button>
-              </Navbar.Text>
-            </Navbar>
-          </div>
+          <div/>
+
       )
     }
   }
