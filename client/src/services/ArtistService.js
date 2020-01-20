@@ -31,10 +31,10 @@ export class Artist {
 export class File{
     artist_id:number;
     name:string;
-    data:Blob;
+    data:any;
     mimetype:string;
 
-    constructor(artist_id:number,name:string,data:Blob,mimetype:string){
+    constructor(artist_id:number,name:string, data: any,mimetype:string){
         this.artist_id=artist_id;
         this.name=name;
         this.data=data;
@@ -53,7 +53,7 @@ class ArtistService {
     }
 
     getArtistRider(artist_id:number){
-         return axios.get<File>(url+"artist/rider/"+artist_id).then(response => response.data);
+         return axios.get<File>(url+"artist/rider/"+artist_id).then(response => response.data[0]);
     }
 
     getOneArtist(id: number) {

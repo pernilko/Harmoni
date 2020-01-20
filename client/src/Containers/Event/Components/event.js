@@ -90,7 +90,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                                 <h6> tlf: {a.phone} </h6>
                                             </p>
 
-                                            {a.riders ? <a href={window.URL.createObjectURL(a.riders)}>{a.riders.name}</a>: 'Ingen rider valgt.'}
+                                            {a.riders ? <a href={window.URL.createObjectURL(a.riders)} onClick={this.loadRider(a.riders)}>{a.riders.name}</a>: 'Ingen rider valgt.'}
                                             <br/>
 
                                             <div className={"buttonContainer"}>
@@ -214,8 +214,9 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                 this.state.artists.map(a=>{
                     console.log("Artist: "+a.artist_id);
                     artistService.getArtistRider(a.artist_id).then(res =>{
-                        a.riders=res;
-                        console.log(a.riders[0]);
+                        a.riders= new File(res.data.data, res.name, {type: res.mimetype});
+                        console.log(a.riders);
+                        this.setState({artists});
                     });
                 });
                 this.loaded[2] = true;
@@ -287,9 +288,10 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                 this.email = "";
             })
             .catch((error: Error) => console.log(error.message))
+    }
 
-
-
+    loadRider(rider: File){
+      
     }
 }
 // <MapContainer lat={this.state["event"].latitude} lng={this.state["event"].longitude}/>
