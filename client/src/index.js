@@ -26,7 +26,7 @@ import {ShowTab} from './Containers/Event/Components/showTab';
 import {verifyEmail} from "./Containers/Organization/Components/verifyEmail";
 
 
-const root = document.getElementById('root');
+const root = document.getElementById('root');    
 if (root)
   ReactDOM.render(
     <HashRouter>
