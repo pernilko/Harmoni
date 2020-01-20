@@ -128,6 +128,45 @@ app.post('/uploadRiders/:artist_id', function(req, res) {
             })
         }
 });
+
+app.put('/uploadRiders/:artist_id', function(req, res) {
+    console.log("received post request for uploading rider");
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return;
+    }
+
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+
+    let ridersFile = req.files.riders;
+    let hospitality_ridersFile = req.files.hospitality_rider;
+    let artist_contractFile = req.files.artist_contract;
+    console.log("frrom uploadRiders: ");
+    console.log(req.files);
+
+    if(req.files.riders) {
+        artistDao.updateRiders(ridersFile, req.params.artist_id, (status, data) => {
+            if (!req.files.hospitality_rider && !req.files.artist_contract) {
+                res.status(status);
+                res.json(data);
+            }
+        });
+    }
+    if(req.files.hospitality_rider) {
+        artistDao.updateHospitalityRiders(hospitality_ridersFile, req.params.artist_id, (status, data) => {
+            if(!req.files.artist_contract){
+                res.status(status);
+                res.json(data);
+            }
+        })
+    }
+    if(req.files.artist_contract){
+        artistDao.updateArtistContract(artist_contractFile, req.params.artist_id, (status, data) => {
+            res.status(status);
+            res.json(data);
+        })
+    }
+});
+
 app.post('/uploadHospitality_Riders/:artist_id', (req, res)=> {
     console.log("received post request for uploading hospitality_rider with artist_id: " + req.params.artist_id);
     if (!req.files || Object.keys(req.files).length === 0) {
