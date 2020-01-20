@@ -9,9 +9,10 @@ let jwt = require("jsonwebtoken");
 let bodyParser = require("body-parser");
 let nodemailer = require("nodemailer");
 let config: {host: string, user: string, password: string, email: string, email_passord: string} = require("./config")
-let app = express();
 
+let app = express();
 app.use(bodyParser.json());
+
 app.use("/uploadRiders", fileUpload());
 
 let DOMAIN = "localhost:3000/"
@@ -74,7 +75,95 @@ app.use("/api", (req, res, next) => {
     });
 });
 
-//Event
+app.post('/uploadRiders/:artist_id', function(req, res) {
+    console.log("received post request for uploading rider");
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return;
+    }
+
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+
+    let ridersFile = req.files.riders;
+    let hospitality_ridersFile = req.files.hospitality_rider;
+    let artist_contractFile = req.files.artist_contract;
+    console.log("frrom uploadRiders: ");
+    console.log(req.files);
+
+    if(req.files.riders) {
+        artistDao.insertRider(ridersFile, req.params.artist_id, (status, data) => {
+            if (!req.files.hospitality_rider && !req.files.artist_contract) {
+                res.status(status);
+                res.json(data);
+            }
+        });
+    }
+    if(req.files.hospitality_rider) {
+            artistDao.insertHospitalityRider(hospitality_ridersFile, req.params.artist_id, (status, data) => {
+                if(!req.files.artist_contract){
+                    res.status(status);
+                    res.json(data);
+                }
+            })
+    }
+    if(req.files.artist_contract){
+        artistDao.insertArtistContract(artist_contractFile, req.params.artist_id, (status, data) => {
+                res.status(status);
+                res.json(data);
+            })
+        }
+});
+
+app.put('/uploadRiders/:artist_id', function(req, res) {
+    console.log("received post request for uploading rider");
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return;
+    }
+
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+
+    let ridersFile = req.files.riders;
+    let hospitality_ridersFile = req.files.hospitality_rider;
+    let artist_contractFile = req.files.artist_contract;
+    console.log("frrom uploadRiders: ");
+    console.log(req.files);
+
+    if(req.files.riders) {
+        artistDao.updateRiders(ridersFile, req.params.artist_id, (status, data) => {
+            if (!req.files.hospitality_rider && !req.files.artist_contract) {
+                res.status(status);
+                res.json(data);
+            }
+        });
+    }
+    if(req.files.hospitality_rider) {
+        artistDao.updateHospitalityRiders(hospitality_ridersFile, req.params.artist_id, (status, data) => {
+            if(!req.files.artist_contract){
+                res.status(status);
+                res.json(data);
+            }
+        })
+    }
+    if(req.files.artist_contract){
+        artistDao.updateArtistContract(artist_contractFile, req.params.artist_id, (status, data) => {
+            res.status(status);
+            res.json(data);
+        })
+    }
+});
+
+app.post('/uploadHospitality_Riders/:artist_id', (req, res)=> {
+    console.log("received post request for uploading hospitality_rider with artist_id: " + req.params.artist_id);
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send("no files uploaded");
+    }
+
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let sampleFile = req.files.image;
+    console.log("from uploadRiders: ");
+    console.log(sampleFile);
+    });
+});
+
 app.get("/event/all", (req : Request, res: Response) => {
     console.log("/event/all: received get request from client");
     eventDao.getAll((status, data) => {
@@ -82,6 +171,7 @@ app.get("/event/all", (req : Request, res: Response) => {
         res.json(data);
     });
 });
+
 
 app.get("/event/:id", (req : Request, res: Response) => {
     console.log("/event/:id: received get request from client");
@@ -201,12 +291,20 @@ app.get("/event/current/org/:id", (req: Request, res: Response) => {
     });
 });
 
-app.put("/event/edit/:id", (req : Request, res: Response) => {
-    console.log("/event/edit/:id: received put request from client");
-    eventDao.editEvent(req.params.id, req.body, (status, data) => {
+app.post("/register", (req, res) => {
+    console.log(req.body);
+    userDao.addUser(req.body, (status, data) => {
         res.status(status);
         res.json(data);
     });
+});
+
+app.put("/event/edit/:id", (req : Request, res: Response) => {
+    console.log("/event/edit/:id: received put request from client");
+    eventDao.editEvent(req.params.id, req.body, (status, data) => {
+      res.status(status);
+      res.json(data);
+  });
 });
 
 app.delete("/event/delete/:id", (req : Request, res: Response) => {
@@ -427,6 +525,7 @@ app.post('/uploadRiders/:artist_id', function(req, res) {
         }
 });
 
+<<<<<<< HEAD
 app.post('/uploadHospitality_Riders/:artist_id', (req, res)=> {
     console.log("received post request for uploading hospitality_rider with artist_id: " + req.params.artist_id);
     if (!req.files || Object.keys(req.files).length === 0) {
@@ -439,6 +538,49 @@ app.post('/uploadHospitality_Riders/:artist_id', (req, res)=> {
     console.log(sampleFile);
 
     artistDao.insertHospitalityRider(sampleFile, req.params.artist_id, (status, data)=>{
+=======
+app.put("/artist/accepted/:id", (req:Request,res:Response)=>{
+    console.log("/artist/:id received an update request from client to update values in artist");
+    artistDao.setAccepted(req.params.id, req.body, (status,data)=>{
+        res.status(status);
+        res.json(data);
+    })
+});
+
+
+
+//UserEvent
+app.get("/userevent/all/:id", (req : Request, res : Response) => {
+    console.log("/test:received update request from user to get userevents");
+    eventDao.getUsersForEvent(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.put("/userevent/accepted/", (req : Request, res : Response) => {
+    console.log("/test:received update request from user to get userevents");
+    eventDao.setAccepted(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+//Event
+
+app.put("/event/accepted/:id", (req:Request,res:Response)=>{
+    console.log("/artist/:id received an update request from client to update values in artist");
+    eventDao.setAcceptedEvent(req.params.id, req.body, (status,data)=>{
+        res.status(status);
+        res.json(data);
+    })
+});
+
+//tested
+app.get("/event/all", (req : Request, res: Response) => {
+    console.log("/event/all: received get request from client");
+    eventDao.getAll((status, data) => {
+>>>>>>> c0b4fe7c772be067baab39fd553719ebc08172ca
         res.status(status);
         res.json(data);
     });
@@ -715,6 +857,84 @@ app.post("/resetToken", (req, res) => {
         }
     })
 });
+
+app.post("/event/add/notify/:event_id", (req: Request, res: Response) => {
+    console.log("/event/add/notify/:event_id received post request from client");
+    let name: string = req.body.name;
+    let job_position: number = req.body.job_position;
+    let email: string = req.body.email;
+
+    let url: string = DOMAIN + "#/showEvent/" + req.params.event_id;
+
+    let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: email,
+        subject: "Tilud om vakt",
+        text: "Hei! Du har blitt satt opp som " + job_position + " for arrangemenet: " + name + ". Besøk " + url + "."
+    };
+
+    transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Email sent!");
+        }
+
+        res.json(url);
+    });
+})
+
+app.post("/event/delete/notify/:event_id", (req: Request, res: Response) => {
+    console.log("/event/add/notify/:event_id received post request from client");
+    let name: string = req.body.name;
+    let job_position: number = req.body.job_position;
+    let email: string = req.body.email;
+
+    let url: string = DOMAIN + "#/showEvent/" + req.params.event_id;
+
+    let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: email,
+        subject: "Det er gjort endringer i din vakt",
+        text: "Hei! Du er ikke lenger satt opp på vakt på dette arrangementet: " + url
+    };
+
+    transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Email sent!");
+        }
+
+        res.json(url);
+    });
+})
+
+app.post("/event/edit/notify/:event_id", (req: Request, res: Response) => {
+    console.log("/event/add/notify/:event_id received post request from client");
+    let name: string = req.body.name;
+    let job_position: number = req.body.job_position;
+    let email: string = req.body.email;
+
+    let url: string = DOMAIN + "#/showEvent/" + req.params.event_id;
+
+    let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: email,
+        subject: "Endringer i arrangement",
+        text: "Hei! Det har blitt gjort endringer på et arrangement hvor du er satt opp på vakt. Trykk på lenken for å se endringene: " + url
+    };
+
+    transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Email sent!");
+        }
+
+        res.json(url);
+    });
+})
 
 //User
 //tested

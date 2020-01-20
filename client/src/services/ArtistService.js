@@ -12,8 +12,9 @@ export class Artist {
     riders:File;
     hospitality_riders: File;
     artist_contract: File;
+    accepted: number;
 
-    constructor(artist_id: number, event_id: number, artist_name: string, email: string, phone: string, riders:File, hospitality_riders: File, artist_contract: File) {
+    constructor(artist_id: number, event_id: number, artist_name: string, email: string, phone: string, riders:File, hospitality_riders: File, artist_contract: File, accepted: number) {
         this.artist_id = artist_id;
         this.event_id = event_id;
         this.artist_name = artist_name;
@@ -22,6 +23,9 @@ export class Artist {
         this.riders=riders;
         this.hospitality_riders = hospitality_riders;
         this.artist_contract = artist_contract;
+        this.email = email;
+        this.phone = phone;
+        this.accepted = accepted;
     }
 }
 
@@ -37,15 +41,16 @@ class ArtistService {
     getOneArtist(id: number) {
         return axios.get<Artist[]>(url + "artist/"+id).then(response => response.data[0]);
     }
-    addArtist(event_id: number, artist_name: string, email: string, phone: number, ridersFile: File, hospitality_rider: File, artist_contract: File) {
+
+    addArtist(event_id: number, artist_name: string, email: string, phone: string, ridersFile: File, hospitality_riders: File, artist_contract: File) {
         let fd_riders:FormData = new FormData();
         fd_riders.append("riders", ridersFile);
-        fd_riders.append("hospitality_rider", hospitality_rider);
+        fd_riders.append("hospitality_rider", hospitality_riders);
         fd_riders.append("artist_contract", artist_contract);
 
         console.log("ridersFile from service: ");
         console.log(ridersFile);
-        console.log(hospitality_rider);
+        console.log(hospitality_riders);
         console.log(artist_contract);
         return axios.post<{}, Artist>(url + "artist/add", {
             "event_id": event_id,
@@ -66,19 +71,35 @@ class ArtistService {
         });
     }
 
-    updateArtist(artist_id: number, artist_name, riders, hospitality_riders, artist_contract, email, phone) {
+
+    updateArtist(artist_id: number, artist_name, ridersFile: File, hospitality_ridersFile: File, artist_contract: File, email, phone) {
+        let fd_riders:FormData = new FormData();
+        fd_riders.append("riders", ridersFile);
+        fd_riders.append("hospitality_rider", hospitality_ridersFile);
+        fd_riders.append("artist_contract", artist_contract);
+
         return axios.put<{}, Event>(url + "artist/"+artist_id, {
             "artist_name": artist_name,
-            "riders": riders,
-            "hospitality_riders": hospitality_riders,
-            "artist_contract": artist_contract,
             "email": email,
             "phone": phone
-        }).then(response => response.data);
+        }).then(()=> {
+            return axios<{}>({
+                url: url +'uploadRiders/' + artist_id,
+                method: 'put',
+                data: fd_riders,
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            }).then(response=>response.data);
+        });
     }
 
     deleteArtist(id: number) {
         return axios.delete<Artist, void>(url + "artist/delete/" + id).then(response => response.data);
+    }
+
+    setAccepted(id: number, accepted: number) {
+        return axios.put<Artist, void>(url + "artist/accepted/" + id, {"accepted": accepted}).then(response => response.data);
     }
 }
 

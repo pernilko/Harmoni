@@ -1,0 +1,84 @@
+.text{
+    font-family: 'PT Serif', serif;
+}
+
+.nameCol {
+    width: 40%;
+}
+
+.positionCol {
+    width: 35%;
+}
+
+.buttonCol {
+    width: 25%;
+}
+
+.table{
+    width: 70%;
+    margin-left: 15%;
+}
+
+.tableHead{
+    background-color: #e6e6ff;
+}
+
+#topBanner{
+    height: 40px;
+    margin-left: 15px;
+    padding-top: 5px;
+    text-align: center;
+}
+
+p {
+    display: inline;
+}
+
+.buttonHorizontal{
+    display: inline-block;
+    float: right;
+}
+
+.borderControl {
+    border-right: solid #e6e6ff 4px;
+}
+
+.noBorder {
+    border: 0px;
+}
+
+.artist {
+    background-color: #e6e6ff;
+    border-radius: 6px;
+ }
+
+.artistContainer {
+}
+
+
+.redBG{
+    background: #dE685E;
+    color: white;
+}
+
+.greenBG{
+    background: linear-gradient(#92bCa6, #A2CCB6);
+}
+
+.artistCard{
+    padding-bottom: 50px;
+}
+
+
+.artistButton{
+    display: inline-block;
+    padding-right: 35%;
+    float: right;
+}
+
+.artistBanner{
+    margin-bottom: 20px;
+    height: 25px;
+    border-radius: 20px;
+    text-align: center;
+}

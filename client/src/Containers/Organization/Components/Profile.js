@@ -199,11 +199,15 @@ export class OrgProfile extends Component {
             .catch((error: Error) => console.log(error.message))
     }
     editOrg(){
-        console.log("show edit");
-        this.isDisabled = false;
-        this.border = "groove";
-        this.inEdit = true;
-        this.isAdmin = false;
+        if(userService.currentUser.privileges == 1) {
+            console.log("show edit");
+            this.isDisabled = false;
+            this.border = "groove";
+            this.inEdit = true;
+            this.isAdmin = false;
+        }else{
+            Alert.danger("ikke autorisert");
+        }
     }
     saveEdit(){
         console.log("Save edit");
@@ -230,16 +234,21 @@ export class OrgProfile extends Component {
     }
     updatePrivileges(user: User){
         //console.log(user.user_id);
-        user.p_create_event = document.getElementById(""+user.user_id+"p_create_event").checked?1:0;
-        user.p_read_contract = document.getElementById(""+user.user_id+"p_read_contract").checked?1:0;
-        user.p_read_riders = document.getElementById(""+user.user_id+"p_read_riders").checked?1:0;
-        user.p_archive = document.getElementById(""+user.user_id+"p_archive").checked?1:0;
-        console.log(user.p_create_event);
-        console.log(user.p_read_contract);
-        console.log(user.p_read_riders);
-        console.log(user.p_archive);
-        userService.updatePrivileges(user.user_id, user.p_create_event, user.p_read_contract, user.p_read_riders, user.p_archive).catch((error:Error)=>{
-            Alert.danger(error.message);
-        });
+        if(userService.currentUser.privileges == 1) {
+            user.p_create_event = document.getElementById("" + user.user_id + "p_create_event").checked ? 1 : 0;
+            user.p_read_contract = document.getElementById("" + user.user_id + "p_read_contract").checked ? 1 : 0;
+            user.p_read_riders = document.getElementById("" + user.user_id + "p_read_riders").checked ? 1 : 0;
+            user.p_archive = document.getElementById("" + user.user_id + "p_archive").checked ? 1 : 0;
+            userService.updatePrivileges(user.user_id, user.p_create_event, user.p_read_contract, user.p_read_riders, user.p_archive).then(()=>{
+                userService.currentUser.p_create_event = user.p_create_event;
+                userService.currentUser.p_read_contract = user.p_read_contract;
+                userService.currentUser.p_read_riders = user.p_read_riders;
+                userService.currentUser.p_archive = user.p_archive;
+            }).catch((error: Error) => {
+                Alert.danger(error.message);
+            });
+        }else{
+            Alert.danger("ikke autorisert");
+        }
     }
 }
