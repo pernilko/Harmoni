@@ -184,6 +184,7 @@ export class RegistrationForm extends Component {
                 this.addTickets(response[0]["LAST_INSERT_ID()"], this.tickets);
                 this.addArtists(response[0]["LAST_INSERT_ID()"], this.artists);
                 this.addEmployee(response[0]["LAST_INSERT_ID()"], this.employees);
+                this.notify(response[0]["LAST_INSERT_ID()"], this.eventName, this.employees);
                 //history.push("/event/"+response[0]["LAST_INSERT_ID()"]);
             })
             .catch((error: Error) => console.log(error.message))
@@ -228,17 +229,18 @@ export class RegistrationForm extends Component {
         });
     }
 
-    /*
-    notify(name: string, employees: UserEvent[]) {
+    
+    notify(val: number, name: string, employees: UserEvent[]) {
         console.log("INVITER: ", employees);
 
         employees.map(e => {
             if (e) {
                 userEventService
-
+                    .notify(val, name, e.job_position, e.email)
+                    .then(response => console.log(response))
             }
         })
-    }*/
+    }
 
     cancel(){
       history.push("/allEvents");

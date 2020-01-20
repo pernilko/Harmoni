@@ -721,7 +721,28 @@ app.get("/event/search/:name/:org_id", (req: Request, res: Response) => {
 
 app.post("/event/add/notify/:event_id", (req: Request, res: Response) => {
     console.log("/event/add/notify/:event_id received post request from client");
+    let name: string = req.body.name;
+    let job_position: number = req.body.job_position;
+    let email: string = req.body.email;
     
+    let url: string = DOMAIN + "#/showEvent/" + req.params.event_id;
+
+    let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: email,
+        subject: "Tilud om vakt",
+        text: "Hei! Du har blitt satt opp som " + job_position + " for arrangemenet: " + name + ". Besøk " + url + "." 
+    };
+
+    transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Email sent!");
+        }
+
+        res.json(url);
+    });
 })
 
 //User
