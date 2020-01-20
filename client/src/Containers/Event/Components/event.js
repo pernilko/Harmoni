@@ -90,6 +90,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         eventService
           .cancelEvent(event_id)
           .then((response) => {
+              this.sendCancellationMail();
               console.log(response);
               history.push("/cancel/" + event_id);
               Alert.danger("Arrangementet ble avlyst");
@@ -113,9 +114,14 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                 this.email = "";
             })
             .catch((error: Error) => console.log(error.message))
+    }
 
-
-
+    sendCancellationMail(){
+        organizationService.sendCancellationMail("pernilko@stud.ntnu.no", userService.currentUser.org_id, organizationService.currentOrganization.org_name, this.event_id)
+            .then((e) => {
+                Alert.success("Mail regarding the cancellation is sent to staff involved!");
+                this.email = "";
+            }).catch((error: Error) => console.log(error.message))
     }
 }
 // <MapContainer lat={this.state["event"].latitude} lng={this.state["event"].longitude}/>
