@@ -72,6 +72,16 @@
 
 }
 
+.text-block-all{
+    position: absolute;
+    text-align: center;
+    top: 0%;
+    width: 100%;
+    height: 40%;
+    background-color: rgba(133, 0, 0, 0.65);
+    color: white;
+    font-size: 7.15vw;
+}
 
 a{
     color: #183248;

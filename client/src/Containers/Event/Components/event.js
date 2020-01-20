@@ -8,7 +8,7 @@ import MapContainer from "./map";
 import Popup from "reactjs-popup";
 import { createHashHistory } from 'history';
 import {organizationService} from "../../../services/OrganizationService";
-import {User, userService} from "../../../services/UserService";
+import {userService} from "../../../services/UserService";
 import {UserEvent, userEventService} from "../../../services/UserEventService";
 
 const history = createHashHistory();
@@ -29,6 +29,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         };
         this.mounted = this.mounted.bind(this);
     }
+
     render() {
         if(this.loaded){
             let e: Event = this.state["event"];
@@ -130,6 +131,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             return <div/>
         }
     }
+
     mounted() {
         this.getEvent();
         this.getEmployees();
@@ -167,9 +169,6 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
     show(){
         this.hidden = false;
     }
-    show2(){
-        this.cancel = false;
-    }
 
     sendReport(){
         organizationService.reportBug("pernilko@stud.ntnu.no", userService.currentUser.org_id, organizationService.currentOrganization.org_name, this.bugreport)
@@ -195,3 +194,8 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         })
     }
 }
+
+
+
+// <MapContainer lat={this.state["event"].latitude} lng={this.state["event"].longitude}/>
+
