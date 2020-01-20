@@ -214,6 +214,11 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                 this.state.artists.map(a=>{
                     console.log("Artist: "+a.artist_id);
                     artistService.getArtistRider(a.artist_id).then(res =>{
+                        let blob = new Blob([res], {type: "pdf"});
+                        let url = URL.createObjectURL(blob);
+                        console.log("URL: ", url);
+                        console.log("RES: ", res);
+
                         a.riders= new File(res.data.data, res.name, {type: res.mimetype});
                         console.log(a.riders);
                         this.setState({artists});

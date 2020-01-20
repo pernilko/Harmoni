@@ -9,9 +9,9 @@ import {Row, Alert} from '../../../widgets';
 import {sharedComponentData} from 'react-simplified';
 import Form from 'react-bootstrap/Form';
 
+
 const history = createHashHistory();
 let emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
 
 export class Profile extends Component{
   user: User = new User();
@@ -77,7 +77,7 @@ export class Profile extends Component{
                       <Form.Group>
                           <Form.Label>Last opp bilde</Form.Label>
                           <Form.Control type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.user.image =
-                            event.target.value}}/>
+                            event.target.file[0]}}/>
                       </Form.Group>
                       <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.changePB}>Endre</Button>
                       <br/>
@@ -173,6 +173,7 @@ export class Profile extends Component{
   }
   // Change profile picture
   changePB(){
+    console.log("BILDE: ", this.user.image);
     if(this.user.image.length !==0){
       userService
         .updateImage(userService.currentUser.user_id, this.user.image)

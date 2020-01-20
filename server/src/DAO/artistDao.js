@@ -54,7 +54,7 @@ module.exports = class artistDao extends Dao {
     }
     getRiders(artist_id: number, callback: function){
         super.query(
-            "SELECT * FROM ridersFile WHERE artist_id = ?",[artist_id], callback
+            "SELECT data FROM ridersFile WHERE artist_id = ?",[artist_id], callback
         );
     }
 

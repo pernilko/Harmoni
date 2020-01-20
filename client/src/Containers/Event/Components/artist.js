@@ -135,7 +135,7 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
 export class ArtistDetails extends Component {
 
     artist: Artist[] = [];
-    render(){
+    render() {
         return (
             <div className="card">
                 <div className="card-header">

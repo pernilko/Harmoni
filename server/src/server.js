@@ -8,7 +8,45 @@ const publicKEY = require('./keys/public.json');
 let jwt = require("jsonwebtoken");
 let bodyParser = require("body-parser");
 let nodemailer = require("nodemailer");
-let config: {host: string, user: string, password: string, email: string, email_passord: string} = require("./config")
+let config: {host: string, user: string, password: string, email: string, email_passord: string} = require("./config");
+const path = require("path");
+const {Storage} = require('@google-cloud/storage');
+const multer = require('multer');
+
+
+const gc = new Storage({
+    keyFilename: path.join(__dirname, '../harmoni_google_cloud.json'),
+    projectId: 'profound-veld-253208'
+});
+
+//gc.getBuckets().then(x => console.log(x));
+
+const bucketName = 'harmoni-files';
+
+async function uploadFile(filename: string) {
+    await gc.bucket(bucketName).upload(filename, {
+        resumable: false,
+        gzip: true,
+        metadata: {
+            cacheControl: 'public, max-age=31536000',
+        }
+    });
+
+    console.log(`${filename} uploaded to ${bucketName}.`);
+}
+
+//uploadFile(path.join(__dirname, "../test.txt"));
+
+let storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now())
+  }
+});
+ 
+var upload = multer({ storage: storage })
 
 let app = express();
 app.use(bodyParser.json());
@@ -89,6 +127,16 @@ app.use("/api", (req, res, next) => {
             next();
         }
     });
+});
+
+app.post('/uploadfile', upload.single('myFile'), (req, res, next) => {
+  const file = req.file
+  if (!file) {
+    const error = new Error('Please upload a file')
+    error.httpStatusCode = 400
+    return next(error)
+  }
+    res.send(file)
 });
 
 app.post('/uploadRiders/:artist_id', function(req, res) {
@@ -777,6 +825,7 @@ app.put("/Profile/editImage/:id", (req, res) =>{
     userDao.updateUserImage(req.params.id, req.body, (status, data) => {
         res.status(status);
         res.json(data);
+        uploadFile(req.body.image);
     });
 });
 
