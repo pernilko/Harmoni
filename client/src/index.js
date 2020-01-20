@@ -24,6 +24,7 @@ import {OrgProfile} from "./Containers/Organization/Components/Profile";
 import {resetPass} from "./Containers/Organization/Components/resetPass";
 import {ShowTab} from './Containers/Event/Components/showTab';
 import {verifyEmail} from "./Containers/Organization/Components/verifyEmail";
+import { cancelledEvent } from './Containers/Event/Components/cancelledEvent';
 
 
 const root = document.getElementById('root');
@@ -50,6 +51,7 @@ if (root)
         <Route exact path = "/alleEvents" render = {(props) => <ShowTab all={true}/>}/>
         <Route exact path = "/mineEvents" render = {(props) => <ShowTab all={false}/>}/>
         <Route path = "/verifyEmail/:token" component={verifyEmail}/>
+        <Route exact path = "/cancel/:id" component={cancelledEvent}/>
       </div>
     </HashRouter>,
     root

@@ -17,6 +17,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
     event_id = this.props.match.params.id;
     loaded: boolean = false;
     hidden: boolean = true;
+    cancel: boolean = true;
     bugreport: string = "";
 
     constructor(props){
@@ -52,11 +53,11 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                             <a href={"#/editEvent/"+this.event_id} className="card-link">Rediger</a>
                             <Popup trigger = {<a className="card-link">Avlys arrangement</a>} >
                                 { close => (
-                                    <div>
-                                        <p><b>Vil du avlyse dette arrangementet?</b></p>
-                                        <button className="btn btn-warning float-left ml-3" onClick={() => {close();}}>Nei</button>
-                                        <button className="btn btn-success float-right mr-3" onClick={() => this.cancelled(this.event_id)}>Ja</button>
-                                    </div>
+                                  <div>
+                                      <p><b>Vil du avlyse dette arrangementet?</b></p>
+                                      <button className="btn btn-warning float-left ml-3" onClick={() => {close();}}> Nei</button>
+                                      <button className="btn btn-success float-right mr-3" onClick={() => this.cancelled(this.event_id)}>Ja</button>
+                                  </div>
                                 )}
                             </Popup>
                             <a href={"#/showEvent/" + this.event_id} className="card-link" onClick={this.show}> Rapporter problem
@@ -67,7 +68,6 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                     <button className="btn btn-primary submit" style={{margin:10 +'px'}} onClick={this.sendReport}>Rapporter problem</button>
                                 </div>
                             </a>
-
                             <br/>
                             <MapContainer lat={e.latitude} lng={e.longitude} show={true}/>
                         </div>
@@ -86,16 +86,23 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             this.loaded = true;
         })
     }
-    cancelled(event_id: number){
+    cancelled(event_id: number) {
         eventService
-            .cancelEvent(event_id)
-            .then(response => console.log(response))
-            .then(() => history.push("/allEvents"))
-            .then(Alert.danger("Arrangementet ble avlyst"))
-            .catch((error: Error) => console.log(error.message));
+          .cancelEvent(event_id)
+          .then((response) => {
+              console.log(response);
+              history.push("/cancel/" + event_id);
+              Alert.danger("Arrangementet ble avlyst");
+              this.cancel = true;
+          })
+          .catch((error: Error) => console.log(error.message));
     }
+
     show(){
         this.hidden = false;
+    }
+    show2(){
+        this.cancel = false;
     }
 
     sendReport(){

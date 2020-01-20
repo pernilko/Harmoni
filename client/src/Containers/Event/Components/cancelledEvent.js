@@ -76,7 +76,7 @@ export class cancelledEvent extends Component<{ match: { params: { id: number } 
       this.loaded = true;
     })
   }
-  
+
   show(){
     this.hidden = false;
   }
