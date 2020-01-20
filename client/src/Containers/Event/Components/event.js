@@ -181,7 +181,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                 let artists = r;
                 console.log(artists);
                 this.setState({artists});
-                this.state.artist.map(a=>{
+                this.state.artists.map(a=>{
                     console.log(a);
                     artistService.getArtistRider(a.artist_id).then(res=>{
                         a.riders=res;

@@ -23,7 +23,7 @@ module.exports = class ticketDao extends Dao {
 
     getNumberOfRemainingTickets(event_id: number, callback: function) {
         super.query(
-            "SELECT amount-amount_sold AS remaining FROM ticket ", [event_id],
+            "SELECT amount-amount_sold AS remaining FROM ticket WHERE event_id = ?", [event_id],
             callback
         );
     }
@@ -31,7 +31,7 @@ module.exports = class ticketDao extends Dao {
     addTicket(json: {event_id: number, ticket_type: string, amount: number, description: string, price: number, amount_sold: number}, callback: function) {
         super.query(
             "INSERT INTO ticket(event_id, ticket_type, amount, description, price, amount_sold) VALUES (?,?,?,?,?,?)",
-            [json.event_id, json.ticket_type, json.amount,json.description, json.price, json.amount, json.amount_sold], callback
+            [json.event_id, json.ticket_type, json.amount, json.description, json.price, json.amount_sold], callback
         );
     }
 

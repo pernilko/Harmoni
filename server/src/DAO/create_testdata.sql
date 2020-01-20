@@ -9,9 +9,9 @@ INSERT INTO user VALUES(DEFAULT, 2, "wallah@gmail.com", 0, "Brusjan Jesus", "321
 INSERT INTO user VALUES(DEFAULT, 3, "hola@gmail.com", 0, "Grethe Sandstrak", "1337", "NTNU 4.life", "11111", NULL, DEFAULT);
 
 
-INSERT INTO event VALUES (DEFAULT, 2, 1, "Konsert med Karpe", "MONTEBELLO", "Kalveskinnet kantina", CURRENT_DATE, CURRENT_DATE, 123, 222, NULL);
-INSERT INTO event  VALUES (DEFAULT, 3, 2, "Fotball-turnering", "BARCELONA", "Sukkerhuset", CURRENT_DATE, CURRENT_DATE, 223, 232, NULL);
-INSERT INTO event VALUES (DEFAULT, 2, 3, "Spillkveld", "Gamers Rise Up", "Torget", CURRENT_DATE, CURRENT_DATE, 777, 666, NULL);
+INSERT INTO event VALUES (DEFAULT, 2, 1, "Konsert med Karpe", "MONTEBELLO", "Kalveskinnet kantina", CURRENT_DATE, CURRENT_DATE, 123, 222, NULL, FALSE);
+INSERT INTO event  VALUES (DEFAULT, 3, 2, "Fotball-turnering", "BARCELONA", "Sukkerhuset", CURRENT_DATE, CURRENT_DATE, 223, 232, NULL, TRUE);
+INSERT INTO event VALUES (DEFAULT, 2, 3, "Spillkveld", "Gamers Rise Up", "Torget", CURRENT_DATE, CURRENT_DATE, 777, 666, NULL, FALSE);
 
 
 INSERT INTO user_event VALUES(1, 1, "lydtekniker", 1);

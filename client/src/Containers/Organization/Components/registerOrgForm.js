@@ -10,7 +10,6 @@ import{Component} from 'react-simplified';
 import {Alert} from "../../../widgets";
 import {Col} from "react-bootstrap";
 import { createHashHistory } from 'history';
-
 const history = createHashHistory();
 
 let emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -134,12 +133,25 @@ export class RegOrganization extends Component {
     else if(this.user.email.length !=0 && this.user.address.length != 0 && this.user.user_name.length!=0
         &&this.user.phone.length != 0 && emailRegEx.test(this.user.email)){
       console.log(this.organization.org_name);
+      /*
       organizationService.addOrganization(this.organization.org_name, this.organization.phone, this.organization.email)
           .then(response=>{
-            userService.register(response[0].org_id,this.user.email, this.user.privileges, this.user.user_name, this.user.password, this.user.address, this.user.phone, this.user.image);
+            userService.register(response[0].org_id, this.user.email, 1, this.user.user_name, this.user.password, this.user.address, this.user.phone, this.user.image);
           }).then(()=>Alert.success("Du og din organisasjon ble registret"))
           .then(()=>history.push("/Login"))
           .catch((error:Error)=>Alert.danger(error.message));
+       */
+      userService.verifiserAdminOgOrg(this.organization.org_name,
+          this.organization.email,
+          this.organization.phone,
+          this.user.email,
+          1,
+          this.user.user_name,
+          this.user.password, this.user.address, this.user.phone).then(res=>{
+            Alert.success("En verifiserings-Email har blitt sendt til din personlige Email-bruker");
+      }).catch((error:Error)=>{
+        Alert.danger(error.message);
+      })
     }else{
       Alert.danger("alle felt må fylles og passord må ha minst 8 bokstaver");
     }
