@@ -50,6 +50,12 @@ export class inviteUser extends Component {
         return <Spinner animation="border"/>
       }
     }
+    mounted(){
+        if(!localStorage.getItem("token")){
+            Alert.danger("Innlogging kreves");
+            history.push("/login");
+        }
+    }
 
     send() {
       if (this.email == "") {

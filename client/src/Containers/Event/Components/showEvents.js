@@ -8,6 +8,7 @@ import {userService} from "../../../services/UserService";
 import {userEventService} from "../../../services/UserEventService";
 import {Spinner} from "react-bootstrap";
 import "./showEvents.css";
+const history = createHashHistory();
 
 export class EventList extends Component<{user: boolean, time: number}>{
     loaded: boolean = false;
@@ -157,6 +158,12 @@ export class EventList extends Component<{user: boolean, time: number}>{
               this.loaded = true;
           })
       }
+    }
+    mounted(){
+        if(!localStorage.getItem("token")){
+            Alert.danger("Innlogging kreves");
+            history.push("/login");
+        }
     }
 
     loadContent(){

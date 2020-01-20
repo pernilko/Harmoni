@@ -24,6 +24,8 @@ import {OrgProfile} from "./Containers/Organization/Components/Profile";
 import {resetPass} from "./Containers/Organization/Components/resetPass";
 import {ShowTab} from './Containers/Event/Components/showTab';
 import {verifyEmail} from "./Containers/Organization/Components/verifyEmail";
+import { createHashHistory } from 'history';
+const history = createHashHistory();
 
 
 const root = document.getElementById('root');    
@@ -55,3 +57,7 @@ if (root)
     root
   );
 userService.autoLogin();
+
+if(!localStorage.getItem("token")){
+  history.push("/login");
+}

@@ -89,7 +89,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                                 <h6> Epost: {a.email}</h6>
                                                 <h6> tlf: {a.phone} </h6>
                                             </p>
-                                            <a href={""}> nedlasting av filer skjer her </a>
+                                            <a hidden = {userService.currentUser.p_read_contract < 1 && userService.currentUser.privileges != 1} href={""}> nedlasting av filer skjer her </a>
                                             <br/>
 
                                             <div className={"buttonContainer"}>
@@ -203,6 +203,10 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         }
     }
     load() {
+        if(!localStorage.getItem("token")){
+            Alert.danger("Innlogging kreves");
+            history.push("/login");
+        }
         if (userService.currentUser) {
             eventService.getEventId(this.event_id).then(r => {
                 let event = r;

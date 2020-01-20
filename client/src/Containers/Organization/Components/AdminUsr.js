@@ -7,6 +7,8 @@ import { Button, Col } from 'react-bootstrap';
 import {Component} from 'react-simplified';
 import {Organization, organizationService} from "../../../services/OrganizationService";
 import {Alert} from "../../../widgets";
+import { createHashHistory } from 'history';
+const history = createHashHistory();
 
 export class AdminUsrForm extends Component <{hidden: boolean, organization: Organization}>{
   admin: User = new User();
@@ -68,6 +70,10 @@ export class AdminUsrForm extends Component <{hidden: boolean, organization: Org
     )
   }
   mounted() {
+      if(!localStorage.getItem("token")){
+        Alert.danger("Innlogging kreves");
+        history.push("/login");
+      }
     return undefined;
   }
 
