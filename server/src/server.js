@@ -8,9 +8,11 @@ let jwt = require("jsonwebtoken");
 let bodyParser = require("body-parser");
 let nodemailer = require("nodemailer");
 let config: {host: string, user: string, password: string, email: string, email_passord: string} = require("./config")
-
+const nettavis = require("../api/Nettavis.js");
 let app = express();
+
 app.use(bodyParser.json());
+app.use('/nettavis', nettavis);
 
 let DOMAIN = "localhost:3000/"
 
