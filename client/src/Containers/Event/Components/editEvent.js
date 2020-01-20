@@ -18,6 +18,8 @@ import {del_artist} from "./artist";
 import {del_ticket} from "./ticketDropdown";
 import {del_employee} from "./employees";
 import {sharedComponentData} from "react-simplified";
+import {Spinner} from "react-bootstrap";
+import Popup from "reactjs-popup";
 
 const history = createHashHistory();
 
@@ -43,83 +45,114 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     endTime: number = null;
     lat: float = 0;
     lng: float = 0;
-    loaded: bool = false;
+    loaded: boolean = false;
+    restLoaded = false;
     empDet: any = null;
+    changed: boolean = false;
 
     render() {
+        if(!this.loaded){
+            this.load();
+            this.loaded = true;
+        }
         if (this.event && this.tickets && this.artists && userService.currentUser) {
-            return (
-                <div>
-                    <div className="card-header">
-                        <div className="form-inline">
-                            <h2>Rediger arrangementet</h2>
-                        </div>
-                    </div>
-                    <form className="card-body">
-                        <div className="form-group">
-                            <label>Arrangement navn:</label>
-                            <input className="form-control" placeholder="Skriv inn navn her"
-                                   value={this.event.event_name}
-                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.event_name = event.target.value)}/>
-                        </div>
-                        <div className="form-group">
-                            <label>Lokasjon:</label>
-                            <input className="form-control" placeholder="Skriv inn addresse" value={this.event.place}
-                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.place = event.target.value)}/>
-                        </div>
-                        <div className="form-group">
-                            <label>Beskrivelse:</label>
-                            <textarea className="form-control" defaultValue={this.event.description}
-                                      onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.description = event.target.value)}/>
-                        </div>
-                        <div className="form-inline">
-                            <div className="row">
-                                <div className="col">
-                                    <label>Start dato:</label>
-                                    <input id="startdate" className="form-control" type="date" value={this.startDate}
-                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startDate = event.target.value)}/>
-                                </div>
-                                <div className="col">
-                                    <label>Start tid:</label>
-                                    <input className="form-control" type="time" value={this.startTime}
-                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startTime = event.target.value)}/>
-                                </div>
-                                <div className="col">
-                                    <label>Slutt dato:</label>
-                                    <input id="enddate" className="form-control" type="date" value={this.endDate}
-                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endDate = event.target.value)}/>
-                                </div>
-                                <div className="col">
-                                    <label>Slutt tid:</label>
-                                    <input className="form-control" type="time" value={this.endTime}
-                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endTime = event.target.value)}/>
-                                </div>
+            if(this.event.user_id == userService.currentUser.user_id || userService.currentUser.privileges == 1) {
+                if(!this.restLoaded){
+                    this.loadRest();
+                    this.restLoaded = true;
+                }
+                return (
+                    <div>
+                        <div className="card-header">
+                            <div className="form-inline">
+                                <h2>Rediger arrangementet</h2>
                             </div>
                         </div>
-                        <div className="form-group" style={{marginTop: 20 + "px"}}>
-                            <ArtistDetails/>
-                        </div>
-                        <div className="form-group" style={{marginTop: 20 + "px"}}>
-                            <TicketDetails/>
-                        </div>
-                        <div className="form-group" style={{marginTop: 20+"px"}}>
-                        <EmployeesDetails/>
+                        <form className="card-body">
+                            <div className="form-group">
+                                <label>Arrangement navn:</label>
+                                <input className="form-control" placeholder="Skriv inn navn her"
+                                       value={this.event.event_name}
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.event_name = event.target.value)}/>
+                            </div>
+                            <div className="form-group">
+                                <label>Lokasjon:</label>
+                                <input className="form-control" placeholder="Skriv inn addresse"
+                                       value={this.event.place}
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.place = event.target.value)}/>
+                            </div>
+                            <div className="form-group">
+                                <label>Beskrivelse:</label>
+                                <textarea className="form-control" defaultValue={this.event.description}
+                                          onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.description = event.target.value)}/>
+                            </div>
+                            <div className="form-inline">
+                                <div className="row">
+                                    <div className="col">
+                                        <label>Start dato:</label>
+                                        <input id="startdate" className="form-control" type="date"
+                                               value={this.startDate}
+                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startDate = event.target.value)}/>
+                                    </div>
+                                    <div className="col">
+                                        <label>Start tid:</label>
+                                        <input className="form-control" type="time" value={this.startTime}
+                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startTime = event.target.value)}/>
+                                    </div>
+                                    <div className="col">
+                                        <label>Slutt dato:</label>
+                                        <input id="enddate" className="form-control" type="date" value={this.endDate}
+                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endDate = event.target.value)}/>
+                                    </div>
+                                    <div className="col">
+                                        <label>Slutt tid:</label>
+                                        <input className="form-control" type="time" value={this.endTime}
+                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endTime = event.target.value)}/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="form-group" style={{marginTop: 20 + "px"}}>
+                                <ArtistDetails/>
+                            </div>
+                            <div className="form-group" style={{marginTop: 20 + "px"}}>
+                                <TicketDetails/>
+                            </div>
+                            <div className="form-group" style={{marginTop: 20 + "px"}}>
+                                <EmployeesDetails/>
+                            </div>
+                            <h2> Velg lokasjon på kartet: </h2>
+                            <MapContainer lat={this.event.latitude} lng={this.event.longitude} show={true} edit={true}/>
+                            <div className="btn-group" style={{width: "20%", marginLeft: "40%", padding: "20px"}}>
+                                <Popup trigger={<a
+                                    className="btn btn-success">Lagre</a>}>
+                                    {close => (
+                                        <div>
+                                            <p><b>Vil du varsle personalet om endringen(e)?</b></p>
+                                            <button className="btn btn-warning float-left ml-3" onClick={() => {
+                                                this.edit(false);
+                                            }}>Nei
+                                            </button>
+                                            <button className="btn btn-success float-right mr-3"
+                                                    onClick={() => this.edit(true)}>Ja
+                                            </button>
+                                        </div>
+                                    )}
+                                </Popup>
+                                <button className="btn btn-danger" type="button" onClick={this.cancel}>Avbryt</button>
+                            </div>
+                        </form>
                     </div>
-                    <h2> Velg lokasjon på kartet: </h2>
-                    <MapContainer lat={this.event.latitude} lng={this.event.longitude} show={true} edit={true}/>
-                        <div className="btn-group" style={{width: "20%", marginLeft: "40%", padding: "20px"}}>
-                            <button className="btn btn-success" type="button" onClick={this.edit}>Lagre</button>
-                            <button className="btn btn-danger" type="button" onClick={this.cancel}>Avbryt</button>
-                        </div>
-                    </form>
-                </div>
-            )
+                )
+            }else{
+                Alert.danger("ikke autorisert");
+                return <div></div>
+            }
         } else {
-            return <div>Something went wrong :(</div>
+            return <Spinner animation="border"></Spinner>
         }
     }
     
-    mounted() {
+    load() {
         eventService
             .getEventId(this.props.match.params.event_id)
             .then(event => {
@@ -128,9 +161,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 this.startTime = this.event.event_start.slice(11,16);
                 this.endDate = this.event.event_end.slice(0,10);
                 this.endTime = this.event.event_end.slice(11,16);
-                this.getArtists(this.props.match.params.event_id);
-                this.getTickets(this.props.match.params.event_id);
-                this.getEmployees(this.props.match.params.event_id);
+                this.eventLoaded = true;
             })
             /*
             .then(() => {
@@ -138,6 +169,11 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 this.getTickets(this.props.match.params.event_id);
                 this.getEmployees(this.props.match.params.event_id);
             })*/
+    }
+    loadRest(){
+        this.getArtists(this.props.match.params.event_id);
+        this.getTickets(this.props.match.params.event_id);
+        this.getEmployees(this.props.match.params.event_id);
     }
 
     getArtists(val: number) {
@@ -177,7 +213,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             })
     }
 
-    edit(){
+    edit(sendMail: boolean){
         this.lat = getlatlng()[0];
         this.lng = getlatlng()[1];
         //console.log(this.startDate);
@@ -197,6 +233,15 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 this.deleteTickets(del_ticket);
                 this.deleteEmployees(del_employee);
                 this.addEmployees(this.add_employees);
+                if (sendMail) {
+                    this.notifyAdd(this.props.match.params.event_id, this.event.event_name, this.add_employees);
+                    this.notifyDelete(this.props.match.params.event_id, this.event.event_name, del_employee);
+                }
+                console.log(this.employees.length);
+                console.log(original_employees.length);
+                if (this.add_employees.length == 0 && del_employee.length == 0) {
+                    this.notifyEdit(this.props.match.params.event_id, this.event.event_name, original_employees);
+                }
             })
             .catch((error: Error) => Alert.danger(error.message));
         history.push("/allEvents");
@@ -269,7 +314,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                     }
                 });
                 if (!found) {
-                    let emp: UserEvent = new UserEvent(e.user_id, parseInt(this.props.match.params.event_id), e.job_position, e.user_name, 2);
+                    let emp: UserEvent = new UserEvent(e.user_id, parseInt(this.props.match.params.event_id), e.job_position, e.user_name, e.email, 2);
                     add.push(emp);
                 }
             }
@@ -299,7 +344,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         console.log("ADD ARTISTS: ", artists);
         artists.map(a => {
             artistService
-                .addArtist(this.props.match.params.event_id, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone)
+                .addArtist(this.props.match.params.event_id, a.artist_name, a.email, a.phone, a.riders, a.hospitality_riders, a.artist_contract)
                 .then(response => console.log(response))     
         })  
     }
@@ -351,6 +396,42 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 .deleteUserEvent(e.user_id, e.event_id)
                 .then(response => console.log(response))
                 .catch((error: Error) => console.log(error.message))
+        })
+    }
+
+    notifyAdd(val: number, name: string, employees: UserEvent[]) {
+        console.log("INVITER: ", employees);
+
+        employees.map(e => {
+            if (e) {
+                userEventService
+                    .notify(val, name, e.job_position, e.email)
+                    .then(response => console.log(response))
+            }
+        })
+    }
+
+    notifyDelete(val: number, name: string, employees: UserEvent[]) {
+        console.log("INVITER: ", employees);
+
+        employees.map(e => {
+            if (e) {
+                userEventService
+                    .notifyDelete(val, name, e.job_position, e.email)
+                    .then(response => console.log(response))
+            }
+        })
+    }
+
+    notifyEdit(val: number, name: string, employees: UserEvent[]) {
+        console.log("INVITER: ", employees);
+
+        employees.map(e => {
+            if (e) {
+                userEventService
+                    .notifyEdit(val, name, e.job_position, e.email)
+                    .then(response => console.log(response))
+            }
         })
     }
 }

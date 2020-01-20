@@ -34,12 +34,16 @@ export class cancelledEvent extends Component<{ match: { params: { id: number } 
       return (
         <div className={"w-50 mx-auto shadow-lg mt-4"}>
           <div className="card card-cascade wider reverse C">
-            <div className="view view-cascade overlay">
+            <div className="view view-cascade overlay container">
               <img className="card-img-top shadow-lg"
                    src="https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg"
-                   alt="Card image cap"></img>
+                   alt="Card image cap"
+                   style={{filter:"grayscale(90%"}}/>
+                   <div className="text-block">
+                     <p>Avlyst</p>
+                   </div>
               <a href="#!">
-                <div className="mask rgba-white-slight"></div>
+                <div className="mask rgba-white-slight"> </div>
               </a>
             </div>
             <div className="card-body card-body-cascade text-center">
@@ -47,7 +51,7 @@ export class cancelledEvent extends Component<{ match: { params: { id: number } 
               <h6 className="font-weight-bold indigo-text py-2">{e.place}</h6>
               <h6 className="card-subtitle mb-2 text-muted"> <b></b> {e.event_start.slice(0, 10)}, {e.event_start.slice(11, 16)}-{e.event_end.slice(11, 16)}</h6>
               <p className="card-text">{e.description}</p>
-              <p>INFO ARRANGEMENT KAN VÆRE HER </p>
+              <p className="text-muted">INFO ARRANGEMENT KAN VÆRE HER </p>
               <a href={"#/showEvent/" + this.event_id} className="card-link" onClick={this.show}> Rapporter problem
                 <div hidden={this.hidden}>
                   <textarea rows="4" cols="40"

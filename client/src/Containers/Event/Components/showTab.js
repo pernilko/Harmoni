@@ -18,10 +18,13 @@ export class ShowTab extends Component<{all: boolean}>{
                     <h1>Alle Arrangement</h1>
                     <Tabs>
                       <div label="Tidligere">
-                          <EventList user={false} prev={true}/>
+                          <EventList user={false} time={0}/>
+                      </div>
+                      <div label="Pågående">
+                          <EventList user={false} time={1}/>
                       </div>
                       <div label="Kommende">
-                          <EventList user={false} prev={false}/>
+                          <EventList user={false} time={2}/>
                       </div>
                     </Tabs>
                   </div>
@@ -38,10 +41,13 @@ export class ShowTab extends Component<{all: boolean}>{
                     <h1>Mine Arrangement</h1>
                     <Tabs>
                       <div label="Tidligere">
-                          <EventList user={true} prev={true}/>
+                          <EventList user={true} time={0}/>
+                      </div>
+                      <div label="Pågående">
+                          <EventList user={false} time={1}/>
                       </div>
                       <div label="Kommende">
-                          <EventList user={true} prev={false}/>
+                          <EventList user={true} time={2}/>
                       </div>
                     </Tabs>
                   </div>

@@ -9,7 +9,7 @@ import {userEventService} from "../../../services/UserEventService";
 import {Spinner} from "react-bootstrap";
 import "./showEvents.css";
 
-export class EventList extends Component<{user: boolean, prev: boolean}>{
+export class EventList extends Component<{user: boolean, time: number}>{
     loaded: boolean = false;
     ready: boolean = false;
     eventURL: string = "#/showEvent/";
@@ -83,6 +83,7 @@ export class EventList extends Component<{user: boolean, prev: boolean}>{
                                                   </div>
                                               </div> : <></>) : <></>}
                                         </div>
+                                    : <></>) : <></>}
                                     </div>
                                 </div>
                             )}else{
@@ -178,33 +179,45 @@ export class EventList extends Component<{user: boolean, prev: boolean}>{
     }
 
     load(){
-        if (this.props.user && this.props.prev) {
+        if (this.props.user && this.props.time == 0) {
             eventService.getEventsPreviousByUser_id(userService.currentUser.user_id).then(res => {
                 let events = res;
                 this.setState({events});
                 this.loaded = true;
             })
-        } else if (this.props.user){
-          console.log("hei");
+        } else if (this.props.user && this.props.time == 1){
+            eventService.getEventsCurrentByUser_id(userService.currentUser.user_id).then(res => {
+                let events = res;
+                console.log(events);
+                this.setState({events});
+                this.loaded = true;
+            })
+        } else if (this.props.user && this.props.time == 2){
             eventService.getEventsUpcomingByUser_id(userService.currentUser.user_id).then(res => {
                 let events = res;
                 console.log(events);
                 this.setState({events});
                 this.loaded = true;
             })
-        } else if (this.props.prev){
+        } else if (this.props.time == 0){
             eventService.getEventsPreviousByOrg_id(userService.currentUser.org_id).then(res => {
                 let events = res;
                 this.setState({events});
                 this.loaded = true;
             })
-        } else {
-            eventService.getEventsUpcomingByOrg_id(userService.currentUser.org_id).then(res => {
+        } else if (this.props.time == 1){
+            eventService.getEventsCurrentByOrg_id(userService.currentUser.org_id).then(res => {
                 let events = res;
                 this.setState({events});
                 this.loaded = true;
             })
-        }
+        } else if (this.props.time == 2){
+            eventService.getEventsUpcomingByOrg_id(userService.currentUser.org_id).then(res => {
+              let events = res;
+              this.setState({events});
+              this.loaded = true;
+          })
+      }
     }
 
     loadContent(){

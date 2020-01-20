@@ -52,6 +52,31 @@ module.exports = class artistDao extends Dao {
             callback
         );
     }
+    updateRiders(riders_file: any, artist_id: number, callback: function){
+        super.query(
+            "UPDATE ridersFile  SET name = ?, data = ?, size = ?, encoding = ?, tempFilePath = ?, truncated = ?, mimetype = ?, md5 = ? WHERE artist_id = ?",
+            [riders_file.name, riders_file.data, riders_file.size, riders_file.encoding, riders_file.tempFilePath, riders_file.truncated, riders_file.mimetype, riders_file.md5, artist_id],
+            callback
+        );
+    }
+    updateHospitalityRiders(hospitality_riders_file: any, artist_id: number, callback: function){
+        super.query(
+            "UPDATE hospitality_ridersFile  SET name = ?, data = ?, size = ?, encoding = ?, tempFilePath = ?, truncated = ?, mimetype = ?, md5 = ? WHERE artist_id = ?",
+            [hospitality_riders_file.name, hospitality_riders_file.data, hospitality_riders_file.size, hospitality_riders_file.encoding,
+                hospitality_riders_file.tempFilePath, hospitality_riders_file.truncated, hospitality_riders_file.mimetype, hospitality_riders_file.md5, artist_id],
+            callback
+        );
+    }
+
+    updateArtistContract(artist_contract_file: any, artist_id: number, callback: function){
+        super.query(
+            "UPDATE artist_contractFile  SET name = ?, data = ?, size = ?, encoding = ?, tempFilePath = ?, truncated = ?, mimetype = ?, md5 = ? WHERE artist_id = ?",
+            [artist_contract_file.name, artist_contract_file.data, artist_contract_file.size, artist_contract_file.encoding,
+                artist_contract_file.tempFilePath, artist_contract_file.truncated, artist_contract_file.mimetype, artist_contract_file.md5, artist_id],
+            callback
+        );
+    }
+
     getRider(artist_id: number, callback: function){
         super.query(
             "SELECT * FROM file WHERE artist_id = ?",[artist_id], callback

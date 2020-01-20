@@ -19,6 +19,7 @@ export class Employees extends Component <{buttonName: string, employee: UserEve
     position: string = this.props.employee.job_position;
     user_name: string = this.props.employee.user_name;
     user_id: number = userService.currentUser.user_id;
+    email: string = this.props.employee.email;
     hidden: bool = true;
     render(){
             return (

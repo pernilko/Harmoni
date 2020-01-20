@@ -8,7 +8,7 @@ import MapContainer from "./map";
 import Popup from "reactjs-popup";
 import { createHashHistory } from 'history';
 import {organizationService} from "../../../services/OrganizationService";
-import {userService} from "../../../services/UserService";
+import {User, userService} from "../../../services/UserService";
 import {UserEvent, userEventService} from "../../../services/UserEventService";
 
 const history = createHashHistory();
@@ -90,7 +90,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             console.log(event);
             this.setState({event});
             this.loaded = true;
-        })
+        });
     }
 
 
@@ -144,4 +144,3 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         })
     }
 }
-// <MapContainer lat={this.state["event"].latitude} lng={this.state["event"].longitude}/>
