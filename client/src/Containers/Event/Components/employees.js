@@ -107,7 +107,7 @@ export class Employees extends Component <{buttonName: string, employee: UserEve
         console.log(this.user_id);
         userService
             .getUser(this.user_id)
-            .then(res => this.emp[index] = new UserEvent(parseInt(this.user_id), 0, this.position, res.user_name, 2))
+            .then(res => this.emp[index] = new UserEvent(parseInt(this.user_id), 0, this.position, res.user_name, res.email, 2))
             .catch((error: Error) => console.log(error.message))
     }
 
@@ -151,7 +151,7 @@ export class EmployeesDetails extends Component {
         )
     }
     addNewPosition(){
-        this.emp.push(new UserEvent(0, 0, "", ""));
+        this.emp.push(new UserEvent(0, 0, "", "", "", 2));
         this.hidden = false;
     }
 }
