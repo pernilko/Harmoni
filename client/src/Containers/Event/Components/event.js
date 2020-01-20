@@ -49,13 +49,13 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                             <p>Du er blitt tilbudt en stilling som bartender</p>
                             <a href="#" className="card-link">Aksepter</a>
                             <a href="#" className="card-link">Avslå</a>
-                            <a href={"#/editEvent/"+this.event_id} className="card-link">Rediger</a>
-                            <Popup trigger = {<a className="card-link">Slett</a>} >
+                            <a href={"#/editEvent/"+this.event_id} hidden={userService.currentUser.user_id != e.user_id && userService.currentUser.privileges != 1} className="card-link">Rediger</a>
+                            <Popup trigger = {<a hidden={userService.currentUser.user_id != e.user_id && userService.currentUser.privileges != 1} className="card-link">Slett</a>} >
                                 { close => (
                                     <div>
                                         <p><b>Vil du slette dette arrangementet?</b></p>
                                         <button className="btn btn-warning float-left ml-3" onClick={() => {close();}}>Nei</button>
-                                        <button className="btn btn-success float-right mr-3" onClick={() => this.slett(this.event_id)}>Ja</button>
+                                        <button className="btn btn-success float-right mr-3" onClick={() => this.slett(this.event_id, e.user_id)}>Ja</button>
                                     </div>
                                 )}
                             </Popup>
@@ -86,13 +86,17 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             this.loaded = true;
         })
     }
-    slett(event_id: number){
-        eventService
-            .deleteEvent(event_id)
-            .then(response => console.log(response))
-            .then(() => history.push("/allEvents"))
-            .then(Alert.danger("Arrangementet ble slettet"))
-            .catch((error: Error) => console.log(error.message));
+    slett(event_id: number, user_id: number){
+        if(userService.currentUser.user_id == user_id || userService.currentUser.privileges == 1) {
+            eventService
+                .deleteEvent(event_id)
+                .then(response => console.log(response))
+                .then(() => history.push("/allEvents"))
+                .then(Alert.danger("Arrangementet ble slettet"))
+                .catch((error: Error) => console.log(error.message));
+        }else{
+            Alert.danger("ikke autorisert");
+        }
     }
     show(){
         this.hidden = false;

@@ -48,72 +48,79 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
 
     render() {
         if (this.event && this.tickets && this.artists && userService.currentUser) {
-            return (
-                <div>
-                    <div className="card-header">
-                        <div className="form-inline">
-                            <h2>Rediger arrangementet</h2>
-                        </div>
-                    </div>
-                    <form className="card-body">
-                        <div className="form-group">
-                            <label>Arrangement navn:</label>
-                            <input className="form-control" placeholder="Skriv inn navn her"
-                                   value={this.event.event_name}
-                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.event_name = event.target.value)}/>
-                        </div>
-                        <div className="form-group">
-                            <label>Lokasjon:</label>
-                            <input className="form-control" placeholder="Skriv inn addresse" value={this.event.place}
-                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.place = event.target.value)}/>
-                        </div>
-                        <div className="form-group">
-                            <label>Beskrivelse:</label>
-                            <textarea className="form-control" defaultValue={this.event.description}
-                                      onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.description = event.target.value)}/>
-                        </div>
-                        <div className="form-inline">
-                            <div className="row">
-                                <div className="col">
-                                    <label>Start dato:</label>
-                                    <input id="startdate" className="form-control" type="date" value={this.startDate}
-                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startDate = event.target.value)}/>
-                                </div>
-                                <div className="col">
-                                    <label>Start tid:</label>
-                                    <input className="form-control" type="time" value={this.startTime}
-                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startTime = event.target.value)}/>
-                                </div>
-                                <div className="col">
-                                    <label>Slutt dato:</label>
-                                    <input id="enddate" className="form-control" type="date" value={this.endDate}
-                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endDate = event.target.value)}/>
-                                </div>
-                                <div className="col">
-                                    <label>Slutt tid:</label>
-                                    <input className="form-control" type="time" value={this.endTime}
-                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endTime = event.target.value)}/>
-                                </div>
+            if(this.event.user_id == userService.currentUser.user_id || userService.currentUser.privileges == 1) {
+                return (
+                    <div>
+                        <div className="card-header">
+                            <div className="form-inline">
+                                <h2>Rediger arrangementet</h2>
                             </div>
                         </div>
-                        <div className="form-group" style={{marginTop: 20 + "px"}}>
-                            <ArtistDetails/>
-                        </div>
-                        <div className="form-group" style={{marginTop: 20 + "px"}}>
-                            <TicketDetails/>
-                        </div>
-                        <div className="form-group" style={{marginTop: 20+"px"}}>
-                        <EmployeesDetails/>
+                        <form className="card-body">
+                            <div className="form-group">
+                                <label>Arrangement navn:</label>
+                                <input className="form-control" placeholder="Skriv inn navn her"
+                                       value={this.event.event_name}
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.event_name = event.target.value)}/>
+                            </div>
+                            <div className="form-group">
+                                <label>Lokasjon:</label>
+                                <input className="form-control" placeholder="Skriv inn addresse"
+                                       value={this.event.place}
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.place = event.target.value)}/>
+                            </div>
+                            <div className="form-group">
+                                <label>Beskrivelse:</label>
+                                <textarea className="form-control" defaultValue={this.event.description}
+                                          onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.description = event.target.value)}/>
+                            </div>
+                            <div className="form-inline">
+                                <div className="row">
+                                    <div className="col">
+                                        <label>Start dato:</label>
+                                        <input id="startdate" className="form-control" type="date"
+                                               value={this.startDate}
+                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startDate = event.target.value)}/>
+                                    </div>
+                                    <div className="col">
+                                        <label>Start tid:</label>
+                                        <input className="form-control" type="time" value={this.startTime}
+                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startTime = event.target.value)}/>
+                                    </div>
+                                    <div className="col">
+                                        <label>Slutt dato:</label>
+                                        <input id="enddate" className="form-control" type="date" value={this.endDate}
+                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endDate = event.target.value)}/>
+                                    </div>
+                                    <div className="col">
+                                        <label>Slutt tid:</label>
+                                        <input className="form-control" type="time" value={this.endTime}
+                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endTime = event.target.value)}/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="form-group" style={{marginTop: 20 + "px"}}>
+                                <ArtistDetails/>
+                            </div>
+                            <div className="form-group" style={{marginTop: 20 + "px"}}>
+                                <TicketDetails/>
+                            </div>
+                            <div className="form-group" style={{marginTop: 20 + "px"}}>
+                                <EmployeesDetails/>
+                            </div>
+                            <h2> Velg lokasjon på kartet: </h2>
+                            <MapContainer lat={this.event.latitude} lng={this.event.longitude} show={true} edit={true}/>
+                            <div className="btn-group" style={{width: "20%", marginLeft: "40%", padding: "20px"}}>
+                                <button className="btn btn-success" type="button" onClick={this.edit}>Lagre</button>
+                                <button className="btn btn-danger" type="button" onClick={this.cancel}>Avbryt</button>
+                            </div>
+                        </form>
                     </div>
-                    <h2> Velg lokasjon på kartet: </h2>
-                    <MapContainer lat={this.event.latitude} lng={this.event.longitude} show={true} edit={true}/>
-                        <div className="btn-group" style={{width: "20%", marginLeft: "40%", padding: "20px"}}>
-                            <button className="btn btn-success" type="button" onClick={this.edit}>Lagre</button>
-                            <button className="btn btn-danger" type="button" onClick={this.cancel}>Avbryt</button>
-                        </div>
-                    </form>
-                </div>
-            )
+                )
+            }else{
+                Alert.danger("ikke autorisert");
+                return <div></div>
+            }
         } else {
             return <div>Something went wrong :(</div>
         }
