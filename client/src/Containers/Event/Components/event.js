@@ -66,7 +66,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                             <Row className={"artistContainer"}>
                                 {this.state["artists"].map(a =>
                                     <Column className="card artist" width={6}>
-                                        <div className="card-body artist shadow-lg">
+                                        <div className="card-body artist shadow-lg artistCard">
                                             <h5 className="card-title">{a.artist_name}</h5>
                                             <p className="card-text">
                                                 <h6> Epost: {a.email}</h6>
@@ -75,8 +75,17 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                             <a href={""}> nedlasting av filer skjer her </a>
                                             <br/>
 
-                                                <label className="form-check-label" htmlFor="exampleCheck1">Check me
-                                                    out</label>
+                                            <div className="artistButton" onClick={() => this.setAccepted(userService.currentUser.user_id, e.event_id, 0)}>
+                                                <button id="bot" type="button" className="btn btn-info btn-circle">
+                                                    <i className="fa fa-times" ></i>
+                                                </button>
+                                            </div>
+                                            <div className= "artistButton px-1" onClick={() => this.setAccepted(userService.currentUser.user_id, e.event_id, 1)}>
+                                                <button id="top" type="button" className="btn btn-info btn-circle">
+                                                    <i className="fa fa-check" ></i>
+                                                </button>
+                                            </div>
+                                            
                                         </div>
                                     </Column>
                                 )}

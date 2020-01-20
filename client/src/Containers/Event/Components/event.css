@@ -55,3 +55,14 @@ p {
 .greenBG{
     background: linear-gradient(#92bCa6, #A2CCB6);
 }
+
+.artistCard{
+    padding-bottom: 50px;
+}
+
+
+.artistButton{
+    display: inline-block;
+    padding-right: 35%;
+    float: right;
+}
