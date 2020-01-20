@@ -236,7 +236,7 @@ app.post("/cancelled", (req, res) => {
 
     let mailOptions = {
         from: "systemharmoni@gmail.com",
-        to: "pernilko@stud.ntnu.no",
+        to: email,
         subject: "ARRANGEMENT AVLYST FOR " + org_name,
         text: "Arrangementet " + event + " har blitt avlyst av arrangøren "
     };
