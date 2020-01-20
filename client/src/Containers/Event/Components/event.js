@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from "react-simplified";
-import {EventService} from '../../../services/EventService';
+import {eventService} from '../../../services/EventService';
 import {Event} from "../../../services/EventService.js";
 import { Alert, Card, NavBar, Button, Row, Column } from '../../../widgets.js';
 import {NavLink} from "react-router-dom";
@@ -9,18 +9,17 @@ import Popup from "reactjs-popup";
 import { createHashHistory } from 'history';
 import {organizationService} from "../../../services/OrganizationService";
 import {userService} from "../../../services/UserService";
-import {userEventService} from "../../../services/UserEventService";
+import {UserEvent, userEventService} from "../../../services/UserEventService";
 
 const history = createHashHistory();
 
-let eventService = new EventService();
 export class EventDetails extends Component<{ match: { params: { id: number } } }>  {
     event_id = this.props.match.params.id;
     loaded: boolean = false;
     hidden: boolean = true;
     cancel: boolean = true;
     bugreport: string = "";
-    employees: string[] = "";
+    employees: UserEvent[] = [];
 
     constructor(props){
         super(props);
@@ -81,6 +80,11 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         }
     }
     mounted() {
+        this.getEvent();
+        this.getEmployees();
+    }
+
+    getEvent() {
         eventService.getEventId(this.event_id).then(r => {
             let event = r;
             console.log(event);
@@ -88,6 +92,14 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             this.loaded = true;
         })
     }
+
+
+    getEmployees() {
+        userEventService
+            .getAllUserEvent(this.event_id)
+            .then(e => this.employees = e)
+    }
+
     cancelled(event_id: number) {
         eventService
           .cancelEvent(event_id)
@@ -119,8 +131,9 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
     }
 
     sendCancellationMail(){
+        console.log(this.employees);
 
-        employees.map(e => {
+        this.employees.map(e => {
             if (e) {
                 organizationService.sendCancellationMail(e.email, userService.currentUser.org_id, organizationService.currentOrganization.org_name, this.event_id)
                     .then((e) => {

@@ -9,13 +9,15 @@ export class UserEvent {
     event_id: number;
     job_position: string;
     user_name: string;
+    email: string;
     accepted: number;
 
-    constructor(user_id: number, event_id: number, job_position: string, user_name: string, accepted: number ) {
+    constructor(user_id: number, event_id: number, job_position: string, user_name: string, email: string, accepted: number ) {
         this.user_id = user_id;
         this.event_id = event_id;
         this.job_position = job_position;
         this.user_name = user_name;
+        this.email = email;
         this.accepted = accepted;
     }
 }
@@ -40,8 +42,11 @@ class UserEventService {
         return axios.get<User[]>(url + "userEvent/users/" + event_id)
         .then(response => response.data);
     }
+
     getAllUserEvent(id: number) {
-        return axios.get<UserEvent[]>(url + "userevent/all/" + id).then(response => response.data);
+        return axios.get<UserEvent[]>(url + "userevent/all/" + id).then(response => {
+            console.log(response.data);
+        });
     }
 
     setAccepted(user_id: number, event_id: number, accepted: number) {
