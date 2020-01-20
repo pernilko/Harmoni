@@ -289,7 +289,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                     }
                 });
                 if (!found) {
-                    let emp: UserEvent = new UserEvent(e.user_id, parseInt(this.props.match.params.event_id), e.job_position, e.user_name, 2);
+                    let emp: UserEvent = new UserEvent(e.user_id, parseInt(this.props.match.params.event_id), e.job_position, e.user_name, e.email, 2);
                     add.push(emp);
                 }
             }
