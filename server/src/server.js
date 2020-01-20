@@ -288,6 +288,16 @@ app.put("/artist/:id", (req:Request,res:Response)=>{
     })
 });
 
+app.put("/artist/accepted/:id", (req:Request,res:Response)=>{
+    console.log("/artist/:id received an update request from client to update values in artist");
+    artistDao.setAccepted(req.params.id, req.body, (status,data)=>{
+        res.status(status);
+        res.json(data);
+    })
+});
+
+
+
 //UserEvent
 app.get("/userevent/all/:id", (req : Request, res : Response) => {
     console.log("/test:received update request from user to get userevents");

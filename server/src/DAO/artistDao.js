@@ -39,6 +39,14 @@ module.exports = class artistDao extends Dao {
         );
     }
 
+    setAccepted(artistID:number,json:{accepted:number}, callback:function){
+        super.query(
+            "UPDATE artist SET accepted = ? WHERE artist_id=?",
+            [json.accepted, artistID],
+            callback
+        );
+}
+
     /*
     deleteArtist(artist_id: number, callback: function) {
       super.query(

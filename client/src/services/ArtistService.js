@@ -69,6 +69,10 @@ class ArtistService {
     deleteArtist(id: number) {
         return axios.delete<Artist, void>(url + "artist/delete/" + id).then(response => response.data);
     }
+
+    setAccepted(id: number, accepted: number) {
+        return axios.put<Artist, void>(url + "artist/accepted/" + id).then(response => response.data);
+    }
 }
 
 export let artistService = new ArtistService();
