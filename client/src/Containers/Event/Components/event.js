@@ -9,6 +9,7 @@ import Popup from "reactjs-popup";
 import { createHashHistory } from 'history';
 import {organizationService} from "../../../services/OrganizationService";
 import {userService} from "../../../services/UserService";
+import {userEventService} from "../../../services/UserEventService";
 
 const history = createHashHistory();
 
@@ -19,6 +20,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
     hidden: boolean = true;
     cancel: boolean = true;
     bugreport: string = "";
+    employees: string[] = "";
 
     constructor(props){
         super(props);
@@ -90,6 +92,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         eventService
           .cancelEvent(event_id)
           .then((response) => {
+              this.sendCancellationMail();
               console.log(response);
               history.push("/cancel/" + event_id);
               Alert.danger("Arrangementet ble avlyst");
@@ -113,9 +116,19 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                 this.email = "";
             })
             .catch((error: Error) => console.log(error.message))
+    }
 
+    sendCancellationMail(){
 
-
+        employees.map(e => {
+            if (e) {
+                organizationService.sendCancellationMail(e.email, userService.currentUser.org_id, organizationService.currentOrganization.org_name, this.event_id)
+                    .then((e) => {
+                        Alert.success("Staff is alerted about the cancellation");
+                        this.email = "";
+                    }).catch((error: Error) => console.log(error.message))
+            }
+        })
     }
 }
 // <MapContainer lat={this.state["event"].latitude} lng={this.state["event"].longitude}/>

@@ -120,6 +120,15 @@ class OrganizationService{
         }).then(response => response.data);
     }
 
+    sendCancellationMail(email: string, org_id: number, org_name: string, event_name: string){
+        return axios.post<{},{}>(url + "cancelled", {
+            "email" : email,
+            "org_id": org_id,
+            "org_name": org_name,
+            "event_name": event_name
+        })
+    }
+
     forgotPass(email: string, org_id: number, org_name: string) {
         console.log("EMAIL: ", email);
         console.log("ORG_ID: ", org_id);
