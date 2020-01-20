@@ -8,4 +8,4 @@ test:
   services:
     - mysql:5
   script:
-    - cd server && npm install && rm node_modules/bcryptjs/src/bower.json && npm test
+    - cd server && npm install && rm node_modules/bcryptjs/src/bower.json && npm test 
