@@ -31,7 +31,7 @@ export class Navigation extends Component {
                            value={this.search}
                            onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
                                (this.search = event.target.value)}/>
-              <Button className="btn btn-secondary" onClick={this.find}>Search</Button>
+              <Button type = "submit" className="btn btn-secondary" onClick={this.find}>Search</Button>
             </Form>
           </Nav>
           <Navbar.Toggle aria-controls="basic-navbar-nav"/>
@@ -69,11 +69,9 @@ export class Navigation extends Component {
       )
     }
   }
-
   find(){
-    history.push("/search_result/" + this.search)
+    history.push("/search_result/" + this.search);
   }
-
 
   logout(){
     history.push("/");
