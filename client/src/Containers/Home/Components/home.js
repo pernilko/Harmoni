@@ -7,6 +7,7 @@ import {Organization, organizationService} from "../../../services/OrganizationS
 import {userService} from "../../../services/UserService";
 import {EventList} from '../../Event/Components/showEvents';
 import {Pending} from "../../Event/Components/showPending";
+import {sharedComponentData} from "react-simplified";
 
 export class Home extends Component {
     loaded: boolean = false;
@@ -21,6 +22,8 @@ export class Home extends Component {
     }
 
     render(){
+        if (userService.currentUser) {
+            if (userService.currentUser.p_archive == 1) {
             return(
                 <div>
                     <Container fluid={true}>
@@ -44,6 +47,30 @@ export class Home extends Component {
                     </Container>
                 </div>
             )
+            } else {
+                return (
+                 <div>
+                    <Container fluid={true}>
+                        <Row>
+                            <Col md={6} style={{padding: '0'}}>
+                                <div className="card" style={{margin: "none"}}>
+                                    <div className="card-header">Kommende Arrangement</div>
+                                    <div className="card-body">
+                                      <EventList user={false} time={2}/>
+                                    </div>
+                                </div>
+                            </Col>
+                        </Row>
+                    </Container>
+                </div>
+            )
+            }
+        }
+        else {
+            return (
+                <div></div>
+            )
+        }
     }
     mounted() {
         /*
