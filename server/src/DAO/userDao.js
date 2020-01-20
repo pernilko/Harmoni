@@ -23,6 +23,11 @@ module.exports = class userDao extends Dao {
         super.query("UPDATE user SET privileges = 0 WHERE email = ? AND org_id = ?", [email, org_id], callback);
     }
 
+    setPrivilegesId(id: number, json: {p_create_event: number, p_read_contract: number, p_read_riders: number, p_archive: number}, callback: function){
+        super.query("UPDATE user SET p_create_event = ?, p_read_contract = ?, p_read_riders = ?, p_archive = ? WHERE user_id = ?",
+            [json.p_create_event, json.p_read_contract, json.p_read_riders, json.p_archive, id], callback);
+}
+
     //retrieve the row of a user using the user_id
     getUserById(id: number, callback: function){
         super.query("SELECT * FROM user WHERE user_id = ?", [id], callback);
@@ -45,8 +50,13 @@ module.exports = class userDao extends Dao {
         );
     }
 
-    getAllUsersByOrgId(org_id: number, callback: Function){
+    getAllUsersByOrgId(org_id: number, callback: function){
         super.query("SELECT * FROM user WHERE org_id = ?", [org_id], callback);
+    }
+
+    //not tested
+    getAdminByOrgId(org_id: number, callback: function){
+        super.query("SELECT * FROM user u WHERE privileges = 1 AND org_id = ?", [org_id], callback);
     }
 
     //delete a user using their id. Dont use without deleting rows in user_event first!

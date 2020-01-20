@@ -23,6 +23,8 @@ import {SearchResults} from "./Containers/Event/Components/search";
 import {OrgProfile} from "./Containers/Organization/Components/Profile";
 import {resetPass} from "./Containers/Organization/Components/resetPass";
 import {ShowTab} from './Containers/Event/Components/showTab';
+import {verifyEmail} from "./Containers/Organization/Components/verifyEmail";
+
 
 const root = document.getElementById('root');    
 if (root)
@@ -47,6 +49,7 @@ if (root)
         <Route path = "/organizationProfile" component = {OrgProfile}/>
         <Route exact path = "/alleEvents" render = {(props) => <ShowTab all={true}/>}/>
         <Route exact path = "/mineEvents" render = {(props) => <ShowTab all={false}/>}/>
+        <Route path = "/verifyEmail/:token" component={verifyEmail}/>
       </div>
     </HashRouter>,
     root

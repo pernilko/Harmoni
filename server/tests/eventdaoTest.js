@@ -1,6 +1,6 @@
 // @flow
 let mysql = require("mysql");
-const eventDao = require("../src/DAO/eventDao.js");
+const EventDao = require("../src/DAO/eventDao.js");
 const runsqlfile = require("../src/DAO/runsqlfile.js");
 
 let pool = mysql.createPool({
@@ -13,7 +13,7 @@ let pool = mysql.createPool({
   multipleStatements: true
 });
 
-let eventDao = new eventDao(pool);
+let eventDao = new EventDao(pool);
 
 beforeAll(done => {
   runsqlfile("create_tables.sql", pool, () => {
@@ -25,20 +25,19 @@ afterAll(() => {
   pool.end();
 });
 
-
-
 test("Retrieve all events", done =>{
   function callback (status, data) {
     console.log(
       "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
     );
 
-    expect(data.length).toBe(1);
+    expect(data.length).toBe(3);
     done();
   }
 
   eventDao.getAll(callback);
 });
+
 
 test("Get an event", done =>{
   function callback (status, data) {
@@ -47,55 +46,52 @@ test("Get an event", done =>{
     );
 
     expect(data.length).toBe(1);
-    expect(data[0].event_name).toBe("Event name");
+    expect(data[0].event_name).toBe("Konsert med Karpe");
     done();
   }
 
   eventDao.getEvent(1, callback);
 });
 
-test("Add an event", done => {
+
+test("Get events for one organization", done => {
   function callback(status, data) {
     console.log(
       "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
     );
 
-    expect(data.affectedRows).toBeGreaterThanOrEqual(1);
+    expect(data.length).toBe(2)
     done();
   }
 
-  eventDao.addEvent(
-    {event_name: "UKA", place: "Trondheim", event_start: "today", event_end: "tomorrow", longitude: "333", latitude: "555"
-    }, callback);
+  eventDao.getEventOrg(2, callback);
 });
 
-test("Get an event location", done =>{
+test("Get events for one user", done =>{
   function callback (status, data) {
     console.log(
       "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
     );
 
     expect(data.length).toBe(1);
-    expect(data[0].location).toBe("location");
+    done();
+  }
+
+  eventDao.getEventUser(1, callback);
+});
+
+test("Get event location", done =>{
+  function callback (status, data) {
+    console.log(
+      "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
+    );
+
+    expect(data.length).toBe(1);
+    expect(data[0].place).toBe("Kalveskinnet kantina");
     done();
   }
 
   eventDao.getEventLocation(1, callback);
-});
-
-test("Get event time ", done =>{
-  function callback (status, data) {
-    console.log(
-      "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
-    );
-
-    expect(data.length).toBe(1);
-    expect(data[0].event_start).toBe("Event start");
-    expect(data[0].event_end).toBe("Event end");
-    done();
-  }
-
-  eventDao.getEventTime(1, callback);
 });
 
 test("Edit an event", done => {
@@ -107,21 +103,59 @@ test("Edit an event", done => {
     done();
   }
 
-  eventDao.editEvent(1,
-    { event_name: "hi", place: "hi top", event_start: "tomorrow",
-      event_end: "day after", longitude: "44", latitude: "009", event_id:1},
-    callback);
+  eventDao.editEvent(1, {event_name: "Cool event", place: "Mysen", description: "Gutta", event_start: "2020-01-26", event_end: "2020-01-26", longitude: 1, latitude: 2, image: ""}, callback)
 });
 
-test("Delete an event", done => {
-  function callback(status, data) {
+test("Test edit", done =>{
+  function callback (status, data) {
     console.log(
-      "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+      "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
     );
+
+    expect(data.length).toBe(1);
+    expect(data[0].event_name).toBe("Cool event");
+    done();
+  }
+
+  eventDao.getEvent(1, callback);
+});
+
+test("Test employees for an event", done =>{
+  function callback (status, data) {
+    console.log(
+      "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
+    );
+
+    expect(data.length).toBe(2);
+    done();
+  }
+
+  eventDao.getUsersForEvent(1, callback);
+});
+
+test("Test user accepting an event", done =>{
+  function callback (status, data) {
+    console.log(
+      "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
+    );
+
     expect(data.affectedRows).toBe(1);
     done();
   }
 
-  eventDao.deleteEvent(1, callback);
+  eventDao.setAccepted({user_id: 1, event_id: 1, accepted: 2}, callback);
 });
 
+test("Test event search", done =>{
+  function callback (status, data) {
+    console.log(
+      "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
+    );
+
+    expect(data.length).toBe(1);
+    expect(data[0].event_name).toBe("Fotball-turnering");
+    done();
+  }
+
+  eventDao.getEventbySearch("Fotball", 3, callback);
+});

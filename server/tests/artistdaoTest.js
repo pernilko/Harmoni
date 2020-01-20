@@ -1,6 +1,6 @@
 // @flow
 let mysql = require("mysql");
-const artistDao = require("../src/DAO/artistDao.js");
+const ArtistDao = require("../src/DAO/artistDao.js");
 const runsqlfile = require("../src/DAO/runsqlfile.js");
 
 let pool = mysql.createPool({
@@ -13,7 +13,7 @@ let pool = mysql.createPool({
     multipleStatements: true
 });
 
-let artistDao = new artistDao(pool);
+let artistDao = new ArtistDao(pool);
 
 beforeAll(done => {
   runsqlfile("create_tables.sql", pool, () => {
@@ -26,14 +26,13 @@ afterAll(() => {
 });
 
 
-
 test("Retrieve all artists", done =>{
   function callback (status, data) {
     console.log(
       "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
     );
 
-    expect(data.length).toBe(1);
+    expect(data.length).toBe(3);
     done();
   }
 
@@ -47,25 +46,50 @@ test("Get an artist", done =>{
     );
 
     expect(data.length).toBe(1);
-    expect(data[0].artist_name).toBe("Artist name");
+    expect(data[0].artist_name).toBe("TIX");
     done();
   }
 
-  artistDao.getOne(1, callback);
+  artistDao.getOne(4, callback);
 });
 
-test("Add an artist", done => {
-  function callback(status, data) {
+test("Get an artist", done =>{
+  function callback (status, data) {
     console.log(
       "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
     );
 
-    expect(data.affectedRows).toBeGreaterThanOrEqual(1);
+    expect(data.length).toBe(2);
     done();
   }
 
-  artistDao.insertOne(
-    { event_id: 1, artist_name: "Jostein Bieber", riders: "gitar", hospitality_riders: "øl",
-      artist_contract: "kontrakt", email: "hei@gmail.com", phone: "22222222", image: "url.com"
-    }, callback);
+  artistDao.getEventArtists(1, callback);
+});
+
+test("Update an artist", done =>{
+  function callback (status, data) {
+    console.log(
+      "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
+    );
+
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+
+  artistDao.updateArtist(4, {artist_name: "Cool artist", riders: "fil", hospitality_riders: "File",
+        artist_contract: "File", email: "a@a.a", phone: "123", image: "File"}, callback);
+});
+
+test("Test update artist", done =>{
+  function callback (status, data) {
+    console.log(
+      "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
+    );
+
+    expect(data.length).toBe(1);
+    expect(data[0].artist_name).toBe("Cool artist");
+    done();
+  }
+
+  artistDao.getOne(4, callback);
 });

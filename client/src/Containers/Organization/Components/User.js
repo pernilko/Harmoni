@@ -14,6 +14,7 @@ export class userForm extends Component <{ match: { params: { token: string } } 
     organization: Organization = new Organization();
     loaded: boolean = false;
     repeatedPassword: string = "";
+    email: string = "";
     render(){
         if(this.loaded){
             return (
@@ -59,10 +60,7 @@ export class userForm extends Component <{ match: { params: { token: string } } 
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>E-mail</Form.Label>
-                            <Form.Control type="string" placeholder="personligEmail@mail.com"
-                                          onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
-                                              this.user.email = event.target.value
-                                          }}/>
+                            <Form.Control type="string" value={this.email}/>
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Last opp bilde</Form.Label>
@@ -85,9 +83,9 @@ export class userForm extends Component <{ match: { params: { token: string } } 
         if(this.repeatedPassword != this.user.password || this.user.password.length<8){
                 Alert.danger("Passord må være like og ha minst 8 tegn");
         }
-        else if(this.user.email.length !=0 && this.user.address.length != 0 && this.user.user_name.length!=0
+        else if(this.email.length !=0 && this.user.address.length != 0 && this.user.user_name.length!=0
                 &&this.user.phone.length != 0){
-            userService.register(this.organization.org_id, this.user.email, 0, this.user.user_name, this.user.password, this.user.address, this.user.phone, this.user.image)
+            userService.register(this.organization.org_id, this.email, 0, this.user.user_name, this.user.password, this.user.address, this.user.phone, this.user.image)
                 .then(response=>{
                     Alert.success("Du ble registrert hos: " + this.organization.org_name);
                     history.push("/login");
@@ -101,8 +99,10 @@ export class userForm extends Component <{ match: { params: { token: string } } 
         organizationService.checkInvToken().then(res => {
             console.log("fra USER: ");
             console.log(res.org_id);
+            console.log(res.email);
             organizationService.getOrganization(res.org_id).then(response => {
                 this.organization = response;
+                this.email = res.email;
                 this.loaded = true;
             }).catch((error:Error)=>{
                 Alert.danger(error.message);

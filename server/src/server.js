@@ -21,7 +21,7 @@ type Request = express$Request;
 type Response = express$Response;
 
 let pool = mysql.createPool({
-    connectionLimit: 2,
+    connectionLimit: 3,
     host: config.host,
     user: config.user,
     password: config.password,
@@ -173,7 +173,7 @@ app.post("/inviteUser", (req, res) => {
     let email: string = req.body.email;
     let org_id: number = req.body.org_id;
     let org_name: string = req.body.org_name;
-    let token: string = jwt.sign({org_id: org_id}, privateKEY.key, {
+    let token: string = jwt.sign({org_id: org_id, email: email}, privateKEY.key, {
         expiresIn: 3600
     });
     let url: string = DOMAIN + "#/user/" + token;
@@ -224,6 +224,70 @@ app.post("/bugreport", (req, res) => {
     });
 });
 
+app.post("/verifyEmail", (req, res) => {
+
+    let org_name = req.body.org_name;
+    let org_email = req.body.org_email;
+    let org_phone = req.body.org_phone;
+    let user_email = req.body.user_email;
+    let user_privileges = req.body.user_privileges;
+    let user_name = req.body.user_user_name;
+    let user_password = req.body.user_password;
+    let user_address = req.body.user_address;
+    let user_phone = req.body.user_phone;
+
+    let token: string = jwt.sign({org_name: org_name,
+        org_email: org_email,
+        org_phone: org_phone,
+        user_email: user_email,
+        user_privileges: user_privileges,
+        user_name: user_name,
+        user_password: user_password,
+        user_address: user_address,
+        user_phone: user_phone}, privateKEY.key, {
+        expiresIn: 3600
+    });
+    let url: string = DOMAIN + "#/verifyEmail/" + token;
+
+    let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: user_email,
+        subject: "Verifiser din e-post for admin bruker til organisasjonen " + org_name,
+        text: url
+    };
+
+    transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Email sent!");
+        }
+
+        res.json(url);
+    });
+});
+
+app.post("/verifyToken", (req, res) => {
+    let token: string = req.headers["x-access-token"];
+
+    jwt.verify(token, privateKEY.key, (err, decoded)=> {
+        if (err) {
+            res.status(401);
+            res.json({error: "Not Authorized"});
+        } else {
+            console.log("Token ok, returning org_id and email");
+            res.json({"org_name": decoded.org_name,
+                "org_email": decoded.org_email,
+                "org_phone": decoded.org_phone,
+                "user_email": decoded.user_email,
+                "user_privileges": decoded.user_privileges,
+                "user_name": decoded.user_name,
+                "user_password": decoded.user_password,
+                "user_address": decoded.user_address,
+                "user_phone": decoded.user_phone});
+        }
+    })
+});
 
 app.post("/forgotPass", (req, res) => {
     let email: string = req.body.email;
@@ -286,6 +350,7 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
+    console.log("req.body from server: ");
     console.log(req.body);
     userDao.addUser(req.body, (status, data) => {
         res.status(status);
@@ -359,7 +424,8 @@ app.post("/invToken", (req, res)=>{
         }else{
             console.log("Token ok, returning org_id");
             console.log(decoded.org_id);
-            res.json({"org_id": decoded.org_id});
+            console.log(decoded.email);
+            res.json({"org_id": decoded.org_id, "email": decoded.email});
         }
     })
 });
@@ -736,6 +802,14 @@ app.put("/user/resetPass", (req, res) => {
     });
 });
 
+app.put("/user/updatePrivileges/:id", (req, res)=>{
+    console.log("/user/updatePriviliges received an update request from client ");
+    userDao.setPrivilegesId(req.params.id, req.body, (status, data)=>{
+        res.status(status);
+        res.json(data);
+    })
+})
+
 app.put("/Profile/updateUsername/:id", (req, res)=>{
     console.log("/Profile/edit received an update request from client ");
     userDao.updateUserName(req.params.id, req.body, (status, data)=>{
@@ -820,6 +894,14 @@ app.delete("/user/delete/:id", (req : Request, res: Response) => {
 app.get("/user/all/:id", (req: Request, res: Response) => {
     console.log("/user/all/:id received get request from client");
     userDao.getAllUsersByOrgId(req.params.id, (status, data)=>{
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.get("/user/admin/:org_id", (req: Request, res: Response) => {
+    console.log("/user/admin/:org_id received get request from client");
+    userDao.getAdminByOrgId(req.params.org_id, (status, data)=>{
         res.status(status);
         res.json(data);
     });
