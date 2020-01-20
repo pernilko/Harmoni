@@ -25,6 +25,20 @@ export class Artist {
     }
 }
 
+export class File{
+    artist_id:number;
+    name:string;
+    data:Blob;
+    mimetype:string;
+
+    constructor(artist_id:number,name:string,data:Blob,mimetype:string){
+        this.artist_id=artist_id;
+        this.name=name;
+        this.data=data;
+        this.mimetype=mimetype;
+    }
+}
+
 
 class ArtistService {
     getAllArtists() {
@@ -36,9 +50,7 @@ class ArtistService {
     }
 
     getArtistRider(artist_id:number){
-         axios.get<Object>(url+"artist/"+artist_id+"/rider").then(response=>{
-             return new File(response.data.data, response.data.name,{type:response.data.mimeType});
-        });
+         return axios.get<File>(url+"artist/"+artist_id+"/rider").then(response=>response.data);
     }
 
     getOneArtist(id: number) {
@@ -73,15 +85,25 @@ class ArtistService {
         });
     }
 
-    updateArtist(artist_id: number, artist_name, riders, hospitality_riders, artist_contract, email, phone) {
+    updateArtist(artist_id: number, artist_name:string, riders:File, hospitality_riders:File, artist_contract:File, email:string, phone:string) {
+        let fd_riders:FormData = new FormData();
+        fd_riders.append("riders", riders);
+        fd_riders.append("hospitality_rider", hospitality_riders);
+        fd_riders.append("artist_contract", artist_contract);
         return axios.put<{}, Event>(url + "artist/"+artist_id, {
             "artist_name": artist_name,
-            "riders": riders,
-            "hospitality_riders": hospitality_riders,
-            "artist_contract": artist_contract,
             "email": email,
             "phone": phone
-        }).then(response => response.data);
+        }).then(response => {
+            return axios<{}>({
+                url: url+'updateRiders/'+ artist_id,
+                method:'POST',
+                data:fd_riders,
+                headers:{
+                    "Content-Type":"multipart/form-data"
+                }
+            });
+        });
     }
 
     deleteArtist(id: number) {

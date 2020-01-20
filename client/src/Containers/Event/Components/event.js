@@ -41,6 +41,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         }
         else {
             let e: Event = this.state["event"];
+            console.log(this.state["artists"]);
             return (
                 <div className={"w-50 mx-auto shadow-lg mt-4"}>
                     <div className="card card-cascade wider reverse C">
@@ -89,7 +90,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                                 <h6> Epost: {a.email}</h6>
                                                 <h6> tlf: {a.phone} </h6>
                                             </p>
-                                            <a href={""}> nedlasting av filer skjer her </a>
+                                            {a.riders ? <a href={window.URL.createObjectURL(a.riders)}>{a.riders.name}</a>: 'Ingen rider valgt.'}
                                             <a href="#" className="card-link">Aksepter</a>
                                             <a href="#" className="card-link">Avslå</a>
                                         </div>
@@ -153,12 +154,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                     )}
                                 </tbody>
                             </table>
-
-
                             <MapContainer lat={e.latitude} lng={e.longitude} show={true}/>
-
-
-
                         </div>
                     </div>
                 </div>
@@ -185,7 +181,15 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                 let artists = r;
                 console.log(artists);
                 this.setState({artists});
-                this.loaded[2] = true;
+                this.state.artist.map(a=>{
+                    console.log(a);
+                    artistService.getArtistRider(a.artist_id).then(res=>{
+                        a.riders=res;
+                    });
+                    this.loaded[2] = true;
+                });
+
+
             });
 
             userEventService.getAllUserEvent(this.event_id).then( res => {
