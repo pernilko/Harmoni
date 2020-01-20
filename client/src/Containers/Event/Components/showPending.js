@@ -85,6 +85,7 @@ export class Pending extends Component<{}> {
         eventService
           .setCompleted(event_id)
           .then(response => console.log(response))
+          .then(response => this.load())
           .catch((error: Errror) => console.log(error.message));
     }
 
