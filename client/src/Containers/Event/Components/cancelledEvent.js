@@ -13,7 +13,8 @@ import {userService} from "../../../services/UserService";
 const history = createHashHistory();
 
 let eventService = new EventService();
-export class EventDetails extends Component<{ match: { params: { id: number } } }>  {
+
+export class cancelledEvent extends Component<{ match: { params: { id: number } } }>  {
   event_id = this.props.match.params.id;
   loaded: boolean = false;
   hidden: boolean = true;
@@ -46,28 +47,17 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
               <h6 className="font-weight-bold indigo-text py-2">{e.place}</h6>
               <h6 className="card-subtitle mb-2 text-muted"> <b></b> {e.event_start.slice(0, 10)}, {e.event_start.slice(11, 16)}-{e.event_end.slice(11, 16)}</h6>
               <p className="card-text">{e.description}</p>
-              <p>Du er blitt tilbudt en stilling som bartender</p>
-              <a href="#" className="card-link">Aksepter</a>
-              <a href="#" className="card-link">Avslå</a>
-              <a href={"#/editEvent/"+this.event_id} className="card-link">Rediger</a>
-              <Popup trigger = {<a className="card-link">Slett</a>} >
-                { close => (
-                  <div>
-                    <p><b>Vil du slette dette arrangementet?</b></p>
-                    <button className="btn btn-warning float-left ml-3" onClick={() => {close();}}>Nei</button>
-                    <button className="btn btn-success float-right mr-3" onClick={() => this.slett(this.event_id)}>Ja</button>
-                  </div>
-                )}
-              </Popup>
+              <p>INFO ARRANGEMENT KAN VÆRE HER </p>
               <a href={"#/showEvent/" + this.event_id} className="card-link" onClick={this.show}> Rapporter problem
                 <div hidden={this.hidden}>
-                                    <textarea rows="4" cols="40" style={{margin: '10px',}} placeholder="Beskriv feilmelding"
-                                              onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.bugreport = event.target.value)}/>
+                  <textarea rows="4" cols="40"
+                            style={{margin: '10px'}}
+                            placeholder="Beskriv feilmelding"
+                            onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.bugreport = event.target.value)}/>
                   <br/>
                   <button className="btn btn-primary submit" style={{margin:10 +'px'}} onClick={this.sendReport}>Rapporter problem</button>
                 </div>
               </a>
-
               <br/>
               <MapContainer lat={e.latitude} lng={e.longitude} show={true}/>
             </div>
@@ -86,14 +76,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
       this.loaded = true;
     })
   }
-  slett(event_id: number){
-    eventService
-      .deleteEvent(event_id)
-      .then(response => console.log(response))
-      .then(() => history.push("/allEvents"))
-      .then(Alert.danger("Arrangementet ble slettet"))
-      .catch((error: Error) => console.log(error.message));
-  }
+  
   show(){
     this.hidden = false;
   }
