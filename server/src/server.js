@@ -9,10 +9,10 @@ let jwt = require("jsonwebtoken");
 let bodyParser = require("body-parser");
 let nodemailer = require("nodemailer");
 let config: {host: string, user: string, password: string, email: string, email_passord: string} = require("./config")
-const nettavis = require("../api/Nettavis.js");
+//const nettavis = require("../api/Nettavis.js");
 let app = express();
 
-app.use('/artist', artist);
+//app.use('/artist', artist);
 app.use(bodyParser.json());
 app.use("/uploadRiders", fileUpload());
 
