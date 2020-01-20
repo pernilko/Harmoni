@@ -9,6 +9,8 @@ import {userEventService} from "../../../services/UserEventService";
 import {Spinner} from "react-bootstrap";
 import "./showEvents.css";
 
+const history = createHashHistory();
+
 export class Pending extends Component<{}> {
     pending: Event[] = [];
     loaded: boolean = false;
@@ -86,6 +88,7 @@ export class Pending extends Component<{}> {
           .setCompleted(event_id)
           .then(response => console.log(response))
           .then(response => this.load())
+          .then(Alert.success("Arrangementet ble arkivert"))
           .catch((error: Errror) => console.log(error.message));
     }
 
