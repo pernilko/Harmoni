@@ -92,6 +92,17 @@ class OrganizationService{
         }
     }
 
+    checkVerifyToken(token: string) {
+        return axios({
+            url: url + "verifyToken",
+            method: "post",
+            headers: {
+                "x-access-token": token,
+                "Content-type": "application/json; charset=utf-8"
+            }
+        }).then(res=>res.data);
+    }
+
     inviteUser(email: string, org_id: number, org_name: string) {
         return axios.post<{}, {}>(url + 'inviteUser', {
             "email": email,
@@ -120,16 +131,13 @@ class OrganizationService{
         }).then(res => res.data);
     }
 
-    /*
-    updateOrganization(org_id: number, org_name: string, phone: string, phone:string, email: string){
-        return axios.put<{}, Organization>(url+'organization'+org_id, {
+    updateOrganization(org_id: number, org_name: string, phone: string, email: string){
+        return axios.put<{}, Organization>(url+'organization/edit/'+org_id, {
             "org_name": org_name,
             "phone": phone,
             "email": email
         }).then(response=>response.data);
     }
-
-     */
 }
 
 export let organizationService: OrganizationService = sharedComponentData(new OrganizationService());
