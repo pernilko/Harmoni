@@ -96,9 +96,13 @@ export class EventList extends Component<{user: boolean, prev: boolean}>{
                                         <a href={this.cancelledURL + e.event_id}>
                                             <div className="content">
                                                 <img id="image"
-                                                     src="https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"/>
+                                                     src="https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"
+                                                     style={{filter: "grayscale(90%", opacity:0.5}}/>
+                                                     <div className="text-block-all"> Avlyst
+                                                     </div>
+
                                                 <div className="m-3">
-                                                    <h1 className="my-3">  {e.event_name}  </h1>
+                                                    <h1 className="my-3">  {e.event_name} </h1>
                                                     <p><b> Sted: </b> {e.place} </p>
                                                     <p>
                                                         <b> Stilling: </b>{this.getUserEvent(e.event_id) ? "Du er satt opp som " + this.getUserEvent(e.event_id).job_position : "Du er ikke satt på dette arrangementet"}.
