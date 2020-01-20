@@ -18,6 +18,7 @@ import {del_artist} from "./artist";
 import {del_ticket} from "./ticketDropdown";
 import {del_employee} from "./employees";
 import {sharedComponentData} from "react-simplified";
+import {Spinner} from "react-bootstrap";
 
 const history = createHashHistory();
 
@@ -122,7 +123,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 return <div></div>
             }
         } else {
-            return <div>Something went wrong :(</div>
+            return <Spinner animation="border"></Spinner>
         }
     }
     
