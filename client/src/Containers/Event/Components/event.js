@@ -182,14 +182,13 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                 console.log(artists);
                 this.setState({artists});
                 this.state.artists.map(a=>{
-                    console.log(a);
-                    artistService.getArtistRider(a.artist_id).then(res=>{
+                    console.log("Artist: "+a.artist_id);
+                    artistService.getArtistRider(a.artist_id).then(res =>{
                         a.riders=res;
+                        console.log(a.riders[0]);
                     });
-                    this.loaded[2] = true;
                 });
-
-
+                this.loaded[2] = true;
             });
 
             userEventService.getAllUserEvent(this.event_id).then( res => {

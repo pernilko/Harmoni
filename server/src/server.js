@@ -160,15 +160,6 @@ app.post('/uploadArtist_Contract/:artist_id', (req, res)=>{
     });
 })
 
-app.get('/Riders/:artist_id', (req, res)=>{
-    console.log("received get request for getting riders");
-
-    artistDao.getRider(req.params.artist_id, (status, data)=>{
-        res.status(status);
-        res.json(data);
-    })
-})
-
 app.post("/inviteUser", (req, res) => {
     let email: string = req.body.email;
     let org_id: number = req.body.org_id;
@@ -373,9 +364,9 @@ app.get("/artist/all", (req : Request, res: Response) => {
     });
 });
 
-app.get("/artist/:id/rider",(req:Request,res:Response)=>{
+app.get("/artist/rider/:id",(req:Request,res:Response)=>{
     console.log("/artist/:id/rider: received get request from client");
-    artistDao.getRider(req.params.id, (status,data)=>{
+    artistDao.getRiders(req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
     });
