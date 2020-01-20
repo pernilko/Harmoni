@@ -54,7 +54,7 @@ class ArtistService {
             "phone": phone
         }).then(response => {
             console.log("response from post artist/add");
-            console.log(response.data[0]);
+            console.log(response.data);
             return axios<{}>({
                 url: url +'uploadRiders/' + response.data[0].artist_id,
                 method: 'post',
