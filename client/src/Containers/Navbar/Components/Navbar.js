@@ -31,7 +31,7 @@ export class Navigation extends Component {
                            value={this.search}
                            onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
                                (this.search = event.target.value)}/>
-              <Button className="btn btn-secondary" onClick={this.find}>Search</Button>
+              <Button type = "submit" className="btn btn-secondary" onClick={this.find}>Search</Button>
             </Form>
           </Nav>
           <Navbar.Toggle aria-controls="basic-navbar-nav"/>
@@ -43,7 +43,7 @@ export class Navigation extends Component {
                              id="basic-nav-dropdown"
                              style={{paddingLeft: 30+'px'}}>
                   <NavDropdown.Item href="#/mineEvents"  style={{color: "black"}}>Mine arrangement</NavDropdown.Item>
-                  <NavDropdown.Item href="#/event" style={{color: "black"}}>Opprett arrangement</NavDropdown.Item>
+                  <NavDropdown.Item hidden = {userService.currentUser.p_create_event ==0} href="#/event" style={{color: "black"}}>Opprett arrangement</NavDropdown.Item>
                   <NavDropdown.Item href="#/Profile" style={{color: "black"}}>Rediger profil</NavDropdown.Item>
                   <NavDropdown.Item href={"#/organizationProfile"}style={{color: "black"}}>Min organisasjon</NavDropdown.Item>
                   <NavDropdown.Divider/>
@@ -69,11 +69,9 @@ export class Navigation extends Component {
       )
     }
   }
-
   find(){
-    history.push("/search_result/" + this.search)
+    history.push("/search_result/" + this.search);
   }
-
 
   logout(){
     history.push("/");

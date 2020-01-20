@@ -94,10 +94,11 @@ app.use("/api", (req, res, next) => {
 app.post('/uploadRiders/:artist_id', function(req, res) {
     console.log("received post request for uploading rider");
     if (!req.files || Object.keys(req.files).length === 0) {
-        return res.status(400).send('No files were uploaded.');
+        return;
     }
 
     // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+
     let ridersFile = req.files.riders;
     let hospitality_ridersFile = req.files.hospitality_rider;
     let artist_contractFile = req.files.artist_contract;
@@ -127,6 +128,45 @@ app.post('/uploadRiders/:artist_id', function(req, res) {
             })
         }
 });
+
+app.put('/uploadRiders/:artist_id', function(req, res) {
+    console.log("received post request for uploading rider");
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return;
+    }
+
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+
+    let ridersFile = req.files.riders;
+    let hospitality_ridersFile = req.files.hospitality_rider;
+    let artist_contractFile = req.files.artist_contract;
+    console.log("frrom uploadRiders: ");
+    console.log(req.files);
+
+    if(req.files.riders) {
+        artistDao.updateRiders(ridersFile, req.params.artist_id, (status, data) => {
+            if (!req.files.hospitality_rider && !req.files.artist_contract) {
+                res.status(status);
+                res.json(data);
+            }
+        });
+    }
+    if(req.files.hospitality_rider) {
+        artistDao.updateHospitalityRiders(hospitality_ridersFile, req.params.artist_id, (status, data) => {
+            if(!req.files.artist_contract){
+                res.status(status);
+                res.json(data);
+            }
+        })
+    }
+    if(req.files.artist_contract){
+        artistDao.updateArtistContract(artist_contractFile, req.params.artist_id, (status, data) => {
+            res.status(status);
+            res.json(data);
+        })
+    }
+});
+
 app.post('/uploadHospitality_Riders/:artist_id', (req, res)=> {
     console.log("received post request for uploading hospitality_rider with artist_id: " + req.params.artist_id);
     if (!req.files || Object.keys(req.files).length === 0) {
@@ -674,6 +714,22 @@ app.post("/event/add", (req : Request, res: Response) => {
     });
 });
 
+app.get("/event/current/user/:id", (req: Request, res: Response) => {
+    console.log("/event/current/user/:id: received put request from client");
+    eventDao.getEventCurrentUser(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.get("/event/current/org/:id", (req: Request, res: Response) => {
+    console.log("/event/current/org/:id: received put request from client");
+    eventDao.getEventCurrentOrg(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 app.put("/event/edit/:id", (req : Request, res: Response) => {
     console.log("/event/edit/:id: received put request from client");
     eventDao.editEvent(req.params.id, req.body, (status, data) => {
@@ -752,6 +808,100 @@ app.get("/event/search/:name/:org_id", (req: Request, res: Response) => {
         res.json(data);
     });
 });
+
+app.get("/event/pending/:id", (req: Request, res: Response) => {
+    console.log("/event/pending/:id received get request from client");
+    eventDao.getPending(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.put("/event/pending/:id", (req: Request, res: Response) => {
+    console.log("/event/pending/:id received put request from client");
+    eventDao.setCompleted(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.post("/event/add/notify/:event_id", (req: Request, res: Response) => {
+    console.log("/event/add/notify/:event_id received post request from client");
+    let name: string = req.body.name;
+    let job_position: number = req.body.job_position;
+    let email: string = req.body.email;
+
+    let url: string = DOMAIN + "#/showEvent/" + req.params.event_id;
+
+    let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: email,
+        subject: "Tilud om vakt",
+        text: "Hei! Du har blitt satt opp som " + job_position + " for arrangemenet: " + name + ". Besøk " + url + "."
+    };
+
+    transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Email sent!");
+        }
+
+        res.json(url);
+    });
+})
+
+app.post("/event/delete/notify/:event_id", (req: Request, res: Response) => {
+    console.log("/event/add/notify/:event_id received post request from client");
+    let name: string = req.body.name;
+    let job_position: number = req.body.job_position;
+    let email: string = req.body.email;
+    
+    let url: string = DOMAIN + "#/showEvent/" + req.params.event_id;
+
+    let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: email,
+        subject: "Det er gjort endringer i din vakt",
+        text: "Hei! Du er ikke lenger satt opp på vakt på dette arrangementet: " + url
+    };
+
+    transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Email sent!");
+        }
+
+        res.json(url);
+    });
+})
+
+app.post("/event/edit/notify/:event_id", (req: Request, res: Response) => {
+    console.log("/event/add/notify/:event_id received post request from client");
+    let name: string = req.body.name;
+    let job_position: number = req.body.job_position;
+    let email: string = req.body.email;
+    
+    let url: string = DOMAIN + "#/showEvent/" + req.params.event_id;
+
+    let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: email,
+        subject: "Endringer i arrangement",
+        text: "Hei! Det har blitt gjort endringer på et arrangement hvor du er satt opp på vakt. Trykk på lenken for å se endringene: " + url
+    };
+
+    transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Email sent!");
+        }
+
+        res.json(url);
+    });
+})
 
 //User
 //tested
@@ -921,7 +1071,7 @@ app.get("/user/admin/:org_id", (req: Request, res: Response) => {
 //UserEvent
 app.get("/userevent/all/:id", (req : Request, res : Response) => {
     console.log("/test:received update request from user to get userevents");
-    eventDao.getUsersForEvent(req.params.id, (status, data) => {
+    userEventDao.getAllbyId(req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
     });
