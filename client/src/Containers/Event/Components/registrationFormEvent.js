@@ -43,8 +43,6 @@ export class RegistrationForm extends Component {
     image: File = null;
 
     render(){
-        if(userService.currentUser) {
-            if(userService.currentUser.p_create_event >=1) {
                 return (
                     <div>
                         <div className="card-header">
@@ -110,20 +108,9 @@ export class RegistrationForm extends Component {
                         </form>
                     </div>
                 )
-                if(!this.loaded){
-                    this.load();
-                    this.loaded = true;
-                }
-            }else{
-                Alert.danger("Ikke autorisert");
-                return <div></div>
-            }
-        }else{
-            return <Spinner animation="border"></Spinner>
-        }
     }
 
-    load() {
+    mounted() {
         this.getArtists();
         this.getTickets();
         this.getEmployees();
@@ -146,7 +133,16 @@ export class RegistrationForm extends Component {
     }
 
     regEvent(){
-        console.log(this.eventName+"hei");
+        if (!userService.currentUser) {
+            Alert.danger("Ikke autorisert")
+            return;
+        }else{
+                if (userService.currentUser.p_create_event < 1 && userService.currentUser.privileges != 1) {
+                Alert.danger("Ikke autorisert")
+                return;    
+            }
+        }
+        console.log(this.eventName+" hei");
 
         console.log(getlatlng()[0]);
         console.log(getlatlng()[1]);
@@ -231,6 +227,18 @@ export class RegistrationForm extends Component {
             }
         });
     }
+
+    /*
+    notify(name: string, employees: UserEvent[]) {
+        console.log("INVITER: ", employees);
+
+        employees.map(e => {
+            if (e) {
+                userEventService
+
+            }
+        })
+    }*/
 
     cancel(){
       history.push("/allEvents");
