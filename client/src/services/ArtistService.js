@@ -12,8 +12,9 @@ export class Artist {
     artist_contract: any;
     email: string;
     phone: string;
+    accepted: number;
 
-    constructor(artist_id: number, event_id: number, artist_name: string, riders: any, hospitality_riders: any, artist_contract: any, email: string, phone: string) {
+    constructor(artist_id: number, event_id: number, artist_name: string, riders: any, hospitality_riders: any, artist_contract: any, email: string, phone: string, accepted: number) {
 
         this.artist_id = artist_id;
         this.event_id = event_id;
@@ -23,6 +24,7 @@ export class Artist {
         this.artist_contract = artist_contract;
         this.email = email;
         this.phone = phone;
+        this.accepted = accepted;
     }
 }
 

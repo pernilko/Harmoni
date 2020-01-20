@@ -5,6 +5,7 @@
     height: 350px;
     width: 650px;
     border-radius: 6px;
+    background-color: white;
 }
 
 .content:hover{

@@ -2,15 +2,56 @@
     font-family: 'PT Serif', serif;
 }
 
-body {
-    background-color: #9933ff;
+.nameCol {
+    width: 40%;
+}
+
+.positionCol {
+    width: 35%;
+}
+
+.buttonCol {
+    width: 25%;
+}
+
+.table{
+    width: 70%;
+    margin-left: 15%;
+}
+
+.tableHead{
+    background-color: #e6ccff;
+}
+
+p {
+    display: inline;
+}
+
+.buttonHorizontal{
+    display: inline-block;
+    float: right;
+}
+
+.borderControl {
+    border-right: solid #e6ccff 4px;
+}
+
+.noBorder {
+    border: 0px;
 }
 
 .artist {
-
     background-color: #e6ccff;
     border-radius: 6px;
  }
 
 .artistContainer {
+}
+
+.redBG{
+    background: #dE685E;
+}
+
+.greenBG{
+    background: linear-gradient(#92bCa6, #A2CCB6);
 }
