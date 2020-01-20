@@ -12,7 +12,6 @@ let config: {host: string, user: string, password: string, email: string, email_
 
 let app = express();
 app.use(bodyParser.json());
-
 app.use("/uploadRiders", fileUpload());
 
 let DOMAIN = "localhost:3000/"
@@ -651,6 +650,22 @@ app.post("/event/add", (req : Request, res: Response) => {
     });
 });
 
+app.get("/event/current/user/:id", (req: Request, res: Response) => {
+    console.log("/event/current/user/:id: received put request from client");
+    eventDao.getEventCurrentUser(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.get("/event/current/org/:id", (req: Request, res: Response) => {
+    console.log("/event/current/org/:id: received put request from client");
+    eventDao.getEventCurrentOrg(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 app.put("/event/edit/:id", (req : Request, res: Response) => {
     console.log("/event/edit/:id: received put request from client");
     eventDao.editEvent(req.params.id, req.body, (status, data) => {
@@ -720,9 +735,25 @@ app.get("/event/search/:name/:org_id", (req: Request, res: Response) => {
     });
 });
 
+app.get("/event/pending/:id", (req: Request, res: Response) => {
+    console.log("/event/pending/:id received get request from client");
+    eventDao.getPending(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.put("/event/pending/:id", (req: Request, res: Response) => {
+    console.log("/event/pending/:id received put request from client");
+    eventDao.setCompleted(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 app.post("/event/add/notify/:event_id", (req: Request, res: Response) => {
     console.log("/event/add/notify/:event_id received post request from client");
-    
+
 })
 
 //User
@@ -807,8 +838,6 @@ app.get("/user/:id", (req: Request, res: Response)=>{
         res.json(data);
     });
 });
-
-
 
 app.delete("/user/delete/:id", (req : Request, res: Response) => {
     console.log("/user/delete/:id: received delete request from client");

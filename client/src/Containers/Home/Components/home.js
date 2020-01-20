@@ -6,6 +6,8 @@ import {Card, Col, Container, Row, Spinner} from "react-bootstrap";
 import {Organization, organizationService} from "../../../services/OrganizationService";
 import {userService} from "../../../services/UserService";
 import {EventList} from '../../Event/Components/showEvents';
+import {Pending} from "../../Event/Components/showPending";
+import {sharedComponentData} from "react-simplified";
 
 export class Home extends Component {
     loaded: boolean = false;
@@ -20,23 +22,24 @@ export class Home extends Component {
     }
 
     render(){
-        if(this.loaded){
+        if (userService.currentUser) {
+            if (userService.currentUser.p_archive == 1) {
             return(
                 <div>
                     <Container fluid={true}>
                         <Row>
-                            <Col md={4} style={{padding: '0'}}>
+                            <Col md={6} style={{padding: '0'}}>
                                 <div className="card" style={{margin: "none"}}>
-                                    <div className="card-header">Organisasjon</div>
-                                    <div className="card-body">
-                                    </div>
+                                    <div className="card-header">Pending</div>
+                                    <div className="card-body"></div>
+                                    <Pending/>
                                 </div>
                             </Col>
-                            <Col md={8} style={{padding: '0'}}>
+                            <Col md={6} style={{padding: '0'}}>
                                 <div className="card" style={{margin: "none"}}>
                                     <div className="card-header">Kommende Arrangement</div>
                                     <div className="card-body">
-                                      <EventList user={false} prev={false}/>
+                                      <EventList user={false} time={2}/>
                                     </div>
                                 </div>
                             </Col>
@@ -44,28 +47,28 @@ export class Home extends Component {
                     </Container>
                 </div>
             )
-        } else {
-            return (
-                <div>
+            } else {
+                return (
+                 <div>
                     <Container fluid={true}>
                         <Row>
-                            <Col md={4} style={{padding: '0'}}>
-                                <div className="card" style={{margin: "none"}}>
-                                    <div className="card-header"><Spinner animation="border"/></div>
-                                    <div className="card-body">
-                                    </div>
-                                </div>
-                            </Col>
-                            <Col md={8} style={{padding: '0'}}>
+                            <Col md={6} style={{padding: '0'}}>
                                 <div className="card" style={{margin: "none"}}>
                                     <div className="card-header">Kommende Arrangement</div>
                                     <div className="card-body">
+                                      <EventList user={false} time={2}/>
                                     </div>
                                 </div>
                             </Col>
                         </Row>
                     </Container>
                 </div>
+            )
+            }
+        }
+        else {
+            return (
+                <div></div>
             )
         }
     }

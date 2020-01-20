@@ -12,7 +12,7 @@ class Tabs extends Component {
     super(props);
 
     this.state = {
-      activeTab: this.props.children[1].props.label,
+      activeTab: this.props.children[2].props.label,
     };
   }
 
