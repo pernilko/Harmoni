@@ -44,12 +44,21 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     endTime: number = null;
     lat: float = 0;
     lng: float = 0;
-    loaded: bool = false;
+    loaded: boolean = false;
+    restLoaded = false;
     empDet: any = null;
 
     render() {
+        if(!this.loaded){
+            this.load();
+            this.loaded = true;
+        }
         if (this.event && this.tickets && this.artists && userService.currentUser) {
             if(this.event.user_id == userService.currentUser.user_id || userService.currentUser.privileges == 1) {
+                if(!this.restLoaded){
+                    this.loadRest();
+                    this.restLoaded = true;
+                }
                 return (
                     <div>
                         <div className="card-header">
@@ -127,7 +136,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         }
     }
     
-    mounted() {
+    load() {
         eventService
             .getEventId(this.props.match.params.event_id)
             .then(event => {
@@ -136,9 +145,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 this.startTime = this.event.event_start.slice(11,16);
                 this.endDate = this.event.event_end.slice(0,10);
                 this.endTime = this.event.event_end.slice(11,16);
-                this.getArtists(this.props.match.params.event_id);
-                this.getTickets(this.props.match.params.event_id);
-                this.getEmployees(this.props.match.params.event_id);
+                this.eventLoaded = true;
             })
             /*
             .then(() => {
@@ -146,6 +153,11 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 this.getTickets(this.props.match.params.event_id);
                 this.getEmployees(this.props.match.params.event_id);
             })*/
+    }
+    loadRest(){
+        this.getArtists(this.props.match.params.event_id);
+        this.getTickets(this.props.match.params.event_id);
+        this.getEmployees(this.props.match.params.event_id);
     }
 
     getArtists(val: number) {
@@ -277,7 +289,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                     }
                 });
                 if (!found) {
-                    let emp: UserEvent = new UserEvent(e.user_id, parseInt(this.props.match.params.event_id), e.job_position, e.user_name, 2);
+                    let emp: UserEvent = new UserEvent(e.user_id, parseInt(this.props.match.params.event_id), e.job_position, e.user_name, e.email, 2);
                     add.push(emp);
                 }
             }
@@ -307,7 +319,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         console.log("ADD ARTISTS: ", artists);
         artists.map(a => {
             artistService
-                .addArtist(this.props.match.params.event_id, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone)
+                .addArtist(this.props.match.params.event_id, a.artist_name, a.email, a.phone, a.riders, a.hospitality_riders, a.artist_contract)
                 .then(response => console.log(response))     
         })  
     }

@@ -94,10 +94,11 @@ app.use("/api", (req, res, next) => {
 app.post('/uploadRiders/:artist_id', function(req, res) {
     console.log("received post request for uploading rider");
     if (!req.files || Object.keys(req.files).length === 0) {
-        return res.status(400).send('No files were uploaded.');
+        return;
     }
 
     // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+
     let ridersFile = req.files.riders;
     let hospitality_ridersFile = req.files.hospitality_rider;
     let artist_contractFile = req.files.artist_contract;
