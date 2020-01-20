@@ -31,14 +31,14 @@ export class Navigation extends Component {
                            value={this.search}
                            onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
                                (this.search = event.target.value)}/>
-              <Button className="btn btn-secondary" onClick={this.find}>Search</Button>
+              <Button type = "submit" className="btn btn-secondary" onClick={this.find}>Search</Button>
             </Form>
           </Nav>
           <Navbar.Toggle aria-controls="basic-navbar-nav"/>
           <Navbar.Collapse className="ml-auto">
             <Nav className="ml-auto">
                 <Nav.Link href="#/alleEvents" style={{paddingLeft: 30+'px'}}> Alle arrangement</Nav.Link>
-                <Nav.Link href="#/inviterBruker" style={{paddingLeft: 30+'px'}}> Inviter Bruker</Nav.Link>
+                <Nav.Link href="#/inviterBruker" hidden = {userService.currentUser.privileges != 1} style={{paddingLeft: 30+'px'}}> Inviter Bruker</Nav.Link>
                 <NavDropdown title={"Logget inn som:" + userService.currentUser.user_name}
                              id="basic-nav-dropdown"
                              style={{paddingLeft: 30+'px'}}>
@@ -69,11 +69,9 @@ export class Navigation extends Component {
       )
     }
   }
-
   find(){
-    history.push("/search_result/" + this.search)
+    history.push("/search_result/" + this.search);
   }
-
 
   logout(){
     history.push("/");

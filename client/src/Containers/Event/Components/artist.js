@@ -14,9 +14,9 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
     artist: Artist[] = [];
 
     artist_name: string = this.props.artist.artist_name;
-    riders: File = this.props.artist.riders;
-    hospitality_riders: File = this.props.artist.hospitality_riders;
-    artist_contract: File = this.props.artist.artist_contract;
+    riders: File = null;
+    hospitality_riders: File = null;
+    artist_contract: File = null;
     email: string = this.props.artist.email;
     phone: number = this.props.artist.phone;
     //image: string = this.props.image;
@@ -58,7 +58,12 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
                                         </div>
                                         <div className="custom-file">
                                             <input type="file" className="file-path validate" id="raider" accept='.pdf'
-                                                   onChange={this.onChanger}/>
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>{
+                                                       this.riders=event.target.files[0];
+                                                       console.log("riders file from artistDropDown: ");
+                                                       console.log(this.riders);
+                                                   }
+                                                   }/>
                                         </div>
                                     </div><br/>
                                     <label>Hospitality rider:</label><br/>
@@ -67,7 +72,9 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
                                         </div>
                                         <div className="custom-file">
                                             <input type="file" className="file-path validate" id="hospitality-raider" accept='.pdf'
-                                                   onChange={this.onChangeh}/>
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>{
+                                                       this.hospitality_riders=event.target.files[0];
+                                                   }}/>
                                         </div>
                                     </div>
                                     <br/>
@@ -77,7 +84,9 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
                                         </div>
                                         <div className="custom-file">
                                             <input type="file" className="file-path validate" id="contract" accept='.pdf'
-                                                   onChange={this.onChangec}/>
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>{
+                                                       this.artist_contract=event.target.files[0];
+                                                   }}/>
                                         </div>
                                     </div>
                                     <br/>
@@ -104,31 +113,16 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
         }
 
         console.log(this.state);
-
         const index = this.artist.indexOf(this.props.artist);
-        this.artist[index] = new Artist(this.props.artist.artist_id,this.props.artist.event_id,this.artist_name, this.state.raider, this.state.hraider,this.state.contract,this.email, this.phone);
-
+        this.artist[index] = new Artist(this.props.artist.artist_id,this.props.artist.event_id,this.artist_name ,this.email, this.phone, this.riders, this.hospitality_riders, this.artist_contract);
         //let s: any = ArtistDetails.instance();
         //s.mounted();
-
     }
 
-    mounted() {
+    mounted(): unknown {
         let s: any = ArtistDetails.instance();
         this.artist = s.artist;
-
     }
-
-    onChanger(event:SyntheticInputEvent<HTMLInputElement>) {
-        this.state.raider=event.target.files[0];
-    }
-    onChangeh(event:SyntheticInputEvent<HTMLInputElement>) {
-        this.state.hraider=event.target.files[0];
-    }
-    onChangec(event:SyntheticInputEvent<HTMLInputElement>){
-        this.state.contract=event.target.files[0];
-    }
-
     delete(a: Artist){
         del_artist.push(a);
         const index = this.artist.indexOf(a);
@@ -155,9 +149,9 @@ export class ArtistDetails extends Component {
                             <div className="col"><label>Email: {a.email}</label></div>
                             <div className="col"><label>Tlf: {a.phone}</label></div>
                             <div className="col"><label>Dokumenter:
-                                <label>{a.riders ? a.riders.name : 'Ingen rider valgt.'}</label>
-                                <label>{a.hospitality_riders ? a.hospitality_riders.name : 'Ingen hospitality rider valgt.'}</label>
-                                <label>{a.artist_contract ? a.artist_contract.name: 'Ingen kontrakt valgt.'}</label></label></div>
+                                <label id="rider">{a.riders ? <a href={window.URL.createObjectURL(a.riders)}>{a.riders.name}</a>: 'Ingen rider valgt.'}</label>
+                                <label>{a.hospitality_riders ? <a href={window.URL.createObjectURL(a.hospitality_riders)}>{a.hospitality_riders.name}</a>: 'Ingen hospitality rider valgt.'}</label>
+                                <label>{a.artist_contract ? <a href={window.URL.createObjectURL(a.artist_contract)}>{a.artist_contract.name}</a>: 'Ingen kontrakt valgt.'}</label></label></div>
                         </div>
                         <div className={"row"}>
                             <div className={"col"}>
@@ -173,7 +167,7 @@ export class ArtistDetails extends Component {
     }
 
     addNewArtist(){
-        let a: Artist = new Artist(-1, 0, "", null, null, null, "", "", true);
+        let a: Artist = new Artist(-1, 0, "", "", "", null, null, null, null);
         this.artist.push(a);
     }
 }

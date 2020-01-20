@@ -1,4 +1,5 @@
 //@flow
+const fileUpload = require('express-fileupload');
 let express = require("express");
 let mysql = require("mysql");
 let bcrypt = require("bcryptjs");
@@ -14,13 +15,15 @@ let app = express();
 app.use(bodyParser.json());
 app.use('/nettavis', nettavis);
 
+app.use("/uploadRiders", fileUpload());
+
 let DOMAIN = "localhost:3000/"
 
 type Request = express$Request;
 type Response = express$Response;
 
 let pool = mysql.createPool({
-    connectionLimit: 2,
+    connectionLimit: 3,
     host: config.host,
     user: config.user,
     password: config.password,
@@ -90,11 +93,89 @@ app.use("/api", (req, res, next) => {
     });
 });
 
+app.post('/uploadRiders/:artist_id', function(req, res) {
+    console.log("received post request for uploading rider");
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let ridersFile = req.files.riders;
+    let hospitality_ridersFile = req.files.hospitality_rider;
+    let artist_contractFile = req.files.artist_contract;
+    console.log("frrom uploadRiders: ");
+    console.log(req.files);
+
+    if(req.files.riders) {
+        artistDao.insertRider(ridersFile, req.params.artist_id, (status, data) => {
+            if (!req.files.hospitality_rider && !req.files.artist_contract) {
+                res.status(status);
+                res.json(data);
+            }
+        });
+    }
+    if(req.files.hospitality_rider) {
+            artistDao.insertHospitalityRider(hospitality_ridersFile, req.params.artist_id, (status, data) => {
+                if(!req.files.artist_contract){
+                    res.status(status);
+                    res.json(data);
+                }
+            })
+    }
+    if(req.files.artist_contract){
+        artistDao.insertArtistContract(artist_contractFile, req.params.artist_id, (status, data) => {
+                res.status(status);
+                res.json(data);
+            })
+        }
+});
+app.post('/uploadHospitality_Riders/:artist_id', (req, res)=> {
+    console.log("received post request for uploading hospitality_rider with artist_id: " + req.params.artist_id);
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send("no files uploaded");
+    }
+
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let sampleFile = req.files.image;
+    console.log("from uploadRiders: ");
+    console.log(sampleFile);
+
+    artistDao.insertHospitalityRider(sampleFile, req.params.artist_id, (status, data)=>{
+        res.status(status);
+        res.json(data);
+    });
+});
+app.post('/uploadArtist_Contract/:artist_id', (req, res)=>{
+    console.log("received post request for uploading artist_contract");
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let sampleFile = req.files.image;
+    console.log("from uploadRiders: ");
+    console.log(sampleFile);
+
+    artistDao.insertHospitalityRider(sampleFile, req.params.artist_id, (status, data)=>{
+        res.status(status);
+        res.json(data);
+    });
+})
+
+app.get('/Riders/:artist_id', (req, res)=>{
+    console.log("received get request for getting riders");
+
+    artistDao.getRider(req.params.artist_id, (status, data)=>{
+        res.status(status);
+        res.json(data);
+    })
+})
+
 app.post("/inviteUser", (req, res) => {
     let email: string = req.body.email;
     let org_id: number = req.body.org_id;
     let org_name: string = req.body.org_name;
-    let token: string = jwt.sign({org_id: org_id}, privateKEY.key, {
+    let token: string = jwt.sign({org_id: org_id, email: email}, privateKEY.key, {
         expiresIn: 3600
     });
     let url: string = DOMAIN + "#/user/" + token;
@@ -103,6 +184,129 @@ app.post("/inviteUser", (req, res) => {
         from: "systemharmoni@gmail.com",
         to: email,
         subject: "Invitasjon fra " + org_name,
+        text: url
+    };
+
+    transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Email sent!");
+        }
+
+        res.json(url);
+    });
+});
+
+app.post("/bugreport", (req, res) => {
+    let email: string = req.body.email;
+    let org_id: number = req.body.org_id;
+    let org_name: string = req.body.org_name;
+    let report: string = req.body.text;
+    let token: string = jwt.sign({org_id: org_id}, privateKEY.key, {
+        expiresIn: 3600
+    });
+    let url: string = DOMAIN + "#/user/" + token;
+
+    let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: email,
+        subject: "Bugreport fra " + org_name,
+        text: report
+    };
+
+    transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Email sent!");
+        }
+
+        res.json(url);
+    });
+});
+
+app.post("/verifyEmail", (req, res) => {
+
+    let org_name = req.body.org_name;
+    let org_email = req.body.org_email;
+    let org_phone = req.body.org_phone;
+    let user_email = req.body.user_email;
+    let user_privileges = req.body.user_privileges;
+    let user_name = req.body.user_user_name;
+    let user_password = req.body.user_password;
+    let user_address = req.body.user_address;
+    let user_phone = req.body.user_phone;
+
+    let token: string = jwt.sign({org_name: org_name,
+        org_email: org_email,
+        org_phone: org_phone,
+        user_email: user_email,
+        user_privileges: user_privileges,
+        user_name: user_name,
+        user_password: user_password,
+        user_address: user_address,
+        user_phone: user_phone}, privateKEY.key, {
+        expiresIn: 3600
+    });
+    let url: string = DOMAIN + "#/verifyEmail/" + token;
+
+    let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: user_email,
+        subject: "Verifiser din e-post for admin bruker til organisasjonen " + org_name,
+        text: url
+    };
+
+    transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Email sent!");
+        }
+
+        res.json(url);
+    });
+});
+
+app.post("/verifyToken", (req, res) => {
+    let token: string = req.headers["x-access-token"];
+
+    jwt.verify(token, privateKEY.key, (err, decoded)=> {
+        if (err) {
+            res.status(401);
+            res.json({error: "Not Authorized"});
+        } else {
+            console.log("Token ok, returning org_id and email");
+            res.json({"org_name": decoded.org_name,
+                "org_email": decoded.org_email,
+                "org_phone": decoded.org_phone,
+                "user_email": decoded.user_email,
+                "user_privileges": decoded.user_privileges,
+                "user_name": decoded.user_name,
+                "user_password": decoded.user_password,
+                "user_address": decoded.user_address,
+                "user_phone": decoded.user_phone});
+        }
+    })
+});
+
+app.post("/forgotPass", (req, res) => {
+    let email: string = req.body.email;
+    let org_id: number = req.body.org_id;
+    let org_name: string = req.body.org_name;
+    console.log(email);
+    console.log(org_id);
+    console.log(org_name);
+    let token: string = jwt.sign({org_id: org_id, email: email}, privateKEY.key, {
+        expiresIn: 3600
+    });
+    let url: string = DOMAIN + "#/resetPass/" + token;
+
+    let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: email,
+        subject: "Gjenopprett passordet ditt til " + org_name,
         text: url
     };
 
@@ -148,6 +352,7 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
+    console.log("req.body from server: ");
     console.log(req.body);
     userDao.addUser(req.body, (status, data) => {
         res.status(status);
@@ -221,7 +426,23 @@ app.post("/invToken", (req, res)=>{
         }else{
             console.log("Token ok, returning org_id");
             console.log(decoded.org_id);
-            res.json({"org_id": decoded.org_id});
+            console.log(decoded.email);
+            res.json({"org_id": decoded.org_id, "email": decoded.email});
+        }
+    })
+});
+
+app.post("/resetToken", (req, res) => {
+    let token: string = req.headers["x-access-token"];
+    jwt.verify(token, privateKEY.key, (err, decoded)=> {
+        if (err) {
+            res.status(401);
+            res.json({error: "Not Authorized"});
+        } else {
+            console.log("Token ok, returning org_id and email");
+            console.log(decoded.org_id);
+            console.log(decoded.email);
+            res.json({"org_id": decoded.org_id, "email": decoded.email});
         }
     })
 });
@@ -235,12 +456,39 @@ app.get("/artist/:id", (req : Request, res: Response) => {
     });
 });
 
-//tested
+
 app.post("/artist/add", (req : Request, res: Response) => {
-    console.log("/artist/add: received post request from client");
-    artistDao.insertOne(req.body, (status, data) => {
-        res.status(status);
-        res.json(data);
+    pool.getConnection((err, connection: function) => {
+        console.log("Connected to database");
+        if (err) {
+            console.log("Feil ved oppkobling til databasen");
+            res.json({ error: "feil ved oppkobling"});
+        } else {
+            connection.query(
+                "INSERT INTO artist (event_id, artist_name, email, phone, image) values (?,?,?,?,?)",
+                [req.body.event_id, req.body.artist_name, req.body.email, req.body.phone, req.body.image],
+                err => {
+                    if (err) {
+                        console.log(err);
+                        res.json({ error: "error querying" });
+                    } else {
+                        connection.query(
+                            "SELECT LAST_INSERT_ID() as artist_id",
+                            (err, rows) => {
+                                connection.release();
+                                if (err) {
+                                    console.log(err);
+                                    res.json({ error: "error querying" });
+                                } else {
+                                    console.log(rows);
+                                    res.json(rows);
+                                }
+                            }
+                        )
+                    }
+                }
+            )
+        }
     });
 });
 
@@ -465,9 +713,9 @@ app.delete("/event/delete/:id", (req : Request, res: Response) => {
 });
 
 //not tested
-app.get("/event/search/:name", (req: Request, res: Response) => {
-    console.log("/event/search/:name received put request from client");
-    eventDao.getEventbySearch(req.params.name, (status, data) => {
+app.get("/event/search/:name/:org_id", (req: Request, res: Response) => {
+    console.log("/event/search/:name/:org_id received put request from client");
+    eventDao.getEventbySearch(req.params.name, req.params.org_id, (status, data) => {
         res.status(status);
         res.json(data);
     });
@@ -523,6 +771,23 @@ app.put("/Profile/edit/:id", (req, res) =>{
         res.json(data);
     });
 });
+
+app.put("/user/resetPass", (req, res) => {
+    console.log("/user/resetPass received an update request from client ");
+    userDao.resetPass(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.put("/user/updatePrivileges/:id", (req, res)=>{
+    console.log("/user/updatePriviliges received an update request from client ");
+    userDao.setPrivilegesId(req.params.id, req.body, (status, data)=>{
+        res.status(status);
+        res.json(data);
+    })
+})
+
 app.put("/Profile/updateUsername/:id", (req, res)=>{
     console.log("/Profile/edit received an update request from client ");
     userDao.updateUserName(req.params.id, req.body, (status, data)=>{
@@ -607,6 +872,14 @@ app.delete("/user/delete/:id", (req : Request, res: Response) => {
 app.get("/user/all/:id", (req: Request, res: Response) => {
     console.log("/user/all/:id received get request from client");
     userDao.getAllUsersByOrgId(req.params.id, (status, data)=>{
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.get("/user/admin/:org_id", (req: Request, res: Response) => {
+    console.log("/user/admin/:org_id received get request from client");
+    userDao.getAdminByOrgId(req.params.org_id, (status, data)=>{
         res.status(status);
         res.json(data);
     });

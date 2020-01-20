@@ -17,6 +17,10 @@ export class User {
     phone: string = "";
     image: string = "";
     reg_date: string = "";
+    p_create_event: number = 0;
+    p_read_contract: number = 0;
+    p_read_riders: number = 0;
+    p_archive: number = 0;
 
     /*constructor(user_id: number, org_id: number, email: string, privileges: number, user_name: string, password: string, address: string, phone: string, image: string, reg_date: string) {
         this.user_id = user_id;
@@ -110,6 +114,15 @@ class UserService {
             "phone": phone
         }) .then(response => response.data);
     }
+
+    updatePrivileges(user_id: number, p_create_event: number, p_read_contract: number, p_read_riders: number, p_archive: number){
+        return axios.put<{}, User>(url+ 'user/updatePrivileges/'+ user_id, {
+            "p_create_event": p_create_event,
+            "p_read_contract": p_read_contract,
+            "p_read_riders": p_read_riders,
+            "p_archive":p_archive
+        }).then(response=>response.data);
+    }
     updateUsernamePassword(user_id:number, user_name: string, password: string){
         return axios.put<{}, User>(url + 'Profile/edit/' + user_id, {
             "user_name": user_name,
@@ -151,6 +164,31 @@ class UserService {
         return axios.get<User[]>(url +"user/all/"+ org_id).then(response => response.data);
     }
 
+    resetPass(org_id: number, email: string, password: string) {
+        return axios.put<{}, User>(url + "user/resetPass", {
+            "org_id": org_id,
+            "email": email,
+            "password": password
+        }).then(res => res.data);
+    }
+
+    getAdminByOrgId(org_id: number){
+        return axios.get<User>(url +"user/admin/"+ org_id).then(response => response.data[0])
+    }
+    
+    verifiserAdminOgOrg(org_name: string, org_email: string, org_phone: string, user_email: string, user_privileges, user_user_name, user_password, user_address, user_phone){
+        return axios.post<{}>(url+"verifyEmail", {
+            "org_name": org_name,
+            "org_email": org_email,
+            "org_phone": org_phone,
+            "user_email": user_email,
+            "user_privileges": user_privileges,
+            "user_user_name": user_user_name,
+            "user_password": user_password,
+            "user_address": user_address,
+            "user_phone": user_phone
+        }).then(res=>res.data);
+    }
 }
 
 export let userService: UserService = sharedComponentData(new UserService());

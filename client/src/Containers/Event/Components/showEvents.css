@@ -7,7 +7,7 @@
     border-radius: 6px;
 }
 
-.eventCard:hover{
+.content:hover{
     box-shadow: darkblue;
     opacity: 0.795;
 }
@@ -26,6 +26,7 @@
     width: 14%;
     height: 100%;
     border-radius: 6px;
+    border-top-right-radius: 0px;
 }
 
 .redBG{
@@ -44,6 +45,7 @@
     width: 100%;
     height: 40%;
     object-fit: cover;
+    border-top-right-radius: 6px;
 }
 
 .center{

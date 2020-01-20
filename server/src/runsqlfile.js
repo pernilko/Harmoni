@@ -1,13 +1,13 @@
 // @flow
 
-var mysql = require("mysql");
-var fs = require("fs");
-var path = require("path");
+let mysql = require("mysql");
+let fs = require("fs");
+let path = require("path");
 
 
 module.exports = function run(filename: string, pool: function, done: function) {
   console.log("runsqlfile: reading file " + filename);
-  let sql = fs.readFileSync(path.join(__dirname, filename), "utf8");
+  let sql = fs.readFileSync(filename, "utf8");
   pool.getConnection((err, connection) => {
     if (err) {
       console.log("runsqlfile: error connecting");

@@ -19,9 +19,12 @@ import {inviteUser} from './Containers/Organization/Components/inviteUser';
 import {userForm} from "./Containers/Organization/Components/User";
 import { Profile } from './Containers/Profile/Components/Profile';
 import {Home} from "./Containers/Home/Components/home";
-import {SearchResults} from "./Containers/Event/Components/search";
+import {SearchResults} from "./Containers/Navbar/Components/search";
 import {OrgProfile} from "./Containers/Organization/Components/Profile";
+import {resetPass} from "./Containers/Organization/Components/resetPass";
 import {ShowTab} from './Containers/Event/Components/showTab';
+import {verifyEmail} from "./Containers/Organization/Components/verifyEmail";
+
 
 const root = document.getElementById('root');
 if (root)
@@ -38,6 +41,7 @@ if (root)
         <Route path="/editEvent/:event_id" component={EditEvent}/>
         <Route exact path = "/event/:id" component = {EventDetails}/>
         <Route path = "/user/:token" component = {userForm}/>
+        <Route path = "/resetPass/:token" component = {resetPass}/>
         <Route path = "/showEvent/:id" component = {EventDetails}/>
         <Route path = "/inviterBruker" component = {inviteUser}/>
         <Route path = "/home" component = {Home}/>
@@ -45,6 +49,7 @@ if (root)
         <Route path = "/organizationProfile" component = {OrgProfile}/>
         <Route exact path = "/alleEvents" render = {(props) => <ShowTab all={true}/>}/>
         <Route exact path = "/mineEvents" render = {(props) => <ShowTab all={false}/>}/>
+        <Route path = "/verifyEmail/:token" component={verifyEmail}/>
       </div>
     </HashRouter>,
     root

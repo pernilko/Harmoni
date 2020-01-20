@@ -7,6 +7,8 @@ import {NavLink} from "react-router-dom";
 import MapContainer from "./map";
 import Popup from "reactjs-popup";
 import { createHashHistory } from 'history';
+import {organizationService} from "../../../services/OrganizationService";
+import {userService} from "../../../services/UserService";
 
 const history = createHashHistory();
 
@@ -14,6 +16,9 @@ let eventService = new EventService();
 export class EventDetails extends Component<{ match: { params: { id: number } } }>  {
     event_id = this.props.match.params.id;
     loaded: boolean = false;
+    hidden: boolean = true;
+    bugreport: string = "";
+
     constructor(props){
         super(props);
         this.loaded = false;
@@ -54,6 +59,15 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                     </div>
                                 )}
                             </Popup>
+                            <a href={"#/showEvent/" + this.event_id} className="card-link" onClick={this.show}> Rapporter problem
+                                <div hidden={this.hidden}>
+                                    <textarea rows="4" cols="40" style={{margin: '10px',}} placeholder="Beskriv feilmelding"
+                                              onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.bugreport = event.target.value)}/>
+                                    <br/>
+                                    <button className="btn btn-primary submit" style={{margin:10 +'px'}} onClick={this.sendReport}>Rapporter problem</button>
+                                </div>
+                            </a>
+
                             <br/>
                             <MapContainer lat={e.latitude} lng={e.longitude} show={true}/>
                         </div>
@@ -70,17 +84,6 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             console.log(event);
             this.setState({event});
             this.loaded = true;
-/*
-            <Popup trigger = {<button className="float-right btn btn-danger">Slett</button>} position="right center">
-                { close => (
-                    <div>
-                        <p><b>Vil du slette dette arrangementet?</b></p>
-                        <button className="btn btn-warning float-left ml-3" onClick={() => {close();}}>Nei</button>
-                        <button className="btn btn-success float-right mr-3" onClick={() => this.slett(event.event_id)}>Ja</button>
-                    </div>
-                )}
-            </Popup>
-*/
         })
     }
     slett(event_id: number){
@@ -91,6 +94,21 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             .then(Alert.danger("Arrangementet ble slettet"))
             .catch((error: Error) => console.log(error.message));
     }
+    show(){
+        this.hidden = false;
+    }
 
+    sendReport(){
+        organizationService.reportBug("pernilko@stud.ntnu.no", userService.currentUser.org_id, organizationService.currentOrganization.org_name, this.bugreport)
+            .then((e) => {
+                Alert.success("Bug report sendt!");
+                this.hidden = true;
+                this.email = "";
+            })
+            .catch((error: Error) => console.log(error.message))
+
+
+
+    }
 }
 // <MapContainer lat={this.state["event"].latitude} lng={this.state["event"].longitude}/>
