@@ -110,8 +110,8 @@ export class EventService {
         return axios.get<Event[]>(url + "event/search/" + search + "/" + org_id).then(response => response.data);
     }
 
-     setAcceptedEvent(id: number, accepted: number) {
-        return axios.put<Event, void>(url + "event/accepted/" + id).then(response => response.data);
+    setAcceptedEvent(id: number, accepted: number) {
+        return axios.put<Event, void>(url + "event/accepted/" + id, {"accepted": accepted}).then(response => response.data);
     }
 }
 

@@ -23,6 +23,10 @@
     background-color: #e6e6ff;
 }
 
+.width{
+    width: 95%;
+}
+
 #topBanner{
     height: 40px;
     margin-left: 15px;
@@ -55,6 +59,9 @@ p {
 .artistContainer {
 }
 
+.whiteTextOnAcceptButtonAtTopOfEventPageToAcceptEntireEventGivingAnAdditionalOptionToDeclineViaAPopoupWIndowThatJulieDesignedEarlierThisWeek{
+    color: white;
+}
 
 .redBG{
     background: #dE685E;

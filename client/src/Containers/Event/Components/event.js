@@ -57,14 +57,44 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
 
                         <br/>
                         <Row>
-                            <Column width="10">
-                                <div id="topBanner" className={"artistBanner w-100" + (false ? " greenBG" : " redBG")}>
-                                    Arrangementet er under planlegging
-                                </div>
-                            </Column>
-                            <Column width="2">
 
-                            </Column>
+                            {   e.accepted > 0 ? 
+                                <Column width="12"> 
+                                    <div id="topBanner" className="width greenBG"> 
+                                        Arrangementet er helt klart! 
+                                    </div> 
+                                </Column>
+                                :
+                                <Column>
+                                    <Row>
+                                        <Column width="10">
+                                            <div id="topBanner" className={"artistBanner w-100 redBG"}>
+                                                Arrangementet er under planlegging
+                                            </div>
+                                        </Column>
+                                        <Column width="2">
+                                            <Popup trigger={<a
+                                                hidden={userService.currentUser.user_id != e.user_id && userService.currentUser.privileges != 1}
+                                                className="btn btn-success"> <div className="whiteTextOnAcceptButtonAtTopOfEventPageToAcceptEntireEventGivingAnAdditionalOptionToDeclineViaAPopoupWIndowThatJulieDesignedEarlierThisWeek">Godkjenn </div></a>}>
+                                                {close => (
+                                                    <div>
+                                                        <p><b>Dette vil markere hele arrangementet som klart, det vil bety at riders, og kontrakter bør være ferdigstilt</b></p>
+                                                        <button className="btn btn-warning float-left ml-3" onClick={() => {
+                                                            close();
+                                                        }}>Avbryt
+                                                        </button>
+                                                        <button className="btn btn-success float-right mr-3"
+                                                               onClick={() => this.setAcceptedEvent(e.event_id, 1)}>Fortsett
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </Popup>
+                                        </Column>  
+                                    </Row> 
+                                </Column>                  
+                            }
+
+                            
                         </Row>
                         <div className="card-body card-body-cascade text-center">
                             <h1 className="card-title text">{e.event_name}</h1>
@@ -257,8 +287,6 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         this.setState({artists});
     }
 
-
-
     getUserEvent(BANG: number){
         if (userService.currentUser){
             let u = this.state["users"];
@@ -295,6 +323,15 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
     }
     show(){
         this.hidden = false;
+    }
+
+    setAcceptedEvent(id, accepted){
+        eventService.setAcceptedEvent(id, accepted);
+
+        let event = this.state["event"];
+        event.accepted = accepted;
+
+        this.setState({event});
     }
 }
 // <MapContainer lat={this.state["event"].latitude} lng={this.state["event"].longitude}/>
