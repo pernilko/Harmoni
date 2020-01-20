@@ -719,6 +719,11 @@ app.get("/event/search/:name/:org_id", (req: Request, res: Response) => {
     });
 });
 
+app.post("/event/add/notify/:event_id", (req: Request, res: Response) => {
+    console.log("/event/add/notify/:event_id received post request from client");
+    
+})
+
 //User
 //tested
 app.put("/user/admin/:id", (req: Request, res: Response) => {
@@ -801,6 +806,8 @@ app.get("/user/:id", (req: Request, res: Response)=>{
         res.json(data);
     });
 });
+
+
 
 app.delete("/user/delete/:id", (req : Request, res: Response) => {
     console.log("/user/delete/:id: received delete request from client");

@@ -11,18 +11,19 @@ export class UserEvent {
     user_name: string;
     accepted: number;
 
-    constructor(user_id: number, event_id: number, job_position: string, user_name: string, accepted: number ) {
+    constructor(user_id: number, event_id: number, job_position: string, user_name: string, email: string, accepted: number ) {
         this.user_id = user_id;
         this.event_id = event_id;
         this.job_position = job_position;
         this.user_name = user_name;
+        this.email = email;
         this.accepted = accepted;
     }
 }
 
 class UserEventService {
 
-    addUserEvent(user_id: number, event_id: number, job_position: string, accepted: number){
+    addUserEvent(user_id: number, event_id: number, job_position: string, email: string, accepted: number){
         return axios.post<{}, UserEvent>(url+"userEvent/add", {
             "user_id": user_id,
             "event_id": event_id,
@@ -55,6 +56,8 @@ class UserEventService {
     deleteUserEvent(user_id: number, event_id: number){
         return axios.delete<{}, UserEvent>(url + "userEvent/delete/" + user_id + "/" + event_id).then(response => response.data);
     }
+
+    //notify(name: string, )
 }
 
 export let userEventService = new UserEventService();

@@ -232,6 +232,18 @@ export class RegistrationForm extends Component {
         });
     }
 
+    /*
+    notify(name: string, employees: UserEvent[]) {
+        console.log("INVITER: ", employees);
+
+        employees.map(e => {
+            if (e) {
+                userEventService
+
+            }
+        })
+    }*/
+
     cancel(){
       history.push("/allEvents");
     }
