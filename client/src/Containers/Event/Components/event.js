@@ -203,10 +203,6 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         }
     }
     load() {
-        if(!localStorage.getItem("token")){
-            Alert.danger("Innlogging kreves");
-            history.push("/login");
-        }
         if (userService.currentUser) {
             eventService.getEventId(this.event_id).then(r => {
                 let event = r;

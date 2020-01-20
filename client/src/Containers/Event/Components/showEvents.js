@@ -159,12 +159,6 @@ export class EventList extends Component<{user: boolean, time: number}>{
           })
       }
     }
-    mounted(){
-        if(!localStorage.getItem("token")){
-            Alert.danger("Innlogging kreves");
-            history.push("/login");
-        }
-    }
 
     loadContent(){
         if (userService.currentUser && this.loaded){
