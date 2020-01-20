@@ -746,6 +746,58 @@ app.post("/event/add/notify/:event_id", (req: Request, res: Response) => {
     });
 })
 
+app.post("/event/delete/notify/:event_id", (req: Request, res: Response) => {
+    console.log("/event/add/notify/:event_id received post request from client");
+    let name: string = req.body.name;
+    let job_position: number = req.body.job_position;
+    let email: string = req.body.email;
+    
+    let url: string = DOMAIN + "#/showEvent/" + req.params.event_id;
+
+    let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: email,
+        subject: "Det er gjort endringer i din vakt",
+        text: "Hei! Du er ikke lenger satt opp på vakt på dette arrangementet: " + url
+    };
+
+    transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Email sent!");
+        }
+
+        res.json(url);
+    });
+})
+
+app.post("/event/edit/notify/:event_id", (req: Request, res: Response) => {
+    console.log("/event/add/notify/:event_id received post request from client");
+    let name: string = req.body.name;
+    let job_position: number = req.body.job_position;
+    let email: string = req.body.email;
+    
+    let url: string = DOMAIN + "#/showEvent/" + req.params.event_id;
+
+    let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: email,
+        subject: "Endringer i arrangement",
+        text: "Hei! Det har blitt gjort endringer på et arrangement hvor du er satt opp på vakt. Trykk på lenken for å se endringene: " + url
+    };
+
+    transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Email sent!");
+        }
+
+        res.json(url);
+    });
+})
+
 //User
 //tested
 app.put("/user/admin/:id", (req: Request, res: Response) => {

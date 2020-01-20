@@ -19,6 +19,7 @@ import {del_ticket} from "./ticketDropdown";
 import {del_employee} from "./employees";
 import {sharedComponentData} from "react-simplified";
 import {Spinner} from "react-bootstrap";
+import Popup from "reactjs-popup";
 
 const history = createHashHistory();
 
@@ -47,6 +48,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     loaded: boolean = false;
     restLoaded = false;
     empDet: any = null;
+    changed: boolean = false;
 
     render() {
         if(!this.loaded){
@@ -121,7 +123,21 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                             <h2> Velg lokasjon på kartet: </h2>
                             <MapContainer lat={this.event.latitude} lng={this.event.longitude} show={true} edit={true}/>
                             <div className="btn-group" style={{width: "20%", marginLeft: "40%", padding: "20px"}}>
-                                <button className="btn btn-success" type="button" onClick={this.edit}>Lagre</button>
+                                <Popup trigger={<a
+                                    className="btn btn-success">Lagre</a>}>
+                                    {close => (
+                                        <div>
+                                            <p><b>Vil du varsle personalet om endringen(e)?</b></p>
+                                            <button className="btn btn-warning float-left ml-3" onClick={() => {
+                                                this.edit(false);
+                                            }}>Nei
+                                            </button>
+                                            <button className="btn btn-success float-right mr-3"
+                                                    onClick={() => this.edit(true)}>Ja
+                                            </button>
+                                        </div>
+                                    )}
+                                </Popup>
                                 <button className="btn btn-danger" type="button" onClick={this.cancel}>Avbryt</button>
                             </div>
                         </form>
@@ -197,7 +213,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             })
     }
 
-    edit(){
+    edit(sendMail: boolean){
         this.lat = getlatlng()[0];
         this.lng = getlatlng()[1];
         //console.log(this.startDate);
@@ -217,6 +233,15 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 this.deleteTickets(del_ticket);
                 this.deleteEmployees(del_employee);
                 this.addEmployees(this.add_employees);
+                if (sendMail) {
+                    this.notifyAdd(this.props.match.params.event_id, this.event.event_name, this.add_employees);
+                    this.notifyDelete(this.props.match.params.event_id, this.event.event_name, del_employee);
+                }
+                console.log(this.employees.length);
+                console.log(original_employees.length);
+                if (this.add_employees.length == 0 && del_employee.length == 0) {
+                    this.notifyEdit(this.props.match.params.event_id, this.event.event_name, original_employees);
+                }
             })
             .catch((error: Error) => Alert.danger(error.message));
         history.push("/allEvents");
@@ -371,6 +396,42 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 .deleteUserEvent(e.user_id, e.event_id)
                 .then(response => console.log(response))
                 .catch((error: Error) => console.log(error.message))
+        })
+    }
+
+    notifyAdd(val: number, name: string, employees: UserEvent[]) {
+        console.log("INVITER: ", employees);
+
+        employees.map(e => {
+            if (e) {
+                userEventService
+                    .notify(val, name, e.job_position, e.email)
+                    .then(response => console.log(response))
+            }
+        })
+    }
+
+    notifyDelete(val: number, name: string, employees: UserEvent[]) {
+        console.log("INVITER: ", employees);
+
+        employees.map(e => {
+            if (e) {
+                userEventService
+                    .notifyDelete(val, name, e.job_position, e.email)
+                    .then(response => console.log(response))
+            }
+        })
+    }
+
+    notifyEdit(val: number, name: string, employees: UserEvent[]) {
+        console.log("INVITER: ", employees);
+
+        employees.map(e => {
+            if (e) {
+                userEventService
+                    .notifyEdit(val, name, e.job_position, e.email)
+                    .then(response => console.log(response))
+            }
         })
     }
 }

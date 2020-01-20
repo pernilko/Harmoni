@@ -64,6 +64,23 @@ class UserEventService {
             "email": email
         }).then(res => res.data);
     }
+
+    notifyDelete(event_id: number, name: string, job_position: string, email: string) {
+        return axios.post<{}, UserEvent[]>(url + "event/delete/notify/"+event_id, {
+            "name": name,
+            "job_position": job_position,
+            "email": email
+        }).then(res => res.data);
+    }
+
+    notifyEdit(event_id: number, name: string, job_position: string, email: string) {
+        return axios.post<{}, UserEvent[]>(url + "event/edit/notify/"+event_id, {
+            "name": name,
+            "job_position": job_position,
+            "email": email
+        }).then(res => res.data);
+    }
+
 }
 
 export let userEventService = new UserEventService();
