@@ -19,14 +19,14 @@ import {inviteUser} from './Containers/Organization/Components/inviteUser';
 import {userForm} from "./Containers/Organization/Components/User";
 import { Profile } from './Containers/Profile/Components/Profile';
 import {Home} from "./Containers/Home/Components/home";
-import {SearchResults} from "./Containers/Event/Components/search";
+import {SearchResults} from "./Containers/Navbar/Components/search";
 import {OrgProfile} from "./Containers/Organization/Components/Profile";
 import {resetPass} from "./Containers/Organization/Components/resetPass";
 import {ShowTab} from './Containers/Event/Components/showTab';
 import {verifyEmail} from "./Containers/Organization/Components/verifyEmail";
 
 
-const root = document.getElementById('root');
+const root = document.getElementById('root');    
 if (root)
   ReactDOM.render(
     <HashRouter>

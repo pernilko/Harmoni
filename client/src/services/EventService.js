@@ -15,8 +15,9 @@ export class Event {
     longitude: number;
     latitude: number;
     image: File;
+    completed: boolean;
 
-    constructor(event_id: number, org_id: number, user_id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number, image: File) {
+    constructor(event_id: number, org_id: number, user_id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number, image: File, completed: boolean) {
 
         this.event_id = event_id;
         this.org_id = org_id;
@@ -29,6 +30,7 @@ export class Event {
         this.longitude = longitude;
         this.latitude = latitude;
         this.image = image;
+        this.completed = completed;
     }
 }
 
@@ -68,14 +70,24 @@ export class EventService {
     getEventsUpcomingByOrg_id(org_id: number){
         return axios.get<Event[]>(url+"event/upcoming/org/" + org_id).then(response=>response.data);
     }
-
+    getEventsCurrentByUser_id(user_id: number){
+        return axios.get<Event[]>(url+"event/current/user/"+ user_id).then(response=>response.data);
+    }
+    getEventsCurrentByOrg_id(org_id: number){
+        return axios.get<Event[]>(url+"event/current/org/" + org_id).then(response=>response.data);
+    }
     getEventsPreviousByUser_id(user_id: number){
         return axios.get<Event[]>(url+"event/previous/user/"+ user_id).then(response=>response.data);
     }
     getEventsPreviousByOrg_id(org_id: number){
         return axios.get<Event[]>(url+"event/previous/org/" + org_id).then(response=>response.data);
     }
-
+    getEventsPending(user_id: number){
+        return axios.get<Event[]>(url+"event/pending/" + user_id).then(response=>response.data);
+    }
+    setCompleted(user_id: number){
+        return axios.put<Event[]>(url+"event/pending/" + user_id).then(response=>response.data);
+    }
     updateEvent(id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number, image: File) {
         return axios.put<{}, Event>(url + "event/edit/"+id, {
             "event_name": event_name,
