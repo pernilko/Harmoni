@@ -81,6 +81,14 @@ module.exports = class eventDao extends Dao{
           callback);
     }
 
+    setCompleted(event_id: number, callback: function) {
+      super.query(
+        "UPDATE event SET completed=TRUE WHERE event_id = ?",
+        [event_id],
+        callback
+      );
+    }
+
     getEventbySearch(search: string, org_id: number, callback: function){
         super.query(
             "SELECT * FROM event WHERE event_name LIKE ? AND org_id = ?",

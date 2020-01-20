@@ -13,7 +13,13 @@ export class Pending extends Component<{}> {
     pending: Event[] = [];
     loaded: boolean = false;
 
-
+    constructor(props){
+        super(props);
+        this.state = {
+            events: [],
+            users: []
+        };
+    }
 
     render() {
         if (!this.loaded) {
@@ -41,37 +47,11 @@ export class Pending extends Component<{}> {
                                 </a>
 
                                 <div className={"banner" + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 1 ? " greenBG" : "") + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 0 ? " redBG" : "")} id = {i}>
-
-                                    { this.getUserEvent(e.event_id) ? (this.getUserEvent(e.event_id).accepted === 2 ?
-                                        <div>
                                             <div id="topButton" className= "mx-4" onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 1)}>
                                                 <button id="top" type="button" className="btn btn-info btn-circle">
                                                     <i className="fa fa-check" ></i>
                                                 </button>
                                             </div>
-                                            <div className="button mx-4 my-3" onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 0)}>
-                                                <button id="bot" type="button" className="btn btn-info btn-circle">
-                                                    <i className="fa fa-times" ></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    : <></>) : <></>}
-
-                                    { this.getUserEvent(e.event_id) ? (this.getUserEvent(e.event_id).accepted === 2 ?
-                                        <div>
-                                            <div id="topButton" className= "mx-4" onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 1)}>
-                                                <button id="top" type="button" className="btn btn-info btn-circle">
-                                                    <i className="fa fa-check" ></i>
-                                                </button>
-                                            </div>
-                                            <div className="button mx-4 my-3" onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 0)}>
-                                                <button id="bot" type="button" className="btn btn-info btn-circle">
-                                                    <i className="fa fa-times" ></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    : <></>) : <></>}
-
                                 </div>
                             </div>
                         </div>
@@ -82,7 +62,7 @@ export class Pending extends Component<{}> {
     }
 
     getUserEvent(event_id: number){
-        /*
+        
         if (userService.currentUser){
             let e = this.state["events"].filter(ev => ev.event_id === event_id);
             let u = this.state["users"];
@@ -98,7 +78,7 @@ export class Pending extends Component<{}> {
                 return users.find(user => user.event_id === event_id && userService.currentUser.user_id === user.user_id);
             }
         }
-        return undefined;*/
+        return undefined;
     }
 
     load() {

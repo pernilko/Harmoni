@@ -77,7 +77,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
                                                     <i className="fa fa-check" ></i>
                                                 </button>
                                             </div>
-                                            <div className="button mx-4 my-3" onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 0)}>
+                                            <div className="button mx-4 my-3" onClick={() => this.complteded(e.event_id)}>
                                                 <button id="bot" type="button" className="btn btn-info btn-circle">
                                                     <i className="fa fa-times" ></i>
                                                 </button>
@@ -96,6 +96,8 @@ export class EventList extends Component<{user: boolean, time: number}>{
             return( <Spinner animation="border"></Spinner>);
         }
     }
+
+        
 
     setAccepted(iterator: number, user_id: number, event_id: number, accepted: number) {
         userEventService.setAccepted(user_id, event_id, accepted);
