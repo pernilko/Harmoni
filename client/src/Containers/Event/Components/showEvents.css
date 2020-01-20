@@ -55,12 +55,23 @@
 .text{
     font-family: 'PT Serif', serif;
 }
-
-div.text-block{
-    position: center;
-    color: red;
+.container{
+    padding: 0;
+    position: relative;
+    text-align: center;
+    color: white;
 
 }
+.text-block{
+    position: absolute;
+    top: 15%;
+    left: 30%;
+    transform: rotate(-15deg);
+    background-color: rgba(133, 0, 0, 0.65);
+    font-size: 8vw;
+
+}
+
 
 a{
     color: #183248;
