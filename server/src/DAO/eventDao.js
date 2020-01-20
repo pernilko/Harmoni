@@ -44,8 +44,12 @@ module.exports = class eventDao extends Dao{
         super.query("DELETE FROM event WHERE event_id=?", [event_id], callback);
     }
 
+    cancelEvent(event_id: number, callback: function){
+        super.query("UPDATE event SET completed = -1 WHERE event_id = ?", [event_id], callback);
+    }
 
-editEvent(event_id: number, json: {event_name: string, place: string, description: string, event_start: Date, event_end: Date, longitude: number, latitude: number, image: number}, callback:function) {
+
+    editEvent(event_id: number, json: {event_name: string, place: string, description: string, event_start: Date, event_end: Date, longitude: number, latitude: number, image: number}, callback:function) {
 
       super.query("UPDATE event SET event_name=?, place=?, description=?, event_start=?, event_end=?, longitude=?, latitude=?, image=? WHERE event_id=?",
                   [json.event_name, json.place, json.description, json.event_start, json.event_end, json.longitude, json.latitude, json.image, event_id],

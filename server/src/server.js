@@ -167,7 +167,7 @@ app.get('/Riders/:artist_id', (req, res)=>{
         res.status(status);
         res.json(data);
     })
-})
+});
 
 app.post("/inviteUser", (req, res) => {
     let email: string = req.body.email;
@@ -657,6 +657,16 @@ app.put("/event/edit/:id", (req : Request, res: Response) => {
         res.json(data);
     });
 });
+
+
+app.put("/event/cancel/:id", (req : Request, res: Response) => {
+    console.log("/event/cancel/:id");
+    eventDao.cancelEvent(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+        });
+});
+
 
 app.delete("/event/delete/:id", (req : Request, res: Response) => {
     console.log("/event/delete/:id: received delete request from client");
