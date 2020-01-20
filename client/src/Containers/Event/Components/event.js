@@ -46,16 +46,16 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                             <h6 className="font-weight-bold indigo-text py-2">{e.place}</h6>
                             <h6 className="card-subtitle mb-2 text-muted"> <b></b> {e.event_start.slice(0, 10)}, {e.event_start.slice(11, 16)}-{e.event_end.slice(11, 16)}</h6>
                             <p className="card-text">{e.description}</p>
-                            <p>Du er blitt tilbudt en stilling som bartender</p>
+                            <p>HEI - INFO OM ARRANGEMENT</p>
                             <a href="#" className="card-link">Aksepter</a>
                             <a href="#" className="card-link">Avslå</a>
                             <a href={"#/editEvent/"+this.event_id} className="card-link">Rediger</a>
-                            <Popup trigger = {<a className="card-link">Slett</a>} >
+                            <Popup trigger = {<a className="card-link">Avlys arrangement</a>} >
                                 { close => (
                                     <div>
-                                        <p><b>Vil du slette dette arrangementet?</b></p>
+                                        <p><b>Vil du avlyse dette arrangementet?</b></p>
                                         <button className="btn btn-warning float-left ml-3" onClick={() => {close();}}>Nei</button>
-                                        <button className="btn btn-success float-right mr-3" onClick={() => this.slett(this.event_id)}>Ja</button>
+                                        <button className="btn btn-success float-right mr-3" onClick={() => this.cancelled(this.event_id)}>Ja</button>
                                     </div>
                                 )}
                             </Popup>
@@ -86,7 +86,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             this.loaded = true;
         })
     }
-    slett(event_id: number){
+    cancelled(event_id: number){
         eventService
             .deleteEvent(event_id)
             .then(response => console.log(response))
