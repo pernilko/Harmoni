@@ -44,9 +44,7 @@ class UserEventService {
     }
 
     getAllUserEvent(id: number) {
-        return axios.get<UserEvent[]>(url + "userevent/all/" + id).then(response => {
-            console.log(response.data);
-        });
+        return axios.get<UserEvent[]>(url + "userevent/all/" + id).then(response => response.data);
     }
 
     setAccepted(user_id: number, event_id: number, accepted: number) {

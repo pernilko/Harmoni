@@ -1071,7 +1071,7 @@ app.get("/user/admin/:org_id", (req: Request, res: Response) => {
 //UserEvent
 app.get("/userevent/all/:id", (req : Request, res : Response) => {
     console.log("/test:received update request from user to get userevents");
-    eventDao.getUsersForEvent(req.params.id, (status, data) => {
+    userEventDao.getAllbyId(req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
     });
