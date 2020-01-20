@@ -81,6 +81,8 @@ export class EventList extends Component<{user: boolean, time: number}>{
         }
     }
 
+
+
     setAccepted(iterator: number, user_id: number, event_id: number, accepted: number) {
         userEventService.setAccepted(user_id, event_id, accepted);
         let users = this.state["users"];

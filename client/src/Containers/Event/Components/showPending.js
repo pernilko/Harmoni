@@ -13,7 +13,13 @@ export class Pending extends Component<{}> {
     pending: Event[] = [];
     loaded: boolean = false;
 
-
+    constructor(props){
+        super(props);
+        this.state = {
+            events: [],
+            users: []
+        };
+    }
 
     render() {
         if (!this.loaded) {
@@ -56,7 +62,7 @@ export class Pending extends Component<{}> {
     }
 
     getUserEvent(event_id: number){
-        /*
+
         if (userService.currentUser){
             let e = this.state["events"].filter(ev => ev.event_id === event_id);
             let u = this.state["users"];
@@ -72,7 +78,7 @@ export class Pending extends Component<{}> {
                 return users.find(user => user.event_id === event_id && userService.currentUser.user_id === user.user_id);
             }
         }
-        return undefined;*/
+        return undefined;
     }
 
     completed(event_id: number){

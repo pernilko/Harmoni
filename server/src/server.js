@@ -743,6 +743,14 @@ app.get("/event/pending/:id", (req: Request, res: Response) => {
     });
 });
 
+app.put("/event/pending/:id", (req: Request, res: Response) => {
+    console.log("/event/pending/:id received put request from client");
+    eventDao.setCompleted(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 //User
 //tested
 app.put("/user/admin/:id", (req: Request, res: Response) => {
