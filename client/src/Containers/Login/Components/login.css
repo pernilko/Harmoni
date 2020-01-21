@@ -23,7 +23,7 @@ html,body {
 }
 
 .mid p{
-    padding: 40px;
+    padding: 20%;
 }
 
 .mid button{
@@ -87,7 +87,7 @@ html,body {
 
 /* mid wrapper */
 
-.mid .wrapper {
+.mid .wrapper{
     position: absolute;
     width: 50%;
     height: 120%;
@@ -144,6 +144,8 @@ a:after:hover {
 
 
 }
+
+
 
 #chooseOrg > h3 {
     padding: 20px;
@@ -211,9 +213,23 @@ a:after:hover {
 .mid .registerOrg{
     position: absolute;
     width: 90%;
-    height: 150%;
-    top: -20%;
+    height: 120%;
+    top: -9%;
     left: 5%;
+    background: #ffffff;
+    box-shadow: 0 0 4px rgba(0,0,0,.14), 0 9px 8px rgba(0,0,0,.28);
+    transition: all .5s;
+    color: #303030;
+    z-index: 50;
+
+}
+
+.mid .registerOrg1{
+    position: absolute;
+    width: 50%;
+    height: 120%;
+    top: -10%;
+    left: 45%;
     background: #ffffff;
     box-shadow: 0 0 4px rgba(0,0,0,.14), 0 9px 8px rgba(0,0,0,.28);
     transition: all .5s;
@@ -226,6 +242,13 @@ a:after:hover {
     position: relative;
     margin-bottom: 15px;
 }
+
+.mid .registerOrg1 > form > div {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+
 .mid .registerOrg label{
     position: absolute;
     top: -7px;
@@ -240,21 +263,49 @@ a:after:hover {
 }
 
 
+.mid .registerOrg1 label{
+    position: absolute;
+    top: -7px;
+    font-size: 12px;
+    white-space: nowrap;
+    background: #fff;
+    text-align: left;
+    left: 15px;
+    padding: 0 5px;
+    color: #999;
+    pointer-events: none;
+}
+
 .mid .registerOrg input:focus{
+    outline: none;
+    border-color: #281121;
+}
+
+.mid .registerOrg1 input:focus{
     outline: none;
     border-color: #281121;
 }
 
 .mid .registerOrg > form{
     padding: 15px 30px 30px;
-    width: 120%;
     transition: all .5s;
     background: #fff;
-    width: 100%;
 }
 
+.mid .registerOrg1 > form{
+    padding: 15px 30px 30px;
+    transition: all .5s;
+    background: #fff;
+}
 
 .mid .registerOrg input{
+    height: 40px;
+    padding: 5px 15px;
+    width: 100%;
+    border: solid 1px #999;
+}
+
+.mid .registerOrg1 input{
     height: 40px;
     padding: 5px 15px;
     width: 100%;
@@ -268,6 +319,13 @@ a:after:hover {
     margin-bottom: 20px;
 }
 
+.mid .registerOrg1  h3{
+    text-align: center;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+
 .mid .registerOrg .b {
     font-family: Verdana, Geneva, sans-serif;
     font-weight: bold;
@@ -275,85 +333,20 @@ a:after:hover {
 }
 
 
-
-
-
-
-
-
-
-
-
-.mid .wrapper #reg{
+.mid .registerOrg1 .b {
+    font-family: Verdana, Geneva, sans-serif;
+    font-weight: bold;
+    font-size: 25px;
+}
+.mid .wrapper #loginForm{
     padding-top: 20%;
-    visibility: visible;
 }
-.mid .wrapper #lal{
-    transform: translateY(-80%) translateX(100%);
-    visibility: hidden;
-}
-.mid .wrapper.move #lal{
-    transform: translateY(-80%) translateX(0%);
-    visibility: visible;
-}
-.mid .wrapper.move #reg{
-    transform: translateX(-100%);
-    visibility: hidden;
-}
-
-
 
 .mid > .wrapper.move{
     left: 45%;
 }
 .mid > .wrapper.move input:focus{
     border-color: #401737;
-}
-@media (max-width: 767px){
-    .mid{
-        padding: 5px;
-        margin: 0;
-        width: 100%;
-        display: block;
-    }
-    .mid > .wrapper{
-        position: relative;
-        height: auto;
-        top: 0;
-        left: 0;
-        width: 100%;
-    }
-    .mid > div{
-        display: inline-block;
-    }
-    .splits{
-        width: 50%;
-        background: #fff;
-        float: left;
-    }
-    .splits button{
-        width: 100%;
-        border-radius: 0;
-        background: #505050;
-        border: 0;
-        opacity: .7;
-    }
-    .splits button.active{
-        opacity: 1;
-    }
-    .splits button.active{
-        opacity: 1;
-        background: #ff4931;
-    }
-    .splits.rgstr-btn button.active{
-        background: #e0b722;
-    }
-    .splits p{
-        display: none;
-    }
-    .mid > .wrapper.move{
-        left: 0%;
-    }
 }
 
 input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {

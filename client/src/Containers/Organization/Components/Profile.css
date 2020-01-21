@@ -96,3 +96,31 @@
 .mid .wrapper > form:focus{
     outline: none;
 }
+
+.mid button.dark{
+    border-color:rgb(40, 17, 33);
+    background: rgb(40, 17, 33);
+    margin-top: 5%;
+    color:#FFFFFF;
+}
+.mid button.dark:hover{
+    border-color:rgb(40, 17, 33);
+    background: transparent;
+    margin-top: 5%;
+    color: rgb(40, 17, 33);
+}
+.mid button:focus {
+    outline: none;
+}
+
+
+#verify {
+    height: 50%;
+    width: 80%;
+    left: 10%;
+    top: 25%;
+}
+
+#verfiyButton{
+    margin: 12%;
+}

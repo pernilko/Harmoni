@@ -1,12 +1,14 @@
 import * as React from 'react';
 import{Component} from 'react-simplified';
-import {Button, Spinner} from "react-bootstrap";
+import {Spinner} from "react-bootstrap";
 import {organizationService} from "../../../services/OrganizationService";
 import {userService} from "../../../services/UserService";
 import {Alert} from "../../../widgets";
 import {sharedComponentData} from "react-simplified";
 import { createHashHistory } from 'history';
+import "./Profile.css";
 const history = createHashHistory();
+
 
 export class verifyEmail extends Component<{ match: { params: { token: string } } }>{
 
@@ -14,11 +16,16 @@ export class verifyEmail extends Component<{ match: { params: { token: string } 
     render(){
         if(this.loading){
             return <Spinner animation="border"></Spinner>
+
         }else{
             return (
-                <div className={"w-50"}>
-                <Button className="mx-auto" onClick={this.verify} size = "lg">{"Verifiser min bruker og organisasjon" }</Button>
-                </div>
+              <div className="body">
+                  <div className="mid">
+                      <div id="verify" className="wrapper">
+                          <button id="verfiyButton" className="dark" onClick={this.verify}>"Verifiser min bruker og organisasjon" </button>
+                      </div>
+                  </div>
+              </div>
             )
         }
     }

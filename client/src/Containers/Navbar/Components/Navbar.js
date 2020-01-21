@@ -65,7 +65,7 @@ export class Navigation extends Component {
   }
 
   logout(){
-    history.push("/");
+    history.push("/login");
     this.user = null;
     userService.currentUser = null;
     localStorage.setItem("token", "");

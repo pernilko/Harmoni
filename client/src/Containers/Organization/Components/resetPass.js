@@ -40,7 +40,7 @@ export class resetPass extends Component<{ match: { params: { token: string } } 
                                 <label>Gjenta passord</label>
                             </div>
                             <div>
-                                <button className="btn dark" type="button" variant="primary" onClick={this.reset}>Logg inn</button>
+                                <button className="btn dark" type="button" variant="primary" onClick={this.reset}>Bekreft</button>
                             </div>
                         </form>
                     </div>
