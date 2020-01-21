@@ -9,8 +9,7 @@ import {eventService} from "../../../services/EventService";
 import {artistService} from "../../../services/ArtistService";
 import {Ticket, ticketService} from "../../../services/TicketService";
 import {UserEvent, userEventService} from "../../../services/UserEventService";
-
-
+import Form from 'react-bootstrap/Form';
 import {Alert} from "../../../widgets";
 import { createHashHistory } from 'history';
 import {User, userService} from '../../../services/UserService';
@@ -40,7 +39,7 @@ export class RegistrationForm extends Component {
     endTime: number = null;
     lat: number = 0;
     lng: number = 0;
-    image: File = null;
+    image: string = "";
 
     render(){
                 return (
@@ -56,6 +55,11 @@ export class RegistrationForm extends Component {
                                 <input className="form-control" placeholder="Skriv inn navn her" value={this.eventName}
                                        onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.eventName = event.target.value)}/>
                             </div>
+                            <Form.Group>
+                                <Form.Label>Last opp bilde</Form.Label>
+                                <Form.Control type="file" accept = "image/*" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.image =
+                                event.target.files[0]}}/>
+                            </Form.Group>
                             <div className="form-group">
                                 <label>Lokasjon:</label>
                                 <input className="form-control" placeholder="Skriv inn addresse" value={this.address}
@@ -181,6 +185,7 @@ export class RegistrationForm extends Component {
         eventService
             .postEvent(userService.currentUser.org_id, this.eventName, userService.currentUser.user_id, this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00",this.lng,  this.lat)
             .then(response => {
+                this.changePic(response[0]["LAST_INSERT_ID()"]);
                 this.addTickets(response[0]["LAST_INSERT_ID()"], this.tickets);
                 this.addArtists(response[0]["LAST_INSERT_ID()"], this.artists);
                 this.addEmployee(response[0]["LAST_INSERT_ID()"], this.employees);
@@ -197,6 +202,7 @@ export class RegistrationForm extends Component {
         console.log("ARTISTER: ", artists);
         artists.map(a => {
             if(a) {
+                console.log(a);
                 artistService
                     .addArtist(val, a.artist_name, a.email, a.phone, a.riders, a.hospitality_riders, a.artist_contract)
                     .then(res => console.log(res))
@@ -241,6 +247,19 @@ export class RegistrationForm extends Component {
             }
         })
     }
+
+    changePic(val: number){
+    console.log("BILDE: ", this.image);
+      eventService
+        .updateEventImage(val, this.image)
+        .then(() => {
+          if(userService.currentUser){
+            userService.autoLogin();
+            history.push("/Profile");
+          }
+        })
+
+  }
 
     cancel(){
       history.push("/allEvents");
