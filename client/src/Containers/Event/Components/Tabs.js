@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Tab from './Tab';
+import "./showTab.css";
 
 class Tabs extends Component {
   static propTypes = {
@@ -32,7 +33,7 @@ class Tabs extends Component {
     } = this;
 
     return (
-      <div className="tabs">
+      <ul className="tabs">
         <ol className="tab-list">
           {children.map((child) => {
             const { label } = child.props;
@@ -53,7 +54,7 @@ class Tabs extends Component {
             return child.props.children;
           })}
         </div>
-      </div>
+      </ul>
     );
   }
 }

@@ -23,10 +23,12 @@
 
 .banner{
     position: absolute;
-    background:  #431c53;
+    background: #400039;
     width: 14%;
     height: 100%;
     border-radius: 6px;
+    border-color: #FFFFFF;
+
     border-top-right-radius: 0px;
 }
 
@@ -44,9 +46,20 @@
 
 #image {
     width: 100%;
-    height: 40%;
+    height: 55%;
     object-fit: cover;
     border-top-right-radius: 6px;
+}
+
+#cancelled{
+    background-color: rgba(255, 0, 0, 0.42);
+    color: #FFFFFF;
+    font-size: 9.5vw;
+    position: absolute;
+    width: 100%;
+    height: 55%;
+    text-align: center;
+    transform: translateY(-100%);
 }
 
 .center{
