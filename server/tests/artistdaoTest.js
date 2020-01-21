@@ -16,8 +16,8 @@ let pool = mysql.createPool({
 let artistDao = new ArtistDao(pool);
 
 beforeAll(done => {
-  runsqlfile("./src/create_tables.sql", pool, () => {
-    runsqlfile("./src/create_testdata.sql", pool, done);
+  runsqlfile("create_tables.sql", pool, () => {
+    runsqlfile("create_testdata.sql", pool, done);
   });
 });
 
@@ -37,7 +37,7 @@ test("Retrieve all artists", done =>{
   }
 
   artistDao.getAll(callback);
-});
+}, 30000);
 
 test("Get an artist", done =>{
   function callback (status, data) {
@@ -51,7 +51,7 @@ test("Get an artist", done =>{
   }
 
   artistDao.getOne(4, callback);
-});
+}, 30000);
 
 test("Get an artist", done =>{
   function callback (status, data) {
@@ -64,7 +64,7 @@ test("Get an artist", done =>{
   }
 
   artistDao.getEventArtists(1, callback);
-});
+}, 30000);
 
 test("Update an artist", done =>{
   function callback (status, data) {
@@ -78,18 +78,4 @@ test("Update an artist", done =>{
 
   artistDao.updateArtist(4, {artist_name: "Cool artist", riders: "fil", hospitality_riders: "File",
         artist_contract: "File", email: "a@a.a", phone: "123", image: "File"}, callback);
-});
-
-test("Test update artist", done =>{
-  function callback (status, data) {
-    console.log(
-      "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
-    );
-
-    expect(data.length).toBe(1);
-    expect(data[0].artist_name).toBe("Cool artist");
-    done();
-  }
-
-  artistDao.getOne(4, callback);
-});
+}, 30000);

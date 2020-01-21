@@ -1,5 +1,6 @@
 //@flow
 const Dao = require("./dao.js");
+const imageUrl = "https://storage.cloud.google.com/harmoni-files/";
 
 module.exports = class organizationDao extends Dao {
     getAllOrganizations(callback: function) {
@@ -47,5 +48,9 @@ module.exports = class organizationDao extends Dao {
             "UPDATE organization SET org_name = ?, phone = ?, email = ? WHERE org_id = ?",
             [json.org_name, json.phone, json.email, org_id], callback
         );
+    }
+
+    updateOrgImage(org_id: number, image: string, callback: function){
+        super.query("UPDATE organization SET image=? WHERE org_id=?", [imageUrl + image, org_id], callback);
     }
 };

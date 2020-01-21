@@ -17,8 +17,8 @@ let pool = mysql.createPool({
 let eventDao = new EventDao(pool);
 
 beforeAll(done => {
-  runsqlfile("./src/create_tables.sql", pool, () => {
-    runsqlfile("./src/create_testdata.sql", pool, done);
+  runsqlfile("create_tables.sql", pool, () => {
+    runsqlfile("create_testdata.sql", pool, done);
   });
 });
 
@@ -32,12 +32,12 @@ test("Retrieve all events", done =>{
       "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
     );
 
-    expect(data.length).toBe(3);
+    expect(data.length).toBe(4);
     done();
   }
 
   eventDao.getAll(callback);
-});
+}, 30000);
 
 
 test("Get an event", done =>{
@@ -52,7 +52,7 @@ test("Get an event", done =>{
   }
 
   eventDao.getEvent(1, callback);
-});
+}, 30000);
 
 
 test("Get events for one organization", done => {
@@ -61,12 +61,12 @@ test("Get events for one organization", done => {
       "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
     );
 
-    expect(data.length).toBe(2)
+    expect(data.length).toBe(2);
     done();
   }
 
   eventDao.getEventOrg(2, callback);
-});
+}, 30000);
 
 test("Get events for one user", done =>{
   function callback (status, data) {
@@ -79,7 +79,7 @@ test("Get events for one user", done =>{
   }
 
   eventDao.getEventUser(1, callback);
-});
+}, 30000);
 
 test("Get event location", done =>{
   function callback (status, data) {
@@ -93,7 +93,7 @@ test("Get event location", done =>{
   }
 
   eventDao.getEventLocation(1, callback);
-});
+}, 30000);
 
 test("Edit an event", done => {
   function callback(status, data) {
@@ -105,21 +105,9 @@ test("Edit an event", done => {
   }
 
   eventDao.editEvent(1, {event_name: "Cool event", place: "Mysen", description: "Gutta", event_start: "2020-01-26", event_end: "2020-01-26", longitude: 1, latitude: 2, image: ""}, callback)
-});
+}, 30000);
 
-test("Test edit", done =>{
-  function callback (status, data) {
-    console.log(
-      "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
-    );
 
-    expect(data.length).toBe(1);
-    expect(data[0].event_name).toBe("Cool event");
-    done();
-  }
-
-  eventDao.getEvent(1, callback);
-});
 
 test("Test employees for an event", done =>{
   function callback (status, data) {
@@ -132,7 +120,7 @@ test("Test employees for an event", done =>{
   }
 
   eventDao.getUsersForEvent(1, callback);
-});
+}, 30000);
 
 test("Test user accepting an event", done =>{
   function callback (status, data) {
@@ -145,7 +133,7 @@ test("Test user accepting an event", done =>{
   }
 
   eventDao.setAccepted({user_id: 1, event_id: 1, accepted: 2}, callback);
-});
+}, 30000);
 
 test("Test event search", done =>{
   function callback (status, data) {
@@ -159,4 +147,61 @@ test("Test event search", done =>{
   }
 
   eventDao.getEventbySearch("Fotball", 3, callback);
-});
+}, 30000);
+
+test("Test upcoming event by org", done =>{
+  function callback (status, data) {
+    console.log(
+        "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
+    );
+
+    expect(data.length).toBe(1);
+    expect(data[0].event_name).toBe("Konsert med Ruben");
+    done();
+  }
+
+  eventDao.getEventUpcomingOrg(3, callback);
+}, 30000);
+
+test("Test previous event by user_id", done =>{
+  function callback (status, data) {
+    console.log(
+        "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
+    );
+
+    expect(data.length).toBe(0);
+    done();
+  }
+
+  eventDao.getEventPreviousUser(2, callback);
+}, 30000);
+
+test("Test cancel event", done =>{
+  function callback (status, data) {
+    console.log(
+        "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
+    );
+
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+
+  eventDao.cancelEvent(1, callback);
+}, 30000);
+
+
+test("Test set completed", done =>{
+  function callback (status, data) {
+    console.log(
+        "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
+    );
+
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+
+  eventDao.setCompleted(1, callback);
+}, 30000);
+
+
+

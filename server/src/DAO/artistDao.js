@@ -1,11 +1,15 @@
 //@flow
 const Dao = require("./dao.js");
+const imageUrl = "https://storage.cloud.google.com/harmoni-files/";
 
 module.exports = class artistDao extends Dao {
+
+    //tested
     getAll(callback: function){
         super.query("SELECT * FROM artist", [], callback);
     }
 
+    //tested
     getEventArtists(event_id: number, callback: function){
         super.query(
             "SELECT * FROM artist WHERE event_id = ?",
@@ -13,12 +17,14 @@ module.exports = class artistDao extends Dao {
         );
     }
 
+    //tested
     getOne(artist_id: number, callback: function) {
         super.query(
             "select * from artist where artist_id = ?",
             [artist_id], callback
         );
     }
+
 
     insertOne(json: {event_id: number, artist_name: string, riders: Object, hospitality_riders: Object,
                   artist_contract: Object, email: string, phone: string}, callback: function) {
@@ -52,18 +58,24 @@ module.exports = class artistDao extends Dao {
             callback
         );
     }
-    updateRiders(riders_file: any, artist_id: number, callback: function){
+
+    updateRiders(artist_id: number, ridersfilename: string, hospitalityridersfilename: string, artistcontractfilename: string, callback: function){
+        let rf: string = "";
+        let hrf: string = "";
+        let ac: string = "";
+
+        if(ridersfilename.length>0){
+            rf = imageUrl+ridersfilename;
+        }
+        if(hospitalityridersfilename.length>0){
+            hrf = imageUrl + hospitalityridersfilename;
+        }
+        if(artistcontractfilename.length>0){
+            ac = imageUrl+artistcontractfilename;
+        }
         super.query(
-            "UPDATE ridersFile  SET name = ?, data = ?, size = ?, encoding = ?, tempFilePath = ?, truncated = ?, mimetype = ?, md5 = ? WHERE artist_id = ?",
-            [riders_file.name, riders_file.data, riders_file.size, riders_file.encoding, riders_file.tempFilePath, riders_file.truncated, riders_file.mimetype, riders_file.md5, artist_id],
-            callback
-        );
-    }
-    updateHospitalityRiders(hospitality_riders_file: any, artist_id: number, callback: function){
-        super.query(
-            "UPDATE hospitality_ridersFile  SET name = ?, data = ?, size = ?, encoding = ?, tempFilePath = ?, truncated = ?, mimetype = ?, md5 = ? WHERE artist_id = ?",
-            [hospitality_riders_file.name, hospitality_riders_file.data, hospitality_riders_file.size, hospitality_riders_file.encoding,
-                hospitality_riders_file.tempFilePath, hospitality_riders_file.truncated, hospitality_riders_file.mimetype, hospitality_riders_file.md5, artist_id],
+            "UPDATE artist SET riders = ?, hospitality_riders = ?, artist_contract = ? WHERE artist_id = ?",
+            [rf, hrf, ac, artist_id],
             callback
         );
     }
@@ -79,10 +91,11 @@ module.exports = class artistDao extends Dao {
 
     getRider(artist_id: number, callback: function){
         super.query(
-            "SELECT * FROM file WHERE artist_id = ?",[artist_id], callback
+            "SELECT data FROM ridersFile WHERE artist_id = ?",[artist_id], callback
         );
     }
 
+    //tested
     updateArtist(artistID:number,json:{artist_name: string, riders: File, hospitality_riders: File,
         artist_contract: File, email: string, phone: string, image: File}, callback:function){
         super.query(

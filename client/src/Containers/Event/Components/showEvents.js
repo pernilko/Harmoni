@@ -8,7 +8,6 @@ import {userService} from "../../../services/UserService";
 import {userEventService} from "../../../services/UserEventService";
 import {Spinner} from "react-bootstrap";
 import "./showEvents.css";
-const history = createHashHistory();
 
 export class EventList extends Component<{user: boolean, time: number}>{
     loaded: boolean = false;
@@ -44,7 +43,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
                             <div className="eventCard shadow-lg text">
                                 <a  href={'#/showEvent/' + e.event_id}>
                                     <div className="content">
-                                        <img id="image" src="https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"/>
+                                        <img id="image" src={e.image ? e.image : "https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"}/>
                                         <div className="m-3">
                                             <h1 className="my-3"> {e.event_name} </h1>
                                             <p> <b> Sted: </b> {e.place} </p><br/>

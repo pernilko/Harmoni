@@ -26,7 +26,7 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
     hospitality_riders: File = null;
     artist_contract: File = null;
     email: string = this.props.artist.email;
-    phone: number = this.props.artist.phone;
+    phone: string = this.props.artist.phone;
     //image: string = this.props.image;
 
     /**
@@ -176,9 +176,9 @@ export class ArtistDetails extends Component {
                             <div className="col"><label>Email: {a.email}</label></div>
                             <div className="col"><label>Tlf: {a.phone}</label></div>
                             <div className="col"><label>Dokumenter:
-                                <label id="rider">{a.riders ? <a href={window.URL.createObjectURL(a.riders)}>{a.riders.name}</a>: 'Ingen rider valgt.'}</label>
-                                <label>{a.hospitality_riders ? <a href={window.URL.createObjectURL(a.hospitality_riders)}>{a.hospitality_riders.name}</a>: 'Ingen hospitality rider valgt.'}</label>
-                                <label>{a.artist_contract ? <a href={window.URL.createObjectURL(a.artist_contract)}>{a.artist_contract.name}</a>: 'Ingen kontrakt valgt.'}</label></label></div>
+                                <label>{a.riders ? <a href={" "+a.riders}>riders</a>: 'Ingen rider valgt.'}</label>
+                                <label>{a.hospitality_riders ? <a href={a.hospitality_riders}>hospitality riders</a>: 'Ingen hospitality rider valgt.'}</label>
+                                <label>{a.artist_contract ? <a href={a.artist_contract}>artistkontrakt</a>: 'Ingen kontrakt valgt.'}</label></label></div>
                         </div>
                         <div className={"row"}>
                             <div className={"col"}>

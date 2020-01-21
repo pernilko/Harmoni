@@ -20,6 +20,7 @@ import {del_employee} from "./employees";
 import {sharedComponentData} from "react-simplified";
 import {Spinner} from "react-bootstrap";
 import Popup from "reactjs-popup";
+import Form from 'react-bootstrap/Form';
 
 const history = createHashHistory();
 
@@ -89,6 +90,11 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                                        value={this.event.event_name}
                                        onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.event_name = event.target.value)}/>
                             </div>
+                            <Form.Group>
+                                <Form.Label>Last opp bilde</Form.Label>
+                                <Form.Control accept = "image/*" type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.event.image =
+                                event.target.files[0]}}/>
+                            </Form.Group>
                             <div className="form-group">
                                 <label>Lokasjon:</label>
                                 <input className="form-control" placeholder="Skriv inn addresse"
@@ -259,9 +265,10 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         //console.log(this.startDate);
         //Don't know what to do with lat and long. But Dilawar knows.
         eventService
-            .updateEvent(this.props.match.params.event_id, this.event.event_name, this.event.description, this.event.place,this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", this.lng, this.lat, null)
+            .updateEvent(this.props.match.params.event_id, this.event.event_name, this.event.description, this.event.place,this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", this.lng, this.lat)
             .then(response => {
                 console.log(response);
+                this.changePic(this.props.match.params.event_id)
                 this.updateAddArtists();
                 this.updateAddTickets();
                 this.updateAddEmployees();
@@ -534,4 +541,17 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             }
         })
     }
+
+    changePic(val: number){
+    console.log("BILDE: ", this.event.image);
+      eventService
+        .updateEventImage(val, this.event.image)
+        .then(() => {
+          if(userService.currentUser){
+            userService.autoLogin();
+            history.push("/Profile");
+          }
+        })
+
+  }
 }

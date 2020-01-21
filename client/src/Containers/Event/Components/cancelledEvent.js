@@ -123,8 +123,5 @@ export class cancelledEvent extends Component<{ match: { params: { id: number } 
         this.email = "";
       })
       .catch((error: Error) => console.log(error.message))
-
-
-
   }
 }
