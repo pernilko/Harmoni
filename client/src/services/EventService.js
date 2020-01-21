@@ -64,7 +64,6 @@ export class EventService {
     getEventsByOrg_id(org_id: number){
         return axios.get<Event[]>(url+"event/org/" + org_id).then(response=>response.data);
     }
-
     getEventsUpcomingByUser_id(user_id: number){
         return axios.get<Event[]>(url+"event/upcoming/user/"+ user_id).then(response=>response.data);
     }
@@ -86,6 +85,12 @@ export class EventService {
     getEventsPending(user_id: number){
         return axios.get<Event[]>(url+"event/pending/" + user_id).then(response=>response.data);
     }
+    getEventsCancelledUser_id(user_id: number){
+        return axios.get<Event[]>(url+"event/cancelled/user/" + user_id).then(response=>response.data);
+    }
+    getEventsCancelledOrg_id(org_id: number){
+        return axios.get<Event[]>(url+"event/cancelled/org/" + org_id).then(response=>response.data);
+    }
     setCompleted(user_id: number){
         return axios.put<Event[]>(url+"event/pending/" + user_id).then(response=>response.data);
     }
@@ -100,10 +105,6 @@ export class EventService {
             "latitude": latitude,
             "image": image
         }).then(response => response.data);
-    }
-
-    deleteEvent(id: number) {
-        return axios.delete<Event, {}>(url + "event/delete/"+id).then(response => response.data);
     }
 
     cancelEvent(id : number){

@@ -14,7 +14,7 @@ const history = createHashHistory();
 
 let eventService = new EventService();
 
-export class cancelledEvent extends Component<{ match: { params: { id: number } } }>  {
+export class CancelledEvent extends Component<{ match: { params: { id: number } } }>  {
   event_id = this.props.match.params.id;
   loaded: boolean = false;
   hidden: boolean = true;
@@ -93,8 +93,5 @@ export class cancelledEvent extends Component<{ match: { params: { id: number } 
         this.email = "";
       })
       .catch((error: Error) => console.log(error.message))
-
-
-
   }
 }

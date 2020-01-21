@@ -41,6 +41,16 @@ module.exports = class eventDao extends Dao{
           "SELECT * FROM event WHERE user_id=? AND completed = FALSE AND event_end < CURDATE() AND completed NOT LIKE -1", [user_id], callback);
     }
 
+    getCancelledOrg(org_id: number, callback: function){
+      super.query(
+          "SELECT * FROM event WHERE org_id=? AND completed LIKE -1", [org_id], callback);
+    }
+
+    getCancelledUser(user_id: number, callback: function){
+      super.query(
+          "SELECT * FROM event WHERE user_id=? AND completed LIKE -1", [user_id], callback);
+    }
+
     getEventCurrentUser(user_id: number, callback: function) {
       super.query(
           "SELECT * FROM event WHERE user_id=? AND CURDATE() >= event_start AND CURDATE() <= event_end AND completed NOT LIKE -1",
@@ -61,14 +71,9 @@ module.exports = class eventDao extends Dao{
         super.query("SELECT place FROM event WHERE event_id=?", [event_id], callback);
     }
 
-    deleteEvent(event_id: number, callback: function){
-        super.query("DELETE FROM event WHERE event_id=?", [event_id], callback);
-    }
-
     cancelEvent(event_id: number, callback: function){
         super.query("UPDATE event SET completed = -1 WHERE event_id = ?", [event_id], callback);
     }
-
 
     editEvent(event_id: number, json: {event_name: string, place: string, description: string, event_start: Date, event_end: Date, longitude: number, latitude: number, image: string}, callback:function) {
       super.query("UPDATE event SET event_name=?, place=?, description=?, event_start=?, event_end=?, longitude=?, latitude=?, image=? WHERE event_id=?",
