@@ -17,8 +17,8 @@ let pool = mysql.createPool({
 let organizationDao = new OrganizationDao(pool);
 
 beforeAll(done => {
-  runsqlfile("./src/create_tables.sql", pool, () => {
-    runsqlfile("./src/create_testdata.sql", pool, done);
+  runsqlfile("create_tables.sql", pool, () => {
+    runsqlfile("create_testdata.sql", pool, done);
   });
 });
 
