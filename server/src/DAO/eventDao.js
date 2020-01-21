@@ -24,7 +24,7 @@ module.exports = class eventDao extends Dao{
       super.query("SELECT * FROM event WHERE user_id=?", [user_id], callback );
     }
 
-    //t
+    //tested
     getEventUpcomingOrg(org_id: number, callback: function){
       super.query("SELECT * FROM event WHERE org_id=? AND event_end > CURDATE() AND completed NOT LIKE -1", [org_id], callback );
     }
@@ -37,7 +37,7 @@ module.exports = class eventDao extends Dao{
       super.query("SELECT * FROM event WHERE org_id=? AND completed = TRUE AND event_end < CURDATE()", [org_id], callback );
     }
 
-    //t
+    //tested
     getEventPreviousUser(user_id: number, callback: function){
       super.query("SELECT * FROM event WHERE user_id=? AND completed = TRUE AND event_end < CURDATE()", [user_id], callback );
     }

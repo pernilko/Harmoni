@@ -24,9 +24,9 @@ pages:
   dependencies:
     - run_tests
   script:
-    - mkdir .server/public
+    - mkdir .public
     - cp -r server/coverage/* .public
-    - mv .server/public public
+    - mv .public public
   artifacts:
     paths:
       - public
