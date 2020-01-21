@@ -70,8 +70,8 @@ module.exports = class userDao extends Dao {
         super.query("UPDATE user SET email=? WHERE user_id=?", [json.email, user_id], callback);
     }
     //Only update the users profile picture
-    updateUserImage(user_id: number, json: {image: string}, callback: function){
-        super.query("UPDATE user SET image=? WHERE user_id=?", [imageUrl + json.image, user_id], callback);
+    updateUserImage(user_id: number, image: string, callback: function){
+        super.query("UPDATE user SET image=? WHERE user_id=?", [imageUrl + image, user_id], callback);
     }
     updateUserInfo(user_id: number, json:{address: string, phone: string}, callback: function){
         super.query("UPDATE user SET address=?, phone=? WHERE user_id=?", [json.address, json.phone, user_id], callback);

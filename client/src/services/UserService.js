@@ -106,7 +106,7 @@ class UserService {
         let fd:FormData = new FormData();
         fd.append("myFile", picture);
         return axios<{}>({
-                url: url +'uploadfile',
+                url: url +'upload/Profile/editImage/'+user_id,
                 method: 'post',
                 data: fd,
                 headers: {

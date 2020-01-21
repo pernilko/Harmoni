@@ -51,7 +51,7 @@ var upload = multer({ storage: storage })
 let app = express();
 app.use(bodyParser.json());
 
-app.use("/uploadFile", fileUpload());
+app.use("/upload", fileUpload());
 
 let DOMAIN = "localhost:3000/"
 
@@ -837,13 +837,25 @@ app.put("/Profile/editEmail/:id", (req, res) =>{
     });
 });
 
-app.put("/Profile/editImage/:id", (req, res) =>{
+app.post("/upload/Profile/editImage/:id", (req, res) =>{
     console.log("/Profile/edit received an update request from client ");
-    userDao.updateUserImage(req.params.id, req.body, (status, data) => {
-        res.status(status);
-        res.json(data);
-        uploadFile(req.body.image);
-    });
+        //const file = req.file;
+        if (!req.files || Object.keys(req.files).length === 0) {
+            return res.status(400).send('No files were uploaded.');
+        }
+        console.log(req.files.myFile);
+
+        let myFile = req.files.myFile;
+        let fileName = Date.now() + "-" + myFile.name;
+
+        myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
+            if(err)return res.status(500);
+        });
+        uploadFile(path.join(__dirname,'uploads/'+ fileName));
+        userDao.updateUserImage(req.params.id, fileName, (status, data)=>{
+            res.status(status);
+            res.json(data);
+        })
 });
 
 app.put("/Profile/editInfo/:id", (req, res) =>{
