@@ -25,7 +25,7 @@ let eventService = new EventService();
  * @constructor
  * @param {{number}} match.params.id - Dette skal være arrangement IDen som skal kanselleres
  */
-export class cancelledEvent extends Component<{ match: { params: { id: number } } }>  {
+export class CancelledEvent extends Component<{ match: { params: { id: number } } }>  {
   event_id = this.props.match.params.id;
   loaded: boolean = false;
   hidden: boolean = true;
