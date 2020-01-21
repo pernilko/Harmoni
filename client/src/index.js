@@ -50,11 +50,10 @@ if (root)
         <Route path = "/inviterBruker" component = {inviteUser}/>
         <Route path = "/home" component = {Home}/>
         <Route path = "/search_result/:search" component={SearchResults}/>
-        <Route path = "/organizationProfile" component = {OrgProfile}/>
         <Route exact path = "/alleEvents" render = {(props) => <ShowTab all={true}/>}/>
         <Route exact path = "/mineEvents" render = {(props) => <ShowTab all={false}/>}/>
         <Route path = "/verifyEmail/:token" component={verifyEmail}/>
-        <Route path = "/orgprofile2" component={OrgProfile2}/>
+        <Route path = "/organizationProfile" component={OrgProfile2}/>
       </div>
     </HashRouter>,
     root

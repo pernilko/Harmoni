@@ -1,6 +1,4 @@
 body{
-    background-color: #f1f1f1;
-    font-size: medium;
 }
 
 h4 {
@@ -9,9 +7,11 @@ h4 {
     color: white;
 }
 
-.container{
+.container-fluid{
+    background-color: #3A082C;
     color: black;
     padding: 20px 70px;
+    margin:0;
 }
 
 .card{

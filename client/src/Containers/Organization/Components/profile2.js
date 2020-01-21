@@ -39,27 +39,12 @@ export class OrgProfile2 extends Component {
                                 <h3>Min Organisasjon</h3>
                             </div>
                         </Container>
-                        <Container>
+                        <Container fluid>
                             <Tab.Container id="left-tabs-" defaultActiveKey="first">
                                 <Row>
                                     <Col lg={5} style={{padding: 0, paddingRight: 4, paddingLeft: 4}}>
                                         <div className="card">
                                             <div className="card-body" style={{padding: 0}}>
-                                                <div className="card-img" style={{textAlign: "center"}}>
-                                                    <img style={{width: "100%", height: "auto", display: "cover", paddingTop: 20+"px"}}
-                                                        src={"https://www.adressa.no/pluss/meninger/article13843642.ece/rvrqgc/BINARY/w980/IMG_sukkerhuset_3.jpg_1_1_OC3UVM1.jpg"}/>
-                                                </div>
-                                                <h3><input className="inputLabel" style={{
-                                                    border: this.border,
-                                                    textAlign: "center",
-                                                    background: this.backgroundColor,
-                                                    width: "90%",
-                                                    height: "5%",
-                                                    marginTop: 10+"px"
-                                                }}
-                                                           value={this.org_name} disabled={this.isDisabled}
-                                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.org_name = event.target.value)}/>
-                                                </h3>
                                                 <div className="card-header" style={{backgroundImage: "linear-gradient(to bottom right, #581845 , #900C3F)"}}>
                                                     <h4>Kontakt info
                                                         <Button id="button" hidden={!this.isAdmin}
@@ -74,6 +59,21 @@ export class OrgProfile2 extends Component {
                                                                 onClick={this.saveEdit}>Lagre</Button>
                                                     </h4>
                                                 </div>
+                                                <div className="card-img" style={{textAlign: "center"}}>
+                                                    <img style={{width: "100%", height: "auto", display: "cover"}}
+                                                        src={"https://www.adressa.no/pluss/meninger/article13843642.ece/rvrqgc/BINARY/w980/IMG_sukkerhuset_3.jpg_1_1_OC3UVM1.jpg"}/>
+                                                </div>
+                                                <h3 style={{textAlign: "center"}}><input className="inputLabel" style={{
+                                                    border: this.border,
+                                                    textAlign: "center",
+                                                    background: this.backgroundColor,
+                                                    width: "90%",
+                                                    height: "5%",
+                                                    marginTop: 10+"px"
+                                                }}
+                                                           value={this.org_name} disabled={this.isDisabled}
+                                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.org_name = event.target.value)}/>
+                                                </h3>
                                                 <div style={{float: "left"}}>
                                                     <div className="card-text">
                                                         <label style={{marginLeft: 10 + "px",marginTop: 10 + "px", float: "left"}}>Epost: </label>
@@ -115,7 +115,7 @@ export class OrgProfile2 extends Component {
                                     </Col>
                                     <Col lg={7} style={{padding: 0, paddingLeft: 4, paddingRight: 4, height: "inherit"}}>
                                         <div className="card-header" style={{backgroundImage: "linear-gradient(to bottom right, #581845 , #900C3F)", color: "white"}}>
-                                            <h5>Medlemmer</h5>
+                                            <h4>Medlemmer</h4>
                                         </div>
                                             <ListGroup>
                                                 {this.members.map(m => (
