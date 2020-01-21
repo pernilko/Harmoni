@@ -15,7 +15,7 @@ export class Event {
     longitude: number;
     latitude: number;
     image: File;
-    completed: boolean;
+    completed: number;
     accepted: number;
 
     constructor(event_id: number, org_id: number, user_id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number, image: File, accepted: number, completed: number) {
@@ -104,6 +104,10 @@ export class EventService {
 
     deleteEvent(id: number) {
         return axios.delete<Event, {}>(url + "event/delete/"+id).then(response => response.data);
+    }
+
+    cancelEvent(id : number){
+        return axios.put<{}, Event>(url + "event/cancel/" + id).then(response => response.data)
     }
 
     getEventbySearch(search: string, org_id: number){

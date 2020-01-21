@@ -224,6 +224,14 @@ app.post("/event/add", (req : Request, res: Response) => {
     });
 });
 
+app.put("/event/cancel/:id", (req : Request, res: Response) => {
+    console.log("/event/cancel/:id");
+    eventDao.cancelEvent(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 app.put("/event/edit/:id", (req : Request, res: Response) => {
     console.log("/event/edit/:id: received put request from client");
     eventDao.editEvent(req.params.id, req.body, (status, data) => {

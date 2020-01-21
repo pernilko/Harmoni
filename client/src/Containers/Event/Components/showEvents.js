@@ -8,6 +8,7 @@ import {userService} from "../../../services/UserService";
 import {userEventService} from "../../../services/UserEventService";
 import {Spinner} from "react-bootstrap";
 import "./showEvents.css";
+const history = createHashHistory();
 
 export class EventList extends Component<{user: boolean, time: number}>{
     loaded: boolean = false;

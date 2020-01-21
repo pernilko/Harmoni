@@ -43,7 +43,7 @@ export class Navigation extends Component {
                              id="basic-nav-dropdown"
                              style={{paddingLeft: 30+'px'}}>
                   <NavDropdown.Item href="#/mineEvents"  style={{color: "black"}}>Mine arrangement</NavDropdown.Item>
-                  <NavDropdown.Item hidden = {userService.currentUser.p_create_event ==0} href="#/event" style={{color: "black"}}>Opprett arrangement</NavDropdown.Item>
+                  <NavDropdown.Item hidden = {userService.currentUser.p_create_event == 0 && userService.currentUser.privileges != 1} href="#/event" style={{color: "black"}}>Opprett arrangement</NavDropdown.Item>
                   <NavDropdown.Item href="#/Profile" style={{color: "black"}}>Rediger profil</NavDropdown.Item>
                   <NavDropdown.Item href={"#/organizationProfile"}style={{color: "black"}}>Min organisasjon</NavDropdown.Item>
                   <NavDropdown.Divider/>
