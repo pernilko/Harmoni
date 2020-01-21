@@ -96,8 +96,12 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                                     <h6> Epost: {a.email}</h6>
                                                     <h6> tlf: {a.phone} </h6>
                                                 </p>
+                                                <a hidden={userService.currentUser.p_read_riders < 1 && userService.currentUser.privileges != 1}
+                                                   href={a.riders} target = "blank"> riders </a>
+                                                <a hidden={userService.currentUser.p_read_riders < 1 && userService.currentUser.privileges != 1}
+                                                   href={a.hospitality_riders} target = "blank"> hospitality riders </a>
                                                 <a hidden={userService.currentUser.p_read_contract < 1 && userService.currentUser.privileges != 1}
-                                                   href={""}> nedlasting av filer skjer her </a>
+                                                   href={a.artist_contract} target = "blank"> artistkontrakt </a>
                                                 <br/>
 
                                                 <div className={"buttonContainer"}>
@@ -275,16 +279,6 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                 this.setState({artists});
                 this.state.artists.map(a=>{
                     console.log("Artist: "+a.artist_id);
-                    artistService.getArtistRider(a.artist_id).then(res =>{
-                        let blob = new Blob([res], {type: "pdf"});
-                        let url = URL.createObjectURL(blob);
-                        console.log("URL: ", url);
-                        console.log("RES: ", res);
-
-                        a.riders= new File(res.data.data, res.name, {type: res.mimetype});
-                        console.log(a.riders);
-                        this.setState({artists});
-                    });
                 });
                 this.loaded[2] = true;
             });

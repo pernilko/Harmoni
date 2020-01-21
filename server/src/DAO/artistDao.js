@@ -1,5 +1,6 @@
 //@flow
 const Dao = require("./dao.js");
+const imageUrl = "https://storage.cloud.google.com/harmoni-files/";
 
 module.exports = class artistDao extends Dao {
     getAll(callback: function){
@@ -52,18 +53,24 @@ module.exports = class artistDao extends Dao {
             callback
         );
     }
-    updateRiders(riders_file: any, artist_id: number, callback: function){
+
+    updateRiders(artist_id: number, ridersfilename: string, hospitalityridersfilename: string, artistcontractfilename: string, callback: function){
+        let rf: string = "";
+        let hrf: string = "";
+        let ac: string = "";
+
+        if(ridersfilename.length>0){
+            rf = imageUrl+ridersfilename;
+        }
+        if(hospitalityridersfilename.length>0){
+            hrf = imageUrl + hospitalityridersfilename;
+        }
+        if(artistcontractfilename.length>0){
+            ac = imageUrl+artistcontractfilename;
+        }
         super.query(
-            "UPDATE ridersFile  SET name = ?, data = ?, size = ?, encoding = ?, tempFilePath = ?, truncated = ?, mimetype = ?, md5 = ? WHERE artist_id = ?",
-            [riders_file.name, riders_file.data, riders_file.size, riders_file.encoding, riders_file.tempFilePath, riders_file.truncated, riders_file.mimetype, riders_file.md5, artist_id],
-            callback
-        );
-    }
-    updateHospitalityRiders(hospitality_riders_file: any, artist_id: number, callback: function){
-        super.query(
-            "UPDATE hospitality_ridersFile  SET name = ?, data = ?, size = ?, encoding = ?, tempFilePath = ?, truncated = ?, mimetype = ?, md5 = ? WHERE artist_id = ?",
-            [hospitality_riders_file.name, hospitality_riders_file.data, hospitality_riders_file.size, hospitality_riders_file.encoding,
-                hospitality_riders_file.tempFilePath, hospitality_riders_file.truncated, hospitality_riders_file.mimetype, hospitality_riders_file.md5, artist_id],
+            "UPDATE artist SET riders = ?, hospitality_riders = ?, artist_contract = ? WHERE artist_id = ?",
+            [rf, hrf, ac, artist_id],
             callback
         );
     }

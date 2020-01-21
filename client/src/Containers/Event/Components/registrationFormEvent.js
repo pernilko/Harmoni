@@ -196,6 +196,7 @@ export class RegistrationForm extends Component {
         console.log("ARTISTER: ", artists);
         artists.map(a => {
             if(a) {
+                console.log(a);
                 artistService
                     .addArtist(val, a.artist_name, a.email, a.phone, a.riders, a.hospitality_riders, a.artist_contract)
                     .then(res => console.log(res))
