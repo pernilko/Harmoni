@@ -5,7 +5,8 @@
     "postinstall": "node ./scripts/enable_babelrc.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest"
+    "test": "jest",
+    "docs": "./node_modules/jsdoc/jsdoc.js -c ./.jsdoc.conf.json"
   },
   "jest": {
     "testRegex": "./tests/.+Test\\.js$",
@@ -30,6 +31,8 @@
     "google-maps-react": "^2.0.2",
     "jest": "^24.9.0",
     "jest-enzyme": "^7.1.2",
+    "jqx": "^0.0.2",
+    "jsdoc": "^3.6.3",
     "jsdom": "^15.2.1",
     "react-bootstrap": "^1.0.0-beta.14",
     "react-google-maps": "^9.4.5",
