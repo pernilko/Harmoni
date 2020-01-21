@@ -1,6 +1,7 @@
 //@flow
 
 const Dao = require("./dao.js");
+const imageUrl = "https://storage.cloud.google.com/harmoni-files/";
 
 module.exports = class eventDao extends Dao{
 
@@ -66,5 +67,9 @@ editEvent(event_id: number, json: {event_name: string, place: string, descriptio
             "SELECT * FROM event WHERE event_name LIKE ? AND org_id = ?",
             ["%" + search + "%", org_id], callback
         )
+    }
+
+    updateEventImage(event_id: number, image: string, callback: function){
+        super.query("UPDATE event SET image=? WHERE event_id=?", [imageUrl + image, event_id], callback);
     }
 };

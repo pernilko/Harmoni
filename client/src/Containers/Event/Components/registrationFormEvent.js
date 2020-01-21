@@ -9,8 +9,7 @@ import {eventService} from "../../../services/EventService";
 import {artistService} from "../../../services/ArtistService";
 import {Ticket, ticketService} from "../../../services/TicketService";
 import {UserEvent, userEventService} from "../../../services/UserEventService";
-
-
+import Form from 'react-bootstrap/Form';
 import {Alert} from "../../../widgets";
 import { createHashHistory } from 'history';
 import {User, userService} from '../../../services/UserService';
@@ -38,7 +37,7 @@ export class RegistrationForm extends Component {
     endTime: number = null;
     lat: number = 0;
     lng: number = 0;
-    image: File = null;
+    image: string = "";
 
     render(){
         return(
@@ -54,6 +53,11 @@ export class RegistrationForm extends Component {
                         <input className="form-control" placeholder="Skriv inn navn her" value={this.eventName}
                                onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.eventName = event.target.value)}/>
                     </div>
+                    <Form.Group>
+                          <Form.Label>Last opp bilde</Form.Label>
+                          <Form.Control type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.image =
+                            event.target.files[0]}}/>
+                      </Form.Group>
                     <div className="form-group">
                         <label>Lokasjon:</label>
                         <input className="form-control" placeholder="Skriv inn addresse" value={this.address}

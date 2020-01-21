@@ -825,27 +825,6 @@ app.put("/Profile/editEmail/:id", (req, res) =>{
     });
 });
 
-app.post("/upload/Profile/editImage/:id", (req, res) =>{
-    console.log("/Profile/edit received an update request from client ");
-        //const file = req.file;
-        if (!req.files || Object.keys(req.files).length === 0) {
-            return res.status(400).send('No files were uploaded.');
-        }
-        console.log(req.files.myFile);
-
-        let myFile = req.files.myFile;
-        let fileName = Date.now() + "-" + myFile.name;
-
-        myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
-            if(err)return res.status(500);
-        });
-        uploadFile(path.join(__dirname,'uploads/'+ fileName));
-        userDao.updateUserImage(req.params.id, fileName, (status, data)=>{
-            res.status(status);
-            res.json(data);
-        })
-});
-
 app.put("/Profile/editInfo/:id", (req, res) =>{
     console.log("/Profile/edit received an update request from client ");
     userDao.updateUserInfo(req.params.id, req.body, (status, data) => {
@@ -1245,6 +1224,27 @@ app.put("/organization/edit/:id", (req : Request, res : Response) => {
         res.status(status);
         res.json(data);
     });
+});
+
+app.post("/upload/Profile/editImage/:id", (req, res) =>{
+    console.log("/Profile/edit received an update request from client ");
+        //const file = req.file;
+        if (!req.files || Object.keys(req.files).length === 0) {
+            return res.status(400).send('No files were uploaded.');
+        }
+        console.log(req.files.myFile);
+
+        let myFile = req.files.myFile;
+        let fileName = Date.now() + "-" + myFile.name;
+
+        myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
+            if(err)return res.status(500);
+        });
+        uploadFile(path.join(__dirname,'uploads/'+ fileName));
+        userDao.updateUserImage(req.params.id, fileName, (status, data)=>{
+            res.status(status);
+            res.json(data);
+        })
 });
 
 let server = app.listen(8080);

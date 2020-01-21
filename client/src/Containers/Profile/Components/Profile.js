@@ -28,7 +28,7 @@ export class Profile extends Component{
           <Row>
             <Col lg={3}>
               <div>
-              <Image src="https://storage.cloud.google.com/harmoni-files/dab.png"
+              <Image src={userService.currentUser.image}
                      roundedCircle width={240 + 'px'}
                      height={220 + 'px'} style={{marginTop: 10 + 'px' ,marginBottom: 20 +'px'}}/>
               <br/>
