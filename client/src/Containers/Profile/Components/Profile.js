@@ -9,9 +9,9 @@ import {Row, Alert} from '../../../widgets';
 import {sharedComponentData} from 'react-simplified';
 import Form from 'react-bootstrap/Form';
 
+
 const history = createHashHistory();
 let emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
 
 export class Profile extends Component{
   user: User = new User();
@@ -23,128 +23,128 @@ export class Profile extends Component{
       return <div>
         <h2 className="card-header"> Hei, {userService.currentUser.user_name}!</h2>
         <Container style={{padding: "0px"}}>
-        <Tab.Container id="left-tabs-" defaultActiveKey="first">
-          <Row>
-            <Col lg={3}>
-              <div>
-              <Image src="https://i.ytimg.com/vi/_c1NJQ0UP_Q/maxresdefault.jpg"
-                     roundedCircle width={240 + 'px'}
-                     height={220 + 'px'} style={{marginTop: 10 + 'px' ,marginBottom: 20 +'px'}}/>
-              <br/>
-              <Nav variant="pills" className="flex-column" >
-                <Nav.Item>
-                  <Nav.Link eventKey="first">Bruker informasjon</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="second">Endre brukernavn og/eller passord</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="third">Slett brukerkonto</Nav.Link>
-                </Nav.Item>
-                <br/>
-                <text> Harmoni bruker siden {userService.currentUser.reg_date.slice(8,10) +"/" +
-                userService.currentUser.reg_date.slice(5,7) +"-" + userService.currentUser.reg_date.slice(0,4)}</text>
-              </Nav>
-              </div>
-            </Col>
-            <Col lg={9}>
-              <Tab.Content>
-                <Tab.Pane eventKey="first">
-                  <Card style={{ borderRight: 'none', borderTop: 'none', borderBottom: 'none', paddingLeft: 30 + 'px'}}>
-                    <Card.Body>
-                      <h2>Profil instillinger</h2>
-                      <br/>
-                      <h6>Email knyttet til bruker: </h6>
-                      <p style={{color:'grey'}}>{userService.currentUser.email}</p>
-                      <Button variant="primary" onClick={this.click}>Endre</Button>
-                      <div hidden={this.hidden}>
+          <Tab.Container id="left-tabs-" defaultActiveKey="first">
+            <Row>
+              <Col lg={3}>
+                <div>
+                  <Image src="https://i.ytimg.com/vi/_c1NJQ0UP_Q/maxresdefault.jpg"
+                         roundedCircle width={240 + 'px'}
+                         height={220 + 'px'} style={{marginTop: 10 + 'px' ,marginBottom: 20 +'px'}}/>
+                  <br/>
+                  <Nav variant="pills" className="flex-column" >
+                    <Nav.Item>
+                      <Nav.Link eventKey="first">Bruker informasjon</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="second">Endre brukernavn og/eller passord</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="third">Slett brukerkonto</Nav.Link>
+                    </Nav.Item>
+                    <br/>
+                    <text> Harmoni bruker siden {userService.currentUser.reg_date.slice(8,10) +"/" +
+                    userService.currentUser.reg_date.slice(5,7) +"-" + userService.currentUser.reg_date.slice(0,4)}</text>
+                  </Nav>
+                </div>
+              </Col>
+              <Col lg={9}>
+                <Tab.Content>
+                  <Tab.Pane eventKey="first">
+                    <Card style={{ borderRight: 'none', borderTop: 'none', borderBottom: 'none', paddingLeft: 30 + 'px'}}>
+                      <Card.Body>
+                        <h2>Profil instillinger</h2>
                         <br/>
+                        <h6>Email knyttet til bruker: </h6>
+                        <p style={{color:'grey'}}>{userService.currentUser.email}</p>
+                        <Button variant="primary" onClick={this.click}>Endre</Button>
+                        <div hidden={this.hidden}>
+                          <br/>
+                          <Form.Group>
+                            <Form.Label> Fyll inn ny e-mail adresse</Form.Label>
+                            <Form.Control style={{width: 600 + 'px'}}
+                                          type="input"
+                                          placeholder={userService.currentUser.email}
+                                          onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.user.email =
+                                              event.target.value}}/>
+                          </Form.Group>
+                          <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.change}>Bekreft</Button>
+                          <br/>
+                          <br/>
+                        </div>
+                        <br/>
+                        <br/>
+                        <h3>Endre profilbilde</h3>
                         <Form.Group>
-                          <Form.Label> Fyll inn ny e-mail adresse</Form.Label>
-                          <Form.Control style={{width: 600 + 'px'}}
-                                        type="input"
-                                        placeholder={userService.currentUser.email}
-                                        onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.user.email =
-                                        event.target.value}}/>
-                        </Form.Group>
-                        <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.change}>Bekreft</Button>
-                        <br/>
-                        <br/>
-                      </div>
-                      <br/>
-                      <br/>
-                      <h3>Endre profilbilde</h3>
-                      <Form.Group>
                           <Form.Label>Last opp bilde</Form.Label>
                           <Form.Control type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.user.image =
-                            event.target.value}}/>
-                      </Form.Group>
-                      <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.changePB}>Endre</Button>
-                      <br/>
-                      <br/>
-                      <h3>Kontakt informasjon</h3>
-                      <Form.Group>
-                        <Form.Label>Endre adresse</Form.Label>
-                        <Form.Control type="address" placeholder={userService.currentUser.address} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
-                          this.user.address = event.target.value
-                        }}/>
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>Endre telefon</Form.Label>
-                        <Form.Control type="number" placeholder={userService.currentUser.phone} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
-                          this.user.phone = event.target.value
-                        }}/>
-                      </Form.Group>
-                      <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.changeInfo}>Endre</Button>
-                    </Card.Body>
-                  </Card>
-                </Tab.Pane>
-                <Tab.Pane eventKey="second">
-                 <Card>
-                   <Card.Body>
-                     <h2>Endre brukernavn og/eller passord</h2>
-                     <p>(La felt stå tomt om det ikke skal endres)</p>
-                     <Form.Group>
-                       <Form.Label>Endre brukernavn</Form.Label>
-                       <Form.Control type="username" placeholder={userService.currentUser.user_name} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
-                         this.user.user_name = event.target.value
-                       }}/>
-                     </Form.Group>
-                     <Form.Row>
-                       <Form.Group as={Col}>
-                         <Form.Label>Endre passord</Form.Label>
-                         <Form.Control type="password" placeholder="Skriv inn nytt passord"onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
-                           this.user.password = event.target.value;
-                         }}/>
+                              event.target.value}}/>
+                        </Form.Group>
+                        <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.changePB}>Endre</Button>
+                        <br/>
+                        <br/>
+                        <h3>Kontakt informasjon</h3>
+                        <Form.Group>
+                          <Form.Label>Endre adresse</Form.Label>
+                          <Form.Control type="address" placeholder={userService.currentUser.address} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+                            this.user.address = event.target.value
+                          }}/>
+                        </Form.Group>
+                        <Form.Group>
+                          <Form.Label>Endre telefon</Form.Label>
+                          <Form.Control type="number" placeholder={userService.currentUser.phone} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+                            this.user.phone = event.target.value
+                          }}/>
+                        </Form.Group>
+                        <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.changeInfo}>Endre</Button>
+                      </Card.Body>
+                    </Card>
+                  </Tab.Pane>
+                  <Tab.Pane eventKey="second">
+                    <Card>
+                      <Card.Body>
+                        <h2>Endre brukernavn og/eller passord</h2>
+                        <p>(La felt stå tomt om det ikke skal endres)</p>
+                        <Form.Group>
+                          <Form.Label>Endre brukernavn</Form.Label>
+                          <Form.Control type="username" placeholder={userService.currentUser.user_name} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+                            this.user.user_name = event.target.value
+                          }}/>
+                        </Form.Group>
+                        <Form.Row>
+                          <Form.Group as={Col}>
+                            <Form.Label>Endre passord</Form.Label>
+                            <Form.Control type="password" placeholder="Skriv inn nytt passord"onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+                              this.user.password = event.target.value;
+                            }}/>
 
-                       </Form.Group>
-                       <Form.Group as={Col}>
-                         <Form.Label>Bekreft passord</Form.Label>
-                         <Form.Control type="password" placeholder="Gjenta passord"
-                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
-                           this.repeatedPassword = event.target.value
-                         }}/>
-                       </Form.Group>
-                     </Form.Row>
-                     <Button type="submit" variant="primary" onClick = {this.changeUP}>Endre</Button>
-                   </Card.Body>
-                 </Card>
-                </Tab.Pane>
-                <Tab.Pane eventKey="third">
-                 <Card>
-                   <Card.Body>
-                     <h2>Slett brukeren din</h2>
-                     <Button type="submit" variant="danger" onClick = {this.delete}>Slett bruker</Button>
-                     <Button type="submit" variant="secondary" onClick = {this.cancel}>Angre</Button>
+                          </Form.Group>
+                          <Form.Group as={Col}>
+                            <Form.Label>Bekreft passord</Form.Label>
+                            <Form.Control type="password" placeholder="Gjenta passord"
+                                          onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+                                            this.repeatedPassword = event.target.value
+                                          }}/>
+                          </Form.Group>
+                        </Form.Row>
+                        <Button type="submit" variant="primary" onClick = {this.changeUP}>Endre</Button>
+                      </Card.Body>
+                    </Card>
+                  </Tab.Pane>
+                  <Tab.Pane eventKey="third">
+                    <Card>
+                      <Card.Body>
+                        <h2>Slett brukeren din</h2>
+                        <Button type="submit" variant="danger" onClick = {this.delete}>Slett bruker</Button>
+                        <Button type="submit" variant="secondary" onClick = {this.cancel}>Angre</Button>
 
-                   </Card.Body>
-                 </Card>
-                </Tab.Pane>
-              </Tab.Content>
-            </Col>
-          </Row>
-        </Tab.Container>
-          </Container>
+                      </Card.Body>
+                    </Card>
+                  </Tab.Pane>
+                </Tab.Content>
+              </Col>
+            </Row>
+          </Tab.Container>
+        </Container>
       </div>
     } else {
       return <Spinner animation="border"/>
