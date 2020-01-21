@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Component } from "react-simplified";
-import {Event, eventService} from '../../../services/EventService';
+import {eventService} from '../../../services/EventService';
 import { createHashHistory } from 'history';
-import {Alert} from "../../../widgets";
+
 import {sharedComponentData} from "react-simplified";
 import {userService} from "../../../services/UserService";
 import {userEventService} from "../../../services/UserEventService";

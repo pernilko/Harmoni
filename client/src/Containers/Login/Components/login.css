@@ -1,0 +1,354 @@
+html,body {
+    background: linear-gradient(#222328, #551C3A) 100%;
+    transition: all .5s;
+}
+
+/* mid */
+.mid {
+    width: 60%;
+    margin: 100px auto;
+    background: rgba(0, 0, 0, 0.46);
+    min-height: 430px;
+    display: table;
+    position: center;
+    box-shadow: 0 0 4px rgba(0,0,0,.14), 0 6px 10px rgba(0,0,0,.28);
+}
+
+.mid > div {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    font-family: Verdana, Geneva, sans-serif;
+    color: #fff;
+}
+
+.mid p{
+    padding: 20%;
+}
+
+.mid button{
+    background: transparent;
+    padding: 7px 20px;
+    margin: 10px;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    position:relative;
+    color: #FFF;
+}
+
+.mid button.dark{
+    border-color:rgb(40, 17, 33);
+    background: rgb(40, 17, 33);
+    margin-top: 5%;
+    color:#FFFFFF;
+}
+
+
+.mid button.dark-org{
+    border-color:rgb(40, 17, 33);
+    background: rgb(40, 17, 33);
+    margin-top: 100vw;
+    padding: 25px 30px;
+    color:#FFFFFF;
+}
+
+
+.mid button.dark:hover{
+    border-color:rgb(40, 17, 33);
+    background: transparent;
+    margin-top: 5%;
+    color: rgb(40, 17, 33);
+}
+
+.mid button.light{
+    border-color: rgb(40, 17, 33);
+    background: rgb(40, 17, 33);
+    color: #fff;
+}
+
+.mid button.light:hover{
+    border-color: rgb(40, 17, 33);
+    background: #FFFFFF;
+    color: rgb(40, 17, 33);
+}
+
+.mid button:focus {
+    outline: none;
+}
+
+
+
+/*mid splits */
+
+.mid .splits p{
+    font-size: 20px;
+}
+
+
+/* mid wrapper */
+
+.mid .wrapper{
+    position: absolute;
+    width: 50%;
+    height: 120%;
+    top: -10%;
+    left: 5%;
+    background: #ffffff;
+    box-shadow: 0 0 4px rgba(0,0,0,.14), 0 9px 8px rgba(0,0,0,.28);
+    transition: all .5s;
+    color: #303030;
+    overflow: auto;
+    z-index: 50;
+
+}
+
+.mid .wrapper a {
+    font-size: 10px;
+    font-family: Verdana, Geneva, sans-serif;
+    position: relative;
+    text-decoration-color: #505050;
+    text-decoration: underline;
+}
+
+.mid .wrapper a:after {
+    height: 1px;
+    left: 50%;
+    position: absolute;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0;
+}
+
+a:after:hover {
+    width: 100%;
+    left: 0;
+}
+
+#loginForm{
+    padding-top: 25%;
+}
+
+.Spinner {
+    transition: all .5s;
+}
+
+#passwordForm{
+    padding-top: 5%;
+}
+
+
+#chooseOrg{
+    height: 80%;
+    width: 80%;
+    left: 10%;
+    top: 10%;
+
+
+}
+
+
+
+#chooseOrg > h3 {
+    padding: 20px;
+}
+
+#chooseOrg2 {
+    height: 80%;
+    width: 80%;
+    left: 10%;
+    top: 10%;
+
+}
+
+.mid .wrapper > form{
+    padding: 15px 30px 30px;
+    width: 100%;
+    transition: all .5s;
+    background: #fff;
+}
+
+.mid .wrapper form > h3{
+    text-align: center;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 23px;
+    margin-bottom: 20px;
+}
+
+
+.mid .wrapper > form > div {
+    position: relative;
+    margin-bottom: 15px;
+}
+.mid .wrapper label{
+    position: absolute;
+    top: -7px;
+    font-size: 12px;
+    white-space: nowrap;
+    background: #fff;
+    text-align: left;
+    left: 15px;
+    padding: 0 5px;
+    color: #999;
+    pointer-events: none;
+}
+
+.mid .wrapper input:focus{
+    outline: none;
+    border-color: #ff4931;
+}
+
+.mid .wrapper input{
+    height: 40px;
+    padding: 5px 15px;
+    width: 100%;
+    border: solid 1px #999;
+}
+
+.mid .wrapper > form:focus{
+    outline: none;
+}
+
+
+/* mid registerOrg*/
+
+.mid .registerOrg{
+    position: absolute;
+    width: 90%;
+    height: 120%;
+    top: -9%;
+    left: 5%;
+    background: #ffffff;
+    box-shadow: 0 0 4px rgba(0,0,0,.14), 0 9px 8px rgba(0,0,0,.28);
+    transition: all .5s;
+    color: #303030;
+    z-index: 50;
+
+}
+
+.mid .registerOrg1{
+    position: absolute;
+    width: 50%;
+    height: 120%;
+    top: -10%;
+    left: 45%;
+    background: #ffffff;
+    box-shadow: 0 0 4px rgba(0,0,0,.14), 0 9px 8px rgba(0,0,0,.28);
+    transition: all .5s;
+    color: #303030;
+    z-index: 50;
+
+}
+
+.mid .registerOrg > form > div {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.mid .registerOrg1 > form > div {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+
+.mid .registerOrg label{
+    position: absolute;
+    top: -7px;
+    font-size: 12px;
+    white-space: nowrap;
+    background: #fff;
+    text-align: left;
+    left: 15px;
+    padding: 0 5px;
+    color: #999;
+    pointer-events: none;
+}
+
+
+.mid .registerOrg1 label{
+    position: absolute;
+    top: -7px;
+    font-size: 12px;
+    white-space: nowrap;
+    background: #fff;
+    text-align: left;
+    left: 15px;
+    padding: 0 5px;
+    color: #999;
+    pointer-events: none;
+}
+
+.mid .registerOrg input:focus{
+    outline: none;
+    border-color: #281121;
+}
+
+.mid .registerOrg1 input:focus{
+    outline: none;
+    border-color: #281121;
+}
+
+.mid .registerOrg > form{
+    padding: 15px 30px 30px;
+    transition: all .5s;
+    background: #fff;
+}
+
+.mid .registerOrg1 > form{
+    padding: 15px 30px 30px;
+    transition: all .5s;
+    background: #fff;
+}
+
+.mid .registerOrg input{
+    height: 40px;
+    padding: 5px 15px;
+    width: 100%;
+    border: solid 1px #999;
+}
+
+.mid .registerOrg1 input{
+    height: 40px;
+    padding: 5px 15px;
+    width: 100%;
+    border: solid 1px #999;
+}
+
+.mid .registerOrg h3{
+    text-align: center;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+
+.mid .registerOrg1  h3{
+    text-align: center;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+
+.mid .registerOrg .b {
+    font-family: Verdana, Geneva, sans-serif;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+
+.mid .registerOrg1 .b {
+    font-family: Verdana, Geneva, sans-serif;
+    font-weight: bold;
+    font-size: 25px;
+}
+.mid .wrapper #loginForm{
+    padding-top: 20%;
+}
+
+.mid > .wrapper.move{
+    left: 45%;
+}
+.mid > .wrapper.move input:focus{
+    border-color: #401737;
+}
+
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    box-shadow: inset 0 0 0 50px #fff
+}

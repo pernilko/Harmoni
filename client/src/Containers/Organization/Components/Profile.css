@@ -1,0 +1,126 @@
+.body {
+    background: linear-gradient(#222328, #551C3A) 120%;
+    transition: all .5s;
+    height: 150%;
+}
+
+/* mid */
+.mid {
+    width: 60%;
+    margin: 100px auto;
+    background: rgba(0, 0, 0, 0.46);
+    min-height: 430px;
+    display: table;
+    position: relative;
+    box-shadow: 0 0 4px rgba(0,0,0,.14), 0 6px 10px rgba(0,0,0,.28);
+}
+
+.mid > div {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    font-family: Verdana, Geneva, sans-serif;
+    color: #fff;
+}
+
+.mid .wrapper {
+    position: absolute;
+    width: 50%;
+    height: 120%;
+    top: -10%;
+    left: 5%;
+    background: #ffffff;
+    box-shadow: 0 0 4px rgba(0,0,0,.14), 0 9px 8px rgba(0,0,0,.28);
+    transition: all .5s;
+    color: #303030;
+    overflow: auto;
+    z-index: 50;
+
+}
+
+#reset{
+    height: 80%;
+    width: 80%;
+    left: 10%;
+    top: 10%;
+}
+
+#passwordForm{
+    padding-top: 5%;
+}
+
+.mid .wrapper > form{
+    padding: 15px 30px 30px;
+    width: 100%;
+    transition: all .5s;
+    background: #fff;
+}
+
+.mid .wrapper form > h3{
+    text-align: center;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 23px;
+    margin-bottom: 20px;
+}
+
+
+.mid .wrapper > form > div {
+    position: relative;
+    margin-bottom: 15px;
+}
+.mid .wrapper label{
+    position: absolute;
+    top: -7px;
+    font-size: 12px;
+    white-space: nowrap;
+    background: #fff;
+    text-align: left;
+    left: 15px;
+    padding: 0 5px;
+    color: #999;
+    pointer-events: none;
+}
+
+.mid .wrapper input:focus{
+    outline: none;
+    border-color: #ff4931;
+}
+
+.mid .wrapper input{
+    height: 40px;
+    padding: 5px 15px;
+    width: 100%;
+    border: solid 1px #999;
+}
+
+.mid .wrapper > form:focus{
+    outline: none;
+}
+
+.mid button.dark{
+    border-color:rgb(40, 17, 33);
+    background: rgb(40, 17, 33);
+    margin-top: 5%;
+    color:#FFFFFF;
+}
+.mid button.dark:hover{
+    border-color:rgb(40, 17, 33);
+    background: transparent;
+    margin-top: 5%;
+    color: rgb(40, 17, 33);
+}
+.mid button:focus {
+    outline: none;
+}
+
+
+#verify {
+    height: 50%;
+    width: 80%;
+    left: 10%;
+    top: 25%;
+}
+
+#verfiyButton{
+    margin: 12%;
+}

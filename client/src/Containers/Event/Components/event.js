@@ -159,7 +159,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                                     <h6> Epost: {a.email}</h6>
                                                     <h6> tlf: {a.phone} </h6>
                                                 </p>
-                                                <a href={""}> nedlasting av filer skjer her </a>
+                                                <a href={a.riders} > riders </a>
                                                 <br/>
 
                                                 {u.privileges > 0 || u.p_read_contract ?

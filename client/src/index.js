@@ -3,12 +3,11 @@
 import ReactDOM from 'react-dom';
 import * as React from 'react';
 import { HashRouter, Route} from 'react-router-dom';
-import {Login} from "./Containers/Login";
+import {Login} from "./Containers/Login/Components/login";
 import {Alert} from "./widgets";
 import {RegistrationForm} from "./Containers/Event/Components/registrationFormEvent";
 import {Ticket} from "./Containers/Event/Components/ticketDropdown";
 import {Artist} from "./Containers/Event/Components/artist";
-import { RegOrganization } from './Containers/Organization/Components/registerOrgForm';
 import {Navigation} from './Containers/Navbar/Components/Navbar';
 import {userService} from "./services/UserService";
 import {EventList} from './Containers/Event/Components/showEvents';
@@ -40,8 +39,7 @@ if (root)
         <Route exact path = "/profile" component = {Profile}/>
         <Route path = "/Event" component = {RegistrationForm}/>
         <Route path = "/Login" component = {Login}/>
-        <Route path = "/RegisterOrganization" component = {RegOrganization}/>
-        <Route path = "/editEvent/:event_id" component = {EditEvent}/>
+        <Route path="/editEvent/:event_id" component={EditEvent}/>
         <Route path = "/user/:token" component = {userForm}/>
         <Route path = "/resetPass/:token" component = {resetPass}/>
         <Route path = "/showEvent/:id" component = {EventDetails}/>
