@@ -3,9 +3,32 @@ variables:
   MYSQL_USER: root
   MYSQL_ROOT_PASSWORD: secret
 
-test:
-  image: node:latest
-  services:
-    - mysql:5
+before_script:
+    - cd server && npm install && rm node_modules/bcryptjs/src/bower.json
+
+image: node:latest
+services:
+  - mysql:5
+
+
+run_tests:
+  stage: test
   script:
-    - cd server && npm install && rm node_modules/bcryptjs/src/bower.json && npm test 
+    - npm test
+  artifacts:
+    paths:
+      - server/coverage/
+
+pages:
+  stage: deploy
+  dependencies:
+    - run_tests
+  script:
+    - mkdir .server/public
+    - cp -r server/coverage/* .public
+    - mv .server/public public
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
