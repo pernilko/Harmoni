@@ -31,27 +31,13 @@ async function uploadFile(filename: string) {
             cacheControl: 'public, max-age=31536000',
         }
     });
-
     console.log(`${filename} uploaded to ${bucketName}.`);
 }
 
-//uploadFile(path.join(__dirname, "../test.txt"));
-
-let storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads')
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now())
-  }
-});
- 
-var upload = multer({ storage: storage })
+uploadFile(path.join(__dirname, "../Halvors-Resume-8.pdf"));
 
 let app = express();
 app.use(bodyParser.json());
-
-app.use("/uploadRiders", fileUpload());
 
 let DOMAIN = "localhost:3000/"
 

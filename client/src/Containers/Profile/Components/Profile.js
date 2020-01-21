@@ -27,7 +27,7 @@ export class Profile extends Component{
           <Row>
             <Col lg={3}>
               <div>
-              <Image src="https://i.ytimg.com/vi/_c1NJQ0UP_Q/maxresdefault.jpg"
+              <Image src="https://storage.cloud.google.com/harmoni-files/dab.png"
                      roundedCircle width={240 + 'px'}
                      height={220 + 'px'} style={{marginTop: 10 + 'px' ,marginBottom: 20 +'px'}}/>
               <br/>
@@ -76,8 +76,10 @@ export class Profile extends Component{
                       <h3>Endre profilbilde</h3>
                       <Form.Group>
                           <Form.Label>Last opp bilde</Form.Label>
-                          <Form.Control type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.user.image =
-                            event.target.file[0]}}/>
+                          <form action="http://localhost:8080/uploadfile" enctype="multipart/form-data" method="POST"> 
+                            <input type="file" name="myFile" />
+                            <input type="submit" value="Upload a file"/>
+                          </form>
                       </Form.Group>
                       <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.changePB}>Endre</Button>
                       <br/>
