@@ -106,7 +106,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                         </div>
                                     </Column> }  
                                 </Column>                  
-                            }
+                            } 
 
                             
                         </Row>
