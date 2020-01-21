@@ -316,6 +316,31 @@ app.post("/event/delete/notify/:event_id", (req: Request, res: Response) => {
     });
 });
 
+app.post("/cancelled", (req, res) => {
+    let email: string = req.body.email;
+    let org_id: number = req.body.org_id;
+    let org_name: string = req.body.org_name;
+    let event: string = req.body.event_name;
+    let token: string = jwt.sign({org_id: org_id}, privateKEY.key, {
+        expiresIn: 3600
+    });
+    let url: string = DOMAIN + "#/user/" + token;
+    let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: email,
+        subject: "ARRANGEMENT AVLYST!",
+        text: "Arrangementet " + event + " har blitt avlyst av arrangøren " + org_name
+    };
+    transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Email sent!");
+        }
+        res.json(url);
+    });
+});
+
 app.post("/event/edit/notify/:event_id", (req: Request, res: Response) => {
     console.log("/event/add/notify/:event_id received post request from client");
     let name: string = req.body.name;
