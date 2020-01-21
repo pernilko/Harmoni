@@ -26,6 +26,7 @@ import {ShowTab} from './Containers/Event/Components/showTab';
 import {CancelledEvent} from './Containers/Event/Components/cancelledEvent';
 import {verifyEmail} from "./Containers/Organization/Components/verifyEmail";
 import { createHashHistory } from 'history';
+import {OrgProfile2} from "./Containers/Organization/Components/profile2";
 const history = createHashHistory();
 
 
@@ -53,6 +54,7 @@ if (root)
         <Route exact path = "/alleEvents" render = {(props) => <ShowTab all={true}/>}/>
         <Route exact path = "/mineEvents" render = {(props) => <ShowTab all={false}/>}/>
         <Route path = "/verifyEmail/:token" component={verifyEmail}/>
+        <Route path = "/orgprofile2" component={OrgProfile2}/>
       </div>
     </HashRouter>,
     root

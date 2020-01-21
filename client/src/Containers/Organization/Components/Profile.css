@@ -1,0 +1,25 @@
+body{
+    background-color: #f1f1f1;
+    font-size: medium;
+}
+
+h4 {
+    text-align: left;
+    background: transparent;
+    color: white;
+}
+
+.container{
+    color: black;
+    padding: 20px 70px;
+}
+
+.card{
+    border: none;
+}
+
+input.inputLabel{
+    border: none;
+    border-bottom: #ba8b6f;
+}
+
