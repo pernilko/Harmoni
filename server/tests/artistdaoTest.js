@@ -91,5 +91,5 @@ test("Test update artist", done =>{
     done();
   }
 
-  artistDao.getOne(4, callback);
+  artistDao.setAccepted(4, callback);
 });

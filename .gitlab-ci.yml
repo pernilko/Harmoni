@@ -8,4 +8,21 @@ test:
   services:
     - mysql:5
   script:
-    - cd server && npm install && rm node_modules/bcryptjs/src/bower.json && npm test 
+    - cd server && npm install && rm node_modules/bcryptjs/src/bower.json && npm test
+  artifacts:
+    paths:
+      - coverage/
+
+pages:
+  stage: deploy
+  dependencies:
+    - run_tests
+  script:
+    - mkdir .public
+    - cp -r coverage/* .public
+    - mv .public public
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
