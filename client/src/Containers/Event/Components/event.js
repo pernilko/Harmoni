@@ -75,7 +75,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                         <Column width="2">
                                             <Popup trigger={<a
                                                 hidden={userService.currentUser.user_id != e.user_id && userService.currentUser.privileges != 1}
-                                                className="btn btn-success"> <div className="whiteTextOnAcceptButtonAtTopOfEventPageToAcceptEntireEventGivingAnAdditionalOptionToDeclineViaAPopoupWIndowThatJulieDesignedEarlierThisWeek">Godkjenn </div></a>}>
+                                                className="btn btn-success"> <div className="whiteTextOnAcceptButtonAtTopOfEventPageToAcceptEntireEventGivingAnAdditionalOptionToDeclineViaAPopoupWIndowThatJulieDesignedEarlierThisWeekIReallyMustSayThatThisCodeWasElegantlyWrittenAndOfGreatUseForThisParticularFeatureAsWellIHavetoStopWritingSoonAsTheClockHasPassed1600AndItIsTimeForMeToHeadHomeThankYouForReading">Godkjenn </div></a>}>
                                                 {close => (
                                                     <div>
                                                         <p><b>Dette vil markere hele arrangementet som klart, det vil bety at riders, og kontrakter bør være ferdigstilt</b></p>
