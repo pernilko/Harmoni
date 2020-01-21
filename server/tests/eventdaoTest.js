@@ -32,7 +32,7 @@ test("Retrieve all events", done =>{
       "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
     );
 
-    expect(data.length).toBe(3);
+    expect(data.length).toBe(4);
     done();
   }
 
@@ -169,7 +169,7 @@ test("Test previous event by user_id", done =>{
         "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
     );
 
-    expect(data.length).toBe(1);
+    expect(data.length).toBe(0);
     expect(data[0].event_name).toBe("Fotball-turnering");
     done();
   }

@@ -80,7 +80,7 @@ test("Get user by id", done => {
     console.log(
         "Test callback: status=" + status + ", data=" + JSON.stringify(data)
     );
-    expect(data.user_name).toBe("Navn Navnesen");
+    expect(data[0].user_name).toBe("Navn Navnesen");
     done();
   }
 
@@ -92,7 +92,7 @@ test("Get user by email and org_id", done => {
     console.log(
         "Test callback: status=" + status + ", data=" + JSON.stringify(data)
     );
-    expect(data.email).toBe("ha_det@gmail.com");
+    expect(data[0].email).toBe("ha_det@gmail.com");
     done();
   }
 
@@ -116,7 +116,7 @@ test("Get all users by org_id", done => {
     console.log(
         "Test callback: status=" + status + ", data=" + JSON.stringify(data)
     );
-    expect(data).toBeGreaterThanOrEqual(2);
+    expect(data).toBeArray();
     done();
   }
 
@@ -128,7 +128,7 @@ test("Get admin by org_id", done => {
     console.log(
         "Test callback: status=" + status + ", data=" + JSON.stringify(data)
     );
-    expect(data.user_name).toBe("person Personesen");
+    expect(data[0].user_name).toBe("person Personesen");
     done();
   }
 
