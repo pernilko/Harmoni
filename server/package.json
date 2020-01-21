@@ -31,7 +31,8 @@
     "node-gyp": "^6.1.0",
     "nodemailer": "^6.4.2",
     "npm": "^6.13.0",
-    "rebuild": "^0.1.2"
+    "rebuild": "^0.1.2",
+    "pdfmake": "^0.1.63"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.7",

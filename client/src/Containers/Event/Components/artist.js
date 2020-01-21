@@ -6,6 +6,7 @@ import Card from "react-bootstrap/Card";
 import {Artist} from "../../../services/ArtistService";
 import Accordion from "react-bootstrap/Accordion";
 import {Alert} from "../../../widgets";
+import * as pdfMake from "pdfmake";
 
 let del_artist: Artist[] = [];
 
@@ -117,6 +118,7 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
         this.artist[index] = new Artist(this.props.artist.artist_id,this.props.artist.event_id,this.artist_name ,this.email, this.phone, this.riders, this.hospitality_riders, this.artist_contract);
         //let s: any = ArtistDetails.instance();
         //s.mounted();
+
     }
 
     mounted(): unknown {

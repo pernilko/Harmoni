@@ -14,6 +14,7 @@ import {userService} from "../../../services/UserService";
 import {userEventService} from "../../../services/UserEventService";
 import "./event.css";
 import {organizationService} from "../../../services/OrganizationService";
+import * as pdfMake from "pdfmake";
 
 const history = createHashHistory();
 let eventService = new EventService();
@@ -90,7 +91,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                                 <h6> tlf: {a.phone} </h6>
                                             </p>
 
-                                            {a.riders ? <a href={window.URL.createObjectURL(a.riders)} onClick={this.loadRider(a.riders)}>{a.riders.name}</a>: 'Ingen rider valgt.'}
+                                            {a.riders ? <a href={window.URL.createObjectURL(a.riders)} download>{a.riders.name}</a>: 'Ingen rider valgt.'}
                                             <br/>
 
                                             <div className={"buttonContainer"}>
@@ -214,7 +215,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                 this.state.artists.map(a=>{
                     console.log("Artist: "+a.artist_id);
                     artistService.getArtistRider(a.artist_id).then(res =>{
-                        a.riders= new File(res.data.data, res.name, {type: res.mimetype});
+                        a.riders= new File(res.data.data, res.name,{type: res.data.type});
                         console.log(a.riders);
                         this.setState({artists});
                     });
@@ -288,10 +289,6 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                 this.email = "";
             })
             .catch((error: Error) => console.log(error.message))
-    }
-
-    loadRider(rider: File){
-
     }
 }
 // <MapContainer lat={this.state["event"].latitude} lng={this.state["event"].longitude}/>

@@ -53,7 +53,7 @@ class ArtistService {
     }
 
     getArtistRider(artist_id:number){
-         return axios.get<File>(url+"artist/rider/"+artist_id).then(response => response.data[0]);
+         return axios.get<Blob>(url+"artist/rider/"+artist_id).then(response => response.data[0]);
     }
 
     getOneArtist(id: number) {
