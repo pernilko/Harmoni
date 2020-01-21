@@ -1,14 +1,6 @@
-tml{
+html,body {
     background: linear-gradient(#222328, #551C3A) 100%;
     transition: all .5s;
-    height: 100%;
-
-}
-
-body {
-    background: linear-gradient(#222328, #551C3A) 100%;
-    transition: all .5s;
-    height: 100%;
 }
 
 /* mid */
@@ -16,9 +8,9 @@ body {
     width: 60%;
     margin: 100px auto;
     background: rgba(0, 0, 0, 0.46);
-    min-height: 400px;
+    min-height: 430px;
     display: table;
-    position: relative;
+    position: center;
     box-shadow: 0 0 4px rgba(0,0,0,.14), 0 6px 10px rgba(0,0,0,.28);
 }
 
@@ -30,28 +22,41 @@ body {
     color: #fff;
 }
 
+.mid p{
+    padding: 40px;
+}
+
 .mid button{
     background: transparent;
-    display: inline-block;
     padding: 7px 20px;
+    margin: 10px;
     border: 2px solid #fff;
     border-radius: 50px;
-    position: relative;
+    position:relative;
     color: #FFF;
-    transition: all .25s;
 }
 
 .mid button.dark{
     border-color:rgb(40, 17, 33);
     background: rgb(40, 17, 33);
-    margin-top: 10%;
+    margin-top: 5%;
     color:#FFFFFF;
 }
+
+
+.mid button.dark-org{
+    border-color:rgb(40, 17, 33);
+    background: rgb(40, 17, 33);
+    margin-top: 100vw;
+    padding: 25px 30px;
+    color:#FFFFFF;
+}
+
 
 .mid button.dark:hover{
     border-color:rgb(40, 17, 33);
     background: transparent;
-    margin-top: 10%;
+    margin-top: 5%;
     color: rgb(40, 17, 33);
 }
 
@@ -71,6 +76,15 @@ body {
     outline: none;
 }
 
+
+
+/*mid splits */
+
+.mid .splits p{
+    font-size: 20px;
+}
+
+
 /* mid wrapper */
 
 .mid .wrapper {
@@ -88,19 +102,73 @@ body {
 
 }
 
+.mid .wrapper a {
+    font-size: 10px;
+    font-family: Verdana, Geneva, sans-serif;
+    position: relative;
+    text-decoration-color: #505050;
+    text-decoration: underline;
+}
+
+.mid .wrapper a:after {
+    height: 1px;
+    left: 50%;
+    position: absolute;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0;
+}
+
+a:after:hover {
+    width: 100%;
+    left: 0;
+}
+
+#loginForm{
+    padding-top: 25%;
+}
+
+.Spinner {
+    transition: all .5s;
+}
+
+#passwordForm{
+    padding-top: 5%;
+}
+
+
+#chooseOrg{
+    height: 80%;
+    width: 80%;
+    left: 10%;
+    top: 10%;
+
+
+}
+
+#chooseOrg > h3 {
+    padding: 20px;
+}
+
+#chooseOrg2 {
+    height: 80%;
+    width: 80%;
+    left: 10%;
+    top: 10%;
+
+}
+
 .mid .wrapper > form{
     padding: 15px 30px 30px;
     width: 100%;
     transition: all .5s;
     background: #fff;
-    width: 100%;
 }
 
-.mid .wrapper h3 > b {
+.mid .wrapper form > h3{
     text-align: center;
     font-family: Verdana, Geneva, sans-serif;
     font-size: 23px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 
@@ -174,7 +242,7 @@ body {
 
 .mid .registerOrg input:focus{
     outline: none;
-    border-color: #ff4931;
+    border-color: #281121;
 }
 
 .mid .registerOrg > form{
@@ -204,12 +272,6 @@ body {
     font-family: Verdana, Geneva, sans-serif;
     font-weight: bold;
     font-size: 25px;
-}
-
-/*mid splits */
-
-.mid .splits p{
-    font-size: 20px;
 }
 
 

@@ -6,6 +6,7 @@ import {User, userService} from "../../../services/UserService";
 import {Alert} from "../../../widgets";
 import {Organization, organizationService} from "../../../services/OrganizationService";
 import { createHashHistory } from 'history';
+import "./Profile.css";
 
 const history = createHashHistory();
 
@@ -19,33 +20,42 @@ export class resetPass extends Component<{ match: { params: { token: string } } 
     render() {
         if (this.loaded) {
         return (
-            <div>
-            <Form>
-                <Form.Row>
-                    <Form.Group as={Col}>
-                        <Form.Label>Passord</Form.Label>
-                        <Form.Control type="password" placeholder="Skriv inn passord"
-                                        onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
-                                            this.password = event.target.value;
-                                        }}/>
-
-                    </Form.Group>
-                    <Form.Group as={Col}>
-                        <Form.Label> </Form.Label>
-                        <Form.Control type="password" placeholder="Gjenta passord" style={{marginTop: 8 + 'px'}}
-                                        onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
-                                            this.repeatedPassword = event.target.value
-                                        }}/>
-                    </Form.Group>
-                </Form.Row>
-                <Button variant="primary" type="button" style={{marginTop: 20 + 'px'}}
-                                onClick={this.reset}> Endre passord </Button>
-                </Form>
+            <div className="body">
+                <div className="mid">
+                    <div id="reset" className="wrapper">
+                        <h3 style={{paddingTop: 10+'px'}}>Skriv inn nytt passord</h3>
+                        <form id="passwordForm" tabIndex="500" >
+                            <div>
+                                <input type="password"
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+                                           this.password = event.target.value
+                                       }}/>
+                                <label>Passord for</label>
+                            </div>
+                            <div>
+                                <input type="password"
+                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+                                           this.repeatedPassword = event.target.value
+                                       }}/>
+                                <label>Gjenta passord</label>
+                            </div>
+                            <div>
+                                <button className="btn dark" type="button" variant="primary" onClick={this.reset}>Logg inn</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         )
         } else {
             return (
-                <Spinner animation="border"></Spinner>
+              <div className="body">
+                  <div className="mid">
+                      <div id="reset" className="wrapper">
+                          <Spinner animation="border"></Spinner>
+                      </div>
+                  </div>
+              </div>
             )
         }
     }

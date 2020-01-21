@@ -3,7 +3,7 @@
 import ReactDOM from 'react-dom';
 import * as React from 'react';
 import { HashRouter, Route} from 'react-router-dom';
-import {Login} from "./Containers/Login";
+import {Login} from "./Containers/Login/Components/login";
 import {Alert} from "./widgets";
 import {RegistrationForm} from "./Containers/Event/Components/registrationFormEvent";
 import {Ticket} from "./Containers/Event/Components/ticketDropdown";
@@ -25,7 +25,6 @@ import {resetPass} from "./Containers/Organization/Components/resetPass";
 import {ShowTab} from './Containers/Event/Components/showTab';
 import {verifyEmail} from "./Containers/Organization/Components/verifyEmail";
 import { createHashHistory } from 'history';
-import { NewLogin } from './Containers/Login/Components/newLogin';
 const history = createHashHistory();
 
 
@@ -39,8 +38,7 @@ if (root)
         <Route path = "/opprettEvent" component = {RegistrationForm}/>
         <Route exact path="/profile" component={Profile}/>
         <Route path = "/Event" component = {RegistrationForm}/>
-        <Route path = "/Login" component = {NewLogin}/>
-
+        <Route path = "/Login" component = {Login}/>
         <Route path = "/RegisterOrganization" component = {RegOrganization}/>
         <Route path="/editEvent/:event_id" component={EditEvent}/>
         <Route exact path = "/event/:id" component = {EventDetails}/>

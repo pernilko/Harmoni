@@ -22,89 +22,34 @@ export class RegOrganization extends Component {
   repeatedPassword: string = "";
 
   render(){
-      return <div>
-        <h2 className="card-header">Registrer en ny organisasjon </h2>
-        <Form style={{marginTop: 20 + 'px', paddingLeft: 200 + 'px', paddingRight: 200 + 'px'}}>
-          <Form.Group>
-            <Form.Label>Organisasjons navn:</Form.Label>
-            <Form.Control type="String" placeholder="Skriv inn organisasjonsnavn "
-                          onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
-                            this.organization.org_name = event.target.value
-                          }}/>
-          </Form.Group>
-
-          <Form.Group>
-            <Form.Label>Tlf</Form.Label>
-            <Form.Control type="number" placeholder="Skriv inn telefon nummer"
-                          onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
-                            this.organization.phone = event.target.value
-                          }}/>
-          </Form.Group>
-
-          <Form.Group>
-            <Form.Label>E-mail</Form.Label>
-            <Form.Control type="text" placeholder="Skriv inn organisjonens mail "
-                          onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
-                            this.organization.email = event.target.value
-                          }}/>
-          </Form.Group>
-          <Button variant="primary" type="submit" style={{marginTop: 15 + 'px', marginBottom: 30 + 'px'}}
-                  onClick={this.next}>Neste</Button>
-
-        </Form>
-        <div hidden={this.hidden}>
-          <Form style={{marginTop: 20 + 'px', paddingLeft: 200 + 'px', paddingRight: 200 + 'px'}}>
-            <h2 className="card-header align-content-center">{"Registrer admin bruker for "+this.organization.org_name}</h2>
-            <Form.Group>
-              <Form.Label>Brukernavn</Form.Label>
-              <Form.Control type="username" placeholder="Velg brukernavn" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
-                this.user.user_name = event.target.value
-              }}/>
-            </Form.Group>
-            <Form.Row>
-              <Form.Group as={Col}>
-                <Form.Label>Passord</Form.Label>
-                <Form.Control type="password" placeholder="Skriv inn passord"onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
-                  this.user.password = event.target.value;
-                }}/>
-
-              </Form.Group>
-              <Form.Group as={Col}>
-                <Form.Label> </Form.Label>
-                <Form.Control type="password" placeholder="Gjenta passord" style={{marginTop: 8 + 'px'}} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
-                  this.repeatedPassword = event.target.value
-                }}/>
-              </Form.Group>
-            </Form.Row>
-
-            <Form.Group>
-              <Form.Label>Adresse</Form.Label>
-              <Form.Control type="String" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
-                this.user.address = event.target.value
-              }}/>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Telefon nr</Form.Label>
-              <Form.Control type="number" placeholder="Skriv inn telefon nummer" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
-                this.user.phone = event.target.value
-              }}/>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>E-mail</Form.Label>
-              <Form.Control type="string" placeholder="personligEmail@mail.com" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
-                this.user.email = event.target.value
-              }}/>
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label>Last opp bilde</Form.Label>
-              <Form.Control type="file"/>
-            </Form.Group>
-            <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.register}> Registrer</Button>
-          </Form>
-        </div>
+    return(
+      <div className="wrapper">
+        <form>
+          <h3> Registrer ny organisasjon</h3>
+          <div>
+            <input type="String" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+              this.organization.org_name = event.target.value
+            }}/>
+            <label>Organisasjons navn:</label>
+          </div>
+          <div>
+            <input type="number" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+              this.organization.phone = event.target.value
+            }}/>
+            <label>Tlf</label>
+          </div>
+          <div>
+            <input type="E-mail" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+              this.organization.email = event.target.value
+            }}/>
+            <label>Email</label>
+          </div>
+          <div>
+            <button className="btn dark" type="button" onClick={this.next}>Neste</button>
+          </div>
+        </form>
       </div>
-  }
+    )}
 
   mounted(): unknown {
     return undefined;
