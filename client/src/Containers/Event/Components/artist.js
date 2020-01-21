@@ -9,6 +9,14 @@ import {Alert} from "../../../widgets";
 
 let del_artist: Artist[] = [];
 
+/**
+ * Dette er en komponent klasse som brukes til å lage nye artister.
+ * @requires react
+ * @requires react-simplified
+ * @requires react-bootstrap
+ * @constructor
+ * @param {string} buttonName - Dette er hva som skal stå på knappen som man trykker på for å se ArtistDropdown
+ */
 export class ArtistDropdown extends Component<{buttonName: string, artist: Artist}> {
     state: Object={raider: null, hraider: null,contract: null};
     artist: Artist[] = [];
@@ -21,6 +29,10 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
     phone: number = this.props.artist.phone;
     //image: string = this.props.image;
 
+    /**
+     * Dette er metoden som brukes for å generere en HTML komponent for å redigere artist.
+     * @returns {*} - Dette returnerer en HTML komponent.
+     */
     render() {
         return (
             <Accordion>
@@ -105,13 +117,11 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
         );
     }
 
+    /**
+     * Dette er metoden man bruker for å legge inn artist i arangement
+     * For å legge inn ny artist må man ha navn +e-post|tlf
+     */
     add(){
-        if(this.pris < 0){
-            this.pris = 0;
-            Alert.danger("Pris kan ikke være en negativ verdi");
-            return;
-        }
-
         console.log(this.state);
         const index = this.artist.indexOf(this.props.artist);
         this.artist[index] = new Artist(this.props.artist.artist_id,this.props.artist.event_id,this.artist_name ,this.email, this.phone, this.riders, this.hospitality_riders, this.artist_contract);
@@ -119,10 +129,19 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
         //s.mounted();
     }
 
+    /**
+     * Dette er en funksjon som kjører før render funksjonen.
+     * Vi bruker denne til å ikke overskrive detaljene til artisten
+     */
     mounted(): unknown {
         let s: any = ArtistDetails.instance();
         this.artist = s.artist;
     }
+
+    /**
+     * Dette er funskjeonen man bruker for å slette en artist.
+     * @param {Artist} a - Parameteren tar inn et artist objektav artisten som skal slettes
+     */
     delete(a: Artist){
         del_artist.push(a);
         const index = this.artist.indexOf(a);
@@ -132,9 +151,17 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
     }
 }
 
+/**
+ * Denne klassen skal vise artist informasjonen på en oversiktlig måte, og evt mulighet til å lage nye
+ */
 export class ArtistDetails extends Component {
 
     artist: Artist[] = [];
+
+    /**
+     * Denne klassen inneholder en react komponent som skal vise informasonen til alle artister som er koblet til et arrangement
+     * @returns {*} - Denne metoden returnerer en komponent som viser detaljene til alle atristene i et arrangement
+     */
     render(){
         return (
             <div className="card">
@@ -166,6 +193,9 @@ export class ArtistDetails extends Component {
         )
     }
 
+    /**
+     * Denne metoden skal lage en ny tom artist som brukeren skal fylle inn med informeasjon.
+     */
     addNewArtist(){
         let a: Artist = new Artist(-1, 0, "", "", "", null, null, null, null);
         this.artist.push(a);

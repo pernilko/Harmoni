@@ -18,6 +18,13 @@ import {Spinner} from "react-bootstrap";
 
 const history = createHashHistory();
 
+/**
+ * Denne klassen skal lage en komponenet for å vide detaljene til en event.
+ * Man skal og kunne redigere eller godta detaljer til et event dersom man har tilgang.
+ *
+ * @Constructor
+ * @param {{number}} match.params.id - Denne klassen trenger IDen til arrangementet for å vise detaljene
+ */
 export class EventDetails extends Component<{ match: { params: { id: number } } }>  {
     event_id = this.props.match.params.id;
     loaded = [false, false, false, false];
@@ -25,6 +32,9 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
     cancel: boolean = true;
     bugreport: string = "";
 
+    /**
+     * Konstruktøren setter arrangement, bruker, billett og artist tilstander
+     */
     constructor(props){
         super(props);
         this.state = {
@@ -34,6 +44,11 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             artists: []
         };
     }
+
+    /**
+     * Denne metoden skal generere en HTML komponent til å se arrangement detaljer
+     * @returns {*} HTML komponent til å vise frem arrangement detaljene
+     */
     render() {
         if (this.loaded.some(l => !l)) {
             return <Spinner animation="border"></Spinner>
@@ -255,6 +270,11 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             }
         }
     }
+
+    /**
+     * Dette er en metode som kjører en gang før render kjører.
+     * Det er her man laster inn data som skal bli vist i nettsiden.
+     */
     mounted() {
         if (userService.currentUser) {
             console.log("Event requested");
@@ -295,6 +315,15 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         }
     }
 
+    /**
+     * Det er her logikken ligger for å håndtere å godta en bruker. Dette skal bare bli vist for brukere som har lov å godkjenne seg selv.
+     * Til slutt setter den bruker staten, og oppdaterer siden
+     * @param user_id - bruker IDen til brukeren som skal bli godkjent
+     * @param event_id - Dette er arrangement IDen som brukeren kommer til å være med på
+     * @param accepted - Dette er en booleansk variabel som sier om brukeren er godskjent eller ikke.
+     * True= godskjent
+     * False=Ikke godskjent
+     */
     setAccepted(user_id: number, event_id: number, accepted: number) {
         userEventService.setAccepted(user_id, event_id, accepted);
         let users = this.state["users"];
@@ -308,6 +337,14 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         this.setState({users});
     }
 
+    /**
+     * Dette er en metode for å godta at artisten skal komme.
+     * Bare brukere som kan redigere arangementet vil kunne bruke denne funksjonen.
+     * @param id - Dette er IDen til artisten som skal godskjennes
+     * @param accepted - Dette er en booleansk variabel som sier oss om artisten er godskjent eller ikke.
+     * True=godskjent
+     * False=Ikke godskjent
+     */
     acceptArtist(id: number, accepted: number){
         artistService.setAccepted(id, accepted);
 
@@ -322,7 +359,11 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
     }
 
 
-
+    /**
+     * Denne metoden skal la oss hente alle artistene som er knyttet til en event. Disse brukerne er synelige for alle som kan se arrangementet.
+     * @param BANG - Dette er arrangement IDen til arrangementene man skal hente alle relaterte brukere fra
+     * @returns {undefined|*} - Metoden returnerer en liste over alle brukere knyttet til et arangement
+     */
     getUserEvent(BANG: number){
         if (userService.currentUser){
             let u = this.state["users"];
@@ -335,6 +376,9 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         return undefined;
     }
 
+    /**
+     * Denne metoden skal sende en bug rapport som brukeren har skrevet til administratoren.
+     */
     sendReport(){
         organizationService.reportBug("pernilko@stud.ntnu.no", userService.currentUser.org_id, organizationService.currentOrganization.org_name, this.bugreport)
             .then((e) => {
@@ -344,6 +388,12 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             })
             .catch((error: Error) => console.log(error.message))
     }
+
+    /**
+     * Denne metoden skal kansellere et arrangement, og vil da sende mail om kanselasjon til alle brukere involvert.
+     * Bare brukeren som lager arrangementet og administrator kan starte denne metoden.
+     * @param event_id - dette er arrangement IDen til arrangementet som skal kanselleres
+     */
     cancelled(event_id: number) {
         eventService
             .cancelEvent(event_id)
@@ -356,6 +406,10 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             })
             .catch((error: Error) => console.log(error.message));
     }
+
+    /**
+     * Denne metoden er en hjelpemetode som skal faktisk sende mail til alle brukere om kansellering av arrangement
+     */
     sendCancellationMail(){
 
         this.state["users"].map(e => {
@@ -369,6 +423,9 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         })
     }
 
+    /**
+     * Dette er en metode man bruker for å vise frem HTML dokumentet
+     */
     show(){
         this.hidden = false;
     }

@@ -4,7 +4,8 @@
   "scripts": {
     "start": "nodemon --exec babel-node src/server.js",
     "test": "jest --detectOpenHandles --forceExit",
-    "flow": "flow"
+    "flow": "flow",
+    "docs": "./node_modules/jsdoc/jsdoc.js -c ./.jsdoc.conf.json"
   },
   "jest": {
     "verbose": true,
@@ -26,6 +27,7 @@
     "flow-typed": "^2.6.2",
     "fs": "0.0.1-security",
     "js-base64": "^2.4.9",
+    "jsdoc": "^3.6.3",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.16.0",
     "node-gyp": "^6.1.0",
