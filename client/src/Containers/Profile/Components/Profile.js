@@ -28,9 +28,9 @@ export class Profile extends Component{
           <Row>
             <Col lg={3}>
               <div>
-              <Image src="https://storage.cloud.google.com/harmoni-files/dab.png"
+              <a href = {userService.currentUser.image} target="_blank"><Image src={userService.currentUser.image}
                      roundedCircle width={240 + 'px'}
-                     height={220 + 'px'} style={{marginTop: 10 + 'px' ,marginBottom: 20 +'px'}}/>
+                        height={220 + 'px'} style={{marginTop: 10 + 'px' ,marginBottom: 20 +'px'}}/></a>
               <br/>
               <Nav variant="pills" className="flex-column" >
                 <Nav.Item>
@@ -77,7 +77,7 @@ export class Profile extends Component{
                       <h3>Endre profilbilde</h3>
                       <Form.Group>
                           <Form.Label>Last opp bilde</Form.Label>
-                          <Form.Control type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.user.image =
+                          <Form.Control accept = "image/*" type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.user.image =
                             event.target.files[0]}}/>
                       </Form.Group>
                       <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.changePB}>Endre</Button>

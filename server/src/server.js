@@ -12,6 +12,7 @@ let config: {host: string, user: string, password: string, email: string, email_
 const path = require("path");
 const {Storage} = require('@google-cloud/storage');
 const multer = require('multer');
+let fs = require('fs');
 
 
 const gc = new Storage({
@@ -825,7 +826,7 @@ app.put("/Profile/editEmail/:id", (req, res) =>{
     });
 });
 
-app.post("/upload/Profile/editImage/:id", (req, res) =>{
+app.put("/upload/Profile/editImage/:id", (req, res) =>{
     console.log("/Profile/edit received an update request from client ");
         //const file = req.file;
         if (!req.files || Object.keys(req.files).length === 0) {
@@ -839,7 +840,10 @@ app.post("/upload/Profile/editImage/:id", (req, res) =>{
         myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
             if(err)return res.status(500);
         });
-        uploadFile(path.join(__dirname,'uploads/'+ fileName));
+        uploadFile(path.join(__dirname,'uploads/'+ fileName)).then(()=>{
+            fs.unlinkSync(path.join(__dirname, 'uploads/'+ fileName));
+            console.log("deleted local file");
+        });
         userDao.updateUserImage(req.params.id, fileName, (status, data)=>{
             res.status(status);
             res.json(data);
