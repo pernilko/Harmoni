@@ -15,9 +15,10 @@ export class Event {
     longitude: number;
     latitude: number;
     image: File;
+    completed: number;
+    accepted: number;
 
-    constructor(event_id: number, org_id: number, user_id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number, image: File) {
-
+    constructor(event_id: number, org_id: number, user_id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number, image: File, accepted: number, completed: number) {
         this.event_id = event_id;
         this.org_id = org_id;
         this.user_id = user_id;
@@ -29,6 +30,8 @@ export class Event {
         this.longitude = longitude;
         this.latitude = latitude;
         this.image = image;
+        this.accepted = accepted;
+        this.completed = completed;
     }
 }
 
@@ -61,21 +64,36 @@ export class EventService {
     getEventsByOrg_id(org_id: number){
         return axios.get<Event[]>(url+"event/org/" + org_id).then(response=>response.data);
     }
-
     getEventsUpcomingByUser_id(user_id: number){
         return axios.get<Event[]>(url+"event/upcoming/user/"+ user_id).then(response=>response.data);
     }
     getEventsUpcomingByOrg_id(org_id: number){
         return axios.get<Event[]>(url+"event/upcoming/org/" + org_id).then(response=>response.data);
     }
-
+    getEventsCurrentByUser_id(user_id: number){
+        return axios.get<Event[]>(url+"event/current/user/"+ user_id).then(response=>response.data);
+    }
+    getEventsCurrentByOrg_id(org_id: number){
+        return axios.get<Event[]>(url+"event/current/org/" + org_id).then(response=>response.data);
+    }
     getEventsPreviousByUser_id(user_id: number){
         return axios.get<Event[]>(url+"event/previous/user/"+ user_id).then(response=>response.data);
     }
     getEventsPreviousByOrg_id(org_id: number){
         return axios.get<Event[]>(url+"event/previous/org/" + org_id).then(response=>response.data);
     }
-
+    getEventsPending(user_id: number){
+        return axios.get<Event[]>(url+"event/pending/" + user_id).then(response=>response.data);
+    }
+    getEventsCancelledUser_id(user_id: number){
+        return axios.get<Event[]>(url+"event/cancelled/user/" + user_id).then(response=>response.data);
+    }
+    getEventsCancelledOrg_id(org_id: number){
+        return axios.get<Event[]>(url+"event/cancelled/org/" + org_id).then(response=>response.data);
+    }
+    setCompleted(user_id: number){
+        return axios.put<Event[]>(url+"event/pending/" + user_id).then(response=>response.data);
+    }
     updateEvent(id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number, image: File) {
         return axios.put<{}, Event>(url + "event/edit/"+id, {
             "event_name": event_name,
@@ -89,12 +107,16 @@ export class EventService {
         }).then(response => response.data);
     }
 
-    deleteEvent(id: number) {
-        return axios.delete<Event, {}>(url + "event/delete/"+id).then(response => response.data);
+    cancelEvent(id : number){
+        return axios.put<{}, Event>(url + "event/cancel/" + id).then(response => response.data)
     }
 
     getEventbySearch(search: string, org_id: number){
         return axios.get<Event[]>(url + "event/search/" + search + "/" + org_id).then(response => response.data);
+    }
+
+     setAcceptedEvent(id: number, accepted: number) {
+        return axios.put<Event, void>(url + "event/accepted/" + id).then(response => response.data);
     }
 }
 

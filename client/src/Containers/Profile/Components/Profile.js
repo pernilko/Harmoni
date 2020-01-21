@@ -28,9 +28,9 @@ export class Profile extends Component{
           <Row>
             <Col lg={3}>
               <div>
-              <a href = {userService.currentUser.image} target="_blank"><Image src={userService.currentUser.image}
+              <Image src={userService.currentUser.image}
                      roundedCircle width={240 + 'px'}
-                        height={220 + 'px'} style={{marginTop: 10 + 'px' ,marginBottom: 20 +'px'}}/></a>
+                     height={220 + 'px'} style={{marginTop: 10 + 'px' ,marginBottom: 20 +'px'}}/>
               <br/>
               <Nav variant="pills" className="flex-column" >
                 <Nav.Item>
