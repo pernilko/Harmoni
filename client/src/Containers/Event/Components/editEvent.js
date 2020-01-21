@@ -78,7 +78,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                             </div>
                             <Form.Group>
                                 <Form.Label>Last opp bilde</Form.Label>
-                                <Form.Control type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.event.image =
+                                <Form.Control accept = "image/*" type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.event.image =
                                 event.target.files[0]}}/>
                             </Form.Group>
                             <div className="form-group">

@@ -57,7 +57,7 @@ export class RegistrationForm extends Component {
                             </div>
                             <Form.Group>
                                 <Form.Label>Last opp bilde</Form.Label>
-                                <Form.Control type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.image =
+                                <Form.Control type="file" accept = "image/*" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.image =
                                 event.target.files[0]}}/>
                             </Form.Group>
                             <div className="form-group">

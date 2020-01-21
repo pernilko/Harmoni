@@ -1358,7 +1358,9 @@ app.post("/upload/event/editImage/:id", (req, res) =>{
         myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
             if(err)return res.status(500);
         });
-        uploadFile(path.join(__dirname,'uploads/'+ fileName));
+        uploadFile(path.join(__dirname,'uploads/'+ fileName)).then(()=>{
+            fs.unlinkSync(path.join(__dirname,'uploads/'+ fileName));
+        });
         eventDao.updateEventImage(req.params.id, fileName, (status, data)=>{
             res.status(status);
             res.json(data);
@@ -1379,7 +1381,9 @@ app.post("/upload/organization/editImage/:id", (req, res) =>{
         myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
             if(err)return res.status(500);
         });
-        uploadFile(path.join(__dirname,'uploads/'+ fileName));
+        uploadFile(path.join(__dirname,'uploads/'+ fileName)).then(()=>{
+            fs.unlinkSync(path.join(__dirname,'uploads/'+ fileName));
+        });
         organizationDAO.updateOrgImage(req.params.id, fileName, (status, data)=>{
             res.status(status);
             res.json(data);
