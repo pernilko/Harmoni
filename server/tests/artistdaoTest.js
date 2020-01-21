@@ -79,3 +79,4 @@ test("Update an artist", done =>{
   artistDao.updateArtist(4, {artist_name: "Cool artist", riders: "fil", hospitality_riders: "File",
         artist_contract: "File", email: "a@a.a", phone: "123", image: "File"}, callback);
 });
+ 
