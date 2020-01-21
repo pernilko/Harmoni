@@ -89,7 +89,7 @@ export class EventService {
     setCompleted(user_id: number){
         return axios.put<Event[]>(url+"event/pending/" + user_id).then(response=>response.data);
     }
-    updateEvent(id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number, image: File) {
+    updateEvent(id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number) {
         return axios.put<{}, Event>(url + "event/edit/"+id, {
             "event_name": event_name,
             "description": description,
@@ -98,7 +98,6 @@ export class EventService {
             "event_end": event_end,
             "longitude": longitude,
             "latitude": latitude,
-            "image": image
         }).then(response => response.data);
     }
 

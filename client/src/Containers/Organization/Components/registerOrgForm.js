@@ -95,11 +95,6 @@ export class RegOrganization extends Component {
                 this.user.email = event.target.value
               }}/>
             </Form.Group>
-
-            <Form.Group>
-              <Form.Label>Last opp bilde</Form.Label>
-              <Form.Control type="file"/>
-            </Form.Group>
             <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.register}> Registrer</Button>
           </Form>
         </div>
@@ -141,9 +136,16 @@ export class RegOrganization extends Component {
           .then(()=>history.push("/Login"))
           .catch((error:Error)=>Alert.danger(error.message));
        */
-      userService.verifiserAdminOgOrg(this.organization.org_name,
+      this.verifyAdmin();
+
+    }else{
+      Alert.danger("alle felt må fylles og passord må ha minst 8 bokstaver");
+    }
+  }
+  verifyAdmin() {
+  userService.verifiserAdminOgOrg(this.organization.org_name,
           this.organization.email,
-          this.organization.phone,
+          this.organization.phone,  
           this.user.email,
           1,
           this.user.user_name,
@@ -152,8 +154,5 @@ export class RegOrganization extends Component {
       }).catch((error:Error)=>{
         Alert.danger(error.message);
       })
-    }else{
-      Alert.danger("alle felt må fylles og passord må ha minst 8 bokstaver");
-    }
-  }
+}
 }
