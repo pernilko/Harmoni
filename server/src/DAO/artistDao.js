@@ -2,10 +2,13 @@
 const Dao = require("./dao.js");
 
 module.exports = class artistDao extends Dao {
+
+    //tested
     getAll(callback: function){
         super.query("SELECT * FROM artist", [], callback);
     }
 
+    //tested
     getEventArtists(event_id: number, callback: function){
         super.query(
             "SELECT * FROM artist WHERE event_id = ?",
@@ -13,12 +16,14 @@ module.exports = class artistDao extends Dao {
         );
     }
 
+    //tested
     getOne(artist_id: number, callback: function) {
         super.query(
             "select * from artist where artist_id = ?",
             [artist_id], callback
         );
     }
+
 
     insertOne(json: {event_id: number, artist_name: string, riders: Object, hospitality_riders: Object,
                   artist_contract: Object, email: string, phone: string}, callback: function) {
@@ -83,6 +88,7 @@ module.exports = class artistDao extends Dao {
         );
     }
 
+    //tested
     updateArtist(artistID:number,json:{artist_name: string, riders: File, hospitality_riders: File,
         artist_contract: File, email: string, phone: string, image: File}, callback:function){
         super.query(

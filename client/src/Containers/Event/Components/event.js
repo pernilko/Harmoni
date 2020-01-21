@@ -350,7 +350,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
 
         this.state["users"].map(e => {
             if (e) {
-                organizationService.sendCancellationMail(e.email, userService.currentUser.org_id, organizationService.currentOrganization.org_name, this.event_id)
+                organizationService.sendCancellationMail(e.email, userService.currentUser.org_id, organizationService.currentOrganization.org_name, this.state["event"].event_name)
                     .then((e) => {
                         Alert.success("Staff is alerted about the cancellation");
                         this.email = "";

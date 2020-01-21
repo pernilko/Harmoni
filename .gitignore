@@ -1,5 +1,6 @@
 .vscode
 node_modules
+harmoni_google_cloud.json
 .idea
 .env
 harmoni_google_cloud.json

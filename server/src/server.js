@@ -165,6 +165,22 @@ app.get("/event/previous/org/:id", (req : Request, res: Response) => {
     });
 });
 
+app.get("/event/cancelled/user/:id", (req: Request, res: Response) => {
+    console.log("/event/cancelled/user/:id received get request from client");
+    eventDao.getCancelledUser(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.get("/event/cancelled/org/:id", (req: Request, res: Response) => {
+    console.log("/event/cancelled/org/:id received get request from client");
+    eventDao.getCancelledOrg(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 app.get("/event/pending/:id", (req: Request, res: Response) => {
     console.log("/event/pending/:id received get request from client");
     eventDao.getPending(req.params.id, (status, data) => {
@@ -240,58 +256,6 @@ app.put("/event/edit/:id", (req : Request, res: Response) => {
   });
 });
 
-app.delete("/event/delete/:id", (req : Request, res: Response) => {
-    console.log("/event/delete/:id: received delete request from client");
-    pool.getConnection((err, connection: function) => {
-          console.log("Connected to database");
-          if (err) {
-              console.log("Feil ved kobling til databasen");
-              res.json({ error: "feil ved oppkobling" });
-          } else {
-              connection.query(
-  				          "DELETE FROM artist WHERE event_id=?",
-  				          [req.params.id],
-  				          (err, rows) => {
-  					               if (err) {
-  						                     console.log(err);
-  						                     res.json({ error: "error querying" });
-  					               } else {
-                             connection.query(
-                 				          "DELETE FROM ticket WHERE event_id=?",
-                 				          [req.params.id],
-                 				          (err, rows) => {
-                 					               if (err) {
-                 						                     console.log(err);
-                 						                     res.json({ error: "error querying" });
-                 					               } else {
-                                           connection.query(
-                               				          "DELETE FROM user_event WHERE event_id=?",
-                               				          [req.params.id],
-                               				          (err, rows) => {
-                               					               connection.release();
-                               					               if (err) {
-                               						                     console.log(err);
-                               						                     res.json({ error: "error querying" });
-                               					               } else {
-                                                         console.log("/test: received delete request from user to delete an event");
-                                                         eventDao.deleteEvent(req.params.id, (status, data) => {
-                                                                  res.status(status);
-                                                                  res.json(data);
-                                                         });
-                					                             }
-                				                        }
-                			                    );
-
-  					                             }
-  				                        }
-  			                    );
-                          }
-                    }
-            );
-        }
-      });
-});
-
 app.get("/event/search/:name/:org_id", (req: Request, res: Response) => {
     console.log("/event/search/:name/:org_id received put request from client");
     eventDao.getEventbySearch(req.params.name, req.params.org_id, (status, data) => {
@@ -351,6 +315,32 @@ app.post("/event/delete/notify/:event_id", (req: Request, res: Response) => {
         res.json(url);
     });
 });
+
+app.post("/cancelled", (req, res) => {
+    let email: string = req.body.email;
+    let org_id: number = req.body.org_id;
+    let org_name: string = req.body.org_name;
+    let event: string = req.body.event_name;
+    let token: string = jwt.sign({org_id: org_id}, privateKEY.key, {
+        expiresIn: 3600
+    });
+    let url: string = DOMAIN + "#/user/" + token;
+    let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: email,
+        subject: "ARRANGEMENT AVLYST!",
+        text: "Arrangementet " + event + " har blitt avlyst av arrangøren " + org_name
+    };
+    transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Email sent!");
+        }
+        res.json(url);
+    });
+});
+
 
 app.post("/event/edit/notify/:event_id", (req: Request, res: Response) => {
     console.log("/event/add/notify/:event_id received post request from client");
