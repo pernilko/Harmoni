@@ -103,7 +103,7 @@ class ArtistService {
             "phone": phone
         }).then(()=> {
             return axios<{}>({
-                url: url +'uploadRiders/' + artist_id,
+                url: url +'upload/riders/' + artist_id,
                 method: 'put',
                 data: fd_riders,
                 headers: {
