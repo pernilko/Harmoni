@@ -36,7 +36,6 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
     }
     render() {
         if (this.loaded.some(l => !l)) {
-            this.load();
             return <Spinner animation="border"></Spinner>
         }
         else {
@@ -256,30 +255,41 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             }
         }
     }
-    load() {
+    mounted() {
         if (userService.currentUser) {
+            console.log("Event requested");
             eventService.getEventId(this.event_id).then(r => {
+                console.log("Event received");
                 let event = r;
-                this.setState({event});
                 this.loaded[0] = true;
+                this.setState({event});
+
             });
 
+            console.log("tickets requested");
             ticketService.getEventTickets(this.event_id).then(r => {
+                console.log("Tickets received");
                 let tickets = r;
-                this.setState({tickets});
                 this.loaded[1] = true;
+                this.setState({tickets});
+
             });
 
+            console.log("artists requested");
             artistService.getEventArtists(this.event_id).then(r => {
+                console.log("artists received");
                 let artists = r;
-                this.setState({artists});
                 this.loaded[2] = true;
-            });
+                this.setState({artists});
 
+            });
+            console.log("Users requested");
             userEventService.getAllbyId(this.event_id).then( res => {
+                console.log("users received");
                 let users = res;
-                this.setState({users});
                 this.loaded[3] = true;
+                this.setState({users});
+
             });
 
         }
