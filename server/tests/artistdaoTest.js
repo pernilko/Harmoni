@@ -66,7 +66,7 @@ test("Get an artist", done =>{
   artistDao.getEventArtists(1, callback);
 });
 
-/*test("Update an artist", done =>{
+test("Update an artist", done =>{
   function callback (status, data) {
     console.log(
       "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
@@ -78,18 +78,4 @@ test("Get an artist", done =>{
 
   artistDao.updateArtist(4, {artist_name: "Cool artist", riders: "fil", hospitality_riders: "File",
         artist_contract: "File", email: "a@a.a", phone: "123", image: "File"}, callback);
-});*/
-
-test("Test update artist", done =>{
-  function callback (status, data) {
-    console.log(
-      "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
-    );
-
-    expect(data.length).toBe(1);
-    expect(data[0].artist_name).toBe("Cool artist");
-    done();
-  }
-
-  artistDao.setAccepted(4, callback);
 });
