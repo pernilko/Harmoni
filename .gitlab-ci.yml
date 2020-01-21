@@ -18,18 +18,3 @@ run_tests:
   artifacts:
     paths:
       - server/coverage/
-
-pages:
-  stage: deploy
-  dependencies:
-    - run_tests
-  script:
-    - mkdir ./server/public
-    - cp -r server/coverage/* .public
-    - mv ./server/public public
-  artifacts:
-    paths:
-      - public
-  only:
-    - master
-    
