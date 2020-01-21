@@ -39,7 +39,7 @@ async function uploadFile(filename: string) {
 
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads')
+    cb(null, path.join(__dirname, 'uploads'))
   },
   filename: function (req, file, cb) {
     cb(null, file.fieldname + '-' + Date.now())
@@ -51,7 +51,7 @@ var upload = multer({ storage: storage })
 let app = express();
 app.use(bodyParser.json());
 
-app.use("/uploadRiders", fileUpload());
+app.use("/uploadFile", fileUpload());
 
 let DOMAIN = "localhost:3000/"
 
@@ -129,14 +129,31 @@ app.use("/api", (req, res, next) => {
     });
 });
 
-app.post('/uploadfile', upload.single('myFile'), (req, res, next) => {
-  const file = req.file
-  if (!file) {
+app.post('/uploadfile', (req, res) => {
+  //const file = req.file;
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+    console.log(req.files.myFile);
+
+    let myFile = req.files.myFile;
+
+    myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
+        if(err)return res.status(500);
+        res.json('File was uploaded');
+    });
+
+    /*sampleFile.mv('/somewhere/on/your/server/filename.jpg', function(err) {
+        if (err)
+            return res.status(500).send(err);
+
+        res.send('File uploaded!');
+    });*/
+  /*if (!file) {
     const error = new Error('Please upload a file')
     error.httpStatusCode = 400
     return next(error)
-  }
-    res.send(file)
+  }*/
 });
 
 app.post('/uploadRiders/:artist_id', function(req, res) {

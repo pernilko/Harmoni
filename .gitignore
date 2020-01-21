@@ -3,3 +3,4 @@ node_modules
 .idea
 .env
 harmoni_google_cloud.json
+uploads
