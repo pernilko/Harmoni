@@ -37,7 +37,7 @@ test("Add user event", done =>{
   }
 
   userEventDao.addUserEvent({user_id: 4, event_id: 1, job_position: "Kul", accepted: 2}, callback);
-});
+},30000);
 
 test("Get one user event", done =>{
   function callback (status, data) {
@@ -51,7 +51,7 @@ test("Get one user event", done =>{
   }
 
   userEventDao.getAllbyId(1, callback);
-});
+}, 30000);
 
 test("Delete user event", done =>{
   function callback (status, data) {
@@ -64,7 +64,7 @@ test("Delete user event", done =>{
   }
 
   userEventDao.deleteUserEvent(1, 2, callback);
-});
+}, 30000);
 
 test("Update user event", done =>{
   function callback (status, data) {
@@ -77,5 +77,5 @@ test("Update user event", done =>{
   }
 
   userEventDao.updateUserEvent(1, 3, {user_id: 1, job_position: "cool boy", accepted: 2}, callback);
-});
+}, 30000);
 

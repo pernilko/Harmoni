@@ -37,7 +37,7 @@ test("Get all tickets", done =>{
   }
 
   ticketDao.getAllTickets(callback);
-});
+}, 30000);
 
 test("Get tickets from one event", done =>{
   function callback (status, data) {
@@ -50,7 +50,7 @@ test("Get tickets from one event", done =>{
   }
 
   ticketDao.getTicket(2, callback);
-});
+}, 30000);
 
 test("Add ticket", done => {
   function callback(status, data) {
@@ -65,7 +65,7 @@ test("Add ticket", done => {
   ticketDao.addTicket(
     {event_id: 3, ticket_type: "VIP", amount: 2, description: "VIP ticket", price: 300, amount_sold: 0},
     callback);
-});
+}, 30000);
 
 test("Test add ticket", done =>{
   function callback (status, data) {
@@ -78,7 +78,7 @@ test("Test add ticket", done =>{
   }
 
   ticketDao.getAllTickets(callback);
-});
+}, 30000);
 
 test("Get remaining tickets", done =>{
   function callback (status, data) {
@@ -91,7 +91,7 @@ test("Get remaining tickets", done =>{
   }
 
   ticketDao.getNumberOfRemainingTickets(3, callback);
-});
+}, 30000);
 
 test("Delete ticket", done => {
   function callback(status, data) {
@@ -103,7 +103,7 @@ test("Delete ticket", done => {
   }
 
   ticketDao.deleteTicket(4, callback);
-});
+}, 30000);
 
 test("Test delete ticket", done =>{
   function callback (status, data) {
@@ -116,7 +116,7 @@ test("Test delete ticket", done =>{
   }
 
   ticketDao.getAllTickets(callback);
-});
+}, 30000);
 
 
 test("Edit ticket", done => {
@@ -131,4 +131,4 @@ test("Edit ticket", done => {
   ticketDao.updateTicket(1,
     {ticket_type: "Regular", amount: 1, description: "normal ticket", price: 150, amount_sold: 1},
     callback);
-});
+}, 30000);

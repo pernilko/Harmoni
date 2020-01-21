@@ -37,7 +37,7 @@ test("Get all organizations", done =>{
   }
 
   organizationDao.getAllOrganizations(callback);
-});
+}, 30000);
 
 test("Get an organization", done =>{
   function callback (status, data) {
@@ -51,7 +51,7 @@ test("Get an organization", done =>{
   }
 
   organizationDao.getOrganization(1, callback);
-});
+}, 30000);
 
 test("Get org by email", done =>{
   function callback (status, data) {
@@ -65,7 +65,7 @@ test("Get org by email", done =>{
   }
 
   organizationDao.getOrgByEmail("samfundet@ntnu.no", callback);
-});
+}, 30000);
 
 test("Get org by user email", done =>{
   function callback (status, data) {
@@ -79,7 +79,7 @@ test("Get org by user email", done =>{
   }
 
   organizationDao.getOrgByUserEmail("hei@gmail.com", callback);
-});
+}, 30000);
 
 test("Edit an organization", done => {
   function callback(status, data) {
@@ -93,7 +93,7 @@ test("Edit an organization", done => {
   organizationDao.updateOrganization(1,
     {org_name: "Samfundet", phone: "333 333", email: "cola@gmail.com"},
     callback);
-});
+}, 30000);
 
 test("Test update organization", done =>{
   function callback (status, data) {
@@ -107,4 +107,4 @@ test("Test update organization", done =>{
   }
 
   organizationDao.getOrganization(1, callback);
-});
+}, 30000);
