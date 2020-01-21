@@ -48,7 +48,7 @@ export class RegOrganization extends Component {
                             this.organization.email = event.target.value
                           }}/>
           </Form.Group>
-          <Button variant="primary" type="submit" style={{marginTop: 15 + 'px', marginBottom: 30 + 'px'}}
+          <Button variant="primary" style={{marginTop: 15 + 'px', marginBottom: 30 + 'px'}}
                   onClick={this.next}>Neste</Button>
 
         </Form>

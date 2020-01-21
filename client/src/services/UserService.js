@@ -107,7 +107,7 @@ class UserService {
         fd.append("myFile", picture);
         return axios<{}>({
                 url: url +'upload/Profile/editImage/'+user_id,
-                method: 'post',
+                method: 'put',
                 data: fd,
                 headers: {
                     "Content-Type": "multipart/form-data"
