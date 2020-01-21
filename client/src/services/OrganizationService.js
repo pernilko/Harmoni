@@ -11,6 +11,7 @@ export class Organization {
     org_name: string = "";
     phone: string = "";
     email: string = "";
+    image: string = "";
 
     /*
     constructor(org_id: number, org_name: string, phone: string, email: string) {
@@ -146,6 +147,19 @@ class OrganizationService{
             "phone": phone,
             "email": email
         }).then(response=>response.data);
+    }
+
+    updateOrgImage(org_id: number, picture: File) {
+        let fd:FormData = new FormData();
+        fd.append("myFile", picture);
+        return axios<{}>({
+                url: url +'upload/organization/editImage/'+org_id,
+                method: 'post',
+                data: fd,
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
     }
 }
 

@@ -23,6 +23,10 @@
     background-color: #e6e6ff;
 }
 
+.width{
+    width: 95%;
+}
+
 #topBanner{
     height: 40px;
     margin-left: 15px;
@@ -55,6 +59,9 @@ p {
 .artistContainer {
 }
 
+.whiteTextOnAcceptButtonAtTopOfEventPageToAcceptEntireEventGivingAnAdditionalOptionToDeclineViaAPopoupWIndowThatJulieDesignedEarlierThisWeekIReallyMustSayThatThisCodeWasElegantlyWrittenAndOfGreatUseForThisParticularFeatureAsWellIHavetoStopWritingSoonAsTheClockHasPassed1600AndItIsTimeForMeToHeadHomeThankYouForReadingDontForgetToSmashTheSubscribeButton{
+    color: white;
+}
 
 .redBG{
     background: #dE685E;
@@ -81,4 +88,15 @@ p {
     height: 25px;
     border-radius: 20px;
     text-align: center;
+}
+
+#cardImg{
+    height: 350px;
+    width: 100%;
+    overflow: hidden;
+    object-fit: cover;
+}
+
+.w94{
+    width: 93%;
 }
