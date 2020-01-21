@@ -51,7 +51,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                   rel="stylesheet"/>
                             <div className="view view-cascade overlay">
                                 <img className="card-img-top shadow-lg"
-                                     src="https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg"
+                                     src={e.image}
                                      alt="Card image cap"></img>
                                 <a href="#!">
                                     <div className="mask rgba-white-slight"></div>
