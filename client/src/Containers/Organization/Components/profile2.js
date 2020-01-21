@@ -21,6 +21,7 @@ export class OrgProfile2 extends Component {
     org_name: string = "";
     org_email: string = "";
     org_phone: string = "";
+    org_image: string = "";
 
     loaded: boolean = false;
     ready:boolean = false;
@@ -61,7 +62,7 @@ export class OrgProfile2 extends Component {
                                                 </div>
                                                 <div className="card-img" style={{textAlign: "center"}}>
                                                     <img style={{width: "100%", height: "auto", display: "cover"}}
-                                                        src={"https://www.adressa.no/pluss/meninger/article13843642.ece/rvrqgc/BINARY/w980/IMG_sukkerhuset_3.jpg_1_1_OC3UVM1.jpg"}/>
+                                                        src={this.org_image}/>
                                                 </div>
                                                 <h3 style={{textAlign: "center"}}><input className="inputLabel" style={{
                                                     border: this.border,
@@ -103,11 +104,12 @@ export class OrgProfile2 extends Component {
                                                         <div className="card-text" style={{marginLeft: 10 + "px", marginTop: 10 + "px", marginBottom: 20 + "px", float: "left"}}>{"   " + a.user_name}</div>
                                                     ))}
                                                     </div>
-                                                    <div className="card-text" style={{marginLeft: 10 + "px", marginTop: 10 + "px", marginBottom: 20 + "px", float: "left"}}>
-                                                        <Button id="button" hidden={!this.inEdit}
-                                                                variant="secondary"
-                                                                style={{border: "none"}}
-                                                        >Endre profil bilde</Button>
+                                                    <div hidden={!this.inEdit} className="card-text" style={{marginLeft: 10 + "px", marginTop: 10 + "px", marginBottom: 20 + "px", float: "left"}}>
+                                                        <Form.Group>
+                                                            <Form.Label>Last opp bilde</Form.Label>
+                                                            <Form.Control accept = "image/*" type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.org_image =
+                                                            event.target.files[0]}}/>
+                                                        </Form.Group>
                                                     </div>
                                                 </div>
                                             </div>
@@ -208,7 +210,9 @@ export class OrgProfile2 extends Component {
                 this.org_name = organizationService.currentOrganization.org_name;
                 this.org_email = organizationService.currentOrganization.email;
                 this.org_phone = organizationService.currentOrganization.phone;
+                this.org_image = organizationService.currentOrganization.image;
                 this.ready = true;
+                console.log(organizationService.currentOrganization);
             })
             .catch((error: Error) => console.log(error.message))
     }
@@ -227,6 +231,23 @@ export class OrgProfile2 extends Component {
     saveEdit(){
         console.log("Save edit");
 
+        this.updateOrg();
+        this.changePic(organizationService.currentOrganization.org_id);
+    }
+
+    changePic(val: number){
+    console.log("BILDE: ", this.org_image);
+      organizationService
+        .updateOrgImage(val, this.org_image)
+        .then(() => {
+          if(userService.currentUser){
+            userService.autoLogin();
+          }
+        })
+
+  }
+
+    updateOrg() {
         organizationService
             .updateOrganization(organizationService.currentOrganization.org_id, this.org_name, this.org_phone, this.org_email)
             .then(() => {
@@ -238,6 +259,9 @@ export class OrgProfile2 extends Component {
             })
             .catch((error: Error) => console.log(error.message));
     }
+
+
+    
     cancelEdit(){
         console.log("Cancel edit");
         this.org_email = organizationService.currentOrganization.email;

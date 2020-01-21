@@ -14,9 +14,9 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
     artist: Artist[] = [];
 
     artist_name: string = this.props.artist.artist_name;
-    riders: File = null;
-    hospitality_riders: File = null;
-    artist_contract: File = null;
+    riders: File = this.props.artist.riders;
+    hospitality_riders: File = this.props.artist.hospitality_riders;
+    artist_contract: File = this.props.artist.artist_contract;
     email: string = this.props.artist.email;
     phone: string = this.props.artist.phone;
     //image: string = this.props.image;

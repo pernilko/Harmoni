@@ -33,9 +33,10 @@ async function uploadFile(filename: string) {
         }
     });
     console.log(`${filename} uploaded to ${bucketName}.`);
+    fs.unlinkSync(filename);
 }
 
-//uploadFile(path.join(__dirname, "../test.txt"));
+//uploadFile(path.join(__dirname, "../package.json"));
 
 let app = express();
 app.use(bodyParser.json());
@@ -581,9 +582,7 @@ app.put('/upload/riders/:artist_id', (req, res)=> {
             ridersFile.mv(path.join(__dirname,'uploads/'+ ridersFileName ), err=>{
                 if(err)return res.status(500);
             });
-            uploadFile(path.join(__dirname,'uploads/'+ ridersFileName)).then(()=>{
-                fs.unlinkSync(path.join(__dirname,'uploads/'+ ridersFileName));
-            });
+            uploadFile(path.join(__dirname,'uploads/'+ ridersFileName));
         }
         if(req.files.hospitality_rider){
             let hospitality_ridersFile = req.files.hospitality_rider;
@@ -592,9 +591,7 @@ app.put('/upload/riders/:artist_id', (req, res)=> {
             hospitality_ridersFile.mv(path.join(__dirname,'uploads/'+ hospitality_ridersFileName ), err=>{
                 if(err)return res.status(500);
             });
-            uploadFile(path.join(__dirname, 'uploads/' + hospitality_ridersFileName)).then(()=>{
-                fs.unlinkSync(path.join(__dirname, 'uploads/'+ hospitality_ridersFileName));
-            });
+            uploadFile(path.join(__dirname, 'uploads/' + hospitality_ridersFileName));
         }
         if(req.files.artist_contract){
             let artist_contractFile = req.files.artist_contract;
@@ -602,9 +599,7 @@ app.put('/upload/riders/:artist_id', (req, res)=> {
             artist_contractFile.mv(path.join(__dirname,'uploads/'+artist_contractFileName ), err=>{
                 if(err)return res.status(500);
             });
-            uploadFile(path.join(__dirname, 'uploads/' + artist_contractFileName)).then(()=>{
-                fs.unlinkSync(path.join(__dirname, 'uploads/'+ artist_contractFileName));
-            });
+            uploadFile(path.join(__dirname, 'uploads/' + artist_contractFileName));
         }
 
         artistDao.updateRiders(req.params.artist_id, ridersFileName, hospitality_ridersFileName, artist_contractFileName, (status, data)=>{
@@ -1335,13 +1330,12 @@ app.put("/upload/Profile/editImage/:id", (req, res) =>{
     myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
         if(err)return res.status(500);
     });
-    uploadFile(path.join(__dirname,'uploads/'+ fileName)).then(()=>{
-        fs.unlinkSync(path.join(__dirname,'uploads/'+ fileName));
-    });
-        userDao.updateUserImage(req.params.id, fileName, (status, data)=>{
+    uploadFile(path.join(__dirname,'uploads/'+ fileName));
+
+    userDao.updateUserImage(req.params.id, fileName, (status, data)=>{
             res.status(status);
             res.json(data);
-        });
+    });
 });
 
 app.post("/upload/event/editImage/:id", (req, res) =>{
@@ -1358,9 +1352,7 @@ app.post("/upload/event/editImage/:id", (req, res) =>{
         myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
             if(err)return res.status(500);
         });
-        uploadFile(path.join(__dirname,'uploads/'+ fileName)).then(()=>{
-            fs.unlinkSync(path.join(__dirname,'uploads/'+ fileName));
-        });
+        uploadFile(path.join(__dirname,'uploads/'+ fileName));
         eventDao.updateEventImage(req.params.id, fileName, (status, data)=>{
             res.status(status);
             res.json(data);
@@ -1381,14 +1373,12 @@ app.post("/upload/organization/editImage/:id", (req, res) =>{
         myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
             if(err)return res.status(500);
         });
-        uploadFile(path.join(__dirname,'uploads/'+ fileName)).then(()=>{
-            fs.unlinkSync(path.join(__dirname,'uploads/'+ fileName));
-        });
+        uploadFile(path.join(__dirname,'uploads/'+ fileName));
         organizationDAO.updateOrgImage(req.params.id, fileName, (status, data)=>{
             res.status(status);
             res.json(data);
         });
-});
+    });
 
 app.post('/uploadfile', (req, res) => {
   //const file = req.file;

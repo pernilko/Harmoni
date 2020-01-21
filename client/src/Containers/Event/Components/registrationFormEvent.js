@@ -255,7 +255,7 @@ export class RegistrationForm extends Component {
         .then(() => {
           if(userService.currentUser){
             userService.autoLogin();
-            history.push("/Profile");
+            //history.push("/Profile");
           }
         })
 

@@ -28,7 +28,7 @@ export class Profile extends Component{
           <Row>
             <Col lg={3}>
               <div>
-              <Image src={userService.currentUser.image}
+              <Image src={userService.currentUser.image ? userService.currentUser.image : "https://www.simplifai.ai/wp-content/uploads/2019/06/blank-profile-picture-973460_960_720-400x400.png"}
                      roundedCircle width={240 + 'px'}
                      height={220 + 'px'} style={{marginTop: 10 + 'px' ,marginBottom: 20 +'px'}}/>
               <br/>

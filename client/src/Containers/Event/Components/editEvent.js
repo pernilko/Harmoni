@@ -449,7 +449,6 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         .then(() => {
           if(userService.currentUser){
             userService.autoLogin();
-            history.push("/Profile");
           }
         })
 
