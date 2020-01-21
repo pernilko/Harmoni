@@ -341,6 +341,7 @@ app.post("/cancelled", (req, res) => {
     });
 });
 
+
 app.post("/event/edit/notify/:event_id", (req: Request, res: Response) => {
     console.log("/event/add/notify/:event_id received post request from client");
     let name: string = req.body.name;
