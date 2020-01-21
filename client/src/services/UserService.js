@@ -3,6 +3,7 @@ import axios from 'axios';
 import {Alert} from "../widgets";
 import {sharedComponentData} from "react-simplified";
 import {Organization, organizationService} from "./OrganizationService";
+import {Artist, File} from "./ArtistService";
 
 let url: string = "http://localhost:8080/";
 
@@ -15,7 +16,7 @@ export class User {
     password: string = -1;
     address: string = "";
     phone: string = "";
-    image: string = "";
+    image: File = null;
     reg_date: string = "";
     p_create_event: number = 0;
     p_read_contract: number = 0;
@@ -98,6 +99,20 @@ class UserService {
             "phone": phone,
             "image": image
         }).then(response=>response.data);
+    }
+
+
+    addProfilePicture(user_id: number, picture: File) {
+        let fd:FormData = new FormData();
+        fd.append("myFile", picture);
+        return axios<{}>({
+                url: url +'upload/Profile/editImage/'+user_id,
+                method: 'post',
+                data: fd,
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
     }
 
     updateEmail(user_id: number, email: string){

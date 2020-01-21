@@ -17,6 +17,7 @@ export class Profile extends Component{
   user: User = new User();
   hidden: boolean = true;
   repeatedPassword: string = "";
+  imageFile: File = null;
 
   render() {
     if (userService.currentUser) {
@@ -76,10 +77,8 @@ export class Profile extends Component{
                       <h3>Endre profilbilde</h3>
                       <Form.Group>
                           <Form.Label>Last opp bilde</Form.Label>
-                          <form action="http://localhost:8080/uploadfile" enctype="multipart/form-data" method="POST"> 
-                            <input type="file" name="myFile" />
-                            <input type="submit" value="Upload a file"/>
-                          </form>
+                          <Form.Control type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.user.image =
+                            event.target.files[0]}}/>
                       </Form.Group>
                       <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.changePB}>Endre</Button>
                       <br/>
@@ -176,9 +175,8 @@ export class Profile extends Component{
   // Change profile picture
   changePB(){
     console.log("BILDE: ", this.user.image);
-    if(this.user.image.length !==0){
       userService
-        .updateImage(userService.currentUser.user_id, this.user.image)
+        .addProfilePicture(userService.currentUser.user_id, this.user.image)
         .then(() => {
           if(userService.currentUser){
             Alert.success("Profilbildet er oppdatert");
@@ -186,7 +184,7 @@ export class Profile extends Component{
             history.push("/Profile");
           }
         })
-    }
+
   }
   // Change info
   changeInfo(){
