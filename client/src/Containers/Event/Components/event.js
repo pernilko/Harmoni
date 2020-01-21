@@ -34,13 +34,15 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             artists: []
         };
     }
+
     render() {
         if (this.loaded.some(l => !l)) {
             this.load();
             return <Spinner animation="border"></Spinner>
         }
-        else {
+        else if (userService.currentUser && this.state["event"].org_id === userService.currentUser.org_id){
             let e: Event = this.state["event"];
+            let u = userService.currentUser;
             if(e.completed !== -1) {
                 return (
                     <div className={"w-50 mx-auto shadow-lg mt-4"}>
@@ -50,9 +52,12 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                             <link href="https://fonts.googleapis.com/css?family=PT+Serif|Ubuntu&display=swap"
                                   rel="stylesheet"/>
                             <div className="view view-cascade overlay">
-                                <img className="card-img-top shadow-lg"
-                                     src={e.image}
-                                     alt="Card image cap"></img>
+                                <div id="cardImg">
+                                    <img className="card-img-top shadow-lg"
+                                         src={e.image ? e.image : "https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"}
+                                         alt="Card image cap">
+                                    </img>
+                                </div>
                                 <a href="#!">
                                     <div className="mask rgba-white-slight"></div>
                                 </a>
@@ -60,15 +65,60 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
 
                             <br/>
                             <Row>
-                                <Column width="10">
-                                    <div id="topBanner"
-                                         className={"artistBanner w-100" + (false ? " greenBG" : " redBG")}>
-                                        Arrangementet er under planlegging
-                                    </div>
-                                </Column>
-                                <Column width="2">
 
-                                </Column>
+                                {e.accepted > 0 ?
+                                    <Column width="12">
+                                        <div id="topBanner" className="width greenBG">
+                                            Arrangementet er helt klart!
+                                        </div>
+                                    </Column>
+                                    :
+                                    <Column>
+                                        { /* if admin or user created the event */}
+                                        {u.privileges > 0 || e.user_id === u.user_id ?
+                                            <Row>
+                                                <Column width="10">
+                                                    <div id="topBanner" className={"artistBanner w-100 redBG"}>
+                                                        Arrangementet er under planlegging
+                                                    </div>
+                                                </Column>
+                                                <Column width="2">
+
+                                                    <Popup trigger={<a
+                                                        hidden={userService.currentUser.user_id != e.user_id && userService.currentUser.privileges != 1}
+                                                        className="btn btn-success">
+                                                        <div
+                                                            className="whiteTextOnAcceptButtonAtTopOfEventPageToAcceptEntireEventGivingAnAdditionalOptionToDeclineViaAPopoupWIndowThatJulieDesignedEarlierThisWeekIReallyMustSayThatThisCodeWasElegantlyWrittenAndOfGreatUseForThisParticularFeatureAsWellIHavetoStopWritingSoonAsTheClockHasPassed1600AndItIsTimeForMeToHeadHomeThankYouForReadingDontForgetToSmashTheSubscribeButton">Godkjenn
+                                                        </div>
+                                                    </a>}>
+                                                        {close => (
+                                                            <div>
+                                                                <p><b>Dette vil markere hele arrangementet som klart,
+                                                                    det vil bety at riders, og kontrakter bør være
+                                                                    ferdigstilt</b></p>
+                                                                <button className="btn btn-warning float-left ml-3"
+                                                                        onClick={() => {
+                                                                            close();
+                                                                        }}>Avbryt
+                                                                </button>
+                                                                <button className="btn btn-success float-right mr-3"
+                                                                        onClick={() => this.setAcceptedEvent(e.event_id, 1)}>Fortsett
+                                                                </button>
+                                                            </div>
+                                                        )}
+                                                    </Popup>
+                                                </Column>
+                                            </Row>
+                                            :
+                                            <Column width="12">
+                                                <div id="topBanner" className={"artistBanner w94 redBG"}>
+                                                    Arrangementet er under planlegging
+                                                </div>
+                                            </Column>}
+                                    </Column>
+                                }
+
+
                             </Row>
                             <div className="card-body card-body-cascade text-center">
                                 <h1 className="card-title text">{e.event_name}</h1>
@@ -96,26 +146,27 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                                     <h6> Epost: {a.email}</h6>
                                                     <h6> tlf: {a.phone} </h6>
                                                 </p>
-                                                <a hidden={userService.currentUser.p_read_contract < 1 && userService.currentUser.privileges != 1}
-                                                   href={""}> nedlasting av filer skjer her </a>
+                                                <a href={""}> nedlasting av filer skjer her </a>
                                                 <br/>
 
-                                                <div className={"buttonContainer"}>
-                                                    <div className="artistButton"
-                                                         onClick={() => this.acceptArtist(a.artist_id, 0)}>
-                                                        <button id="bot" type="button"
-                                                                className="btn btn-info btn-circle">
-                                                            <i className="fa fa-times"></i>
-                                                        </button>
+                                                {u.privileges > 0 || u.p_read_contract ?
+                                                    <div className={"buttonContainer"}>
+                                                        <div className="artistButton">
+                                                            <button onClick={() => this.acceptArtist(a.artist_id, 0)}
+                                                                    id="bot" type="button"
+                                                                    className="btn btn-info btn-circle">
+                                                                <i className="fa fa-times"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div className="artistButton px-1">
+                                                            <button onClick={() => this.acceptArtist(a.artist_id, 1)}
+                                                                    id="top" type="button"
+                                                                    className="btn btn-info btn-circle">
+                                                                <i className="fa fa-check"></i>
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                    <div className="artistButton px-1"
-                                                         onClick={() => this.acceptArtist(a.artist_id, 1)}>
-                                                        <button id="top" type="button"
-                                                                className="btn btn-info btn-circle">
-                                                            <i className="fa fa-check"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
+                                                    : <></>}
                                             </div>
                                         </Column>
                                     )}
@@ -255,6 +306,10 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                 );
             }
         }
+        else {
+            history.push("/home");
+            return <div/>;
+        }
     }
     load() {
         if (userService.currentUser) {
@@ -311,8 +366,6 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         this.setState({artists});
     }
 
-
-
     getUserEvent(BANG: number){
         if (userService.currentUser){
             let u = this.state["users"];
@@ -361,6 +414,15 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
 
     show(){
         this.hidden = false;
+    }
+
+    setAcceptedEvent(id, accepted){
+        eventService.setAcceptedEvent(id, accepted);
+
+        let event = this.state["event"];
+        event.accepted = accepted;
+
+        this.setState({event});
     }
 }
 // <MapContainer lat={this.state["event"].latitude} lng={this.state["event"].longitude}/>

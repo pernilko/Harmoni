@@ -101,8 +101,8 @@ export class EventService {
         }).then(response => response.data);
     }
 
-    deleteEvent(id: number) {
-        return axios.delete<Event, {}>(url + "event/delete/"+id).then(response => response.data);
+    cancelEvent(id : number){
+        return axios.put<{}, Event>(url + "event/cancel/" + id).then(response => response.data)
     }
 
     getEventbySearch(search: string, org_id: number){
