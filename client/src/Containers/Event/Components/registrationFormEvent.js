@@ -55,6 +55,11 @@ export class RegistrationForm extends Component {
                                 <input className="form-control" placeholder="Skriv inn navn her" value={this.eventName}
                                        onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.eventName = event.target.value)}/>
                             </div>
+                            <Form.Group>
+                                <Form.Label>Last opp bilde</Form.Label>
+                                <Form.Control type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.image =
+                                event.target.files[0]}}/>
+                            </Form.Group>
                             <div className="form-group">
                                 <label>Lokasjon:</label>
                                 <input className="form-control" placeholder="Skriv inn addresse" value={this.address}
@@ -180,6 +185,7 @@ export class RegistrationForm extends Component {
         eventService
             .postEvent(userService.currentUser.org_id, this.eventName, userService.currentUser.user_id, this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00",this.lng,  this.lat)
             .then(response => {
+                this.changePic(response[0]["LAST_INSERT_ID()"]);
                 this.addTickets(response[0]["LAST_INSERT_ID()"], this.tickets);
                 this.addArtists(response[0]["LAST_INSERT_ID()"], this.artists);
                 this.addEmployee(response[0]["LAST_INSERT_ID()"], this.employees);
@@ -240,6 +246,19 @@ export class RegistrationForm extends Component {
             }
         })
     }
+
+    changePic(val: number){
+    console.log("BILDE: ", this.image);
+      eventService
+        .updateEventImage(val, this.image)
+        .then(() => {
+          if(userService.currentUser){
+            userService.autoLogin();
+            history.push("/Profile");
+          }
+        })
+
+  }
 
     cancel(){
       history.push("/allEvents");

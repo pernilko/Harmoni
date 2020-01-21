@@ -118,6 +118,20 @@ export class EventService {
      setAcceptedEvent(id: number, accepted: number) {
         return axios.put<Event, void>(url + "event/accepted/" + id).then(response => response.data);
     }
+
+    updateEventImage(event_id: number, picture: File) {
+        let fd:FormData = new FormData();
+        fd.append("myFile", picture);
+        return axios<{}>({
+                url: url +'upload/event/editImage/'+event_id,
+                method: 'post',
+                data: fd,
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+    }
+    
 }
 
 export let eventService = new EventService();

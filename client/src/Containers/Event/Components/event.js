@@ -324,8 +324,6 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         this.setState({artists});
     }
 
-
-
     getUserEvent(BANG: number){
         if (userService.currentUser){
             let u = this.state["users"];

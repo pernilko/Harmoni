@@ -1285,6 +1285,27 @@ app.post("/upload/Profile/editImage/:id", (req, res) =>{
         });
 });
 
+app.post("/upload/event/editImage/:id", (req, res) =>{
+    console.log("/Profile/edit received an update request from client ");
+        //const file = req.file;
+        if (!req.files || Object.keys(req.files).length === 0) {
+            return res.status(400).send('No files were uploaded.');
+        }
+        console.log(req.files.myFile);
+
+        let myFile = req.files.myFile;
+        let fileName = Date.now() + "-" + myFile.name;
+
+        myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
+            if(err)return res.status(500);
+        });
+        uploadFile(path.join(__dirname,'uploads/'+ fileName));
+        eventDao.updateEventImage(req.params.id, fileName, (status, data)=>{
+            res.status(status);
+            res.json(data);
+        });
+});
+
 app.post('/uploadfile', (req, res) => {
   //const file = req.file;
     if (!req.files || Object.keys(req.files).length === 0) {
