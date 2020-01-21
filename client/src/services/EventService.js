@@ -14,11 +14,11 @@ export class Event {
     event_end: any;
     longitude: number;
     latitude: number;
-    image: File;
+    image: string;
     completed: boolean;
     accepted: number;
 
-    constructor(event_id: number, org_id: number, user_id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number, image: File, accepted: number, completed: number) {
+    constructor(event_id: number, org_id: number, user_id: number, event_name: string, description: string, place: string, event_start: string, event_end: string, longitude: number, latitude: number, image: string, accepted: number, completed: number) {
         this.event_id = event_id;
         this.org_id = org_id;
         this.user_id = user_id;
