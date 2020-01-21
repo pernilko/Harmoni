@@ -22,32 +22,61 @@ module.exports = class eventDao extends Dao{
     }
 
     getEventUpcomingOrg(org_id: number, callback: function){
-      super.query("SELECT * FROM event WHERE org_id=? AND event_start > CURDATE()", [org_id], callback );
+      super.query("SELECT * FROM event WHERE org_id=? AND event_end > CURDATE() AND completed NOT LIKE -1", [org_id], callback );
     }
 
     getEventUpcomingUser(user_id: number, callback: function){
-      super.query("SELECT * FROM event WHERE user_id=? AND event_start > CURDATE()", [user_id], callback );
+      super.query("SELECT * FROM event WHERE user_id=? AND event_end > CURDATE() AND completed NOT LIKE -1", [user_id], callback );
     }
 
     getEventPreviousOrg(org_id: number, callback: function){
-      super.query("SELECT * FROM event WHERE org_id=? AND event_start < CURDATE()", [org_id], callback );
+      super.query("SELECT * FROM event WHERE org_id=? AND completed = TRUE AND event_end < CURDATE()", [org_id], callback );
     }
 
     getEventPreviousUser(user_id: number, callback: function){
-      super.query("SELECT * FROM event WHERE user_id=? AND event_start < CURDATE()", [user_id], callback );
+      super.query("SELECT * FROM event WHERE user_id=? AND completed = TRUE AND event_end < CURDATE()", [user_id], callback );
+    }
+
+    getPending(user_id: number, callback: function) {
+      super.query(
+          "SELECT * FROM event WHERE user_id=? AND completed = FALSE AND event_end < CURDATE() AND completed NOT LIKE -1", [user_id], callback);
+    }
+
+    getCancelledOrg(org_id: number, callback: function){
+      super.query(
+          "SELECT * FROM event WHERE org_id=? AND completed LIKE -1", [org_id], callback);
+    }
+
+    getCancelledUser(user_id: number, callback: function){
+      super.query(
+          "SELECT * FROM event WHERE user_id=? AND completed LIKE -1", [user_id], callback);
+    }
+
+    getEventCurrentUser(user_id: number, callback: function) {
+      super.query(
+          "SELECT * FROM event WHERE user_id=? AND CURDATE() >= event_start AND CURDATE() <= event_end AND completed NOT LIKE -1",
+          [user_id],
+          callback
+      );
+    }
+
+    getEventCurrentOrg(org_id: number, callback: function) {
+      super.query(
+          "SELECT * FROM event WHERE org_id = ? AND CURDATE() >= event_start AND CURDATE() <= event_end AND completed NOT LIKE -1",
+          [org_id],
+          callback
+      );
     }
 
     getEventLocation(event_id: number, callback:function){
         super.query("SELECT place FROM event WHERE event_id=?", [event_id], callback);
     }
 
-    deleteEvent(event_id: number, callback: function){
-        super.query("DELETE FROM event WHERE event_id=?", [event_id], callback);
+    cancelEvent(event_id: number, callback: function){
+        super.query("UPDATE event SET completed = -1 WHERE event_id = ?", [event_id], callback);
     }
 
-
-editEvent(event_id: number, json: {event_name: string, place: string, description: string, event_start: Date, event_end: Date, longitude: number, latitude: number, image: number}, callback:function) {
-
+    editEvent(event_id: number, json: {event_name: string, place: string, description: string, event_start: Date, event_end: Date, longitude: number, latitude: number, image: string}, callback:function) {
       super.query("UPDATE event SET event_name=?, place=?, description=?, event_start=?, event_end=?, longitude=?, latitude=?, image=? WHERE event_id=?",
                   [json.event_name, json.place, json.description, json.event_start, json.event_end, json.longitude, json.latitude, json.image, event_id],
                   callback);
@@ -62,6 +91,14 @@ editEvent(event_id: number, json: {event_name: string, place: string, descriptio
           callback);
     }
 
+    setCompleted(event_id: number, callback: function) {
+      super.query(
+        "UPDATE event SET completed=TRUE WHERE event_id = ?",
+        [event_id],
+        callback
+      );
+    }
+
     getEventbySearch(search: string, org_id: number, callback: function){
         super.query(
             "SELECT * FROM event WHERE event_name LIKE ? AND org_id = ?",
@@ -69,7 +106,15 @@ editEvent(event_id: number, json: {event_name: string, place: string, descriptio
         )
     }
 
-    updateEventImage(event_id: number, image: string, callback: function){
+    setAcceptedEvent(event_id:number, json:{accepted:number}, callback:function){
+    super.query(
+        "UPDATE event SET accepted = ? WHERE event_id=?",
+        [json.accepted, event_id],
+        callback
+    )
+  }
+
+  updateEventImage(event_id: number, image: string, callback: function){
         super.query("UPDATE event SET image=? WHERE event_id=?", [imageUrl + image, event_id], callback);
     }
 };
