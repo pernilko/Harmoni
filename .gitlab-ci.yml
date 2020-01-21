@@ -17,16 +17,16 @@ run_tests:
     - npm test
   artifacts:
     paths:
-      - coverage/
+      - server/coverage/
 
 pages:
   stage: deploy
   dependencies:
     - run_tests
   script:
-    - mkdir .public
-    - cp -r coverage/* .public
-    - mv .public public
+    - mkdir .server/public
+    - cp -r server/coverage/* .public
+    - mv .server/public public
   artifacts:
     paths:
       - public
