@@ -170,7 +170,6 @@ test("Test previous event by user_id", done =>{
     );
 
     expect(data.length).toBe(0);
-    expect(data[0].event_name).toBe("Fotball-turnering");
     done();
   }
 

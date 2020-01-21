@@ -116,7 +116,7 @@ test("Get all users by org_id", done => {
     console.log(
         "Test callback: status=" + status + ", data=" + JSON.stringify(data)
     );
-    expect(data).toBeArray();
+    expect(data.length).toBe(2);
     done();
   }
 
