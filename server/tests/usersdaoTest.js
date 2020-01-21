@@ -74,3 +74,88 @@ test("Make an admin user a normal user", done => {
   
   userdao.setNormalPrivilegesEmail("hei@gmail.com", 1, callback); // user 1 har privileges 1 by default
 }, 30000);
+
+test("Get user by id", done => {
+  function callback(status, data) {
+    console.log(
+        "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.user_name).toBe("Navn Navnesen");
+    done();
+  }
+
+  userdao.getUserById(1, callback);
+}, 30000);
+
+test("Get user by email and org_id", done => {
+  function callback(status, data) {
+    console.log(
+        "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.email).toBe("ha_det@gmail.com");
+    done();
+  }
+
+  userdao.getUser({email: "ha_det@gmail.com", org_id: 2}, callback);
+}, 30000);
+
+test("Add user", done => {
+  function callback(status, data) {
+    console.log(
+        "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+
+  userdao.addUser({email: "test@test.com", org_id: 2, privileges: -1, user_name: "test", password: "12345678", address: "testveien 12", phone: "11111111", image: "test.jpg"}, callback);
+}, 30000);
+
+test("Get all users by org_id", done => {
+  function callback(status, data) {
+    console.log(
+        "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data).toBeGreaterThanOrEqual(2);
+    done();
+  }
+
+  userdao.getAllUsersByOrgId(2, callback);
+}, 30000);
+
+test("Get admin by org_id", done => {
+  function callback(status, data) {
+    console.log(
+        "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.user_name).toBe("person Personesen");
+    done();
+  }
+
+  userdao.getAdminByOrgId(2, callback);
+}, 30000);
+
+test("Update user email", done => {
+  function callback(status, data) {
+    console.log(
+        "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+
+  userdao.updateUserEmail(2, {email: "nyemail@mail.com"}, callback);
+}, 30000);
+
+test("Update password", done => {
+  function callback(status, data) {
+    console.log(
+        "Test callback: status=" + status + ", data=" + JSON.stringify(data)
+    );
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+
+  userdao.updateUserPass(2, {user_name: "Person Personesen", password: "87654321"}, callback);
+}, 30000);
+

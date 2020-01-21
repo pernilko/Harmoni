@@ -54,7 +54,7 @@ module.exports = class userDao extends Dao {
         super.query("SELECT * FROM user WHERE org_id = ?", [org_id], callback);
     }
 
-    //not tested
+    //tested
     getAdminByOrgId(org_id: number, callback: function){
         super.query("SELECT * FROM user u WHERE privileges = 1 AND org_id = ?", [org_id], callback);
     }
