@@ -107,19 +107,7 @@ test("Edit an event", done => {
   eventDao.editEvent(1, {event_name: "Cool event", place: "Mysen", description: "Gutta", event_start: "2020-01-26", event_end: "2020-01-26", longitude: 1, latitude: 2, image: ""}, callback)
 }, 30000);
 
-test("Test edit", done =>{
-  function callback (status, data) {
-    console.log(
-      "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
-    );
 
-    expect(data.length).toBe(1);
-    expect(data[0].event_name).toBe("Cool event");
-    done();
-  }
-
-  eventDao.getEvent(1, callback);
-}, 30000);
 
 test("Test employees for an event", done =>{
   function callback (status, data) {
@@ -160,3 +148,61 @@ test("Test event search", done =>{
 
   eventDao.getEventbySearch("Fotball", 3, callback);
 }, 30000);
+
+test("Test upcoming event by org", done =>{
+  function callback (status, data) {
+    console.log(
+        "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
+    );
+
+    expect(data.length).toBe(1);
+    expect(data[0].event_name).toBe("Konsert med Ruben");
+    done();
+  }
+
+  eventDao.getEventUpcomingOrg(3, callback);
+}, 30000);
+
+test("Test previous event by user_id", done =>{
+  function callback (status, data) {
+    console.log(
+        "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
+    );
+
+    expect(data.length).toBe(1);
+    expect(data[0].event_name).toBe("Fotball-turnering");
+    done();
+  }
+
+  eventDao.getEventPreviousUser(2, callback);
+}, 30000);
+
+test("Test cancel event", done =>{
+  function callback (status, data) {
+    console.log(
+        "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
+    );
+
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+
+  eventDao.cancelEvent(1, callback);
+}, 30000);
+
+
+test("Test set completed", done =>{
+  function callback (status, data) {
+    console.log(
+        "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
+    );
+
+    expect(data.affectedRows).toBe(1);
+    done();
+  }
+
+  eventDao.setCompleted(1, callback);
+}, 30000);
+
+
+

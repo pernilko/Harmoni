@@ -12,7 +12,7 @@ INSERT INTO user VALUES(DEFAULT, 3, "hola@gmail.com", 0, "Grethe Sandstrak", "13
 INSERT INTO event VALUES (DEFAULT, 2, 1, "Konsert med Karpe", "MONTEBELLO", "Kalveskinnet kantina", CURRENT_DATE, CURRENT_DATE, 123, 222, NULL, FALSE);
 INSERT INTO event  VALUES (DEFAULT, 3, 2, "Fotball-turnering", "BARCELONA", "Sukkerhuset", CURRENT_DATE, CURRENT_DATE, 223, 232, NULL, TRUE);
 INSERT INTO event VALUES (DEFAULT, 2, 3, "Spillkveld", "Gamers Rise Up", "Torget", CURRENT_DATE, CURRENT_DATE, 777, 666, NULL, FALSE);
-
+INSERT INTO event VALUES (DEFAULT ,3, 4,"Konsert med Ruben", "Samfundet", "Samfundet", CURRENT_DATE+1, CURRENT_DATE+1, 777, 666, NULL, TRUE);
 
 INSERT INTO user_event VALUES(1, 1, "lydtekniker", 1);
 INSERT INTO user_event VALUES(1, 2, "bartender", 1);
