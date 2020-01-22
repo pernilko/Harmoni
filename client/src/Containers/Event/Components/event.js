@@ -31,6 +31,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
     hidden: boolean = true;
     cancel: boolean = true;
     bugreport: string = "";
+    months: string[] = ["januar", "februar", "mars", "april", "mai", "juni", "juli", "august", "september", "oktober", "november", "desember"];
 
     /**
      * Konstruktøren setter arrangement, bruker, billett og artist tilstander
@@ -138,7 +139,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
 
                                 <h6 className="font-weight-bold indigo-text py-2">{e.place}</h6>
                                 <h6 className="card-subtitle mb-2 text-muted">
-                                    <b></b> {e.event_start.slice(0, 10)}, {e.event_start.slice(11, 16)}-{e.event_end.slice(11, 16)}
+                                    <b> {this.setFormat(e.event_start, e.event_end)}</b>
                                 </h6>
                                 <p className="card-text">{e.description}</p>
                                 <br/>
@@ -367,6 +368,31 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             });
 
         }
+    }
+
+    setFormat(start, end) {
+        let date = "";
+
+        let startTime = start.slice(11, 16);
+        let endTime = end.slice(11, 16);
+        let startDay = start.slice(8, 10);
+        let endDay = end.slice(8, 10);
+        let startMonth = start.slice(6, 8);
+        let endMonth = start.slice(6, 8);
+        let startYear = start.slice(0, 4);
+        let endYear = end.slice(0, 4);
+
+        if (startYear !== endYear) {
+            date = "kl. " + startTime + ", " + parseInt(startDay) + ". "+ this.months[parseInt(startMonth)] + " " + startYear + " - " + endTime + ", " + endDay + ". "+ this.months[parseInt(endMonth)] + " " + endYear;
+        }
+        else if (startMonth !== endMonth) {
+            date = "kl. " + startTime + ", " + parseInt(startDay) + ". "+ this.months[parseInt(startMonth)] + " - " + endTime + ", " + endDay + ". "+ this.months[parseInt(endMonth)] + " " + endYear;
+        }
+        else {
+            date = "kl. " + startTime + " - " + endTime + ", " + endDay + ". "+ this.months[parseInt(endMonth)] + " " + endYear;
+        }
+
+        return date;
     }
 
     /**

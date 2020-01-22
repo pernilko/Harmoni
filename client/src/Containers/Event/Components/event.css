@@ -100,3 +100,14 @@ p {
 .w94{
     width: 93%;
 }
+
+.alertDesign {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.alertNav {
+    z-index: 1;
+}

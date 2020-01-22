@@ -8,6 +8,8 @@ import { createHashHistory } from 'history';
 import {Alert} from '../../../widgets'
 import {sharedComponentData} from "react-simplified";
 
+import '../../Event/Components/event.css';
+
 
 const history = createHashHistory();
 
@@ -21,7 +23,7 @@ export class Navigation extends Component {
 
     if (userService.currentUser) {
       return <div>
-        <Navbar sticky="top" bg="dark" variant="dark" expand="lg">
+        <Navbar className="alertNav" sticky="top" bg="dark" variant="dark" expand="lg">
           <Navbar.Brand href="#home">Harmoni</Navbar.Brand>
           <Nav className="mr-auto">
             <Form inline>
