@@ -30,9 +30,10 @@ export class Home extends Component {
                         <Row>
                             <Col md={6} style={{padding: '0'}}>
                                 <div className="card" style={{margin: "none"}}>
-                                    <div className="card-header">Pending</div>
-                                    <div className="card-body"></div>
-                                    <Pending/>
+                                    <div className="card-header">Venter på godkjenning</div>
+                                    <div className="card-body">
+                                        <Pending/>
+                                    </div>
                                 </div>
                             </Col>
                             <Col md={6} style={{padding: '0'}}>
@@ -68,7 +69,9 @@ export class Home extends Component {
         }
         else {
             return (
-                <div></div>
+                <div>
+                    Du har ingen kommende arrangement :)
+                </div>
             )
         }
     }

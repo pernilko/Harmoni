@@ -28,7 +28,6 @@
     height: 100%;
     border-radius: 6px;
     border-color: #FFFFFF;
-
     border-top-right-radius: 0px;
 }
 
@@ -78,11 +77,12 @@
 }
 .text-block{
     position: absolute;
-    top: 15%;
+    top: 5%;
     left: 30%;
     transform: rotate(-15deg);
     background-color: rgba(133, 0, 0, 0.65);
-    font-size: 8vw;
+    font-size: 13vw;
+    color: #FFFFFF;
 
 }
 
@@ -95,6 +95,26 @@
     background-color: rgba(133, 0, 0, 0.65);
     color: white;
     font-size: 7.15vw;
+}
+
+
+
+.card-header{
+    color: #FFFFFF;
+    font-size: 20vm ;
+}
+
+div > .container-fluid{
+    background: none;
+}
+
+div > .card{
+    margin: 2%;
+    background: rgba(129, 129, 129, 0.18);
+}
+
+div > .card-body{
+    background: rgba(63, 0, 69, 0.24);
 }
 
 a{
@@ -114,6 +134,12 @@ a{
 .animation{
     transition: 0.25s;
     animation: makeGreen;
+}
+
+
+
+h1 .my-3{
+    color: ;
 }
 
 /*
@@ -346,4 +372,4 @@ html, body {
 }
 
 
-*/
+ */

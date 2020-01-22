@@ -34,27 +34,29 @@ export class OrgProfile2 extends Component {
             }
             if (this.ready) {
                 return (
-                    <div>
-                        <Container fluid style={{padding: 0}}>
-                            <div style={{backgroundImage: "linear-gradient(to bottom right, #581845 , #900C3F)", height: 60, color: "white", textAlign: "center", paddingTop: 10}}>
-                                <h3>Min Organisasjon</h3>
+                    <div className="container-fluid">
+                        <div className="container">
+                            <div>
+                                <h3 style={{margin:5 + '%'}}>Min Organisasjon</h3>
                             </div>
-                        </Container>
-                        <Container fluid>
+                        </div>
+                        <div className="container">
                             <Tab.Container id="left-tabs-" defaultActiveKey="first">
                                 <Row>
-                                    <Col lg={5} style={{padding: 0, paddingRight: 4, paddingLeft: 4}}>
-                                        <div className="card">
-                                            <div className="card-body" style={{padding: 0}}>
-                                                <div className="card-header" style={{backgroundImage: "linear-gradient(to bottom right, #581845 , #900C3F)"}}>
+                                    <div className="col-lg-5">
+                                        <div className="container">
+                                            <div className="card-body">
+                                                <div id = "card-header" className="card-header">
                                                     <h4>Kontakt info
                                                         <Button id="button" hidden={!this.isAdmin}
                                                                 variant="outline-secondary"
                                                                 style={{float: "right", color: "white", border: "none"}}
                                                                 onClick={this.editOrg}>Rediger</Button>
+
                                                         <Button id="button" hidden={!this.inEdit} variant="danger"
                                                                 style={{float: "right", background: "#C70039", borderColor: "#C70039"}}
                                                                 onClick={this.cancelEdit}>Avbryt</Button>
+
                                                         <Button id="button" hidden={!this.inEdit} variant="success"
                                                                 style={{float: "right", background: "#b2cf7f", borderColor: "#b2cf7f"}}
                                                                 onClick={this.saveEdit}>Lagre</Button>
@@ -64,89 +66,78 @@ export class OrgProfile2 extends Component {
                                                     <img style={{width: "100%", height: "auto", display: "cover"}}
                                                         src={this.org_image}/>
                                                 </div>
-                                                <h3 style={{textAlign: "center"}}><input className="inputLabel" style={{
-                                                    border: this.border,
-                                                    textAlign: "center",
-                                                    background: this.backgroundColor,
-                                                    width: "90%",
-                                                    height: "5%",
-                                                    marginTop: 10+"px"
-                                                }}
-                                                           value={this.org_name} disabled={this.isDisabled}
-                                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.org_name = event.target.value)}/>
-                                                </h3>
-                                                <div style={{float: "left"}}>
-                                                    <div className="card-text">
-                                                        <label style={{marginLeft: 10 + "px",marginTop: 10 + "px", float: "left"}}>Epost: </label>
-                                                        <input className="inputLabel" style={{
-                                                            margin: 10 + "px",
-                                                            border: this.border,
-                                                            background: this.backgroundColor
-                                                        }}
-                                                               value={this.org_email} disabled={this.isDisabled}
-                                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.org_email = event.target.value)}/>
+                                                <div>
+                                                    <h3 id="orgLabel"> {this.org_name}</h3>
+                                                </div>
+                                                <div className="form-inline-block">
+                                                    <div className="form-group">
+                                                        <label>Epost: </label> {this.org_email}</div>
+                                                    <div className="form-group">
+                                                        <label>Tlf: </label> {this.org_phone}
                                                     </div>
-                                                    <div className="card-text">
-                                                        <label style={{marginLeft: 10 + "px", marginTop: 10 + "px", float: "left"}}>Tlf: </label>
-                                                        <input className="inputLabel" style={{
-                                                            margin: 10 + "px",
-                                                            border: this.border,
-                                                            background: this.backgroundColor
-                                                        }}
-                                                               value={this.org_phone} disabled={this.isDisabled}
-                                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.org_phone = event.target.value)}/>
-                                                    </div>
-                                                    <div className="card-text" style={{marginLeft: 10 + "px", marginTop: 10 + "px", float: "left"}}>
-                                                        Admin:
-                                                    </div>
-                                                    <div>
-                                                    {this.admin.map(a => (
-                                                        <div className="card-text" style={{marginLeft: 10 + "px", marginTop: 10 + "px", marginBottom: 20 + "px", float: "left"}}>{"   " + a.user_name}</div>
-                                                    ))}
+                                                    <div className="form-group">
+                                                        <label>Admin: </label> {this.admin.map((a,i) =>  <ul style={{display:'inline'}}>{a.user_name}</ul>
+                                                    )}
                                                     </div>
                                                     <div hidden={!this.inEdit} className="card-text" style={{marginLeft: 10 + "px", marginTop: 10 + "px", marginBottom: 20 + "px", float: "left"}}>
+                                                        <Form.Group>
+                                                            <Form.Label>Endre org. navn </Form.Label>
+                                                            <Form.Control type="text" disabled={this.isDisabled}
+                                                                          onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.org_name = event.target.value)}/>
+                                                        </Form.Group>
+
+                                                        <Form.Group>
+                                                            <Form.Label>Tlf: </Form.Label>
+                                                            <Form.Control type="text" disabled={this.isDisabled}
+                                                                          onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.org_phone = event.target.value)}/>
+                                                        </Form.Group>
+
+                                                        <Form.Group>
+                                                            <Form.Label>E-post: </Form.Label>
+                                                            <Form.Control type="text" disabled={this.isDisabled}
+                                                                          onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.org_email = event.target.value)}/>
+                                                        </Form.Group>
+
                                                         <Form.Group>
                                                             <Form.Label>Last opp bilde</Form.Label>
                                                             <Form.Control accept = "image/*" type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.org_image =
                                                             event.target.files[0]}}/>
                                                         </Form.Group>
+
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </Col>
-                                    <Col lg={7} style={{padding: 0, paddingLeft: 4, paddingRight: 4, height: "inherit"}}>
-                                        <div className="card-header" style={{backgroundImage: "linear-gradient(to bottom right, #581845 , #900C3F)", color: "white"}}>
+                                    </div>
+                                    <div className="col-lg-7">
+                                        <div id = "card-header" className="card-header">
                                             <h4>Medlemmer</h4>
                                         </div>
                                             <ListGroup>
                                                 {this.members.map(m => (
                                                     <Accordion>
                                                         <ListGroupItem>
-                                                            <Row style={{margin: "none"}}>
-                                                                <Col lg={2} style={{padding: 0}}>
-                                                                    <Image
+                                                            <div className="row">
+                                                                <div className="col-lg-2">
+                                                                    <img
                                                                         src={"https://cdn1.vectorstock.com/i/1000x1000/78/80/young-woman-head-avatar-cartoon-face-character-vector-21787880.jpg"}
                                                                         roundedCircle width={70 + "px"} height={60 + "px"}
                                                                         style={{objectFit: "cover"}}/>
-                                                                </Col>
-                                                                <Col lg={5} style={{padding: 0, textAlign: "left", paddingTop: 3, paddingLeft: 10}}>
-                                                                    <p style={{
-                                                                        margin: "0",
-                                                                        marginRight: 10
-                                                                    }}>Navn: {m.user_name}</p>
+                                                                </div>
+                                                                <div className="col-lg-5">
+                                                                    <p>Navn: {m.user_name}</p>
                                                                     <br/>
-                                                                    <p style={{margin: "0"}}>Email: {m.email}</p>
-                                                                </Col>
-                                                                <Col lg={5} style={{textAlign: "right"}}>
+                                                                    <p>Email:{m.email}</p>
+                                                                </div>
+                                                                <div className="col-lg-4" style={{textAlign: "right", marginRight: 1 + '%'}}>
                                                                     <Accordion.Toggle as={Button} hidden={!this.isAdmin}
                                                                                       variant="btn btn-outline-secondary"
                                                                                       eventKey={m.user_id}
                                                                                       style={{marginTop: 9}}>rediger</Accordion.Toggle>
-                                                                </Col>
-                                                            </Row>
+                                                                </div>
+                                                            </div>
                                                             <Accordion.Collapse eventKey={m.user_id}>
-                                                                <div className="card-body">
+                                                                <div id="rights" className="card-body">
                                                                     <h6>Endre Rettigheter</h6>
                                                                     <Form>
                                                                         <Form.Check style={{textAlign: "left"}}>
@@ -181,10 +172,10 @@ export class OrgProfile2 extends Component {
                                                     </Accordion>
                                                 ))}
                                             </ListGroup>
-                                    </Col>
+                                    </div>
                                 </Row>
                             </Tab.Container>
-                        </Container>
+                        </div>
                     </div>
                 );
             } else {
