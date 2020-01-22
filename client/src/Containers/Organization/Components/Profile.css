@@ -125,3 +125,28 @@
     margin: 12%;
 }
 
+body{
+}
+
+h4 {
+    text-align: left;
+    background: transparent;
+    color: white;
+}
+
+.container-fluid{
+    background-color: #3A082C;
+    color: black;
+    padding: 20px 70px;
+    margin:0;
+}
+
+.card{
+    border: none;
+}
+
+input.inputLabel{
+    border: none;
+    border-bottom: #ba8b6f;
+}
+

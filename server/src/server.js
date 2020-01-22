@@ -33,9 +33,10 @@ async function uploadFile(filename: string) {
         }
     });
     console.log(`${filename} uploaded to ${bucketName}.`);
+    fs.unlinkSync(filename);
 }
 
-//uploadFile(path.join(__dirname, "../test.txt"));
+//uploadFile(path.join(__dirname, "../package.json"));
 
 let app = express();
 app.use(bodyParser.json());
@@ -590,8 +591,8 @@ app.put('/uploadRiders/:artist_id', function(req, res) {
     }
 });
 
-app.put('/upload/riders/:artist_id', (req, res)=> {
-        console.log("/upload/Hospitality_Riders received an update request from client ");
+app.post('/upload/riders/:artist_id', (req, res)=> {
+        console.log("/upload/riders received an update request from client ");
         //const file = req.file;
         if (!req.files || Object.keys(req.files).length === 0) {
             return res.status(400);
@@ -607,9 +608,7 @@ app.put('/upload/riders/:artist_id', (req, res)=> {
             ridersFile.mv(path.join(__dirname,'uploads/'+ ridersFileName ), err=>{
                 if(err)return res.status(500);
             });
-            uploadFile(path.join(__dirname,'uploads/'+ ridersFileName)).then(()=>{
-                fs.unlinkSync(path.join(__dirname,'uploads/'+ ridersFileName));
-            });
+            uploadFile(path.join(__dirname,'uploads/'+ ridersFileName));
         }
         if(req.files.hospitality_rider){
             let hospitality_ridersFile = req.files.hospitality_rider;
@@ -618,9 +617,7 @@ app.put('/upload/riders/:artist_id', (req, res)=> {
             hospitality_ridersFile.mv(path.join(__dirname,'uploads/'+ hospitality_ridersFileName ), err=>{
                 if(err)return res.status(500);
             });
-            uploadFile(path.join(__dirname, 'uploads/' + hospitality_ridersFileName)).then(()=>{
-                fs.unlinkSync(path.join(__dirname, 'uploads/'+ hospitality_ridersFileName));
-            });
+            uploadFile(path.join(__dirname, 'uploads/' + hospitality_ridersFileName));
         }
         if(req.files.artist_contract){
             let artist_contractFile = req.files.artist_contract;
@@ -628,9 +625,7 @@ app.put('/upload/riders/:artist_id', (req, res)=> {
             artist_contractFile.mv(path.join(__dirname,'uploads/'+artist_contractFileName ), err=>{
                 if(err)return res.status(500);
             });
-            uploadFile(path.join(__dirname, 'uploads/' + artist_contractFileName)).then(()=>{
-                fs.unlinkSync(path.join(__dirname, 'uploads/'+ artist_contractFileName));
-            });
+            uploadFile(path.join(__dirname, 'uploads/' + artist_contractFileName));
         }
 
         artistDao.updateRiders(req.params.artist_id, ridersFileName, hospitality_ridersFileName, artist_contractFileName, (status, data)=>{
@@ -640,6 +635,49 @@ app.put('/upload/riders/:artist_id', (req, res)=> {
 
 });
 
+app.put('/upload/riders/:artist_id', (req, res)=> {
+    console.log("/upload/Hospitality_Riders received an update request from client ");
+    //const file = req.file;
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400);
+    }
+    let ridersFileName: string = "";
+    let hospitality_ridersFileName: string = "";
+    let artist_contractFileName: string = "";
+
+    if(req.files.riders){
+        let ridersFile = req.files.riders;
+        ridersFileName = Date.now() + "-" + ridersFile.name;
+
+        ridersFile.mv(path.join(__dirname,'uploads/'+ ridersFileName ), err=>{
+            if(err)return res.status(500);
+        });
+        uploadFile(path.join(__dirname,'uploads/'+ ridersFileName));
+    }
+    if(req.files.hospitality_rider){
+        let hospitality_ridersFile = req.files.hospitality_rider;
+        hospitality_ridersFileName = Date.now() + "-" + hospitality_ridersFile.name;
+
+        hospitality_ridersFile.mv(path.join(__dirname,'uploads/'+ hospitality_ridersFileName ), err=>{
+            if(err)return res.status(500);
+        });
+        uploadFile(path.join(__dirname, 'uploads/' + hospitality_ridersFileName));
+    }
+    if(req.files.artist_contract){
+        let artist_contractFile = req.files.artist_contract;
+        artist_contractFileName = Date.now() + "-" + artist_contractFile.name;
+        artist_contractFile.mv(path.join(__dirname,'uploads/'+artist_contractFileName ), err=>{
+            if(err)return res.status(500);
+        });
+        uploadFile(path.join(__dirname, 'uploads/' + artist_contractFileName));
+    }
+
+    artistDao.updateRiders(req.params.artist_id, ridersFileName, hospitality_ridersFileName, artist_contractFileName, (status, data)=>{
+        res.status(status);
+        res.json(data);
+    });
+});
+/*
 app.post('/uploadArtist_Contract/:artist_id', (req, res)=>{
     console.log("received post request for uploading artist_contract");
     if (!req.files || Object.keys(req.files).length === 0) {
@@ -657,6 +695,9 @@ app.post('/uploadArtist_Contract/:artist_id', (req, res)=>{
     });
 });
 
+ */
+
+/*
 app.get('/Riders/:artist_id', (req, res)=>{
     console.log("received get request for getting riders");
 
@@ -665,6 +706,7 @@ app.get('/Riders/:artist_id', (req, res)=>{
         res.json(data);
     });
 });
+ */
 
 //TICKET
 app.get("/ticket/all", (req : Request, res: Response) => {
@@ -1361,13 +1403,12 @@ app.put("/upload/Profile/editImage/:id", (req, res) =>{
     myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
         if(err)return res.status(500);
     });
-    uploadFile(path.join(__dirname,'uploads/'+ fileName)).then(()=>{
-        fs.unlinkSync(path.join(__dirname,'uploads/'+ fileName));
-    });
-        userDao.updateUserImage(req.params.id, fileName, (status, data)=>{
+    uploadFile(path.join(__dirname,'uploads/'+ fileName));
+
+    userDao.updateUserImage(req.params.id, fileName, (status, data)=>{
             res.status(status);
             res.json(data);
-        });
+    });
 });
 
 app.post("/upload/event/editImage/:id", (req, res) =>{
@@ -1384,9 +1425,7 @@ app.post("/upload/event/editImage/:id", (req, res) =>{
         myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
             if(err)return res.status(500);
         });
-        uploadFile(path.join(__dirname,'uploads/'+ fileName)).then(()=>{
-            fs.unlinkSync(path.join(__dirname,'uploads/'+ fileName));
-        });
+        uploadFile(path.join(__dirname,'uploads/'+ fileName));
         eventDao.updateEventImage(req.params.id, fileName, (status, data)=>{
             res.status(status);
             res.json(data);
@@ -1407,14 +1446,12 @@ app.post("/upload/organization/editImage/:id", (req, res) =>{
         myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
             if(err)return res.status(500);
         });
-        uploadFile(path.join(__dirname,'uploads/'+ fileName)).then(()=>{
-            fs.unlinkSync(path.join(__dirname,'uploads/'+ fileName));
-        });
+        uploadFile(path.join(__dirname,'uploads/'+ fileName));
         organizationDAO.updateOrgImage(req.params.id, fileName, (status, data)=>{
             res.status(status);
             res.json(data);
         });
-});
+    });
 
 app.post('/uploadfile', (req, res) => {
   //const file = req.file;
