@@ -45,7 +45,7 @@ module.exports = class artistDao extends Dao {
         super.query("INSERT INTO hospitality_ridersFile (artist_id, name, data, size, encoding, tempFilePath, truncated, mimetype, md5) values(?,?,?,?,?,?,?,?,?)",
             [artist_id, hospitality_riders_file.name, hospitality_riders_file.data, hospitality_riders_file.size, hospitality_riders_file.encoding, hospitality_riders_file.tempFilePath, hospitality_riders_file.truncated, hospitality_riders_file.mimetype, hospitality_riders_file.md5],
             callback
-        );
+        );  
     }
     insertArtistContract(artist_contract_file: any, artist_id: number, callback: function){
         super.query("INSERT INTO artist_contractFile (artist_id, name, data, size, encoding, tempFilePath, truncated, mimetype, md5) values(?,?,?,?,?,?,?,?,?)",
