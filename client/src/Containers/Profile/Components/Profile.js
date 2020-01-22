@@ -49,7 +49,8 @@ export class Profile extends Component{
               </Nav>
               </div>
             </Col>
-            <Col lg={9}>
+            <Col style={{padding: 0}} lg={9}>
+              <div id="hi">
               <Tab.Content>
                 <Tab.Pane eventKey="first">
                   <Card>
@@ -128,6 +129,7 @@ export class Profile extends Component{
                  </Card>
                 </Tab.Pane>
               </Tab.Content>
+              </div>
             </Col>
           </Row>
         </Tab.Container>

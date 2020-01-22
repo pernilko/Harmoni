@@ -49,19 +49,6 @@ h4 {
     border: none;
 }
 
-#hi{
-    background-color: rgba(32, 32, 37, 0.66);
-    padding: 0;
-}
-
-#profileCol{
-    background: transparent;
-
-}
-
-div .card-body{
-    padding: 0;
-}
 
 div .tab-pane .active{
     padding: 0;
