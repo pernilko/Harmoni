@@ -1,14 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { render } from "react-dom";
 import {Card, Col, Container, Row, Spinner} from "react-bootstrap";
 import {EventList} from './showEvents';
 
 import Tabs from './Tabs';
+import Pagination from "react-bootstrap/Pagination";
 require('./showTab.css');
 
 export class ShowTab extends Component<{all: boolean}>{
 
   render (){
+
     if (this.props.all){
       return (
         <Container fluid id="tabsAllEvents">

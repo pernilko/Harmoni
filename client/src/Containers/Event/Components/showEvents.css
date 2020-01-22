@@ -1,5 +1,10 @@
 /* #dE685E #92bCa6*/
 
+body{
+    overflow-y: scroll;
+}
+
+
 .eventCard{
     position: relative;
     height: 400px;
