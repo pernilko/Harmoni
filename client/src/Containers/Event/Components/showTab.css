@@ -38,7 +38,7 @@ h1 {
 
 #tabsAllEvents.container-fluid{
   color: #FFFFFF;
-  background: linear-gradient(#222328,#551C3A,#551C3A,#551C3A, #551C3A, #551C3A, #551C3A, #222328) 100%;
+  background: transparent;
   align-items: center;
   text-align: center;
   padding: 0;
