@@ -290,7 +290,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 }
                 console.log(this.employees.length);
                 console.log(original_employees.length);
-                if (this.add_employees.length == 0 && del_employee.length == 0) {
+                if (this.add_employees.length !== 0 || del_employee.length !== 0) {
                     this.notifyEdit(this.props.match.params.event_id, this.event.event_name, original_employees);
                 }
             })

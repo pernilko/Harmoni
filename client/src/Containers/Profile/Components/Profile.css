@@ -52,7 +52,31 @@ h4 {
 
 div .tab-pane .active{
     padding: 0;
+
 }
+
+div.card-body{
+    padding: 0;
+    width: 96%;
+}
+
+div  .card{
+    width: 102%;
+    padding: 0;
+    left: -0%;
+}
+
+div .fade.tab-pane.active.show{
+    width: 98%;
+}
+
+div .form-group.col {
+    margin: 1%;
+    padding: 2%;
+}
+
+
+
 input.inputLabel{
     border: none;
     border-bottom: #ba8b6f;
