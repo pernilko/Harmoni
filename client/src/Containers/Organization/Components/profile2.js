@@ -174,7 +174,7 @@ export class OrgProfile2 extends Component {
                                                                                       style={{marginTop: 20 + "px"}}
                                                                                       eventKey={m.user_id}
                                                                                       onClick={() => this.updatePrivileges(m)}>Lagre</Accordion.Toggle>
-                                                                    <Button variant="warning" style={{float: "right", marginTop: 20+"px"}}>Gjør til Admin</Button>
+                                                                    <Button hidden={m.privileges == 1} onClick={() => this.makeAdmin(m.user_id)} variant="warning" style={{float: "right", marginTop: 20+"px"}}>Gjør til Admin</Button>
                                                                 </div>
                                                             </Accordion.Collapse>
                                                         </ListGroupItem>
@@ -294,5 +294,13 @@ export class OrgProfile2 extends Component {
         }else{
             Alert.danger("ikke autorisert");
         }
+    }
+
+    makeAdmin(val: number) {
+        console.log("MAKE ADMIN");
+        userService
+            .makeAdmin(val)
+            .then(Alert.success("Denne brukeren er nå admin."))
+            .catch((error: Error) => Alert.danger("Noe gikk galt."))
     }
 }

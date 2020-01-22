@@ -204,6 +204,10 @@ class UserService {
             "user_phone": user_phone
         }).then(res=>res.data);
     }
+
+    makeAdmin(user_id: number) {
+        return axios.put<{}>(url + "user/makeAdmin/"+user_id).then(res => res.data);
+    }
 }
 
 export let userService: UserService = sharedComponentData(new UserService());

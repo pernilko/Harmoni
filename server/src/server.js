@@ -808,6 +808,14 @@ app.get("/user/all/:id", (req: Request, res: Response) => {
     });
 });
 
+app.put("/user/makeAdmin/:id", (req: Request, res: Response) => {
+    console.log("/user/makeAdmin/:id received get request from client");
+    userDao.makeAdmin(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 app.get("/user/:id", (req: Request, res: Response)=>{
     console.log("/user received get request from client");
     userDao.getUserById(req.params.id, (status, data)=>{

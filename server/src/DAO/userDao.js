@@ -99,4 +99,8 @@ module.exports = class userDao extends Dao {
             callback
         );
     }
+
+    makeAdmin(user_id: number, callback: function) {
+        super.query("UPDATE user SET privileges=1 WHERE user_id=?", [user_id], callback);
+    }
 };
