@@ -174,6 +174,7 @@ export class OrgProfile2 extends Component {
                                                                                       style={{marginTop: 20 + "px"}}
                                                                                       eventKey={m.user_id}
                                                                                       onClick={() => this.updatePrivileges(m)}>Lagre</Accordion.Toggle>
+                                                                    <Button variant="warning" style={{float: "right", marginTop: 20+"px"}}>Gjør til Admin</Button>
                                                                 </div>
                                                             </Accordion.Collapse>
                                                         </ListGroupItem>
