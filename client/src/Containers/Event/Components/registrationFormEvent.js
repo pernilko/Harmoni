@@ -15,6 +15,8 @@ import { createHashHistory } from 'history';
 import {User, userService} from '../../../services/UserService';
 import {sharedComponentData} from "react-simplified";
 import {Employees, EmployeesDetails} from "./employees";
+import "./event.css";
+
 
 import MapContainer from "./map";
 import {getlatlng} from "./map";
@@ -43,7 +45,7 @@ export class RegistrationForm extends Component {
 
     render(){
                 return (
-                    <div>
+                    <div className="container">
                         <div className="card-header">
                             <div className="form-inline">
                                 <h2>Opprett et nytt arrangement</h2>
@@ -57,7 +59,7 @@ export class RegistrationForm extends Component {
                             </div>
                             <Form.Group>
                                 <Form.Label>Last opp bilde</Form.Label>
-                                <Form.Control type="file" accept = "image/*" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.image =
+                                <input className="form-control-file" type="file" accept = "image/*" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.image =
                                 event.target.files[0]}}/>
                             </Form.Group>
                             <div className="form-group">
@@ -70,11 +72,11 @@ export class RegistrationForm extends Component {
                                 <textarea className="form-control" value={this.description}
                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.description = event.target.value)}/>
                             </div>
-                            <div className="form-inline">
-                                <div className="row">
+                            <div className="form-group d-inline-block">
+                                <div className="row" style={{width:'inherit'}}>
                                     <div className="col">
                                         <label>Start dato:</label>
-                                        <input id="help" className="form-control" type="date" value={this.startDate}
+                                        <input className="form-control" type="date" value={this.startDate}
                                                onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startDate = event.target.value)}/>
                                     </div>
                                     <div className="col">

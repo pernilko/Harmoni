@@ -100,3 +100,27 @@ p {
 .w94{
     width: 93%;
 }
+
+.container{
+    background: rgba(129, 129, 129, 0.14);
+}
+
+.form-control  {
+    color: white;
+    background: rgba(129, 129, 129, 0.18);
+    border-color: #505050;
+}
+
+
+.form-group{
+    color: white;
+    background: rgba(129, 129, 129, 0.18);
+    border-color: #505050;
+
+}
+
+
+::placeholder{
+    color: #FFFFFF;
+}
+

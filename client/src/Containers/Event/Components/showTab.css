@@ -41,3 +41,13 @@ h1 {
   align-items: center;
   text-align: center;
 }
+
+div .card-header{
+  background: rgba(129, 129, 129, 0.14);
+  contain: content;
+  object-fit: cover;
+}
+
+div.card-body{
+  background: rgba(34, 35, 40, 0.14);
+}

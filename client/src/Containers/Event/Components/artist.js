@@ -168,7 +168,7 @@ export class ArtistDetails extends Component {
                 <div className="card-header">
                     <h3>Artister:</h3>
                 </div>
-                <div className="card-body">
+                <div id="leggTilArtist" className="card-body">
                     {this.artist.map(a => {if (a) { return(
                     <div className="card-header">
                         <div className="row">

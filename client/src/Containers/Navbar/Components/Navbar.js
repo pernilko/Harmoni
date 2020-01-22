@@ -25,7 +25,7 @@ export class Navigation extends Component {
         <Navbar className="NavbarColor" sticky="top" expand="lg">
           <Navbar.Brand className="brand" href="#home">
             <img alt=" "
-                 src="./Logo.png"
+                 src="./Logo.jpg"
                  width={"30"}
                  height={"30"}
                  className="d-inline-block align-top"
