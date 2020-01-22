@@ -120,6 +120,23 @@ a{
     transition: 0.25s;
     animation: makeGreen;
 }
+.btn-group button{
+    background: transparent;
+    padding: 7px 30px;
+    margin: 30px 10px;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    color: #FFF;
+}
+
+.card button{
+    background: rgba(255, 0, 127, 0.25);
+    padding: 7px 30px;
+    margin: 30px 10px;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    color: #FFF;
+}
 
 /*
 
