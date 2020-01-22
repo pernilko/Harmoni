@@ -8,21 +8,31 @@ import {userService} from "../../../services/UserService";
 import {userEventService} from "../../../services/UserEventService";
 import {Spinner} from "react-bootstrap";
 import "./showEvents.css";
+import {useState} from "react";
+import Pagination from "react-bootstrap/Pagination";
+import Button from "react-bootstrap/Button";
+
+
 
 export class EventList extends Component<{user: boolean, time: number}>{
     loaded: boolean = false;
     ready: boolean = false;
+    nowitsready: boolean = false;
+    selectedPage: number = 0;
+
+    currentPage: number = 0;
 
     constructor(props){
         super(props);
         this.state = {
             events: [],
-            users: []
+            users: [],
+            postPerPage: 5,
+            currentPosts: [],
+            items: []
         };
     }
-
     render() {
-        let ev = [];
         if (userService.currentUser) {
             if(!this.loaded) {
                 this.load();
@@ -30,13 +40,20 @@ export class EventList extends Component<{user: boolean, time: number}>{
             if(!this.ready){
                 this.loadContent();
             }
-            if (this.ready){
-                ev = this.state["events"].slice(0, 1);
+            if(!this.nowitsready && this.loaded && this.ready){
+                this.loadPage();
             }
             if(this.props.time == 3){
                 return (
                     <div className={"w-50 mx-auto "}>
-                        {this.state["events"].map((e, i) =>
+                        <div>
+                            <ul className="pagination">
+                                {this.state["items"].map((item, i) => (
+                                    <li className="page-item" ><Button variant="secondary"  onClick={() => this.changePage(i)}>{i+1}</Button></li>
+                                ))}
+                            </ul>
+                        </div>
+                        {this.state["currentPosts"].map((e, i) =>
                             <div className="my-4" >
                                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
                                 <link href="https://fonts.googleapis.com/css?family=PT+Serif|Ubuntu&display=swap" rel="stylesheet"/>
@@ -56,13 +73,26 @@ export class EventList extends Component<{user: boolean, time: number}>{
                                 </div>
                             </div>
                         )}
+                        <div>
+                            <ul className="pagination">
+                                {this.state["items"].map((item, i) => (
+                                    <li className="page-item" ><Button variant="secondary" onClick={()=>this.changePage(i)}>{i+1}</Button></li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
                 )
             }else {
                 return (
                     <div className={"w-50 mx-auto "}>
-
-                        {this.state["events"].map((e, i) =>
+                        <div>
+                            <ul className="pagination">
+                                {this.state["items"].map((item, i) => (
+                                    <li className="page-item" ><Button variant="secondary"  onClick={() => this.changePage(i)}>{i+1}</Button></li>
+                                ))}
+                            </ul>
+                        </div>
+                        {this.state["currentPosts"].map((e, i) =>
                             <div className="my-4">
                                 <link rel="stylesheet"
                                       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
@@ -111,13 +141,50 @@ export class EventList extends Component<{user: boolean, time: number}>{
                                 </div>
                             </div>
                         )}
-
+                        <div>
+                            <ul className="pagination">
+                                {this.state["items"].map((item, i) => (
+                                    <li className="page-item" ><Button onClick={() => this.changePage(i)} variant="secondary">{i+1}</Button></li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
                 )
             }
         }else{
             return( <Spinner animation="border"></Spinner>);
         }
+    }
+
+    loadPage(){
+        let amount = Math.ceil(this.state["events"].length/this.state["postPerPage"]);
+        console.log(amount);
+        let items = this.state["events"].slice(0, amount);
+        console.log(items.length);
+        this.setState({items});
+        
+
+        let indexOfFirstPost = this.currentPage * this.state["postPerPage"];
+        let indexOfLastPost = indexOfFirstPost + this.state["postPerPage"];
+
+        let currentPosts = this.state["events"].slice(indexOfFirstPost, indexOfLastPost);
+        this.setState({currentPosts});
+
+
+        this.nowitsready = true;
+    }
+    
+    changePage(currentPage: number){
+        this.currentPage = currentPage;
+
+        let indexOfFirstPost = this.currentPage * this.state["postPerPage"];
+        let indexOfLastPost = indexOfFirstPost + this.state["postPerPage"];
+
+        let currentPosts = this.state["events"].slice(indexOfFirstPost, indexOfLastPost);
+        this.setState({currentPosts});
+
+        window.scrollTo(0,0);
+
     }
 
     setAccepted(iterator: number, user_id: number, event_id: number, accepted: number) {
@@ -134,7 +201,6 @@ export class EventList extends Component<{user: boolean, time: number}>{
             });
             return list;
         });
-
         this.setState({users});
     }
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { render } from "react-dom";
 import {Card, Col, Container, Row, Spinner} from "react-bootstrap";
 import {EventList} from './showEvents';
@@ -10,21 +10,6 @@ require('./showTab.css');
 export class ShowTab extends Component<{all: boolean}>{
 
   render (){
-      let active = 1;
-      let items = [];
-      for (let number = 1; number <= 5; number++) {
-          items.push(
-              <Pagination.Item key={number} active={number === active}>
-                  {number}
-              </Pagination.Item>,
-          );
-      }
-
-      const paginationBasic = (
-          <div>
-              <Pagination>{items}</Pagination>
-          </div>
-      );
 
     if (this.props.all){
       return (
@@ -50,7 +35,6 @@ export class ShowTab extends Component<{all: boolean}>{
                 </div>
               </div>
           </div>
-            <Pagination>{items}</Pagination>
         </Container>
       );
     } else {
@@ -77,9 +61,6 @@ export class ShowTab extends Component<{all: boolean}>{
                 </div>
               </div>
           </div>
-            <div>
-
-            </div>
         </div>
       );
     }
