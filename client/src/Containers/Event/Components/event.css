@@ -120,7 +120,35 @@ p {
 }
 
 
-::placeholder{
+.input .form-group  ::placeholder{
     color: #FFFFFF;
 }
 
+.card{
+    background: rgba(129, 129, 129, 0.18);
+    border-color: #505050;
+}
+
+
+.btn-group button{
+    background: transparent;
+    padding: 7px 30px;
+    margin: 30px 10px;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    color: #FFF;
+}
+
+.card button{
+    background: rgba(255, 0, 127, 0.25);
+    padding: 7px 30px;
+    margin: 30px 10px;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    color: #FFF;
+}
+
+input{
+    background: transparent;
+    border: 2px solid #505050;
+}
