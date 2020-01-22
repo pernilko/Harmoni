@@ -81,7 +81,7 @@ class ArtistService {
             console.log(response.data[0]);
             return axios<{}>({
                 url: url +'upload/riders/' + response.data[0].artist_id,
-                method: 'post',
+                method: 'put',
                 data: fd_riders,
                 headers: {
                     "Content-Type": "multipart/form-data"
