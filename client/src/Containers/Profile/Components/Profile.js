@@ -8,6 +8,7 @@ import { createHashHistory } from 'history';
 import {Row, Alert} from '../../../widgets';
 import {sharedComponentData} from 'react-simplified';
 import Form from 'react-bootstrap/Form';
+import "./Profile.css";
 
 const history = createHashHistory();
 let emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -20,10 +21,11 @@ export class Profile extends Component{
 
   render() {
     if (userService.currentUser) {
-      return <div>
-        <h2 className="card-header"> Hei, {userService.currentUser.user_name}!</h2>
+      return <div id="whole-page" className="container-fluid">
+      <div id="con" className="container">
+        <h2 className="card-header" style={{marginTop:20+'px'}}> Hei, {userService.currentUser.user_name}!</h2>
         <Container style={{padding: "0px"}}>
-        <Tab.Container id="left-tabs-" defaultActiveKey="first">
+        <Tab.Container  defaultActiveKey="first">
           <Row>
             <Col lg={3}>
               <div>
@@ -31,7 +33,7 @@ export class Profile extends Component{
                      roundedCircle width={240 + 'px'}
                      height={220 + 'px'} style={{marginTop: 10 + 'px' ,marginBottom: 20 +'px'}}/>
               <br/>
-              <Nav variant="pills" className="flex-column" >
+              <Nav id="left-tabs" variant="pills" className="flex-column" >
                 <Nav.Item>
                   <Nav.Link eventKey="first">Bruker informasjon</Nav.Link>
                 </Nav.Item>
@@ -50,27 +52,12 @@ export class Profile extends Component{
             <Col lg={9}>
               <Tab.Content>
                 <Tab.Pane eventKey="first">
-                  <Card style={{ borderRight: 'none', borderTop: 'none', borderBottom: 'none', paddingLeft: 30 + 'px'}}>
+                  <Card>
                     <Card.Body>
                       <h2>Profil instillinger</h2>
                       <br/>
                       <h6>Email knyttet til bruker: </h6>
                       <p style={{color:'grey'}}>{userService.currentUser.email}</p>
-                      <Button variant="primary" onClick={this.click}>Endre</Button>
-                      <div hidden={this.hidden}>
-                        <br/>
-                        <Form.Group>
-                          <Form.Label> Fyll inn ny e-mail adresse</Form.Label>
-                          <Form.Control style={{width: 600 + 'px'}}
-                                        type="input"
-                                        placeholder={userService.currentUser.email}
-                                        onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.user.email =
-                                        event.target.value}}/>
-                        </Form.Group>
-                        <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.change}>Bekreft</Button>
-                        <br/>
-                        <br/>
-                      </div>
                       <br/>
                       <br/>
                       <h3>Endre profilbilde</h3>
@@ -146,31 +133,12 @@ export class Profile extends Component{
         </Tab.Container>
           </Container>
       </div>
+      </div>
     } else {
       return <Spinner animation="border"/>
     }
   }
 
-  click() {
-    this.hidden = false;
-  }
-
-  change(){
-    //Change email
-    if(this.user.email.length !==0 && emailRegEx.test(this.user.email)){
-      userService
-        .updateEmail(userService.currentUser.user_id, this.user.email)
-        .then(() => {
-          if(userService.currentUser){
-            Alert.success("Mail er oppdatert");
-            userService.autoLogin();
-            history.push("/Profile");
-          }
-        })
-    }else{
-      Alert.danger("Ikke gyldig E-mail addresse");
-    }
-  }
   // Change profile picture
   changePB(){
     console.log("BILDE: ", this.user.image);
@@ -180,7 +148,7 @@ export class Profile extends Component{
           if(userService.currentUser){
             Alert.success("Profilbildet er oppdatert");
             userService.autoLogin();
-            history.push("/Profile");
+            window.location.reload()
           }
         })
 

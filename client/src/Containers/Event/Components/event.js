@@ -60,7 +60,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             if(e.completed !== -1) {
                 return (
                   <div  id="whole-page" className="container-fluid">
-                    <div className="container" >
+                    <div id="con" className="container" >
                       <div className={"w-50 mx-auto shadow-lg mt-4"}>
                           <div id="eventPreview" className="card card-cascade wider reverse C">
                               <link rel="stylesheet"

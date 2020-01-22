@@ -1,0 +1,80 @@
+.body {
+    background: linear-gradient(#222328, #551C3A) 120%;
+    transition: all .5s;
+    height: 150%;
+}
+
+#reset{
+    height: 80%;
+    width: 80%;
+    left: 10%;
+    top: 10%;
+}
+
+#passwordForm{
+    padding-top: 5%;
+}
+
+
+.mid button.dark{
+    border-color:rgb(40, 17, 33);
+    background: rgb(40, 17, 33);
+    margin-top: 5%;
+    color:#FFFFFF;
+}
+.mid button.dark:hover{
+    border-color:rgb(40, 17, 33);
+    background: transparent;
+    margin-top: 5%;
+    color: rgb(40, 17, 33);
+}
+.mid button:focus {
+    outline: none;
+}
+
+h4 {
+    text-align: left;
+    background: transparent;
+    color: white;
+}
+
+.container-fluid{
+    background-color: #3A082C;
+    color: black;
+    padding: 20px 70px;
+    margin:0;
+}
+
+.card{
+    border: none;
+}
+
+#hi{
+    background-color: rgba(32, 32, 37, 0.66);
+    padding: 0;
+}
+
+#profileCol{
+    background: transparent;
+
+}
+
+div .card-body{
+    padding: 0;
+}
+
+div .tab-pane .active{
+    padding: 0;
+}
+input.inputLabel{
+    border: none;
+    border-bottom: #ba8b6f;
+}
+
+.flex-column{
+    background: rgba(129, 129, 129, 0.39);
+    width: 100%;
+    object-fit: cover;
+}
+
+
