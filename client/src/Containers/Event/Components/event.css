@@ -59,10 +59,6 @@ p {
 .artistContainer {
 }
 
-.whiteTextOnAcceptButtonAtTopOfEventPageToAcceptEntireEventGivingAnAdditionalOptionToDeclineViaAPopoupWIndowThatJulieDesignedEarlierThisWeekIReallyMustSayThatThisCodeWasElegantlyWrittenAndOfGreatUseForThisParticularFeatureAsWellIHavetoStopWritingSoonAsTheClockHasPassed1600AndItIsTimeForMeToHeadHomeThankYouForReadingDontForgetToSmashTheSubscribeButton{
-    color: white;
-}
-
 .redBG{
     background: #dE685E;
     color: white;
@@ -151,4 +147,44 @@ p {
 input{
     background: transparent;
     border: 2px solid #505050;
+}
+
+#whole-page{
+    background: linear-gradient(#222328, #551C3A) 100%;
+}
+
+.btn-group #save {
+    background: transparent;
+    padding: 7px 30px;
+    margin: 30px 10px;
+    border: 2px solid #fff;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 50px;
+    border-top-left-radius: 50px;
+    color: #FFF;
+}
+
+.btn-group #save:hover {
+    background: green;
+    padding: 7px 30px;
+    margin: 30px 10px;
+    border: 2px solid #fff;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 50px;
+    border-top-left-radius: 50px;
+    color: #FFF;
+
+}
+
+.popup-content{
+    background: #505050;
+    width: 99%;
+    padding: 0;
+    position: absolute;
+}
+
+
+#preview{
+    max-width: 93%;
+    height: 50%;
 }

@@ -47,8 +47,9 @@ export class RegistrationForm extends Component {
 
     render(){
                 return (
-                    <div className="container">
-                        <div className="card-header">
+                  <div id="whole-page" className="container-fluid">
+                    <div  className="container">
+                        <div className="card-header" style={{marginTop:'5%'}}>
                             <div className="form-inline">
                                 <h2>Opprett et nytt arrangement</h2>
                             </div>
@@ -115,6 +116,7 @@ export class RegistrationForm extends Component {
                             </div>
                         </form>
                     </div>
+                  </div>
                 )
     }
 

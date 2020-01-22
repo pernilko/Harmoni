@@ -4,21 +4,20 @@ import { Component } from "react-simplified";
 import {Alert} from "../../../widgets";
 import { createHashHistory } from 'history';
 import {ArtistDetails} from "./artist";
-import {eventService, Event} from "../../../services/EventService";
+import {eventService} from "../../../services/EventService";
 import {Artist, artistService} from "../../../services/ArtistService";
 import {Ticket, ticketService} from "../../../services/TicketService";
 import {UserEvent, userEventService} from "../../../services/UserEventService";
-import {Organization, organizationService} from "../../../services/OrganizationService";
 import {User, userService} from "../../../services/UserService";
 import {TicketDetails} from "./ticketDropdown";
 import MapContainer from "./map";
 import {getlatlng} from "./map";
-import {Employees, EmployeesDetails} from "./employees";
+import {EmployeesDetails} from "./employees";
 import {del_artist} from "./artist";
 import {del_ticket} from "./ticketDropdown";
 import {del_employee} from "./employees";
 import {sharedComponentData} from "react-simplified";
-import {Spinner} from "react-bootstrap";
+import {Spinner } from 'react-bootstrap';
 import Popup from "reactjs-popup";
 import Form from 'react-bootstrap/Form';
 
@@ -48,7 +47,6 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     tickets: Ticket[] = [];
     employees: UserEvent[] = [];
     add_employees: UserEvent[] = [];
-    update_employees: UserEvent[] = [];
     users: User[] = [];
     startDate: number = null;
     endDate: number = null;
@@ -77,90 +75,96 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                     this.restLoaded = true;
                 }
                 return (
-                    <div>
-                        <div className="card-header">
-                            <div className="form-inline">
-                                <h2>Rediger arrangementet</h2>
-                            </div>
-                        </div>
-                        <form className="card-body">
-                            <div className="form-group">
-                                <label>Arrangement navn:</label>
-                                <input className="form-control" placeholder="Skriv inn navn her"
-                                       value={this.event.event_name}
-                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.event_name = event.target.value)}/>
-                            </div>
-                            <Form.Group>
-                                <Form.Label>Last opp bilde</Form.Label>
-                                <Form.Control accept = "image/*" type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.event.image =
-                                event.target.files[0]}}/>
-                            </Form.Group>
-                            <div className="form-group">
-                                <label>Lokasjon:</label>
-                                <input className="form-control" placeholder="Skriv inn addresse"
-                                       value={this.event.place}
-                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.place = event.target.value)}/>
-                            </div>
-                            <div className="form-group">
-                                <label>Beskrivelse:</label>
-                                <textarea className="form-control" defaultValue={this.event.description}
-                                          onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.description = event.target.value)}/>
-                            </div>
-                            <div className="form-inline">
-                                <div className="row">
-                                    <div className="col">
-                                        <label>Start dato:</label>
-                                        <input id="startdate" className="form-control" type="date"
-                                               value={this.startDate}
-                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startDate = event.target.value)}/>
-                                    </div>
-                                    <div className="col">
-                                        <label>Start tid:</label>
-                                        <input className="form-control" type="time" value={this.startTime}
-                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startTime = event.target.value)}/>
-                                    </div>
-                                    <div className="col">
-                                        <label>Slutt dato:</label>
-                                        <input id="enddate" className="form-control" type="date" value={this.endDate}
-                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endDate = event.target.value)}/>
-                                    </div>
-                                    <div className="col">
-                                        <label>Slutt tid:</label>
-                                        <input className="form-control" type="time" value={this.endTime}
-                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endTime = event.target.value)}/>
-                                    </div>
+                    <div id="whole-page" className="container-fluid">
+                        <div className="container">
+                            <div className="card-header" style={{marginTop:'5%'}}>
+                                <div className="form-inline">
+                                    <h2>Rediger arrangementet</h2>
                                 </div>
                             </div>
-                            <div className="form-group" style={{marginTop: 20 + "px"}}>
-                                <ArtistDetails/>
-                            </div>
-                            <div className="form-group" style={{marginTop: 20 + "px"}}>
-                                <TicketDetails/>
-                            </div>
-                            <div className="form-group" style={{marginTop: 20 + "px"}}>
-                                <EmployeesDetails/>
-                            </div>
-                            <h2> Velg lokasjon på kartet: </h2>
-                            <MapContainer lat={this.event.latitude} lng={this.event.longitude} show={true} edit={true}/>
-                            <div className="btn-group" style={{width: "20%", marginLeft: "40%", padding: "20px"}}>
-                                <Popup trigger={<a
-                                    className="btn btn-success">Lagre</a>}>
-                                    {close => (
-                                        <div>
-                                            <p><b>Vil du varsle personalet om endringen(e)?</b></p>
-                                            <button className="btn btn-warning float-left ml-3" onClick={() => {
-                                                this.edit(false);
-                                            }}>Nei
-                                            </button>
-                                            <button className="btn btn-success float-right mr-3"
-                                                    onClick={() => this.edit(true)}>Ja
-                                            </button>
+                            <form className="card-body">
+                                <div className="form-group">
+                                    <label>Forhåndsvisning:</label>
+                                    <img id="preview" src={this.event.image ? this.event.image : "https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"}/>
+                                </div>
+                                <div className="form-group">
+                                    <label>Arrangement navn:</label>
+                                    <input className="form-control" placeholder="Skriv inn navn her"
+                                           value={this.event.event_name}
+                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.event_name = event.target.value)}/>
+                                </div>
+                                <Form.Group>
+                                    <Form.Label>Last opp bilde</Form.Label>
+                                    <Form.Control accept = "image/*" type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.event.image =
+                                    event.target.files[0]}}/>
+                                </Form.Group>
+                                <div className="form-group">
+                                    <label>Lokasjon:</label>
+                                    <input className="form-control" placeholder="Skriv inn addresse"
+                                           value={this.event.place}
+                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.place = event.target.value)}/>
+                                </div>
+                                <div className="form-group">
+                                    <label>Beskrivelse:</label>
+                                    <textarea className="form-control" defaultValue={this.event.description}
+                                              onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.description = event.target.value)}/>
+                                </div>
+                                <div className="form-inline">
+                                    <div className="row">
+                                        <div className="col">
+                                            <label>Start dato:</label>
+                                            <input id="startdate" className="form-control" type="date"
+                                                   value={this.startDate}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startDate = event.target.value)}/>
                                         </div>
-                                    )}
-                                </Popup>
-                                <button className="btn btn-danger" type="button" onClick={this.cancel}>Avbryt</button>
-                            </div>
-                        </form>
+                                        <div className="col">
+                                            <label>Start tid:</label>
+                                            <input className="form-control" type="time" value={this.startTime}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startTime = event.target.value)}/>
+                                        </div>
+                                        <div className="col">
+                                            <label>Slutt dato:</label>
+                                            <input id="enddate" className="form-control" type="date" value={this.endDate}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endDate = event.target.value)}/>
+                                        </div>
+                                        <div className="col">
+                                            <label>Slutt tid:</label>
+                                            <input className="form-control" type="time" value={this.endTime}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endTime = event.target.value)}/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="form-group" style={{marginTop: 20 + "px"}}>
+                                    <ArtistDetails/>
+                                </div>
+                                <div className="form-group" style={{marginTop: 20 + "px"}}>
+                                    <TicketDetails/>
+                                </div>
+                                <div className="form-group" style={{marginTop: 20 + "px"}}>
+                                    <EmployeesDetails/>
+                                </div>
+                                <h2> Velg lokasjon på kartet: </h2>
+                                <MapContainer lat={this.event.latitude} lng={this.event.longitude} show={true} edit={true}/>
+                                <div className="btn-group">
+                                    <Popup  contentStyle={{background: '#505050', width: 130 +'%', position: 'absolute', padding:0}} trigger={<a
+                                         id="save" className="btn btn-success">Lagre</a>}>
+                                        {close => (
+                                            <div className="popup-content">
+                                                <p><b>Vil du varsle personalet om endringen(e)?</b></p>
+                                                <button id="no" className="btn btn-warning float-left ml-3" onClick={() => {
+                                                    this.edit(false);
+                                                }}>Nei
+                                                </button>
+                                                <button id="yes" className="btn btn-success float-right mr-3"
+                                                        onClick={() => this.edit(true)}>Ja
+                                                </button>
+                                            </div>
+                                        )}
+                                    </Popup>
+                                    <button className="btn btn-danger" type="button" onClick={this.cancel}>Avbryt</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 )
             }else{
