@@ -3,20 +3,71 @@
   padding-left: 0;
 }
 
+.row{
+  width: inherit;
+  padding: 0;
+}
+
+.col-md-12{
+  alignment: center;
+  padding: 0;
+}
+
 .tab-list-item {
   display: inline-block;
   list-style: none;
   margin-bottom: -1px;
   padding: 0.5rem 0.75rem;
-  float: center;
 }
 
 .tab-list-active {
-  background-color: white;
-  border: solid #ccc;
+  background-color: #281121;
+  border: solid rgba(74, 33, 102, 0.31);
   border-width: 1px 1px 0 1px;
 }
+.tab-content{
+  alignment: center;
+  background: rgba(129, 129, 129, 0.14);
+}
+
 
 h1 {
   margin-bottom: 30px;
+  margin-top: 5%;
+}
+
+#tabsAllEvents.container-fluid{
+  color: #FFFFFF;
+  background: transparent;
+  align-items: center;
+  text-align: center;
+  padding: 0;
+}
+
+div .card-header{
+  background: rgba(129, 129, 129, 0.14);
+  contain: content;
+  object-fit: cover;
+}
+
+div.card-body{
+  background: rgba(34, 35, 40, 0.14);
+}
+
+.btn-group button{
+  background: transparent;
+  padding: 7px 30px;
+  margin: 30px 10px;
+  border: 2px solid #fff;
+  border-radius: 50px;
+  color: #FFF;
+}
+
+.card button{
+  background: rgba(255, 0, 127, 0.25);
+  padding: 7px 30px;
+  margin: 30px 10px;
+  border: 2px solid #fff;
+  border-radius: 50px;
+  color: #FFF;
 }

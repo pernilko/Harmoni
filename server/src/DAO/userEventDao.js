@@ -28,6 +28,4 @@ module.exports = class userEventDao extends Dao{
             [json.user_id, json.job_position,json.accepted, user_id, event_id], callback
         )
     }
-
-
 };

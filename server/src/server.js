@@ -8,12 +8,40 @@ const publicKEY = require('./keys/public.json');
 let jwt = require("jsonwebtoken");
 let bodyParser = require("body-parser");
 let nodemailer = require("nodemailer");
-let config: {host: string, user: string, password: string, email: string, email_passord: string} = require("./config")
+let config: {host: string, user: string, password: string, email: string, email_passord: string} = require("./config");
+const path = require("path");
+const {Storage} = require('@google-cloud/storage');
+const multer = require('multer');
+const fs = require('fs');
+
+
+const gc = new Storage({
+    keyFilename: path.join(__dirname, '../harmoni_google_cloud.json'),
+    projectId: 'profound-veld-253208'
+});
+
+//gc.getBuckets().then(x => console.log(x));
+
+const bucketName = 'harmoni-files';
+
+async function uploadFile(filename: string) {
+    await gc.bucket(bucketName).upload(filename, {
+        resumable: false,
+        gzip: true,
+        metadata: {
+            cacheControl: 'public, max-age=31536000',
+        }
+    });
+    console.log(`${filename} uploaded to ${bucketName}.`);
+    fs.unlinkSync(filename);
+}
+
+//uploadFile(path.join(__dirname, "../Logo.jpg"));
 
 let app = express();
 app.use(bodyParser.json());
 
-app.use("/uploadRiders", fileUpload());
+app.use("/upload", fileUpload());
 
 let DOMAIN = "localhost:3000/"
 
@@ -316,6 +344,32 @@ app.post("/event/delete/notify/:event_id", (req: Request, res: Response) => {
     });
 });
 
+app.post("/cancelled", (req, res) => {
+    let email: string = req.body.email;
+    let org_id: number = req.body.org_id;
+    let org_name: string = req.body.org_name;
+    let event: string = req.body.event_name;
+    let token: string = jwt.sign({org_id: org_id}, privateKEY.key, {
+        expiresIn: 3600
+    });
+    let url: string = DOMAIN + "#/user/" + token;
+    let mailOptions = {
+        from: "systemharmoni@gmail.com",
+        to: email,
+        subject: "ARRANGEMENT AVLYST!",
+        text: "Arrangementet " + event + " har blitt avlyst av arrangøren " + org_name
+    };
+    transporter.sendMail(mailOptions, function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Email sent!");
+        }
+        res.json(url);
+    });
+});
+
+
 app.post("/event/edit/notify/:event_id", (req: Request, res: Response) => {
     console.log("/event/add/notify/:event_id received post request from client");
     let name: string = req.body.name;
@@ -346,6 +400,14 @@ app.post("/event/edit/notify/:event_id", (req: Request, res: Response) => {
 app.get("/artist/all", (req : Request, res: Response) => {
     console.log("/artists/all: received get request from client");
     artistDao.getAll((status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.get("/artist/rider/:id",(req:Request,res:Response)=>{
+    console.log("/artist/:id/rider: received get request from client");
+    artistDao.getRiders(req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
     });
@@ -454,7 +516,7 @@ app.delete("/artist/delete/:id", (req : Request, res: Response) => {
         }
       });
 });
-
+/*
 app.post('/uploadRiders/:artist_id', function(req, res) {
     console.log("received post request for uploading rider");
     if (!req.files || Object.keys(req.files).length === 0) {
@@ -490,7 +552,7 @@ app.post('/uploadRiders/:artist_id', function(req, res) {
                 res.json(data);
             })
         }
-});
+});*/
 
 app.put('/uploadRiders/:artist_id', function(req, res) {
     console.log("received post request for uploading rider");
@@ -529,18 +591,49 @@ app.put('/uploadRiders/:artist_id', function(req, res) {
     }
 });
 
-app.post('/uploadHospitality_Riders/:artist_id', (req, res)=> {
-    console.log("received post request for uploading hospitality_rider with artist_id: " + req.params.artist_id);
+app.put('/upload/riders/:artist_id', (req, res)=> {
+    console.log("/upload/Hospitality_Riders received an update request from client ");
+    //const file = req.file;
     if (!req.files || Object.keys(req.files).length === 0) {
-        return res.status(400).send("no files uploaded");
+        return res.status(400);
+    }
+    let ridersFileName: string = "";
+    let hospitality_ridersFileName: string = "";
+    let artist_contractFileName: string = "";
+
+    if(req.files.riders){
+        let ridersFile = req.files.riders;
+        ridersFileName = Date.now() + "-" + ridersFile.name;
+
+        ridersFile.mv(path.join(__dirname,'uploads/'+ ridersFileName ), err=>{
+            if(err)return res.status(500);
+        });
+        uploadFile(path.join(__dirname,'uploads/'+ ridersFileName));
+    }
+    if(req.files.hospitality_rider){
+        let hospitality_ridersFile = req.files.hospitality_rider;
+        hospitality_ridersFileName = Date.now() + "-" + hospitality_ridersFile.name;
+
+        hospitality_ridersFile.mv(path.join(__dirname,'uploads/'+ hospitality_ridersFileName ), err=>{
+            if(err)return res.status(500);
+        });
+        uploadFile(path.join(__dirname, 'uploads/' + hospitality_ridersFileName));
+    }
+    if(req.files.artist_contract){
+        let artist_contractFile = req.files.artist_contract;
+        artist_contractFileName = Date.now() + "-" + artist_contractFile.name;
+        artist_contractFile.mv(path.join(__dirname,'uploads/'+artist_contractFileName ), err=>{
+            if(err)return res.status(500);
+        });
+        uploadFile(path.join(__dirname, 'uploads/' + artist_contractFileName));
     }
 
-    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-    let sampleFile = req.files.image;
-    console.log("from uploadRiders: ");
-    console.log(sampleFile);
+    artistDao.updateRiders(req.params.artist_id, ridersFileName, hospitality_ridersFileName, artist_contractFileName, (status, data)=>{
+        res.status(status);
+        res.json(data);
+    });
 });
-
+/*
 app.post('/uploadArtist_Contract/:artist_id', (req, res)=>{
     console.log("received post request for uploading artist_contract");
     if (!req.files || Object.keys(req.files).length === 0) {
@@ -558,6 +651,9 @@ app.post('/uploadArtist_Contract/:artist_id', (req, res)=>{
     });
 });
 
+ */
+
+/*
 app.get('/Riders/:artist_id', (req, res)=>{
     console.log("received get request for getting riders");
 
@@ -566,6 +662,7 @@ app.get('/Riders/:artist_id', (req, res)=>{
         res.json(data);
     });
 });
+ */
 
 //TICKET
 app.get("/ticket/all", (req : Request, res: Response) => {
@@ -615,6 +712,8 @@ app.delete("/ticket/delete/:id", (req : Request, res: Response) => {
         res.json(data);
     });
 });
+
+
 
 app.get("/ticket/event/:event_id", (req : Request, res: Response) => {
     console.log("/ticket/event: received get request from client");
@@ -686,6 +785,14 @@ app.put("/userEvent/update/:user_id/:event_id", (req: Request, res: Response) =>
 app.get("/user/all/:id", (req: Request, res: Response) => {
     console.log("/user/all/:id received get request from client");
     userDao.getAllUsersByOrgId(req.params.id, (status, data)=>{
+        res.status(status);
+        res.json(data);
+    });
+});
+
+app.put("/user/makeAdmin/:id", (req: Request, res: Response) => {
+    console.log("/user/makeAdmin/:id received get request from client");
+    userDao.makeAdmin(req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
     });
@@ -1227,5 +1334,115 @@ app.post("/forgotPass", (req, res) => {
         res.json(url);
     });
 });
+
+/*app.use("/upload/",function (req, res, next: function) {
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+    console.log(req.files.myFile);
+
+    let myFile = req.files.myFile;
+    let fileName = Date.now() + "-" + myFile.name;
+
+    myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
+        if(err)return res.status(500);
+    });
+    uploadFile(path.join(__dirname,'uploads/'+ fileName)).then(()=>{
+        fs.unlinkSync(path.join(__dirname,'uploads/'+ fileName));
+    });
+    next();
+});*/
+
+app.put("/upload/Profile/editImage/:id", (req, res) =>{
+    console.log("/Profile/edit received an update request from client ");
+        //const file = req.file;
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+    console.log(req.files.myFile);
+
+    let myFile = req.files.myFile;
+    let fileName = Date.now() + "-" + myFile.name;
+
+    myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
+        if(err)return res.status(500);
+    });
+    uploadFile(path.join(__dirname,'uploads/'+ fileName));
+
+    userDao.updateUserImage(req.params.id, fileName, (status, data)=>{
+            res.status(status);
+            res.json(data);
+    });
+});
+
+app.post("/upload/event/editImage/:id", (req, res) =>{
+    console.log("/Profile/edit received an update request from client ");
+        //const file = req.file;
+        if (!req.files || Object.keys(req.files).length === 0) {
+            return res.status(400).send('No files were uploaded.');
+        }
+        console.log(req.files.myFile);
+
+        let myFile = req.files.myFile;
+        let fileName = Date.now() + "-" + myFile.name;
+
+        myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
+            if(err)return res.status(500);
+        });
+        uploadFile(path.join(__dirname,'uploads/'+ fileName));
+        eventDao.updateEventImage(req.params.id, fileName, (status, data)=>{
+            res.status(status);
+            res.json(data);
+        });
+});
+
+app.post("/upload/organization/editImage/:id", (req, res) =>{
+    console.log("/Profile/edit received an update request from client ");
+        //const file = req.file;
+        if (!req.files || Object.keys(req.files).length === 0) {
+            return res.status(400).send('No files were uploaded.');
+        }
+        console.log(req.files.myFile);
+
+        let myFile = req.files.myFile;
+        let fileName = Date.now() + "-" + myFile.name;
+
+        myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
+            if(err)return res.status(500);
+        });
+        uploadFile(path.join(__dirname,'uploads/'+ fileName));
+        organizationDAO.updateOrgImage(req.params.id, fileName, (status, data)=>{
+            res.status(status);
+            res.json(data);
+        });
+    });
+
+app.post('/uploadfile', (req, res) => {
+  //const file = req.file;
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+    console.log(req.files.myFile);
+
+    let myFile = req.files.myFile;
+
+    myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
+        if(err)return res.status(500);
+        res.json('File was uploaded');
+    });
+
+    /*sampleFile.mv('/somewhere/on/your/server/filename.jpg', function(err) {
+        if (err)
+            return res.status(500).send(err);
+
+        res.send('File uploaded!');
+    });*/
+  /*if (!file) {
+    const error = new Error('Please upload a file')
+    error.httpStatusCode = 400
+    return next(error)
+  }*/
+});
+
 
 let server = app.listen(8080);

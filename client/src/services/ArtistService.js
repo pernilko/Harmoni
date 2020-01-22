@@ -29,6 +29,21 @@ export class Artist {
     }
 }
 
+export class File{
+    artist_id:number;
+    name:string;
+    data:any;
+    mimetype:string;
+
+    constructor(artist_id:number,name:string, data: any,mimetype:string){
+        this.artist_id=artist_id;
+        this.name=name;
+        this.data=data;
+        this.mimetype=mimetype;
+    }
+}
+
+
 class ArtistService {
     getAllArtists() {
         return axios.get<Artist[]>(url + "artist/all").then(response => response.data);
@@ -36,6 +51,10 @@ class ArtistService {
 
     getEventArtists(event_id: number) {
         return axios.get<Artist[]>(url + "artist/event/" + event_id).then(response => response.data);
+    }
+
+    getArtistRider(artist_id:number){
+         return axios.get<File>(url+"artist/rider/"+artist_id).then(response => response.data[0]);
     }
 
     getOneArtist(id: number) {
@@ -61,8 +80,8 @@ class ArtistService {
             console.log("response from post artist/add");
             console.log(response.data[0]);
             return axios<{}>({
-                url: url +'uploadRiders/' + response.data[0].artist_id,
-                method: 'post',
+                url: url +'upload/riders/' + response.data[0].artist_id,
+                method: 'put',
                 data: fd_riders,
                 headers: {
                     "Content-Type": "multipart/form-data"
@@ -71,7 +90,16 @@ class ArtistService {
         });
     }
 
-
+    /**
+     * Metode for å oppdatere informasjon om en artist. Legger først inn kontatkinfo, så filer for riders, hospitality riders og artistkontrakt.
+     * @param artist_id {number} tar inn id for hvilken artist som skal redigeres.
+     * @param artist_name {string} tar inn nytt navn på artist som skal redigeres.
+     * @param ridersFile {File} tar inn hvilken riders pdf-fil som skal lastes opp til gcloud og kobles til artisten som skal redigeres.
+     * @param hospitality_ridersFile {File} tar inn hvilken hospitality riders pdf-fil som skal lastes opp til gcloud og kobles til artisten som skal redigeres.
+     * @param artist_contract
+     * @param email
+     * @param phone
+     */
     updateArtist(artist_id: number, artist_name, ridersFile: File, hospitality_ridersFile: File, artist_contract: File, email, phone) {
         let fd_riders:FormData = new FormData();
         fd_riders.append("riders", ridersFile);
@@ -84,7 +112,7 @@ class ArtistService {
             "phone": phone
         }).then(()=> {
             return axios<{}>({
-                url: url +'uploadRiders/' + artist_id,
+                url: url +'upload/riders/' + artist_id,
                 method: 'put',
                 data: fd_riders,
                 headers: {

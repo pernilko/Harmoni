@@ -1,3 +1,4 @@
+//@Flow
 import * as React from 'react';
 import { Component } from "react-simplified";
 import {EventService} from '../../../services/EventService';
@@ -14,12 +15,25 @@ const history = createHashHistory();
 
 let eventService = new EventService();
 
+/**
+ * @requires react
+ * @requires react-simplified
+ * @requires history
+ * @requires reactjs-popup
+ * @requires react-router-dom
+ * @extends Component
+ * @constructor
+ * @param {{number}} match.params.id - Dette skal være arrangement IDen som skal kanselleres
+ */
 export class CancelledEvent extends Component<{ match: { params: { id: number } } }>  {
   event_id = this.props.match.params.id;
   loaded: boolean = false;
   hidden: boolean = true;
   bugreport: string = "";
 
+  /**
+   * Denne konstruktøren lager en tilstand for arangement, slik at den oppdateres hver gang det kommer et nytt arrangement
+   */
   constructor(props){
     super(props);
     this.loaded = false;
@@ -28,6 +42,11 @@ export class CancelledEvent extends Component<{ match: { params: { id: number } 
     };
     this.mounted = this.mounted.bind(this);
   }
+
+  /**
+   * Denne funksjonen vil lage en komponent for en popup som kommer når du skal kansellere et arangement
+   * @returns {*} komponent som vises når man klikker på avlys arangement
+   */
   render() {
     if(this.loaded){
       let e: Event = this.state["event"];
@@ -72,6 +91,10 @@ export class CancelledEvent extends Component<{ match: { params: { id: number } 
       return <div/>
     }
   }
+
+  /**
+   * Dette er en funskjon som kjøres en gang før render kjøres
+   */
   mounted() {
     eventService.getEventId(this.event_id).then(r => {
       let event = r;
@@ -81,10 +104,17 @@ export class CancelledEvent extends Component<{ match: { params: { id: number } 
     })
   }
 
+  /**
+   * Dette er en funskjon som gjør komponenten synlig
+   */
   show(){
     this.hidden = false;
   }
 
+
+  /**
+   * Denne metoden sender en bug rapport til administrator
+   */
   sendReport(){
     organizationService.reportBug("pernilko@stud.ntnu.no", userService.currentUser.org_id, organizationService.currentOrganization.org_name, this.bugreport)
       .then((e) => {

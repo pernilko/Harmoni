@@ -25,9 +25,9 @@
 
 #topBanner{
     height: 40px;
-    margin-left: 15px;
     padding-top: 5px;
     text-align: center;
+
 }
 
 p {
@@ -55,7 +55,6 @@ p {
 .artistContainer {
 }
 
-
 .redBG{
     background: #dE685E;
     color: white;
@@ -66,7 +65,7 @@ p {
 }
 
 .artistCard{
-    padding-bottom: 50px;
+    padding-bottom: 10px;
 }
 
 
@@ -81,4 +80,134 @@ p {
     height: 25px;
     border-radius: 20px;
     text-align: center;
+    width: 100%;
+}
+
+#cardImg{
+    height: 500px;
+    width: 100%;
+    overflow: hidden;
+    object-fit: inherit;
+}
+
+.w94{
+    width: 93%;
+}
+
+#con {
+    background: rgba(129, 129, 129, 0.14);
+}
+
+.form-control  {
+    color: white;
+    background: rgba(129, 129, 129, 0.18);
+    border-color: #505050;
+}
+
+
+.form-group{
+    color: white;
+    background: rgba(129, 129, 129, 0.18);
+    border-color: #505050;
+
+}
+
+
+.input .form-group  ::placeholder{
+    color: #FFFFFF;
+}
+
+.card{
+    background: rgba(129, 129, 129, 0.18);
+    left: 4%;
+}
+
+#eventPreview {
+    background: rgb(255, 255, 255);
+    color: black;
+    border-color: #505050;
+    width: 160%;
+    left: -30%
+}
+
+.btn-group button{
+    background: transparent;
+    padding: 7px 30px;
+    margin: 30px 10px;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    color: #FFF;
+}
+
+.card button{
+    background: rgba(255, 0, 127, 0.25);
+    padding: 7px 30px;
+    margin: 30px 10px;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    color: #FFF;
+}
+
+input{
+    background: transparent;
+    border: 2px solid #505050;
+}
+
+#whole-page{
+    background: linear-gradient(#222328, #551C3A) 100%;
+}
+
+.btn-group #save {
+    background: transparent;
+    padding: 7px 30px;
+    margin: 30px 10px;
+    border: 2px solid #fff;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 50px;
+    border-top-left-radius: 50px;
+    color: #FFF;
+}
+
+.btn-group #save:hover {
+    background: green;
+    padding: 7px 30px;
+    margin: 30px 10px;
+    border: 2px solid #fff;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 50px;
+    border-top-left-radius: 50px;
+    color: #FFF;
+
+}
+
+.popup-content{
+    background: #505050;
+    width: 99%;
+    padding: 0;
+    position: absolute;
+}
+
+
+#preview{
+    max-width: 93%;
+    height: 50%;
+}
+
+#eventBody{
+    height: 100%;
+}
+
+.buttonContainer{
+    background: transparent;
+    display: inline-block;
+    padding: 0;
+
+}
+
+.card-link {
+    background: transparent;
+    padding: 7px 30px;
+    margin: 30px 10px;
+    border: 2px solid #fff;
+    color: #FFF;
 }

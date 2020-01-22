@@ -3,6 +3,7 @@ import axios from 'axios';
 import {Alert} from "../widgets";
 import {sharedComponentData} from "react-simplified";
 import {Organization, organizationService} from "./OrganizationService";
+import {Artist, File} from "./ArtistService";
 
 let url: string = "http://localhost:8080/";
 
@@ -15,7 +16,7 @@ export class User {
     password: string = -1;
     address: string = "";
     phone: string = "";
-    image: string = "";
+    image: File = null;
     reg_date: string = "";
     p_create_event: number = 0;
     p_read_contract: number = 0;
@@ -100,6 +101,20 @@ class UserService {
         }).then(response=>response.data);
     }
 
+
+    addProfilePicture(user_id: number, picture: File) {
+        let fd:FormData = new FormData();
+        fd.append("myFile", picture);
+        return axios<{}>({
+                url: url +'upload/Profile/editImage/'+user_id,
+                method: 'put',
+                data: fd,
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+    }
+
     updateEmail(user_id: number, email: string){
         return axios.put<{}, User>(url + 'Profile/editEmail/' + user_id,
           {"email": email}) .then(response => response.data);
@@ -173,7 +188,7 @@ class UserService {
     }
 
     getAdminByOrgId(org_id: number){
-        return axios.get<User>(url +"user/admin/"+ org_id).then(response => response.data[0])
+        return axios.get<User[]>(url +"user/admin/"+ org_id).then(response => response.data)
     }
     
     verifiserAdminOgOrg(org_name: string, org_email: string, org_phone: string, user_email: string, user_privileges, user_user_name, user_password, user_address, user_phone){
@@ -188,6 +203,10 @@ class UserService {
             "user_address": user_address,
             "user_phone": user_phone
         }).then(res=>res.data);
+    }
+
+    makeAdmin(user_id: number) {
+        return axios.put<{}>(url + "user/makeAdmin/"+user_id).then(res => res.data);
     }
 }
 

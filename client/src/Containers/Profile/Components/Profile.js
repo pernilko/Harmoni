@@ -8,30 +8,32 @@ import { createHashHistory } from 'history';
 import {Row, Alert} from '../../../widgets';
 import {sharedComponentData} from 'react-simplified';
 import Form from 'react-bootstrap/Form';
+import "./Profile.css";
 
 const history = createHashHistory();
 let emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
 
 export class Profile extends Component{
   user: User = new User();
   hidden: boolean = true;
   repeatedPassword: string = "";
+  imageFile: File = null;
 
   render() {
     if (userService.currentUser) {
-      return <div>
-        <h2 className="card-header"> Hei, {userService.currentUser.user_name}!</h2>
+      return <div id="whole-page" className="container-fluid">
+      <div id="con" className="container">
+        <h2 className="card-header" style={{marginTop:20+'px'}}> Hei, {userService.currentUser.user_name}!</h2>
         <Container style={{padding: "0px"}}>
-        <Tab.Container id="left-tabs-" defaultActiveKey="first">
+        <Tab.Container  defaultActiveKey="first">
           <Row>
             <Col lg={3}>
               <div>
-              <Image src="https://i.ytimg.com/vi/_c1NJQ0UP_Q/maxresdefault.jpg"
+              <Image src={userService.currentUser.image ? userService.currentUser.image : "https://www.simplifai.ai/wp-content/uploads/2019/06/blank-profile-picture-973460_960_720-400x400.png"}
                      roundedCircle width={240 + 'px'}
                      height={220 + 'px'} style={{marginTop: 10 + 'px' ,marginBottom: 20 +'px'}}/>
               <br/>
-              <Nav variant="pills" className="flex-column" >
+              <Nav id="left-tabs" variant="pills" className="flex-column" >
                 <Nav.Item>
                   <Nav.Link eventKey="first">Bruker informasjon</Nav.Link>
                 </Nav.Item>
@@ -47,37 +49,23 @@ export class Profile extends Component{
               </Nav>
               </div>
             </Col>
-            <Col lg={9}>
+            <Col style={{padding: 0}} lg={9}>
+              <div id="hi">
               <Tab.Content>
                 <Tab.Pane eventKey="first">
-                  <Card style={{ borderRight: 'none', borderTop: 'none', borderBottom: 'none', paddingLeft: 30 + 'px'}}>
+                  <Card>
                     <Card.Body>
                       <h2>Profil instillinger</h2>
                       <br/>
                       <h6>Email knyttet til bruker: </h6>
                       <p style={{color:'grey'}}>{userService.currentUser.email}</p>
-                      <Button variant="primary" onClick={this.click}>Endre</Button>
-                      <div hidden={this.hidden}>
-                        <br/>
-                        <Form.Group>
-                          <Form.Label> Fyll inn ny e-mail adresse</Form.Label>
-                          <Form.Control style={{width: 600 + 'px'}}
-                                        type="input"
-                                        placeholder={userService.currentUser.email}
-                                        onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.user.email =
-                                        event.target.value}}/>
-                        </Form.Group>
-                        <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.change}>Bekreft</Button>
-                        <br/>
-                        <br/>
-                      </div>
                       <br/>
                       <br/>
                       <h3>Endre profilbilde</h3>
                       <Form.Group>
                           <Form.Label>Last opp bilde</Form.Label>
-                          <Form.Control type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.user.image =
-                            event.target.value}}/>
+                          <Form.Control accept = "image/*" type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.user.image =
+                            event.target.files[0]}}/>
                       </Form.Group>
                       <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.changePB}>Endre</Button>
                       <br/>
@@ -141,49 +129,31 @@ export class Profile extends Component{
                  </Card>
                 </Tab.Pane>
               </Tab.Content>
+              </div>
             </Col>
           </Row>
         </Tab.Container>
           </Container>
+      </div>
       </div>
     } else {
       return <Spinner animation="border"/>
     }
   }
 
-  click() {
-    this.hidden = false;
-  }
-
-  change(){
-    //Change email
-    if(this.user.email.length !==0 && emailRegEx.test(this.user.email)){
-      userService
-        .updateEmail(userService.currentUser.user_id, this.user.email)
-        .then(() => {
-          if(userService.currentUser){
-            Alert.success("Mail er oppdatert");
-            userService.autoLogin();
-            history.push("/Profile");
-          }
-        })
-    }else{
-      Alert.danger("Ikke gyldig E-mail addresse");
-    }
-  }
   // Change profile picture
   changePB(){
-    if(this.user.image.length !==0){
+    console.log("BILDE: ", this.user.image);
       userService
-        .updateImage(userService.currentUser.user_id, this.user.image)
+        .addProfilePicture(userService.currentUser.user_id, this.user.image)
         .then(() => {
           if(userService.currentUser){
             Alert.success("Profilbildet er oppdatert");
             userService.autoLogin();
-            history.push("/Profile");
+            window.location.reload()
           }
         })
-    }
+
   }
   // Change info
   changeInfo(){

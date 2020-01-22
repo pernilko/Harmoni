@@ -4,22 +4,22 @@ import { Component } from "react-simplified";
 import {Alert} from "../../../widgets";
 import { createHashHistory } from 'history';
 import {ArtistDetails} from "./artist";
-import {eventService, Event} from "../../../services/EventService";
+import {eventService} from "../../../services/EventService";
 import {Artist, artistService} from "../../../services/ArtistService";
 import {Ticket, ticketService} from "../../../services/TicketService";
 import {UserEvent, userEventService} from "../../../services/UserEventService";
-import {Organization, organizationService} from "../../../services/OrganizationService";
 import {User, userService} from "../../../services/UserService";
 import {TicketDetails} from "./ticketDropdown";
 import MapContainer from "./map";
 import {getlatlng} from "./map";
-import {Employees, EmployeesDetails} from "./employees";
+import {EmployeesDetails} from "./employees";
 import {del_artist} from "./artist";
 import {del_ticket} from "./ticketDropdown";
 import {del_employee} from "./employees";
 import {sharedComponentData} from "react-simplified";
-import {Spinner} from "react-bootstrap";
+import {Spinner} from 'react-bootstrap';
 import Popup from "reactjs-popup";
+import Form from 'react-bootstrap/Form';
 
 const history = createHashHistory();
 
@@ -27,6 +27,16 @@ const original_artists: Artist[] = [];
 const original_tickets: Ticket[] = [];
 const original_employees: UserEvent[] = [];
 
+/**
+ * @requires react
+ * @requires react-simplified
+ * @requires history
+ * @requires react-bootstrap
+ * @requires reactjs-popup
+ * @extends Component
+ * @constructor
+ * @param {{number}} match.params.event_id - Dette er IDen til arangementet som skal redigeres
+ */
 export class EditEvent extends Component <{match: {params: {event_id: number}}}> {
     event: any = null;
     artists: Artist[]=[];
@@ -37,7 +47,6 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     tickets: Ticket[] = [];
     employees: UserEvent[] = [];
     add_employees: UserEvent[] = [];
-    update_employees: UserEvent[] = [];
     users: User[] = [];
     startDate: number = null;
     endDate: number = null;
@@ -50,97 +59,121 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     empDet: any = null;
     changed: boolean = false;
 
+    /**
+     * Dette er funksjonen som skal lage en HTML komponent som lar deg redigere et arrangement
+     * @returns {*} Denne funksjonen returnerer en komponent som lar oss redigere arrangement
+     */
     render() {
         if(!this.loaded){
             this.load();
             this.loaded = true;
         }
         if (this.event && this.tickets && this.artists && userService.currentUser) {
-            if(this.event.user_id == userService.currentUser.user_id || userService.currentUser.privileges == 1) {
+            if(this.event.user_id === userService.currentUser.user_id || userService.currentUser.privileges === 1) {
                 if(!this.restLoaded){
                     this.loadRest();
                     this.restLoaded = true;
                 }
                 return (
-                    <div>
-                        <div className="card-header">
-                            <div className="form-inline">
-                                <h2>Rediger arrangementet</h2>
-                            </div>
-                        </div>
-                        <form className="card-body">
-                            <div className="form-group">
-                                <label>Arrangement navn:</label>
-                                <input className="form-control" placeholder="Skriv inn navn her"
-                                       value={this.event.event_name}
-                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.event_name = event.target.value)}/>
-                            </div>
-                            <div className="form-group">
-                                <label>Lokasjon:</label>
-                                <input className="form-control" placeholder="Skriv inn addresse"
-                                       value={this.event.place}
-                                       onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.place = event.target.value)}/>
-                            </div>
-                            <div className="form-group">
-                                <label>Beskrivelse:</label>
-                                <textarea className="form-control" defaultValue={this.event.description}
-                                          onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.description = event.target.value)}/>
-                            </div>
-                            <div className="form-inline">
-                                <div className="row">
-                                    <div className="col">
-                                        <label>Start dato:</label>
-                                        <input id="startdate" className="form-control" type="date"
-                                               value={this.startDate}
-                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startDate = event.target.value)}/>
-                                    </div>
-                                    <div className="col">
-                                        <label>Start tid:</label>
-                                        <input className="form-control" type="time" value={this.startTime}
-                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startTime = event.target.value)}/>
-                                    </div>
-                                    <div className="col">
-                                        <label>Slutt dato:</label>
-                                        <input id="enddate" className="form-control" type="date" value={this.endDate}
-                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endDate = event.target.value)}/>
-                                    </div>
-                                    <div className="col">
-                                        <label>Slutt tid:</label>
-                                        <input className="form-control" type="time" value={this.endTime}
-                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endTime = event.target.value)}/>
-                                    </div>
+                    <div id="whole-page" className="container-fluid">
+                        <div id="con" className="container">
+                            <div className="card-header" style={{marginTop:'5%'}}>
+                                <div className="form-inline">
+                                    <h2>Rediger arrangementet</h2>
                                 </div>
                             </div>
-                            <div className="form-group" style={{marginTop: 20 + "px"}}>
-                                <ArtistDetails/>
-                            </div>
-                            <div className="form-group" style={{marginTop: 20 + "px"}}>
-                                <TicketDetails/>
-                            </div>
-                            <div className="form-group" style={{marginTop: 20 + "px"}}>
-                                <EmployeesDetails/>
-                            </div>
-                            <h2> Velg lokasjon på kartet: </h2>
-                            <MapContainer lat={this.event.latitude} lng={this.event.longitude} show={true} edit={true}/>
-                            <div className="btn-group" style={{width: "20%", marginLeft: "40%", padding: "20px"}}>
-                                <Popup trigger={<a
-                                    className="btn btn-success">Lagre</a>}>
-                                    {close => (
-                                        <div>
-                                            <p><b>Vil du varsle personalet om endringen(e)?</b></p>
-                                            <button className="btn btn-warning float-left ml-3" onClick={() => {
-                                                this.edit(false);
-                                            }}>Nei
-                                            </button>
-                                            <button className="btn btn-success float-right mr-3"
-                                                    onClick={() => this.edit(true)}>Ja
-                                            </button>
+                            <form className="card-body">
+                                <div className="form-group">
+                                    <label>Forhåndsvisning:</label>
+                                    <img id="preview" src={this.event.image ? this.event.image : "https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"}/>
+                                </div>
+                                <div className="form-group">
+                                    <label>Arrangement navn:</label>
+                                    <input className="form-control" placeholder="Skriv inn navn her"
+                                           value={this.event.event_name}
+                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.event_name = event.target.value)}/>
+                                </div>
+                                <Form.Group>
+                                    <Form.Label>Last opp bilde</Form.Label>
+                                    <Form.Control accept = "image/*" type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {
+                                        if(event.target.files[0]) {
+                                            let ascii = /^[ -~]+$/;
+
+                                            if (!ascii.test(event.target.files[0].name)) {
+                                                Alert.danger("Ugyldig filnavn: unngå å bruke bokstavene 'Æ, Ø og Å'");
+                                            } else {
+                                                this.event.image = event.target.files[0];
+                                            }
+                                        }
+                                    }}/>
+                                </Form.Group>
+                                <div className="form-group">
+                                    <label>Lokasjon:</label>
+                                    <input className="form-control" placeholder="Skriv inn addresse"
+                                           value={this.event.place}
+                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.place = event.target.value)}/>
+                                </div>
+                                <div className="form-group">
+                                    <label>Beskrivelse:</label>
+                                    <textarea className="form-control" defaultValue={this.event.description}
+                                              onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.description = event.target.value)}/>
+                                </div>
+                                <div className="form-inline">
+                                    <div className="row">
+                                        <div className="col">
+                                            <label>Start dato:</label>
+                                            <input id="startdate" className="form-control" type="date"
+                                                   value={this.startDate}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startDate = event.target.value)}/>
                                         </div>
-                                    )}
-                                </Popup>
-                                <button className="btn btn-danger" type="button" onClick={this.cancel}>Avbryt</button>
-                            </div>
-                        </form>
+                                        <div className="col">
+                                            <label>Start tid:</label>
+                                            <input className="form-control" type="time" value={this.startTime}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startTime = event.target.value)}/>
+                                        </div>
+                                        <div className="col">
+                                            <label>Slutt dato:</label>
+                                            <input id="enddate" className="form-control" type="date" value={this.endDate}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endDate = event.target.value)}/>
+                                        </div>
+                                        <div className="col">
+                                            <label>Slutt tid:</label>
+                                            <input className="form-control" type="time" value={this.endTime}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endTime = event.target.value)}/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="form-group" style={{marginTop: 20 + "px"}}>
+                                    <ArtistDetails/>
+                                </div>
+                                <div className="form-group" style={{marginTop: 20 + "px"}}>
+                                    <TicketDetails/>
+                                </div>
+                                <div className="form-group" style={{marginTop: 20 + "px"}}>
+                                    <EmployeesDetails/>
+                                </div>
+                                <h2> Velg lokasjon på kartet: </h2>
+                                <MapContainer lat={this.event.latitude} lng={this.event.longitude} show={true} edit={true}/>
+                                <div className="btn-group">
+                                    <Popup  contentStyle={{background: '#505050', width: 130 +'%', position: 'absolute', padding:0}} trigger={<a
+                                         id="save" className="btn btn-success">Lagre</a>}>
+                                        {close => (
+                                            <div className="popup-content">
+                                                <p><b>Vil du varsle personalet om endringen(e)?</b></p>
+                                                <button id="no" className="btn btn-warning float-left ml-3" onClick={() => {
+                                                    this.edit(false);
+                                                }}>Nei
+                                                </button>
+                                                <button id="yes" className="btn btn-success float-right mr-3"
+                                                        onClick={() => this.edit(true)}>Ja
+                                                </button>
+                                            </div>
+                                        )}
+                                    </Popup>
+                                    <button className="btn btn-danger" type="button" onClick={this.cancel}>Avbryt</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 )
             }else{
@@ -151,7 +184,10 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             return <Spinner animation="border"></Spinner>
         }
     }
-    
+
+    /**
+     * Denne funksjonen sørger for at all data er lastet inn før komponenten blir generert
+     */
     load() {
         eventService
             .getEventId(this.props.match.params.event_id)
@@ -170,12 +206,20 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 this.getEmployees(this.props.match.params.event_id);
             })*/
     }
+    /**
+     * Denne funksjonen sørger for at alle ting blir lastet in skikkelig
+     * *Fiks dette etterpå*
+     */
     loadRest(){
         this.getArtists(this.props.match.params.event_id);
         this.getTickets(this.props.match.params.event_id);
         this.getEmployees(this.props.match.params.event_id);
     }
 
+    /**
+     * Denne funskjonen skal gi oss alle artister som er knyttet til en arrangement
+     * @param val - Dette er IDen til arrangementet som vi skal ha artistene til
+     */
     getArtists(val: number) {
         artistService
             .getEventArtists(val)
@@ -187,6 +231,11 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 s.artist.map(a => original_artists.push(a));
             })
     }
+
+    /**
+     * Denne funksjonen skal gi oss alle billetter som er knyttet til et arrangement
+     * @param val - Dette er IDen til arrangementet som vi skal ha billettene til
+     */
 
     getTickets(val: number){
         ticketService   
@@ -200,6 +249,10 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             })
     }
 
+    /**
+     * Denne funksjonen skal gi oss alle brukere som er satt på dette arrangementet
+     * @param val - Dette er IDen til arrangementet som vi skal ha billetten til
+     */
     getEmployees(val: number) {
         userEventService
             .getAllbyId(val)
@@ -213,15 +266,22 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             })
     }
 
+    /**
+     * Denne funksjonen skal finalisere en redigering av et arrangement, og oppdatere det til databasen
+     * @param sendMail - Dette er en boolean som skal si oss om man skal sende mail om endring til brukerne i arrangementet
+     * True=mail skal sendes
+     * False=mail skal ikke sendes
+     */
     edit(sendMail: boolean){
         this.lat = getlatlng()[0];
         this.lng = getlatlng()[1];
         //console.log(this.startDate);
         //Don't know what to do with lat and long. But Dilawar knows.
         eventService
-            .updateEvent(this.props.match.params.event_id, this.event.event_name, this.event.description, this.event.place,this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", this.lng, this.lat, null)
+            .updateEvent(this.props.match.params.event_id, this.event.event_name, this.event.description, this.event.place,this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00", this.lng, this.lat)
             .then(response => {
                 console.log(response);
+                this.changePic(this.props.match.params.event_id)
                 this.updateAddArtists();
                 this.updateAddTickets();
                 this.updateAddEmployees();
@@ -239,7 +299,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 }
                 console.log(this.employees.length);
                 console.log(original_employees.length);
-                if (this.add_employees.length == 0 && del_employee.length == 0) {
+                if (this.add_employees.length !== 0 || del_employee.length !== 0) {
                     this.notifyEdit(this.props.match.params.event_id, this.event.event_name, original_employees);
                 }
             })
@@ -247,7 +307,9 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         history.push("/allEvents");
         Alert.success("Arrangementet ble redigert.");
     }
-
+    /**
+     * Dette er en metode for å oppdatere artister i redigerings modus
+     */
     updateAddArtists() {
 
         //console.log(this.artists);
@@ -275,6 +337,9 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         this.update_artists = update;
     }
 
+    /**
+     * Dette er en metode for å oppdatere en biletter i redigerings modus
+     */
     updateAddTickets() {
 
         /*console.log(this.tickets);
@@ -303,6 +368,10 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         this.update_tickets = update;
     }
 
+    /**
+     * Dette er en funskjon for å legge brukere til arrangementet i redigerings modus
+     */
+
     updateAddEmployees() {
         let add: UserEvent[] = [];
         this.employees.map(e => {
@@ -322,6 +391,10 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         this.add_employees = add;
     }
 
+    /**
+     * Dette er en funksjon som finaliserer artist, og sender artister til database
+     * @param artists - Dette er en liste med artister som skal sendes til database
+     */
     updateArtists(artists: Artist[]) {
         console.log("UPDATE ARTISTS: ", artists);
         artists.map(a => {
@@ -331,6 +404,10 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         });
     }
 
+    /**
+     * Dette er en funksjon som sletter alle artister knyttet til et arragement
+     * @param artists - Liste av artister som skal slettes
+     */
     deleteArtists(artists: Artist[]) {
         console.log("DELETE ARTISTS: ", artists);
         artists.map(a => {
@@ -340,6 +417,10 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         })
     }
 
+    /**
+     * Dette er en funksjon som legger til flere nye artister til et arrangement
+     * @param artists - Dette er en liste over nye artister
+     */
     addArtists(artists: Artist[]) {
         console.log("ADD ARTISTS: ", artists);
         artists.map(a => {
@@ -349,6 +430,10 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         })  
     }
 
+    /**
+     * Dette er en funksjon som oppdaterer billetter i et arrangement
+     * @param tickets - Dette er en liste over nye billetter
+     */
     updateTickets(tickets: Ticket[]) {
         console.log("UPDATE TICKETS: ", tickets);
         tickets.map(t => {
@@ -358,6 +443,10 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         })
     }
 
+    /**
+     * Dette er en funksjon som legger til nye billetter i et arrangement
+     * @param tickets - Dette er en liste over nye billetter
+     */
     addTickets(tickets: Ticket[]) {
         console.log("ADD TICKETS: ", tickets);
         tickets.map(t => {
@@ -367,6 +456,10 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         })
     }
 
+    /**
+     * Dette er en funksjon som sletter billetteri et arrangement
+     * @param tickets - Dette er en liste over biletter
+     */
     deleteTickets(tickets: Ticket[]) {
         console.log("DELETE TICKETS: ", tickets);
         tickets.map(t => {
@@ -376,6 +469,10 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         })
     }
 
+    /**
+     * Dette er en funksjon som legger til nye brukere til arrangementet
+     * @param employees - Dette er en liste med brukere
+     */
     addEmployees(employees: UserEvent[]) {
         console.log("ADD EMPLOYEES: ", employees);
         
@@ -388,6 +485,10 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         })
     }
 
+    /**
+     * Dette er en funksjon som sletter brukere fra arrangementet
+     * @param employees - Dette er en liste av brukere
+     */
     deleteEmployees(employees: UserEvent[]) {
         console.log("DELETE", employees);
         employees.map(e => {
@@ -399,6 +500,12 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         })
     }
 
+    /**
+     * Dette er en funksjon som sender mail til utvalgte brukere angående at noe har blitt lagt til
+     * @param val -Dette er arrangement IDen til arrangmenetet som det er snakk om
+     * @param name - Dette er navnet til arrangementet vi skal sende mail anngående
+     * @param employees - Dette er en liste av brukere som skal få mail om at noe er lagt til
+     */
     notifyAdd(val: number, name: string, employees: UserEvent[]) {
         console.log("INVITER: ", employees);
 
@@ -410,6 +517,13 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             }
         })
     }
+
+    /**
+     * Dette er en funksjon som sender mail til utvalgte brukere angående at noe har blitt fjernet
+     * @param val - Dette er IDen til arrangementet det er snakk om
+     * @param name - Dette er navn på arrangmentet det er snakk om
+     * @param employees - Dette er en liste av brukere som skal få mailen
+     */
 
     notifyDelete(val: number, name: string, employees: UserEvent[]) {
         console.log("INVITER: ", employees);
@@ -423,6 +537,12 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         })
     }
 
+    /**
+     * Dette er en funksjon som sender mail til utvalgte brukere anngående at noe har blitt oppdatert
+     * @param val - Dette er IDen til arrangementet det er snakk om
+     * @param name - Dette er navn til arrangementet det er snakk om
+     * @param employees - Dette er e liste av brukere som skal få mailen
+     */
     notifyEdit(val: number, name: string, employees: UserEvent[]) {
         console.log("INVITER: ", employees);
 
@@ -434,4 +554,16 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             }
         })
     }
+
+    changePic(val: number){
+    console.log("BILDE: ", this.event.image);
+      eventService
+        .updateEventImage(val, this.event.image)
+        .then(() => {
+          if(userService.currentUser){
+            userService.autoLogin();
+          }
+        })
+
+  }
 }

@@ -7,7 +7,7 @@ import {Component} from 'react-simplified';
 import {Organization, organizationService} from "../../../services/OrganizationService";
 import {Alert, Row} from "../../../widgets";
 import Accordion from "react-bootstrap/Accordion";
-import "./Profile.css";
+import "./OrganizationProfile.css";
 
 export class OrgProfile extends Component {
     admin: User[] = [];
@@ -32,10 +32,10 @@ export class OrgProfile extends Component {
             }
             if(this.ready) {
                 return (
-                    <div className="container-fluid" style={{height: "100%"}}>
+                    <div className="container-fluid" style={{height: "100%", padding: 70+"px"}}>
                         <div className="row" style={{height: "100%"}}>
-                            <div className="col-6" style={{padding: 0, paddingLeft: 0 + "px", height: "100%"}}>
-                                <div className="card" style={{border: "none", height: "100%"}}>
+                            <div className="col-4" style={{padding: 0, paddingLeft: 0 + "px", height: "100%"}}>
+                                <div className="card">
                                     <div className="card-body" style={{padding: 0}}>
                                         <div className="card-img" style={{textAlign: "center"}}>
                                             <img src={"https://s1.logaster.com/static/v3/img/products/logo.png"}/>
@@ -101,7 +101,7 @@ export class OrgProfile extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-6" style={{padding: 0, paddingLeft: 0 + "px", height: "100%"}}>
+                            <div className="col-5" style={{padding: 0, paddingLeft: 0 + "px", height: "100%"}}>
                                 <div className="card-header" style={{backgroundColor: "#53265F", color: "white"}}>
                                     <h5>Medlemmer</h5></div>
                                 <div style={{maxHeight: "100%", overflow: "auto"}}>

@@ -9,17 +9,20 @@ import {eventService} from "../../../services/EventService";
 import {artistService} from "../../../services/ArtistService";
 import {Ticket, ticketService} from "../../../services/TicketService";
 import {UserEvent, userEventService} from "../../../services/UserEventService";
-
-
+import Form from 'react-bootstrap/Form';
 import {Alert} from "../../../widgets";
 import { createHashHistory } from 'history';
 import {User, userService} from '../../../services/UserService';
 import {sharedComponentData} from "react-simplified";
 import {Employees, EmployeesDetails} from "./employees";
+import "./event.css";
+
 
 import MapContainer from "./map";
 import {getlatlng} from "./map";
 import {Spinner} from "react-bootstrap";
+
+let emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const history = createHashHistory();
 
@@ -40,12 +43,13 @@ export class RegistrationForm extends Component {
     endTime: number = null;
     lat: number = 0;
     lng: number = 0;
-    image: File = null;
+    image: string = "";
 
     render(){
                 return (
-                    <div>
-                        <div className="card-header">
+                  <div id="whole-page" className="container-fluid">
+                    <div id="con" className="container">
+                        <div className="card-header" style={{marginTop:'5%'}}>
                             <div className="form-inline">
                                 <h2>Opprett et nytt arrangement</h2>
                             </div>
@@ -56,6 +60,19 @@ export class RegistrationForm extends Component {
                                 <input className="form-control" placeholder="Skriv inn navn her" value={this.eventName}
                                        onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.eventName = event.target.value)}/>
                             </div>
+                            <Form.Group>
+                                <Form.Label>Last opp bilde</Form.Label>
+                                <input className="form-control-file" type="file" accept = "image/*" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {
+                                    let ascii = /^[ -~]+$/;
+                                    if (event.target.files[0]) {
+                                        if (!ascii.test(event.target.files[0].name)) {
+                                            Alert.danger("Ugyldig filnavn: unngå å bruke bokstavene 'Æ, Ø og Å'");
+                                        } else {
+                                            this.image = event.target.files[0];
+                                        }
+                                    }
+                                }}/>
+                            </Form.Group>
                             <div className="form-group">
                                 <label>Lokasjon:</label>
                                 <input className="form-control" placeholder="Skriv inn addresse" value={this.address}
@@ -66,11 +83,11 @@ export class RegistrationForm extends Component {
                                 <textarea className="form-control" value={this.description}
                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.description = event.target.value)}/>
                             </div>
-                            <div className="form-inline">
-                                <div className="row">
+                            <div className="form-group d-inline-block">
+                                <div className="row" style={{width:'inherit'}}>
                                     <div className="col">
                                         <label>Start dato:</label>
-                                        <input id="help" className="form-control" type="date" value={this.startDate}
+                                        <input className="form-control" type="date" value={this.startDate}
                                                onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startDate = event.target.value)}/>
                                     </div>
                                     <div className="col">
@@ -101,12 +118,13 @@ export class RegistrationForm extends Component {
                             </div>
                             <h2> Velg lokasjon på kartet: </h2>
                             <MapContainer show={false}/>
-                            <div className="btn-group" style={{width: "20%", marginLeft: "40%", padding: "20px"}}>
+                            <div className="btn-group">
                                 <button className="btn btn-success" onClick={this.regEvent}>Opprett</button>
                                 <button className="btn btn-danger" onClick={this.cancel}>Avbryt</button>
                             </div>
                         </form>
                     </div>
+                  </div>
                 )
     }
 
@@ -181,6 +199,7 @@ export class RegistrationForm extends Component {
         eventService
             .postEvent(userService.currentUser.org_id, this.eventName, userService.currentUser.user_id, this.description, this.address, this.startDate+" "+this.startTime+":00", this.endDate+" "+this.endTime+":00",this.lng,  this.lat)
             .then(response => {
+                this.changePic(response[0]["LAST_INSERT_ID()"]);
                 this.addTickets(response[0]["LAST_INSERT_ID()"], this.tickets);
                 this.addArtists(response[0]["LAST_INSERT_ID()"], this.artists);
                 this.addEmployee(response[0]["LAST_INSERT_ID()"], this.employees);
@@ -197,6 +216,7 @@ export class RegistrationForm extends Component {
         console.log("ARTISTER: ", artists);
         artists.map(a => {
             if(a) {
+                console.log(a);
                 artistService
                     .addArtist(val, a.artist_name, a.email, a.phone, a.riders, a.hospitality_riders, a.artist_contract)
                     .then(res => console.log(res))
@@ -241,6 +261,19 @@ export class RegistrationForm extends Component {
             }
         })
     }
+
+    changePic(val: number){
+    console.log("BILDE: ", this.image);
+      eventService
+        .updateEventImage(val, this.image)
+        .then(() => {
+          if(userService.currentUser){
+            userService.autoLogin();
+            //history.push("/Profile");
+          }
+        })
+
+  }
 
     cancel(){
       history.push("/allEvents");

@@ -24,9 +24,9 @@ export class inviteUser extends Component {
     render() {
       if (userService.currentUser && organizationService.currentOrganization) {
           if(userService.currentUser.privileges == 1) {
-              return <div>
-                  <h2 className="card-header">Inviter en bruker til din organisasjon </h2>
-                  <Form style={{marginTop: 20 + 'px', paddingLeft: 200 + 'px', paddingRight: 200 + 'px'}}>
+              return <div style={{color: "#FFF", paddingTop: "100px"}}>
+                  <h2 className="card-header" style={{fontFamily: "Arial", textAlign: "center"}}>Inviter en bruker til din organisasjon </h2>
+                  <Form style={{marginTop: 20 + 'px', paddingLeft: 200 + 'px', paddingRight: 200 + 'px', paddingTop: "50px"}}>
                       <Form.Group>
                           <Form.Group>
                               <Form.Label>E-mail</Form.Label>
@@ -36,8 +36,12 @@ export class inviteUser extends Component {
                                             }}/>
                           </Form.Group>
                       </Form.Group>
-                      <Button variant="primary" type="submit" style={{marginTop: 15 + 'px', marginBottom: 30 + 'px'}}
-                              onClick={this.send}>Neste</Button>
+                      <div style={{marginLeft: "500px"}}>
+                          <Button variant="light" type="button" style={{marginTop: 15 + 'px', marginBottom: 30 + 'px', textAlign: "center",
+                              paddingLeft: "40px", paddingRight: "40px",  borderColor: "rgb(40, 17, 33)"}}
+                                    onClick={this.send}>Neste</Button>
+                      </div>
+
                   </Form>
               </div>
           } else{
