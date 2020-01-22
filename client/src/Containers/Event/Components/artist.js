@@ -67,7 +67,15 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
                                         <div className="custom-file">
                                             <input type="file" className="file-path validate" id="raider" accept='.pdf'
                                                    onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>{
-                                                       this.riders=event.target.files[0];
+                                                       if(event.target.files[0]) {
+                                                           let ascii = /^[ -~]+$/;
+
+                                                           if (!ascii.test(event.target.files[0].name)) {
+                                                               Alert.danger("Ugyldig filnavn: unngå å bruke bokstavene 'Æ, Ø og Å'");
+                                                           } else {
+                                                               this.riders = event.target.files[0];
+                                                           }
+                                                       }
                                                    }
                                                    }/>
                                         </div>
@@ -80,7 +88,15 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
                                         <div className="custom-file">
                                             <input type="file" className="file-path validate" id="hospitality-raider" accept='.pdf'
                                                    onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>{
-                                                       this.hospitality_riders=event.target.files[0];
+                                                       if(event.target.files[0]) {
+                                                           let ascii = /^[ -~]+$/;
+
+                                                           if (!ascii.test(event.target.files[0].name)) {
+                                                               Alert.danger("Ugyldig filnavn: unngå å bruke bokstavene 'Æ, Ø og Å'");
+                                                           } else {
+                                                               this.hospitality_riders = event.target.files[0];
+                                                           }
+                                                       }
                                                    }}/>
                                         </div>
                                     </div>
@@ -93,7 +109,15 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
                                         <div className="custom-file">
                                             <input type="file" className="file-path validate" id="contract" accept='.pdf'
                                                    onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>{
-                                                       this.artist_contract=event.target.files[0];
+                                                       if(event.target.files[0]) {
+                                                           let ascii = /^[ -~]+$/;
+
+                                                           if (!ascii.test(event.target.files[0].name)) {
+                                                               Alert.danger("Ugyldig filnavn: unngå å bruke bokstavene 'Æ, Ø og Å'");
+                                                           } else {
+                                                               this.artist_contract = event.target.files[0];
+                                                           }
+                                                       }
                                                    }}/>
                                         </div>
                                     </div>
