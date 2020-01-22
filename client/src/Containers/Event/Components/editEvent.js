@@ -92,8 +92,18 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                             </div>
                             <Form.Group>
                                 <Form.Label>Last opp bilde</Form.Label>
-                                <Form.Control accept = "image/*" type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.event.image =
-                                event.target.files[0]}}/>
+                                <Form.Control accept = "image/*" type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {
+                                    if(event.target.files[0]) {
+                                        let ascii = /^[ -~]+$/;
+
+                                        if (!ascii.test(event.target.files[0].name)) {
+                                            Alert.danger("Ugyldig filnavn: unngå å bruke bokstavene 'Æ, Ø og Å'");
+                                        } else {
+                                            this.event.image = event.target.files[0];
+                                        }
+                                    }
+                                  }
+                                }/>
                             </Form.Group>
                             <div className="form-group">
                                 <label>Lokasjon:</label>
@@ -549,7 +559,6 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         .then(() => {
           if(userService.currentUser){
             userService.autoLogin();
-            history.push("/Profile");
           }
         })
 

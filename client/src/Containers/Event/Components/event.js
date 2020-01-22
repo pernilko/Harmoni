@@ -27,7 +27,7 @@ const history = createHashHistory();
  */
 export class EventDetails extends Component<{ match: { params: { id: number } } }>  {
     event_id = this.props.match.params.id;
-    loaded = [false, false, false, false];
+    loaded = [false, false, false, false, false];
     hidden: boolean = true;
     cancel: boolean = true;
     bugreport: string = "";
@@ -41,7 +41,8 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             event: [],
             users: [],
             tickets: [],
-            artists: []
+            artists: [],
+            admins: []
         };
     }
 
@@ -159,7 +160,9 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                                     <h6> Epost: {a.email}</h6>
                                                     <h6> tlf: {a.phone} </h6>
                                                 </p>
-                                                <a href={a.riders} > riders </a>
+                                                {a.riders? <a href={a.riders} target = "blank"> riders </a>: <div></div>}
+                                                {a.hospitality_riders?<a href={a.hospitality_riders} target = "blank"> hospitality riders </a>: <div></div>}
+                                                {a.artist_contract?   <a href={a.artist_contract} target = "blank"> Artistkontrakt </a>:<div></div>}
                                                 <br/>
 
                                                 {u.privileges > 0 || u.p_read_contract ?
@@ -366,6 +369,12 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
 
             });
 
+            userService.getAdminByOrgId(userService.currentUser.org_id).then(res => {
+                let admins = res;
+                this.setState({admins});
+                this.loaded[4] = true;
+            })
+
         }
     }
 
@@ -433,13 +442,15 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
      * Denne metoden skal sende en bug rapport som brukeren har skrevet til administratoren.
      */
     sendReport(){
-        organizationService.reportBug("pernilko@stud.ntnu.no", userService.currentUser.org_id, organizationService.currentOrganization.org_name, this.bugreport)
+        this.state["admins"].map(a => {
+            organizationService.reportBug(a.email, userService.currentUser.org_id, organizationService.currentOrganization.org_name, this.bugreport)
             .then((e) => {
                 Alert.success("Bug report sendt!");
                 this.hidden = true;
                 this.email = "";
             })
             .catch((error: Error) => console.log(error.message))
+        })
     }
 
     /**

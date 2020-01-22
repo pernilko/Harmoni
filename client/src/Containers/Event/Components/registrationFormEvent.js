@@ -20,6 +20,8 @@ import MapContainer from "./map";
 import {getlatlng} from "./map";
 import {Spinner} from "react-bootstrap";
 
+let emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 const history = createHashHistory();
 
 export class RegistrationForm extends Component {
@@ -57,8 +59,16 @@ export class RegistrationForm extends Component {
                             </div>
                             <Form.Group>
                                 <Form.Label>Last opp bilde</Form.Label>
-                                <Form.Control type="file" accept = "image/*" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.image =
-                                event.target.files[0]}}/>
+                                <Form.Control type="file" accept = "image/*" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {
+                                    let ascii = /^[ -~]+$/;
+                                    if(event.target.files[0]) {
+                                        if (!ascii.test(event.target.files[0].name)) {
+                                            Alert.danger("Ugyldig filnavn: unngå å bruke bokstavene 'Æ, Ø og Å'");
+                                        } else {
+                                            this.image = event.target.files[0];
+                                        }
+                                    }
+                                }}/>
                             </Form.Group>
                             <div className="form-group">
                                 <label>Lokasjon:</label>
@@ -255,7 +265,7 @@ export class RegistrationForm extends Component {
         .then(() => {
           if(userService.currentUser){
             userService.autoLogin();
-            history.push("/Profile");
+            //history.push("/Profile");
           }
         })
 

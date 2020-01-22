@@ -17,14 +17,19 @@ let del_artist: Artist[] = [];
  * @constructor
  * @param {string} buttonName - Dette er hva som skal stå på knappen som man trykker på for å se ArtistDropdown
  */
+let emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 export class ArtistDropdown extends Component<{buttonName: string, artist: Artist}> {
     state: Object={raider: null, hraider: null,contract: null};
     artist: Artist[] = [];
 
     artist_name: string = this.props.artist.artist_name;
-    riders: File = null;
-    hospitality_riders: File = null;
-    artist_contract: File = null;
+    currentriders: string = this.props.artist.riders;
+    riders: File = this.props.artist.riders;
+    currenthospitality_riders: string = this.props.artist.hospitality_riders;
+    hospitality_riders: File = this.props.artist.hospitality_riders;
+    currentartist_contract: string = this.props.artist.artist_contract;
+    artist_contract: File = this.props.artist.artist_contract;
     email: string = this.props.artist.email;
     phone: string = this.props.artist.phone;
     //image: string = this.props.image;
@@ -65,39 +70,66 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
                                                onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.phone = event.target.value)}/>
                                     </div>
                                     <label>Rider:</label><br/>
+                                    <div>
+                                        <a href = {this.currentriders} target = "blank" style = {{color: "blue"}}>{this.currentriders?<p>Nåværende riders</p>:<div></div>}</a>
+                                    </div>
                                     <div className="input-group">
                                         <div className="input-group-prepend">
                                         </div>
                                         <div className="custom-file">
                                             <input type="file" className="file-path validate" id="raider" accept='.pdf'
                                                    onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>{
-                                                       this.riders=event.target.files[0];
-                                                       console.log("riders file from artistDropDown: ");
-                                                       console.log(this.riders);
+                                                       if(event.target.files[0]) {
+                                                           let ascii = /^[ -~]+$/;
+
+                                                           if (!ascii.test(event.target.files[0].name)) {
+                                                               Alert.danger("Ugyldig filnavn: unngå å bruke bokstavene 'Æ, Ø og Å'");
+                                                           } else {
+                                                               this.riders = event.target.files[0];
+                                                           }
+                                                       }
                                                    }
                                                    }/>
                                         </div>
                                     </div><br/>
                                     <label>Hospitality rider:</label><br/>
+                                    <a href = {this.currenthospitality_riders} target = "blank" style = {{color: "blue"}}>{this.currenthospitality_riders?<p>Nåværende hospitality riders</p>:<div></div>}</a>
                                     <div className="input-group">
                                         <div className="input-group-prepend">
                                         </div>
                                         <div className="custom-file">
                                             <input type="file" className="file-path validate" id="hospitality-raider" accept='.pdf'
                                                    onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>{
-                                                       this.hospitality_riders=event.target.files[0];
+                                                       if(event.target.files[0]) {
+                                                           let ascii = /^[ -~]+$/;
+
+                                                           if (!ascii.test(event.target.files[0].name)) {
+                                                               Alert.danger("Ugyldig filnavn: unngå å bruke bokstavene 'Æ, Ø og Å'");
+                                                           } else {
+                                                               this.hospitality_riders = event.target.files[0];
+                                                           }
+                                                       }
                                                    }}/>
                                         </div>
                                     </div>
                                     <br/>
-                                    <label>Artist contract:</label><br/>
+                                    <label>Artistkontrakt:</label><br/>
+                                    <a href = {this.currentartist_contract} target = "blank" style = {{color: "blue"}}>{this.currentartist_contract?<p>Nåværende artistkontrakt</p>:<div></div>}</a>
                                     <div className="input-group">
                                         <div className="input-group-prepend">
                                         </div>
                                         <div className="custom-file">
                                             <input type="file" className="file-path validate" id="contract" accept='.pdf'
                                                    onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>{
-                                                       this.artist_contract=event.target.files[0];
+                                                       if(event.target.files[0]) {
+                                                           let ascii = /^[ -~]+$/;
+
+                                                           if (!ascii.test(event.target.files[0].name)) {
+                                                               Alert.danger("Ugyldig filnavn: unngå å bruke bokstavene 'Æ, Ø og Å'");
+                                                           } else {
+                                                               this.artist_contract = event.target.files[0];
+                                                           }
+                                                       }
                                                    }}/>
                                         </div>
                                     </div>
@@ -122,6 +154,17 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
      * For å legge inn ny artist må man ha navn +e-post|tlf
      */
     add(){
+        if (!emailRegEx.test(this.email) || this.phone == "" || this.artist_name == "") {
+            Alert.danger("Artist info ikke korrekt.");
+            return;
+        }
+
+        if(this.pris < 0){
+            this.pris = 0;
+            Alert.danger("Pris kan ikke være en negativ verdi");
+            return;
+        }
+
         console.log(this.state);
         const index = this.artist.indexOf(this.props.artist);
         this.artist[index] = new Artist(this.props.artist.artist_id,this.props.artist.event_id,this.artist_name ,this.email, this.phone, this.riders, this.hospitality_riders, this.artist_contract);
