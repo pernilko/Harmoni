@@ -6,11 +6,12 @@ import { createHashHistory } from 'history';
 import {sharedComponentData} from "react-simplified";
 import {userService} from "../../../services/UserService";
 import {userEventService} from "../../../services/UserEventService";
-import {Spinner} from "react-bootstrap";
+import {Container, Row, Spinner} from "react-bootstrap";
 import "./showEvents.css";
 import {useState} from "react";
 import Pagination from "react-bootstrap/Pagination";
 import Button from "react-bootstrap/Button";
+import Col from "react-bootstrap/Col";
 
 
 
@@ -45,7 +46,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
             }
             if(this.props.time == 3){
                 return (
-                    <div className={"w-50 mx-auto "}>
+                    <div className={"w-100 mx-auto "}>
                         <div>
                             <ul className="pagination">
                                 {this.state["items"].map((item, i) => (
@@ -54,24 +55,30 @@ export class EventList extends Component<{user: boolean, time: number}>{
                             </ul>
                         </div>
                         {this.state["currentPosts"].map((e, i) =>
-                            <div className="my-4" >
-                                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-                                <link href="https://fonts.googleapis.com/css?family=PT+Serif|Ubuntu&display=swap" rel="stylesheet"/>
-                                <div className="eventCard shadow-lg text">
-                                    <a href={'#/avlyst/' + e.event_id}>
-                                        <div className="content">
-                                            <img id="image" src="https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"/>
-                                            <h3 id="cancelled">Avlyst</h3>
-                                            <div className="m-3">
-                                                <h1 className="my-3"> {e.event_name} </h1>
-                                                <p> <b> Sted: </b> {e.place} </p><br/>
-                                                <p> <b> Tidspunkt: </b> {e.event_start.slice(0, 10)}, {e.event_start.slice(11, 16)}-{e.event_end.slice(11, 16)} </p><br/>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div className="banner"/>
-                                </div>
-                            </div>
+                            <Container>
+                                    <div className="card" style={{marginLeft: "18%", marginRight: "18%", marginBottom: "2%", borderRadius: 6+"px", border: "none"}}>
+                                        <Row style={{margin: 0}}>
+                                        <Col sm={2} style={{padding: 0}}>
+                                            <div className="banner"/>
+                                        </Col>
+                                        <Col sm={10} style={{padding: 0}}>
+                                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+                                            <link href="https://fonts.googleapis.com/css?family=PT+Serif|Ubuntu&display=swap" rel="stylesheet"/>
+                                                <div className="card-body" style={{padding:0}}>
+                                                    <a className="card-link" href={'#/avlyst/' + e.event_id}>
+                                                        <img id="image" src="https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"/>
+                                                        <h3 id="cancelled">Avlyst</h3>
+                                                        <div className="card-text" style={{float: "left", textAlign: "left"}}>
+                                                            <h2 style={{textAlign: "left", paddingLeft: 20}}> {e.event_name} </h2>
+                                                            <p> <b> Sted: </b> {e.place} </p><br/>
+                                                            <p> <b> Tidspunkt: </b> {e.event_start.slice(0, 10)}, {e.event_start.slice(11, 16)}-{e.event_end.slice(11, 16)} </p><br/>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                        </Col>
+                                        </Row>
+                                    </div>
+                            </Container>
                         )}
                         <div>
                             <ul className="pagination">
@@ -84,7 +91,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
                 )
             }else {
                 return (
-                    <div className={"w-50 mx-auto "}>
+                    <div className={"w-100 mx-auto "}>
                         <div>
                             <ul className="pagination">
                                 {this.state["items"].map((item, i) => (
@@ -93,53 +100,55 @@ export class EventList extends Component<{user: boolean, time: number}>{
                             </ul>
                         </div>
                         {this.state["currentPosts"].map((e, i) =>
-                            <div className="my-4">
-                                <link rel="stylesheet"
-                                      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-                                <link href="https://fonts.googleapis.com/css?family=PT+Serif|Ubuntu&display=swap"
-                                      rel="stylesheet"/>
-                                <div className="eventCard shadow-lg text">
-                                    <a href={'#/showEvent/' + e.event_id}>
-                                        <div className="content">
-                                            <img id="image"
-                                                 src={e.image ? e.image : "https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"}/>
-                                            <div className="m-3">
-                                                <h1 className="my-3"> {e.event_name} </h1>
-                                                <p><b> Sted: </b> {e.place} </p>
-                                                <br/>
-                                                <p><b> Stilling: </b>{this.getUserEvent(e.event_id) ? "Du er satt opp som " + this.getUserEvent(e.event_id).job_position + ".\n Bekreft valget ditt med knappene på venstre side." : "Du er ikke satt på dette arrangementet"}.
-                                                </p>
-                                                <br/>
-                                                <p><b> Tidspunkt: </b> {e.event_start.slice(0, 10)}, {e.event_start.slice(11, 16)}-{e.event_end.slice(11, 16)}
-                                                </p>
-                                                <br/>
+                            <Container>
+                                <div className="card" style={{marginLeft: "18%", marginRight: "18%", marginBottom: "2%", borderRadius: 6+"px", border: "none"}}>
+                                    <Row style={{margin: 0}}>
+                                        <Col sm={2} style={{padding: 0}}>
+                                            <div
+                                                className={"banner" + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 1 ? " greenBG" : "") + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 0 ? " redBG" : "")}
+                                                id={i}>
+                                                {this.getUserEvent(e.event_id) ? (this.getUserEvent(e.event_id).accepted === 2 ?
+                                                    <div>
+                                                        <div id="topButton" className="mx-4"
+                                                             onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 1)}>
+                                                            <button id="top" type="button" className="btn btn-info btn-circle">
+                                                                <i className="fa fa-check"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div className="button mx-4 my-3"
+                                                             onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 0)}>
+                                                            <button id="bot" type="button" className="btn btn-info btn-circle">
+                                                                <i className="fa fa-times"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    : <></>) : <></>}
                                             </div>
-                                        </div>
-                                    </a>
-
-                                    <div
-                                        className={"banner" + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 1 ? " greenBG" : "") + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 0 ? " redBG" : "")}
-                                        id={i}>
-
-                                        {this.getUserEvent(e.event_id) ? (this.getUserEvent(e.event_id).accepted === 2 ?
-                                            <div>
-                                                <div id="topButton" className="mx-4"
-                                                     onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 1)}>
-                                                    <button id="top" type="button" className="btn btn-info btn-circle">
-                                                        <i className="fa fa-check"></i>
-                                                    </button>
-                                                </div>
-                                                <div className="button mx-4 my-3"
-                                                     onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 0)}>
-                                                    <button id="bot" type="button" className="btn btn-info btn-circle">
-                                                        <i className="fa fa-times"></i>
-                                                    </button>
-                                                </div>
+                                        </Col>
+                                        <Col sm={10} style={{padding: 0}}>
+                                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+                                            <link href="https://fonts.googleapis.com/css?family=PT+Serif|Ubuntu&display=swap" rel="stylesheet"/>
+                                            <div className="card-body" style={{padding:0}}>
+                                                <a href={'#/showEvent/' + e.event_id}>
+                                                    <img id="image"
+                                                         src={e.image ? e.image : "https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"}/>
+                                                    <div className="card-text" style={{float: "left", textAlign: "left"}}>
+                                                        <h2 style={{textAlign: "left", paddingLeft: 20}}> {e.event_name} </h2>
+                                                        <p><b> Sted: </b> {e.place} </p>
+                                                        <br/>
+                                                        <p><b> Stilling: </b>{this.getUserEvent(e.event_id) ? "Du er satt opp som " + this.getUserEvent(e.event_id).job_position + ".\n Bekreft valget ditt med knappene på venstre side." : "Du er ikke satt på dette arrangementet"}.
+                                                        </p>
+                                                        <br/>
+                                                        <p><b> Tidspunkt: </b> {e.event_start.slice(0, 10)}, {e.event_start.slice(11, 16)}-{e.event_end.slice(11, 16)}
+                                                        </p>
+                                                        <br/>
+                                                    </div>
+                                                </a>
                                             </div>
-                                            : <></>) : <></>}
-                                    </div>
+                                        </Col>
+                                    </Row>
                                 </div>
-                            </div>
+                            </Container>
                         )}
                         <div>
                             <ul className="pagination">
