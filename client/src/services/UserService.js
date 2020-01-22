@@ -188,7 +188,7 @@ class UserService {
     }
 
     getAdminByOrgId(org_id: number){
-        return axios.get<User>(url +"user/admin/"+ org_id).then(response => response.data[0])
+        return axios.get<User[]>(url +"user/admin/"+ org_id).then(response => response.data)
     }
     
     verifiserAdminOgOrg(org_name: string, org_email: string, org_phone: string, user_email: string, user_privileges, user_user_name, user_password, user_address, user_phone){
