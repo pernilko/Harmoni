@@ -23,15 +23,11 @@
     background-color: #e6e6ff;
 }
 
-.width{
-    width: 95%;
-}
-
 #topBanner{
     height: 40px;
-    margin-left: 15px;
     padding-top: 5px;
     text-align: center;
+
 }
 
 p {
@@ -69,7 +65,7 @@ p {
 }
 
 .artistCard{
-    padding-bottom: 50px;
+    padding-bottom: 10px;
 }
 
 
@@ -84,13 +80,14 @@ p {
     height: 25px;
     border-radius: 20px;
     text-align: center;
+    width: 100%;
 }
 
 #cardImg{
-    height: 350px;
+    height: 500px;
     width: 100%;
     overflow: hidden;
-    object-fit: cover;
+    object-fit: inherit;
 }
 
 .w94{
@@ -125,6 +122,13 @@ p {
     border-color: #505050;
 }
 
+#eventPreview {
+    background: rgb(255, 255, 255);
+    color: black;
+    border-color: #505050;
+    width: 160%;
+    left: -30%
+}
 
 .btn-group button{
     background: transparent;
@@ -187,4 +191,23 @@ input{
 #preview{
     max-width: 93%;
     height: 50%;
+}
+
+#eventBody{
+    height: 100%;
+}
+
+.buttonContainer{
+    background: transparent;
+    display: inline-block;
+    padding: 0;
+
+}
+
+.card-link {
+    background: transparent;
+    padding: 7px 30px;
+    margin: 30px 10px;
+    border: 2px solid #fff;
+    color: #FFF;
 }
