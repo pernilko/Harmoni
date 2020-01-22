@@ -90,7 +90,16 @@ class ArtistService {
         });
     }
 
-
+    /**
+     * Metode for å oppdatere informasjon om en artist. Legger først inn kontatkinfo, så filer for riders, hospitality riders og artistkontrakt.
+     * @param artist_id {number} tar inn id for hvilken artist som skal redigeres.
+     * @param artist_name {string} tar inn nytt navn på artist som skal redigeres.
+     * @param ridersFile {File} tar inn hvilken riders pdf-fil som skal lastes opp til gcloud og kobles til artisten som skal redigeres.
+     * @param hospitality_ridersFile {File} tar inn hvilken hospitality riders pdf-fil som skal lastes opp til gcloud og kobles til artisten som skal redigeres.
+     * @param artist_contract
+     * @param email
+     * @param phone
+     */
     updateArtist(artist_id: number, artist_name, ridersFile: File, hospitality_ridersFile: File, artist_contract: File, email, phone) {
         let fd_riders:FormData = new FormData();
         fd_riders.append("riders", ridersFile);

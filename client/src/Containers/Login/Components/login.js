@@ -47,7 +47,7 @@ export class Login extends Component{
                         <label>{"Passord for " + this.user.email}</label>
                       </div>
                       <div>
-                        <button className="btn dark" type="submit" variant="success" onClick={this.login}>Logg inn</button>
+                        <button className="btn dark" variant="success" onClick={this.login}>Logg inn</button>
                       </div>
                     </form>
                     <a
@@ -103,7 +103,7 @@ export class Login extends Component{
                           <label>Email</label>
                         </div>
                         <div>
-                          <button className="btn dark" type="submit" variant="primary" onClick={this.checkEmail}>Logg inn</button>
+                          <button className="btn dark" variant="primary" onClick={this.checkEmail}>Logg inn</button>
                         </div>
                       </form>
                     </div>
@@ -246,7 +246,7 @@ export class Login extends Component{
                 Alert.success("Du ble logget inn");
                 history.push("/alleEvents");
             }).catch((error: Error)=>{
-                Alert.danger(error.message);
+                Alert.danger("feil passord");
                 this.loading = false;
         });
     }

@@ -59,5 +59,5 @@ if (root)
 userService.autoLogin();
 
 if(!localStorage.getItem("token")){
-  history.push("/login");
+  history.push("/Login");
 }

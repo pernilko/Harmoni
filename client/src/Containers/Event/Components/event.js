@@ -28,6 +28,7 @@ const history = createHashHistory();
 export class EventDetails extends Component<{ match: { params: { id: number } } }>  {
     event_id = this.props.match.params.id;
     loaded = [false, false, false, false, false];
+    loadedtwo: boolean = false;
     hidden: boolean = true;
     cancel: boolean = true;
     bugreport: string = "";
@@ -51,6 +52,13 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
      * @returns {*} HTML komponent til å vise frem arrangement detaljene
      */
     render() {
+
+        console.log("event from event.js");
+        console.log(this.state["event"]);
+        if(userService.currentUser && !this.loadedtwo){
+            this.load();
+            this.loadedtwo= true;
+        }
         if (this.loaded.some(l => !l)) {
             return <Spinner animation="border"></Spinner>
         }
@@ -331,7 +339,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
      * Dette er en metode som kjører en gang før render kjører.
      * Det er her man laster inn data som skal bli vist i nettsiden.
      */
-    mounted() {
+    load() {
         if (userService.currentUser) {
             console.log("Event requested");
             eventService.getEventId(this.event_id).then(r => {
