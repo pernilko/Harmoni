@@ -9,6 +9,8 @@ import {Alert} from "../../../widgets";
 
 let del_artist: Artist[] = [];
 
+let emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 export class ArtistDropdown extends Component<{buttonName: string, artist: Artist}> {
     state: Object={raider: null, hraider: null,contract: null};
     artist: Artist[] = [];
@@ -106,6 +108,11 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
     }
 
     add(){
+        if (!emailRegEx.test(this.email) || this.phone == "" || this.artist_name == "") {
+            Alert.danger("Artist info ikke korrekt.");
+            return;
+        }
+
         if(this.pris < 0){
             this.pris = 0;
             Alert.danger("Pris kan ikke være en negativ verdi");
