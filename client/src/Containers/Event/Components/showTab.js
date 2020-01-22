@@ -11,7 +11,7 @@ export class ShowTab extends Component<{all: boolean}>{
   render (){
     if (this.props.all){
       return (
-        <div id="tabsAllEvents" className="container">
+        <Container fluid id="tabsAllEvents">
           <div className="row">
               <div className="col-md-12">
                 <div>
@@ -33,7 +33,7 @@ export class ShowTab extends Component<{all: boolean}>{
                 </div>
               </div>
           </div>
-        </div>
+        </Container>
       );
     } else {
       return (

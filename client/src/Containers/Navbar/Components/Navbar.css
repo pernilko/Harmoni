@@ -11,5 +11,6 @@
     color: #FFF;
 }
 
-.NavDropdown{
+.navbar-light .navbar-nav .nav-link {
+    color: #fff;
 }
