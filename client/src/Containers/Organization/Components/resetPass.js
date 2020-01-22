@@ -6,7 +6,7 @@ import {User, userService} from "../../../services/UserService";
 import {Alert} from "../../../widgets";
 import {Organization, organizationService} from "../../../services/OrganizationService";
 import { createHashHistory } from 'history';
-import "./Profile.css";
+import "./OrganizationProfile.css";
 
 const history = createHashHistory();
 

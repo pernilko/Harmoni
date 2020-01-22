@@ -69,14 +69,14 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             this.loaded = true;
         }
         if (this.event && this.tickets && this.artists && userService.currentUser) {
-            if(this.event.user_id == userService.currentUser.user_id || userService.currentUser.privileges == 1) {
+            if(this.event.user_id === userService.currentUser.user_id || userService.currentUser.privileges === 1) {
                 if(!this.restLoaded){
                     this.loadRest();
                     this.restLoaded = true;
                 }
                 return (
                     <div id="whole-page" className="container-fluid">
-                        <div className="container">
+                        <div id="con" className="container">
                             <div className="card-header" style={{marginTop:'5%'}}>
                                 <div className="form-inline">
                                     <h2>Rediger arrangementet</h2>
@@ -299,7 +299,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 }
                 console.log(this.employees.length);
                 console.log(original_employees.length);
-                if (this.add_employees.length == 0 && del_employee.length == 0) {
+                if (this.add_employees.length !== 0 || del_employee.length !== 0) {
                     this.notifyEdit(this.props.match.params.event_id, this.event.event_name, original_employees);
                 }
             })
