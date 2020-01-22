@@ -187,7 +187,7 @@ export class Login extends Component{
                               <input type="file"/>
                               <label>Last opp bilde</label>
                             </div>
-                            <button className="light" type="submit" style={{ marginTop: 20 + 'px' }}
+                            <button className="light" type="button" style={{ marginTop: 20 + 'px' }}
                                     onClick={this.register}> Registrer </button>
                           </form>
                     </div>
