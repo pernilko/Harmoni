@@ -4,6 +4,8 @@ import {Alert} from "../widgets";
 import {sharedComponentData} from "react-simplified";
 import {Organization, organizationService} from "./OrganizationService";
 import {Artist, File} from "./ArtistService";
+import { createHashHistory } from 'history';
+const history = createHashHistory();
 
 let url: string = "http://localhost:8080/";
 
@@ -66,6 +68,7 @@ class UserService {
                     console.log(response.data);
                 }).catch(error => {
                     this.currentUser = null;
+                    history.push("/Login");
                 });
         }
     }

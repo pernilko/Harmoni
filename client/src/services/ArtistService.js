@@ -96,9 +96,9 @@ class ArtistService {
      * @param artist_name {string} tar inn nytt navn på artist som skal redigeres.
      * @param ridersFile {File} tar inn hvilken riders pdf-fil som skal lastes opp til gcloud og kobles til artisten som skal redigeres.
      * @param hospitality_ridersFile {File} tar inn hvilken hospitality riders pdf-fil som skal lastes opp til gcloud og kobles til artisten som skal redigeres.
-     * @param artist_contract
-     * @param email
-     * @param phone
+     * @param artist_contract {File} tar inn hvilken artistkontrakt som skal lastes opp til google cloud og kobles til artisten som skal redigeres.
+     * @param email {string} tar inn den nye epost-addressen som skal sendes med put requestn til serveren for artisten som skal redigeres.
+     * @param phone {number} tar inn det nye telefonnummeret som skal sendes til serveren og oppdatere artisten som skal redigeres.
      */
     updateArtist(artist_id: number, artist_name, ridersFile: File, hospitality_ridersFile: File, artist_contract: File, email, phone) {
         let fd_riders:FormData = new FormData();
@@ -122,9 +122,19 @@ class ArtistService {
         });
     }
 
+    /**
+     * metode for å sende en sletterequest til serveren for en artist
+     * @param id {number} tar inn id-en til artisten som skal slettes
+     */
     deleteArtist(id: number) {
         return axios.delete<Artist, void>(url + "artist/delete/" + id).then(response => response.data);
     }
+
+    /**
+     * metode for å sende put-request for å oppdatere om artisten og all informasjon er akseptert.
+     * @param id {number} tar inn id-en for artisten som skal redigeres.
+     * @param accepted {number} tar inn tallet akseptert-tilstanden skal settes til på artisten.
+     */
 
     setAccepted(id: number, accepted: number) {
         return axios.put<Artist, void>(url + "artist/accepted/" + id, {"accepted": accepted}).then(response => response.data);
