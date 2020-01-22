@@ -68,13 +68,55 @@ module.exports = class artistDao extends Dao {
         if(artistcontractfilename.length>0){
             ac = imageUrl+artistcontractfilename;
         }
-        super.query(
-            "UPDATE artist SET riders = ?, hospitality_riders = ?, artist_contract = ? WHERE artist_id = ?",
-            [rf, hrf, ac, artist_id],
-            callback
-        );
-    }
+        console.log("from artistDao: ");
+        console.log(rf + ", " + hrf + ", "+ ac);
+        console.log(rf.length + ", " + hrf.length + ", " + ac.length);
 
+        if(rf.length >0 && hrf.length == 0 && ac.length == 0){
+            super.query(
+                "UPDATE artist SET riders = ? WHERE artist_id = ?",
+                [rf, artist_id],
+                callback
+            );
+        }else if(rf.length > 0 && hrf.length > 0 && ac.length == 0){
+            super.query(
+                "UPDATE artist SET riders = ?, hospitality_riders = ? WHERE artist_id = ?",
+                [rf, hrf, artist_id],
+                callback
+            );
+        } else if(rf.length > 0 && hrf.length > 0 && ac.length > 0 ){
+            super.query(
+                "UPDATE artist SET riders = ?, hospitality_riders = ?, artist_contract = ? WHERE artist_id = ?",
+                [rf, hrf, ac, artist_id],
+                callback
+            );
+        } else if(rf.length == 0 && hrf.length == 0 && ac.length > 0){
+            super.query(
+                "UPDATE artist SET artist_contract = ? WHERE artist_id = ?",
+                [ac, artist_id],
+                callback
+            );
+        } else if(rf.length == 0 && hrf.length >0 && ac.length > 0){
+            super.query(
+                "UPDATE artist SET hospitality_riders = ?, artist_contract = ? WHERE artist_id = ?",
+                [rf, hrf, ac, artist_id],
+                callback
+            );
+        } else if (rf.length > 0 && hrf.length == 0 && ac.length>0){
+            super.query(
+                "UPDATE artist SET riders = ?, artist_contract = ? WHERE artist_id = ?",
+                [rf, ac, artist_id],
+                callback
+            );
+        }else{
+            super.query(
+                "UPDATE artist SET hospitality_riders = ? WHERE artist_id = ?",
+                [hrf, artist_id],
+                callback
+            );
+        }
+    }
+/*
     updateArtistContract(artist_contract_file: any, artist_id: number, callback: function){
         super.query(
             "UPDATE artist_contractFile  SET name = ?, data = ?, size = ?, encoding = ?, tempFilePath = ?, truncated = ?, mimetype = ?, md5 = ? WHERE artist_id = ?",
@@ -84,17 +126,18 @@ module.exports = class artistDao extends Dao {
         );
     }
 
+ */
+
     getRider(artist_id: number, callback: function){
         super.query(
             "SELECT data FROM ridersFile WHERE artist_id = ?",[artist_id], callback
         );
     }
 
-    updateArtist(artistID:number,json:{artist_name: string, riders: File, hospitality_riders: File,
-        artist_contract: File, email: string, phone: string, image: File}, callback:function){
+    updateArtist(artistID:number,json:{artist_name: string , email: string, phone: string, image: File}, callback:function){
         super.query(
-          "UPDATE artist SET artist_name=?,riders=?,hospitality_riders=?,artist_contract=?,email=?,phone=? WHERE artist_id=?",
-          [json.artist_name,json.riders,json.hospitality_riders,json.artist_contract,json.email,json.phone,artistID],
+          "UPDATE artist SET artist_name=?, email=?,phone=? WHERE artist_id=?",
+          [json.artist_name, json.email, json.phone,artistID],
           callback
         );
     }

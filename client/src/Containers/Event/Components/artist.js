@@ -14,8 +14,11 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
     artist: Artist[] = [];
 
     artist_name: string = this.props.artist.artist_name;
+    currentriders: string = this.props.artist.riders;
     riders: File = this.props.artist.riders;
+    currenthospitality_riders: string = this.props.artist.hospitality_riders;
     hospitality_riders: File = this.props.artist.hospitality_riders;
+    currentartist_contract: string = this.props.artist.artist_contract;
     artist_contract: File = this.props.artist.artist_contract;
     email: string = this.props.artist.email;
     phone: string = this.props.artist.phone;
@@ -53,6 +56,9 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
                                                onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.phone = event.target.value)}/>
                                     </div>
                                     <label>Rider:</label><br/>
+                                    <div>
+                                        <a href = {this.currentriders} target = "blank" style = {{color: "blue"}}>{this.currentriders?<p>Nåværende riders</p>:<div></div>}</a>
+                                    </div>
                                     <div className="input-group">
                                         <div className="input-group-prepend">
                                         </div>
@@ -60,13 +66,12 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
                                             <input type="file" className="file-path validate" id="raider" accept='.pdf'
                                                    onChange={(event: SyntheticInputEvent<HTMLInputElement>)=>{
                                                        this.riders=event.target.files[0];
-                                                       console.log("riders file from artistDropDown: ");
-                                                       console.log(this.riders);
                                                    }
                                                    }/>
                                         </div>
                                     </div><br/>
                                     <label>Hospitality rider:</label><br/>
+                                    <a href = {this.currenthospitality_riders} target = "blank" style = {{color: "blue"}}>{this.currenthospitality_riders?<p>Nåværende hospitality riders</p>:<div></div>}</a>
                                     <div className="input-group">
                                         <div className="input-group-prepend">
                                         </div>
@@ -78,7 +83,8 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
                                         </div>
                                     </div>
                                     <br/>
-                                    <label>Artist contract:</label><br/>
+                                    <label>Artistkontrakt:</label><br/>
+                                    <a href = {this.currentartist_contract} target = "blank" style = {{color: "blue"}}>{this.currentartist_contract?<p>Nåværende artistkontrakt</p>:<div></div>}</a>
                                     <div className="input-group">
                                         <div className="input-group-prepend">
                                         </div>
