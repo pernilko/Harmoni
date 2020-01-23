@@ -417,13 +417,13 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         let endYear = end.slice(0, 4);
 
         if (startYear !== endYear) {
-            date = "kl. " + startTime + ", " + parseInt(startDay) + ". "+ this.months[parseInt(startMonth)] + " " + startYear + " - " + endTime + ", " + endDay + ". "+ this.months[parseInt(endMonth)] + " " + endYear;
+            date = "kl. " + startTime + ", " + parseInt(startDay) + ". "+ this.months[parseInt(startMonth)-1] + " " + startYear + " - " + endTime + ", " + endDay + ". "+ this.months[parseInt(endMonth)-1] + " " + endYear;
         }
         else if (startMonth !== endMonth) {
-            date = "kl. " + startTime + ", " + parseInt(startDay) + ". "+ this.months[parseInt(startMonth)] + " - " + endTime + ", " + endDay + ". "+ this.months[parseInt(endMonth)] + " " + endYear;
+            date = "kl. " + startTime + ", " + parseInt(startDay) + ". "+ this.months[parseInt(startMonth)-1] + " - " + endTime + ", " + endDay + ". "+ this.months[parseInt(endMonth)-1] + " " + endYear;
         }
         else {
-            date = "kl. " + startTime + " - " + endTime + ", " + endDay + ". "+ this.months[parseInt(endMonth)] + " " + endYear;
+            date = "kl. " + startTime + " - " + endTime + ", " + endDay + ". "+ this.months[parseInt(endMonth)-1] + " " + endYear;
         }
 
         return date;

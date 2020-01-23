@@ -7,7 +7,7 @@ module.exports = class eventDao extends Dao{
 
     //tested
     getAll(callback: function) {
-        super.query("SELECT * FROM event", [], callback);
+        super.query("SELECT * FROM event ORDER BY event_start ASC", [], callback);
     }
 
     //tested
@@ -17,51 +17,51 @@ module.exports = class eventDao extends Dao{
 
     //tested
     getEventOrg(org_id: number, callback: function){
-      super.query("SELECT * FROM event WHERE org_id=?", [org_id], callback );
+      super.query("SELECT * FROM event WHERE org_id=? ORDER BY event_start ASC", [org_id], callback );
     }
 
     //tested
     getEventUser(user_id: number, callback: function){
-      super.query("SELECT * FROM event WHERE user_id=?", [user_id], callback );
+      super.query("SELECT * FROM event WHERE user_id=? ORDER BY event_start ASC", [user_id], callback );
     }
 
     //tested
     getEventUpcomingOrg(org_id: number, callback: function){
-      super.query("SELECT * FROM event WHERE org_id=? AND event_end > CURDATE() AND completed NOT LIKE -1", [org_id], callback );
+      super.query("SELECT * FROM event WHERE org_id=? AND event_end > CURDATE() AND completed NOT LIKE -1 ORDER BY event_start ASC", [org_id], callback );
     }
 
     getEventUpcomingUser(user_id: number, callback: function){
-      super.query("SELECT * FROM event WHERE user_id=? AND event_end > CURDATE() AND completed NOT LIKE -1", [user_id], callback );
+      super.query("SELECT * FROM event WHERE user_id=? AND event_end > CURDATE() AND completed NOT LIKE -1 ORDER BY event_start ASC", [user_id], callback );
     }
 
     getEventPreviousOrg(org_id: number, callback: function){
-      super.query("SELECT * FROM event WHERE org_id=? AND completed = TRUE AND event_end < CURDATE()", [org_id], callback );
+      super.query("SELECT * FROM event WHERE org_id=? AND completed = TRUE AND event_end < CURDATE() ORDER BY event_end DESC", [org_id], callback );
     }
 
     //tested
     getEventPreviousUser(user_id: number, callback: function){
-      super.query("SELECT * FROM event WHERE user_id=? AND completed = TRUE AND event_end < CURDATE()", [user_id], callback );
+      super.query("SELECT * FROM event WHERE user_id=? AND completed = TRUE AND event_end < CURDATE() ORDER BY event_end DESC", [user_id], callback );
     }
 
 
     getPending(user_id: number, callback: function) {
       super.query(
-          "SELECT * FROM event WHERE user_id=? AND completed = FALSE AND event_end < CURDATE() AND completed NOT LIKE -1", [user_id], callback);
+          "SELECT * FROM event WHERE user_id=? AND completed = FALSE AND event_end < CURDATE() AND completed NOT LIKE -1 ORDER BY event_end DESC", [user_id], callback);
     }
 
     getCancelledOrg(org_id: number, callback: function){
       super.query(
-          "SELECT * FROM event WHERE org_id=? AND completed LIKE -1", [org_id], callback);
+          "SELECT * FROM event WHERE org_id=? AND completed LIKE -1 ORDER BY event_end DESC", [org_id], callback);
     }
 
     getCancelledUser(user_id: number, callback: function){
       super.query(
-          "SELECT * FROM event WHERE user_id=? AND completed LIKE -1", [user_id], callback);
+          "SELECT * FROM event WHERE user_id=? AND completed LIKE -1 ORDER BY event_end DESC", [user_id], callback);
     }
 
     getEventCurrentUser(user_id: number, callback: function) {
       super.query(
-          "SELECT * FROM event WHERE user_id=? AND CURDATE() >= event_start AND CURDATE() <= event_end AND completed NOT LIKE -1",
+          "SELECT * FROM event WHERE user_id=? AND CURDATE() >= event_start AND CURDATE() <= event_end AND completed NOT LIKE -1 ORDER BY event_start ASC",
           [user_id],
           callback
       );
@@ -69,7 +69,7 @@ module.exports = class eventDao extends Dao{
 
     getEventCurrentOrg(org_id: number, callback: function) {
       super.query(
-          "SELECT * FROM event WHERE org_id = ? AND CURDATE() >= event_start AND CURDATE() <= event_end AND completed NOT LIKE -1",
+          "SELECT * FROM event WHERE org_id = ? AND CURDATE() >= event_start AND CURDATE() <= event_end AND completed NOT LIKE -1 ORDER BY event_start ASC",
           [org_id],
           callback
       );
@@ -112,7 +112,7 @@ module.exports = class eventDao extends Dao{
     //tested
     getEventbySearch(search: string, org_id: number, callback: function){
         super.query(
-            "SELECT * FROM event WHERE event_name LIKE ? AND org_id = ?",
+            "SELECT * FROM event WHERE event_name LIKE ? AND org_id = ? ORDER BY event_start ASC",
             ["%" + search + "%", org_id], callback
         )
     }
