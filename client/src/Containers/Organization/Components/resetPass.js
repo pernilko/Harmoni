@@ -22,7 +22,7 @@ export class resetPass extends Component<{ match: { params: { token: string } } 
         return (
             <div className="body">
                 <div className="mid">
-                    <div id="reset" className="wrapper">
+                    <div id="reset" className="registerOrg">
                         <h3 style={{paddingTop: 10+'px'}}>Skriv inn nytt passord</h3>
                         <form id="passwordForm" tabIndex="500" >
                             <div>

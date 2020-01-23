@@ -36,7 +36,7 @@ export class Login extends Component{
             return (
               <div className="body">
                 <div className="mid">
-                  <div id="chooseOrg2" className="wrapper">
+                  <div id="fillPassword" className="wrapper">
                     <h3 style={{paddingTop: 50 + 'px'}}>Skriv inn passord</h3>
                     <form id="passwordForm" tabIndex="500" >
                       <div>
@@ -64,7 +64,7 @@ export class Login extends Component{
                 return (
                   <div className="body">
                     <div className="mid">
-                      <div id="chooseOrg" className="wrapper">
+                      <div className="registerOrg1">
                         <h3>Velg organisasjon for å logge inn </h3>
                         {this.organizations.map(e=>(
                             <button className="dark-org" onClick = {()=>this.pickOrg(e)} style = {{margin: "5px"}} block>{e.org_name}</button>
