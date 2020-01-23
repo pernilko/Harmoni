@@ -70,8 +70,10 @@ class UserService {
                 }).catch(error => {
                     this.currentUser = null;
                     Alert.message(error.message);
-                    //history.push("/login");
+                    history.push("/login");
                 });
+        } else{
+            history.push("/login");
         }
     }
 

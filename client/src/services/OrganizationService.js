@@ -207,7 +207,7 @@ class OrganizationService{
     }
 
     /**
-     *
+     * Metode for å sende request til serveren om å sende email om glemt passord
      * @param email
      * @param org_id
      * @param org_name
