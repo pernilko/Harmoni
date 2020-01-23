@@ -1,12 +1,11 @@
 import * as React from 'react';
-import Form from "react-bootstrap/Form";
-import {Button, Col, Spinner} from "react-bootstrap";
+import {Spinner} from "react-bootstrap";
 import {Component} from 'react-simplified';
-import {User, userService} from "../../../services/UserService";
+import {userService} from "../../../services/UserService";
 import {Alert} from "../../../widgets";
-import {Organization, organizationService} from "../../../services/OrganizationService";
+import {organizationService} from "../../../services/OrganizationService";
 import { createHashHistory } from 'history';
-import "./OrganizationProfile.css";
+import "./login.css";
 
 const history = createHashHistory();
 
@@ -22,7 +21,7 @@ export class resetPass extends Component<{ match: { params: { token: string } } 
         return (
             <div className="body">
                 <div className="mid">
-                    <div id="reset" className="registerOrg">
+                    <div className="wrapper">
                         <h3 style={{paddingTop: 10+'px'}}>Skriv inn nytt passord</h3>
                         <form id="passwordForm" tabIndex="500" >
                             <div>
