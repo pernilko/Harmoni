@@ -84,7 +84,7 @@ p {
 }
 
 #cardImg{
-    height: 500px;
+    height: 130%;
     width: 100%;
     overflow: hidden;
     object-fit: inherit;
@@ -96,6 +96,7 @@ p {
 
 #con {
     background: rgba(129, 129, 129, 0.14);
+
 }
 
 .form-control  {
@@ -127,7 +128,7 @@ p {
     color: black;
     border-color: #505050;
     width: 160%;
-    left: -30%
+    left: -33%
 }
 
 .btn-group button{
@@ -136,7 +137,7 @@ p {
     margin: 30px 10px;
     border: 2px solid #fff;
     border-radius: 50px;
-    color: #FFF;
+    color: #ffffff;
 }
 
 .card button{
@@ -181,10 +182,10 @@ input{
 }
 
 .popup-content{
-    background: #505050;
-    width: 99%;
-    padding: 0;
+    background: #ffffff;
+    width: 170%;
     position: absolute;
+
 }
 
 
@@ -194,20 +195,39 @@ input{
 }
 
 #eventBody{
-    height: 100%;
+    width: 100%;
+    margin: auto;
 }
 
-.buttonContainer{
-    background: transparent;
-    display: inline-block;
-    padding: 0;
 
-}
 
 .card-link {
     background: transparent;
-    padding: 7px 30px;
-    margin: 30px 10px;
-    border: 2px solid #fff;
-    color: #FFF;
+    padding: 10px 30px;
+    margin: 6% 5% 2% 3%;
+    border-radius: 50px;
+    border: 2px solid #2d2d31;
+    color: #2d2d31;
+    display: inline-block;
+
 }
+
+div.col-md-12{
+
+    padding: 0;
+    margin: 10px;
+    width: fit-content;
+    color: #222328;
+}
+
+#avlys{
+    display: inline-block;
+    margin-right: 20px;
+    margin-top: 0;
+}
+
+form #form-body{
+    background: #222328;
+}
+
+

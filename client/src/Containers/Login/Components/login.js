@@ -36,7 +36,7 @@ export class Login extends Component{
             return (
               <div className="body">
                 <div className="mid">
-                  <div id="chooseOrg2" className="wrapper">
+                  <div id="fillPassword" className="wrapper">
                     <h3 style={{paddingTop: 50 + 'px'}}>Skriv inn passord</h3>
                     <form id="passwordForm" tabIndex="500" >
                       <div>
@@ -47,7 +47,7 @@ export class Login extends Component{
                         <label>{"Passord for " + this.user.email}</label>
                       </div>
                       <div>
-                        <button type="button" className="btn dark" variant="success" onClick={this.login}>Logg inn</button>
+                        <button type = "button" className="btn dark" variant="success" onClick={()=>this.login()}>Logg inn</button>
                       </div>
                     </form>
                     <a
@@ -64,7 +64,7 @@ export class Login extends Component{
                 return (
                   <div className="body">
                     <div className="mid">
-                      <div id="chooseOrg" className="wrapper">
+                      <div className="registerOrg1">
                         <h3>Velg organisasjon for å logge inn </h3>
                         {this.organizations.map(e=>(
                             <button className="dark-org" onClick = {()=>this.pickOrg(e)} style = {{margin: "5px"}} block>{e.org_name}</button>
@@ -217,7 +217,7 @@ export class Login extends Component{
     }
 
     checkEmail(){
-        console.log(this.user.email);
+        //console.log(this.user.email);
         this.message = "Checking email";
        organizationService.getOrganizationByEmail(this.user.email).then(org=>{
            if(org.length>0){
@@ -244,7 +244,6 @@ export class Login extends Component{
         userService.logIn(this.pickedOrg.org_id, this.user.email, this.user.password).then(() => {
                 this.loading=false;
                 Alert.success("Du ble logget inn");
-                history.push("/alleEvents");
             }).catch((error: Error)=>{
                 Alert.danger("feil passord");
                 this.loading = false;

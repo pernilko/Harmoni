@@ -20,6 +20,7 @@ import {sharedComponentData} from "react-simplified";
 import {Spinner} from 'react-bootstrap';
 import Popup from "reactjs-popup";
 import Form from 'react-bootstrap/Form';
+import "./event.css";
 
 const history = createHashHistory();
 
@@ -82,7 +83,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                                     <h2>Rediger arrangementet</h2>
                                 </div>
                             </div>
-                            <form className="card-body">
+                            <form id="form-body">
                                 <div className="form-group">
                                     <label>Forhåndsvisning:</label>
                                     <img id="preview" src={this.event.image ? this.event.image : "https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"}/>
@@ -160,7 +161,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                                         {close => (
                                             <div className="popup-content">
                                                 <p><b>Vil du varsle personalet om endringen(e)?</b></p>
-                                                <button id="no" className="btn btn-warning float-left ml-3" onClick={() => {
+                                                <button type = "button" id="no" className="btn btn-warning float-left ml-3" onClick={() => {
                                                     this.edit(false);
                                                 }}>Nei
                                                 </button>
@@ -304,7 +305,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 }
             })
             .catch((error: Error) => Alert.danger(error.message));
-        history.push("/allEvents");
+        history.push("/showEvent/"+this.props.match.params.event_id);
         Alert.success("Arrangementet ble redigert.");
     }
     /**

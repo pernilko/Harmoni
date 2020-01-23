@@ -80,4 +80,8 @@ export class Navigation extends Component {
     localStorage.setItem("token", "");
     Alert.danger("Du er nå logget ut.");
   }
+
+  login(){
+  }
+
 }

@@ -4,6 +4,8 @@ import {Alert} from "../widgets";
 import {sharedComponentData} from "react-simplified";
 import {Organization, organizationService} from "./OrganizationService";
 import {Artist, File} from "./ArtistService";
+import { createHashHistory } from 'history';
+const history = createHashHistory();
 
 let url: string = "http://localhost:8080/";
 
@@ -43,7 +45,7 @@ class UserService {
 
     autoLogin(){
         console.log("auto-logging in with token from localStorage: " + localStorage.getItem("token"));
-        if (localStorage.getItem("token")) {
+        if (localStorage.getItem("token").length>0) {
             return axios<User>({
                 url: url +'token',
                 method: 'post',
@@ -61,31 +63,37 @@ class UserService {
                             console.log(res);
                             this.currentUser = res;
                             organizationService.setCurrentOrganization(res.org_id);
-                        })
+                           // history.push("/alleEvents");
+                        }).catch((error:Error)=>Alert.danger(error.message));
                     }
                     console.log(response.data);
                 }).catch(error => {
                     this.currentUser = null;
+                    //Alert.danger(error.message);
+                    //history.push("/login");
                 });
         }
     }
 
     //for logging in
     logIn(org_id: number, email: string, password: string){
+        console.log("logging in");
         return axios.post<{}, {jwt: string}>(url+'login', {
             "org_id":org_id,
             "email": email,
             "password": password
         }).then(response=>{
+            console.log("got response from server");
             if(response.data.jwt){
                 localStorage.setItem("token", response.data.jwt)
                 userService.getUser(response.data.user_id).then(res=>{
                     this.currentUser = res;
                     organizationService.setCurrentOrganization(res.org_id);
                     console.log(this.currentUser);
+                    history.push("/alleEvents");
                 });
             }
-        });
+        }).catch((error:Error)=>Alert.danger(error.message));
     }
     //for registering a new user
     register(org_id: number, email: string, privileges: number, user_name: string, password: string, address: string, phone: string, image: string){

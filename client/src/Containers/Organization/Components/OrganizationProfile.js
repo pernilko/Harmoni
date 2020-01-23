@@ -32,20 +32,16 @@ export class OrgProfile extends Component {
             }
             if(this.ready) {
                 return (
-                    <div className="container-fluid" style={{height: "100%", padding: 70+"px"}}>
-                        <div className="row" style={{height: "100%"}}>
-                            <div className="col-4" style={{padding: 0, paddingLeft: 0 + "px", height: "100%"}}>
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-4" >
                                 <div className="card">
-                                    <div className="card-body" style={{padding: 0}}>
+                                    <div className="card-body">
                                         <div className="card-img" style={{textAlign: "center"}}>
                                             <img src={"https://s1.logaster.com/static/v3/img/products/logo.png"}/>
                                         </div>
                                         <div className="card-body" style={{paddingBottom: 0, textAlign: "center"}}>
-                                            <h2><input className="inputLabel" style={{
-                                                border: this.border,
-                                                background: "white",
-                                                textAlign: "center"
-                                            }}
+                                            <h2><input className="inputLabel"
                                                        value={this.org_name} disabled={this.isDisabled}
                                                        onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.org_name = event.target.value)}/>
                                             </h2>

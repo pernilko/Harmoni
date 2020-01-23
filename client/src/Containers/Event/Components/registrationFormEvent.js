@@ -119,7 +119,7 @@ export class RegistrationForm extends Component {
                             <h2> Velg lokasjon på kartet: </h2>
                             <MapContainer show={false}/>
                             <div className="btn-group">
-                                <button className="btn btn-success" onClick={this.regEvent}>Opprett</button>
+                                <button type = "button" className="btn btn-success" onClick={this.regEvent}>Opprett</button>
                                 <button className="btn btn-danger" onClick={this.cancel}>Avbryt</button>
                             </div>
                         </form>

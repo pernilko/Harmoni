@@ -20,7 +20,7 @@ import { Profile } from './Containers/Profile/Components/Profile';
 import {Home} from "./Containers/Home/Components/home";
 import {SearchResults} from "./Containers/Navbar/Components/search";
 import {OrgProfile} from "./Containers/Organization/Components/OrganizationProfile";
-import {resetPass} from "./Containers/Organization/Components/resetPass";
+import {resetPass} from "./Containers/Login/Components/resetPass";
 import {ShowTab} from './Containers/Event/Components/showTab';
 import {CancelledEvent} from './Containers/Event/Components/cancelledEvent';
 import {verifyEmail} from "./Containers/Organization/Components/verifyEmail";
@@ -28,6 +28,7 @@ import { createHashHistory } from 'history';
 import {OrgProfile2} from "./Containers/Organization/Components/profile2";
 const history = createHashHistory();
 
+userService.autoLogin();
 
 const root = document.getElementById('root');
 if (root)
@@ -36,15 +37,16 @@ if (root)
       <div style={{height: "100%"}}>
         <Alert/>
         <Navigation/>
+        <Route exact path = "/" render={()=>{ history.push("/login")}}/>
         <Route path = "/opprettEvent" component = {RegistrationForm}/>
         <Route exact path = "/profile" component = {Profile}/>
         <Route path = "/Event" component = {RegistrationForm}/>
-        <Route path = "/Login" component = {Login}/>
-        <Route exact path="/editEvent/:event_id" component={EditEvent}/>
-        <Route exact path = "/user/:token" component = {userForm}/>
-        <Route exact path = "/resetPass/:token" component = {resetPass}/>
-        <Route exact path = "/showEvent/:id" component = {EventDetails}/>
-        <Route exact path = "/avlyst/:id" component = {CancelledEvent}/>
+        <Route path = "/login" component = {Login}/>
+        <Route path="/editEvent/:event_id" component={EditEvent}/>
+        <Route path = "/user/:token" component = {userForm}/>
+        <Route path = "/resetPass/:token" component = {resetPass}/>
+        <Route path = "/showEvent/:id" component = {EventDetails}/>
+        <Route path = "/avlyst/:id" component = {CancelledEvent}/>
         <Route path = "/inviterBruker" component = {inviteUser}/>
         <Route path = "/home" component = {Home}/>
         <Route exact path = "/search_result/:search" component={SearchResults}/>
@@ -56,8 +58,3 @@ if (root)
     </HashRouter>,
     root
   );
-userService.autoLogin();
-
-if(!localStorage.getItem("token")){
-  history.push("/Login");
-}

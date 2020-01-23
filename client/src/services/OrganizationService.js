@@ -6,6 +6,9 @@ import {sharedComponentData} from "react-simplified";
 
 let url: string = "http://localhost:8080/";
 
+/**
+ * Hjelpeklasse som stemmer overens med databasetabellen for organisasjoner.
+ */
 export class Organization {
     org_id: number = -1;
     org_name: string = "";
@@ -24,22 +27,45 @@ export class Organization {
      */
 }
 
+/**
+ * klasse for organisasjoner som abstraherer requests til serveren.
+ */
 class OrganizationService{
 
     currentOrganization: Organization = null;
     //not tested
+    /**
+     * Metode for å hente alle organisasjoner fra databasen.
+     * @returns {boolean} en liste med organisasjoner.
+     */
     getAllOrganizations(){
         return axios.get<Organization[]>(url + 'organization').then(response=>response.data);
     }
+
+    /**
+     *
+     * @param org_id
+     * @returns {boolean}
+     */
     //not tested
     getOrganization(org_id: number){
         return axios.get<Organization>(url + 'organization/id/'+org_id).then(response=> response.data[0]);
     }
+
+    /**
+     * Metode for å hente ut alle organisasjoner en bruker/epostaddresse tilhører.
+     * @param email {string} tar inn en epostaddresse tilhørende en eller flere brukere.
+     * @returns {boolean} gir tilbake en liste med organisasjoner en epostaddresse tilhører.
+     */
     //tested
     getOrganizationByEmail(email: string){
         return axios.get<Organization[]>(url+'organization/mail/'+email).then(response=>response.data);
     }
 
+    /**
+     * Metode for å lagre all informasjon om den spesifikke organisasjonen som tilhører innlogget bruker
+     * @param org_id {number} tar inn id-en til gjeldende organisasjon.
+     */
     setCurrentOrganization(org_id: number){
         this.getOrganization(org_id).then(response=>{
             this.currentOrganization = response;
@@ -47,6 +73,13 @@ class OrganizationService{
             console.log(this.currentOrganization);
         });
     }
+
+    /**
+     * Metode for å sende inn en ny organisasjon til serveren.
+     * @param org_name {string} tar inn navnet på den nye organisasjonen.
+     * @param phone {string} tar inn telefonnummeret på den nye organisasjonen.
+     * @param email {string} tar inn epostaddresse til den nye organisasjonen som skal opprettes.
+     */
     //tested
     addOrganization(org_name: string, phone: string, email:string){
         return axios.post<{}, Organization>(url + 'organization/add', {
@@ -55,10 +88,20 @@ class OrganizationService{
             "email": email
         }).then(response=>response.data);
     }
+
+    /**
+     * Metode for å sende en sletterequest av en spesifikk organisasjon til serveren.
+     * @param org_id {number} tar inn id-en på gjeldende organisasjon.
+     */
     //not tested
     deleteOrganization(org_id: number){
         return axios.delete<{},Organization>(url+ 'organization'+org_id).then(response=>response.data);
     }
+
+    /**
+     * Metode for å sjekke om token for inviterte brukere er gyldig.
+     * @returns {boolean} gir tilbake informasjon om organisasjonen som skal brukes ved videre registrering.
+     */
     checkInvToken(){
         console.log("auto-logging in with token from localStorage: " + localStorage.getItem("invToken"));
         if (localStorage.getItem("invToken")) {
@@ -77,6 +120,10 @@ class OrganizationService{
         }
     }
 
+    /**
+     * Metode for å sende inn token mottatt i url fra epost ved glemt passord, og sjekke om den er gyldig.
+     * @returns {boolean} gir tilbake informasjon om brukeren som er nødvendig for å gjenopprette passordet.
+     */
     checkResetToken() {
         console.log(localStorage.getItem("resetToken"));
         if (localStorage.getItem("resetToken")) {
@@ -93,6 +140,11 @@ class OrganizationService{
         }
     }
 
+    /**
+     * Metode for å sjekke om mottatt token for verifisering av organisasjon og admin-bruker -registrering er gyldig.
+     * @param token {string} tar inn token som skal sjekkes.
+     * @returns {Promise<AxiosResponse<any>>} gir tilbake all informasjon bruker skrev inn ved registrering, som brukes til oppretting av admin-bruker og tilkoblet organisasjon.
+     */
     checkVerifyToken(token: string) {
         return axios({
             url: url + "verifyToken",
@@ -104,6 +156,12 @@ class OrganizationService{
         }).then(res=>res.data);
     }
 
+    /**
+     * Metode for å sende request til server om å invitere en ny bruker til en organisasjon.
+     * @param email {string} tar inn email-addressen invitasjonen skal sendes til.
+     * @param org_id {number} tar inn id-en på organisasjonen invitasjonen er fra.
+     * @param org_name {string} tar inn navnet på organisasjonen invitasjonen er fra.
+     */
     inviteUser(email: string, org_id: number, org_name: string) {
         return axios.post<{}, {}>(url + 'inviteUser', {
             "email": email,
@@ -112,6 +170,13 @@ class OrganizationService{
         }).then(response => response.data);
     }
 
+    /**
+     * Metode for å sende enn bug-rapport til admin av organisasjonen.
+     * @param email {string} tar inn email-addressen bug-rapporten skal sendes til.
+     * @param org_id {number} tar inn id-en til gjeldende organisasjonen.
+     * @param org_name {string} tar inn navnet på gjeldende organisasjon.
+     * @param text {string} tar inn innholdet på bug-rapporten.
+     */
     reportBug(email: string, org_id: number, org_name: string, text: string) {
         return axios.post<{}, {}>(url + 'bugreport', {
             "email": email,
@@ -121,6 +186,13 @@ class OrganizationService{
         }).then(response => response.data);
     }
 
+    /**
+     * Metode for å sende email til alle involvert i et event som er avlyst.
+     * @param email {string}
+     * @param org_id
+     * @param org_name
+     * @param event_name
+     */
     sendCancellationMail(email: string, org_id: number, org_name: string, event_name: string){
         return axios.post<{},{}>(url + "cancelled", {
             "email" : email,
@@ -130,6 +202,12 @@ class OrganizationService{
         })
     }
 
+    /**
+     *
+     * @param email
+     * @param org_id
+     * @param org_name
+     */
     forgotPass(email: string, org_id: number, org_name: string) {
         console.log("EMAIL: ", email);
         console.log("ORG_ID: ", org_id);

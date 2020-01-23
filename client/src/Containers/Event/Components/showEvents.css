@@ -4,6 +4,13 @@ body{
     overflow-y: scroll;
 }
 
+p{
+    text-align: left;
+    padding-left: 20px;
+    overflow: hidden;
+    display: block;
+    margin: 0;
+}
 
 .eventCard{
     position: relative;
@@ -13,27 +20,29 @@ body{
     background-color: white;
 }
 
+#eventcard{
+    background: white;
+}
+#eventcard-text{
+    padding-bottom: 10px;
+}
+
 .content:hover{
     box-shadow: darkblue;
     opacity: 0.795;
 }
 
 .content{
-    position: absolute;
-    margin-left: 14%;
-    width: 86%;
-    height: 100%;
     border-radius: 6px;
 }
 
 .banner{
     position: absolute;
-    background: #400039;
-    width: 14%;
+    background: #cf7867;
+    width: 100%;
     height: 100%;
     border-radius: 6px;
     border-color: #FFFFFF;
-
     border-top-right-radius: 0px;
 }
 
@@ -51,20 +60,21 @@ body{
 
 #image {
     width: 100%;
-    height: 55%;
-    object-fit: cover;
+    height: 5.8vm ;
     border-top-right-radius: 6px;
 }
 
 #cancelled{
     background-color: rgba(255, 0, 0, 0.42);
     color: #FFFFFF;
-    font-size: 9.5vw;
+    font-size: 6vw;
     position: absolute;
     width: 100%;
-    height: 55%;
+    height: 100%;
+    padding-top: 13%;
     text-align: center;
     transform: translateY(-100%);
+    margin: 0;
 }
 
 .center{
@@ -79,15 +89,15 @@ body{
     position: relative;
     text-align: center;
     color: white;
-
 }
 .text-block{
     position: absolute;
-    top: 15%;
+    top: 5%;
     left: 30%;
     transform: rotate(-15deg);
     background-color: rgba(133, 0, 0, 0.65);
-    font-size: 8vw;
+    font-size: 13vw;
+    color: #FFFFFF;
 
 }
 
@@ -101,6 +111,23 @@ body{
     color: white;
     font-size: 7.15vw;
 }
+
+
+
+.card-header{
+    color: #FFFFFF;
+    font-size: 20vm ;
+}
+
+div > .container-fluid{
+    background: none;
+}
+
+div > .card{
+    left: 0%;
+    background: rgba(129, 129, 129, 0.18);
+}
+
 
 a{
     color: #183248;
@@ -136,6 +163,17 @@ a{
     border: 2px solid #fff;
     border-radius: 50px;
     color: #FFF;
+}
+
+#cancelledImage{
+    width: fit-content;
+    height: fit-content;
+}
+
+
+
+h1 .my-3{
+    color: ;
 }
 
 /*
@@ -368,4 +406,4 @@ html, body {
 }
 
 
-*/
+ */
