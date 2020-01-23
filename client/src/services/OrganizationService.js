@@ -15,16 +15,20 @@ export class Organization {
     phone: string = "";
     email: string = "";
     image: string = "";
+    reg_date: string = "";
 
     /*
-    constructor(org_id: number, org_name: string, phone: string, email: string) {
+    constructor(org_id: number, org_name: string, phone: string, email: string, reg_date: string) {
         this.org_id = org_id;
         this.org_name = org_name;
         this.phone = phone;
         this.email = email;
+        this.reg_date = reg_date;
     }
 
      */
+
+
 }
 
 /**
@@ -203,7 +207,7 @@ class OrganizationService{
     }
 
     /**
-     *
+     * Metode for å sende request til serveren om å sende email om glemt passord
      * @param email
      * @param org_id
      * @param org_name

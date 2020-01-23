@@ -22,6 +22,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
     selectedPage: number = 0;
 
     currentPage: number = 0;
+    months: string[] = ["januar", "februar", "mars", "april", "mai", "juni", "juli", "august", "september", "oktober", "november", "desember"];
 
     constructor(props){
         super(props);
@@ -74,7 +75,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
                                                         <div id="eventcard-text" className="card-text" style={{float: "left", textAlign: "left"}}>
                                                             <h2 style={{textAlign: "left", paddingLeft: 20}}> {e.event_name} </h2>
                                                             <p> <b> Sted: </b> {e.place} </p>
-                                                            <p> <b> Tidspunkt: </b> {e.event_start.slice(0, 10)}, {e.event_start.slice(11, 16)}-{e.event_end.slice(11, 16)} </p>
+                                                            <p><b> Tidspunkt: {this.setFormat(e.event_start, e.event_end)}</b> </p>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -140,7 +141,8 @@ export class EventList extends Component<{user: boolean, time: number}>{
                                                         <p><b> Sted: </b> {e.place} </p>
                                                         <p><b> Stilling: </b>{this.getUserEvent(e.event_id) ? "Du er satt opp som " + this.getUserEvent(e.event_id).job_position + ".\n Bekreft valget ditt med knappene på venstre side." : "Du er ikke satt på dette arrangementet"}.
                                                         </p>
-                                                        <p><b> Tidspunkt: </b> {e.event_start.slice(0, 10)}, {e.event_start.slice(11, 16)}-{e.event_end.slice(11, 16)}
+                                                        <p>
+                                                            <b> Tidspunkt: {this.setFormat(e.event_start, e.event_end)}</b>
                                                         </p>
                                                     </div>
                                                 </a>
@@ -178,7 +180,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
         let items = this.state["events"].slice(0, amount);
         console.log(items.length);
         this.setState({items});
-        
+
 
         let indexOfFirstPost = this.currentPage * this.state["postPerPage"];
         let indexOfLastPost = indexOfFirstPost + this.state["postPerPage"];
@@ -189,7 +191,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
 
         this.nowitsready = true;
     }
-    
+
     changePage(currentPage: number){
         this.currentPage = currentPage;
 
@@ -201,6 +203,31 @@ export class EventList extends Component<{user: boolean, time: number}>{
 
         window.scrollTo(0,0);
 
+    }
+
+    setFormat(start, end) {
+        let date = "";
+
+        let startTime = start.slice(11, 16);
+        let endTime = end.slice(11, 16);
+        let startDay = start.slice(8, 10);
+        let endDay = end.slice(8, 10);
+        let startMonth = start.slice(6, 8);
+        let endMonth = start.slice(6, 8);
+        let startYear = start.slice(0, 4);
+        let endYear = end.slice(0, 4);
+
+        if (startYear !== endYear) {
+            date = "kl. " + startTime + ", " + parseInt(startDay) + ". "+ this.months[parseInt(startMonth)] + " " + startYear + " - " + endTime + ", " + endDay + ". "+ this.months[parseInt(endMonth)] + " " + endYear;
+        }
+        else if (startMonth !== endMonth) {
+            date = "kl. " + startTime + ", " + parseInt(startDay) + ". "+ this.months[parseInt(startMonth)] + " - " + endTime + ", " + endDay + ". "+ this.months[parseInt(endMonth)] + " " + endYear;
+        }
+        else {
+            date = "kl. " + startTime + " - " + endTime + ", " + endDay + ". "+ this.months[parseInt(endMonth)] + " " + endYear;
+        }
+
+        return date;
     }
 
     setAccepted(iterator: number, user_id: number, event_id: number, accepted: number) {

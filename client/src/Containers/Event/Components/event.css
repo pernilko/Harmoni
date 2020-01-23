@@ -27,7 +27,6 @@
     height: 40px;
     padding-top: 5px;
     text-align: center;
-
 }
 
 p {
@@ -53,6 +52,10 @@ p {
  }
 
 .artistContainer {
+}
+
+.whiteTextOnAcceptButtonAtTopOfEventPageToAcceptEntireEventGivingAnAdditionalOptionToDeclineViaAPopoupWIndowThatJulieDesignedEarlierThisWeekIReallyMustSayThatThisCodeWasElegantlyWrittenAndOfGreatUseForThisParticularFeatureAsWellIHavetoStopWritingSoonAsTheClockHasPassed1600AndItIsTimeForMeToHeadHomeThankYouForReadingDontForgetToSmashTheSubscribeButton{
+    color: white;
 }
 
 .redBG{
@@ -92,6 +95,17 @@ p {
 
 .w94{
     width: 93%;
+}
+
+.alertDesign {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.alertNav {
+    z-index: 1;
 }
 
 #con {
