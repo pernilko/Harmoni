@@ -48,11 +48,11 @@ export class Navigation extends Component {
             <Nav className="ml-auto" >
                 <Nav.Link href="#/alleEvents" style={{paddingLeft: 30 +'px', color: '#FFF'}}> Alle arrangement</Nav.Link>
                 <Nav.Link href="#/inviterBruker" hidden = {userService.currentUser.privileges != 1} style={{paddingLeft: 30+'px', color: '#FFF'}}> Inviter Bruker</Nav.Link>
+                <Nav.Link hidden = {userService.currentUser.p_create_event == 0 && userService.currentUser.privileges != 1} href="#/event" style={{color: "#FFF"}}>Opprett arrangement</Nav.Link>
                 <NavDropdown title={"Logget inn som: " + userService.currentUser.user_name}
                              id="basic-nav-dropdown"
                              style={{color: '#FFF' }}>
                   <NavDropdown.Item href="#/mineEvents"  style={{color: "black"}}>Mine arrangement</NavDropdown.Item>
-                  <NavDropdown.Item hidden = {userService.currentUser.p_create_event == 0 && userService.currentUser.privileges != 1} href="#/event" style={{color: "black"}}>Opprett arrangement</NavDropdown.Item>
                   <NavDropdown.Item href="#/Profile" style={{color: "black"}}>Rediger profil</NavDropdown.Item>
                   <NavDropdown.Item href={"#/organizationProfile"}style={{color: "black"}}>Min organisasjon</NavDropdown.Item>
                   <NavDropdown.Divider/>

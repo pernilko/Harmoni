@@ -40,7 +40,7 @@ export class Pending extends Component<{}> {
                                 <div className="eventCard shadow-lg text">
                                     <a href={'#/showEvent/' + e.event_id}>
                                         <div className="content">
-                                            <img id="image" src="https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"/>
+                                            <img id="image" src={e.image ? e.image : "https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"}/>
                                             <div className="m-3">
                                                 <h1 className="my-3">  {e.event_name}  </h1>
                                                 <p> <b> Sted: </b> {e.place} </p>
@@ -48,7 +48,7 @@ export class Pending extends Component<{}> {
                                             </div>
                                         </div>
                                     </a>
-
+    
                                     <div className={"banner" + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 1 ? " greenBG" : "") + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 0 ? " redBG" : "")} id = {i}>
                                       <div id="topButton" className= "mx-4" onClick={() => this.completed(e.event_id)}>
                                           <button type = "button" id="top" type="button" className="btn btn-info btn-circle">
