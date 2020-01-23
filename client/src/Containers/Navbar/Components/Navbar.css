@@ -14,3 +14,12 @@
 .navbar-light .navbar-nav .nav-link {
     color: #fff;
 }
+
+.navbar-light .navbar-nav .nav-link:active{
+  color: #FFFFFF;
+    background-color: #FFFFFF;
+}
+
+.alertNav {
+    z-index: 1;
+}

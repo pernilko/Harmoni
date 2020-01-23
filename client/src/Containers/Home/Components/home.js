@@ -23,19 +23,20 @@ export class Home extends Component {
 
     render(){
         if (userService.currentUser) {
-            if (userService.currentUser.p_archive == 1) {
+            if (userService.currentUser.p_archive == 1 || userService.currentUser.privileges == 1) {
             return(
                 <div>
                     <Container fluid={true}>
                         <Row>
-                            <Col md={6} style={{padding: '0'}}>
+                            <Col md={6} style={{padding: '1'}}>
                                 <div className="card" style={{margin: "none"}}>
-                                    <div className="card-header">Pending</div>
-                                    <div className="card-body"></div>
-                                    <Pending/>
+                                    <div className="card-header">Venter på godkjenning</div>
+                                    <div className="card-body">
+                                        <Pending/>
+                                    </div>
                                 </div>
                             </Col>
-                            <Col md={6} style={{padding: '0'}}>
+                            <Col md={6} style={{padding: '1'}}>
                                 <div className="card" style={{margin: "none"}}>
                                     <div className="card-header">Kommende Arrangement</div>
                                     <div className="card-body">
@@ -68,7 +69,9 @@ export class Home extends Component {
         }
         else {
             return (
-                <div></div>
+                <div>
+                    Du har ingen kommende arrangement :)
+                </div>
             )
         }
     }

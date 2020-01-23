@@ -4,6 +4,8 @@ import {Alert} from "../widgets";
 import {sharedComponentData} from "react-simplified";
 import {Organization, organizationService} from "./OrganizationService";
 import {Artist, File} from "./ArtistService";
+import { createHashHistory } from 'history';
+const history = createHashHistory();
 
 let url: string = "http://localhost:8080/";
 /**
@@ -52,31 +54,42 @@ class UserService {
      */
     autoLogin(){
         console.log("auto-logging in with token from localStorage: " + localStorage.getItem("token"));
-        if (localStorage.getItem("token")) {
-            return axios<User>({
-                url: url +'token',
-                method: 'post',
-                headers: {
-                    "x-access-token": localStorage.getItem("token"),
-                    "Content-Type": "application/json; charset=utf-8"
-                }
-            })
-                .then(response => {
-                    //response er token og id til brukeren
-                    if (response.data.jwt) {
-                        localStorage.setItem("token", response.data.jwt);
-                        console.log("user_id: " + response.data.user_id);
-                        this.getUser(response.data.user_id).then(res=>{
-                            console.log("response from getUser");
-                            console.log(res);
-                            this.currentUser = res;
-                            organizationService.setCurrentOrganization(res.org_id);
-                        })
+
+        if(localStorage.getItem("token")) {
+            if (localStorage.getItem("token").length > 0) {
+                return axios < User > ({
+                    url: url + 'token',
+                    method: 'post',
+                    headers: {
+                        "x-access-token": localStorage.getItem("token"),
+                        "Content-Type": "application/json; charset=utf-8"
                     }
-                    console.log(response.data);
-                }).catch(error => {
-                    this.currentUser = null;
-                });
+                })
+                    .then(response => {
+                        if (response.data.jwt) {
+                            localStorage.setItem("token", response.data.jwt);
+                            console.log("user_id: " + response.data.user_id);
+                            this.getUser(response.data.user_id).then(res => {
+                                console.log("response from getUser");
+                                console.log(res);
+                                this.currentUser = res;
+                                organizationService.setCurrentOrganization(res.org_id);
+                                // history.push("/alleEvents");
+                            }).catch((error: Error) => Alert.danger(error.message));
+                        }
+                        console.log(response.data);
+                    }).catch(error => {
+                        this.currentUser = null;
+                        Alert.danger("Du har blitt logget ut");
+                        if (!localStorage.getItem("invToken")) {
+                            history.push("/login");
+                        }
+                    });
+            } else if (!localStorage.getItem("invToken")) {
+                history.push("/login");
+            }
+        }else{
+            history.push("/login");
         }
     }
 
@@ -88,20 +101,23 @@ class UserService {
         @return et JSON-objekt med variablene token, og user_id. Token er tokenen som verifiserer at brukeren er logget inn user_id er id til brukeren som er logga inn.
      */
     logIn(org_id: number, email: string, password: string){
+        console.log("logging in");
         return axios.post<{}, {jwt: string}>(url+'login', {
             "org_id":org_id,
             "email": email,
             "password": password
         }).then(response=>{
+            console.log("got response from server");
             if(response.data.jwt){
                 localStorage.setItem("token", response.data.jwt)
                 userService.getUser(response.data.user_id).then(res=>{
                     this.currentUser = res;
                     organizationService.setCurrentOrganization(res.org_id);
                     console.log(this.currentUser);
+                    history.push("/alleEvents");
                 });
             }
-        });
+        }).catch((error:Error)=>Alert.danger(error.message));
     }
 
     //for registering a new user

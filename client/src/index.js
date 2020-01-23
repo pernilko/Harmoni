@@ -20,14 +20,13 @@ import { Profile } from './Containers/Profile/Components/Profile';
 import {Home} from "./Containers/Home/Components/home";
 import {SearchResults} from "./Containers/Navbar/Components/search";
 import {OrgProfile} from "./Containers/Organization/Components/OrganizationProfile";
-import {resetPass} from "./Containers/Organization/Components/resetPass";
+import {resetPass} from "./Containers/Login/Components/resetPass";
 import {ShowTab} from './Containers/Event/Components/showTab';
 import {CancelledEvent} from './Containers/Event/Components/cancelledEvent';
 import {verifyEmail} from "./Containers/Organization/Components/verifyEmail";
 import { createHashHistory } from 'history';
 import {OrgProfile2} from "./Containers/Organization/Components/profile2";
 const history = createHashHistory();
-
 
 const root = document.getElementById('root');
 if (root)
@@ -36,10 +35,13 @@ if (root)
       <div style={{height: "100%"}}>
         <Alert/>
         <Navigation/>
+        <Route exact path = "/" render={()=>{
+          history.push("/alleEvents");
+        }}/>
         <Route path = "/opprettEvent" component = {RegistrationForm}/>
         <Route exact path = "/profile" component = {Profile}/>
         <Route path = "/Event" component = {RegistrationForm}/>
-        <Route path = "/Login" component = {Login}/>
+        <Route path = "/login" component = {Login}/>
         <Route path="/editEvent/:event_id" component={EditEvent}/>
         <Route path = "/user/:token" component = {userForm}/>
         <Route path = "/resetPass/:token" component = {resetPass}/>
@@ -47,17 +49,14 @@ if (root)
         <Route path = "/avlyst/:id" component = {CancelledEvent}/>
         <Route path = "/inviterBruker" component = {inviteUser}/>
         <Route path = "/home" component = {Home}/>
-        <Route path = "/search_result/:search" component={SearchResults}/>
-        <Route exact path = "/alleEvents" render = {(props) => <ShowTab all={true}/>}/>
-        <Route exact path = "/mineEvents" render = {(props) => <ShowTab all={false}/>}/>
-        <Route path = "/verifyEmail/:token" component={verifyEmail}/>
+        <Route exact path = "/search_result/:search" component={SearchResults}/>
+        <Route path = "/alleEvents" render = {(props) => <ShowTab all={true}/>}/>
+        <Route path = "/mineEvents" render = {(props) => <ShowTab all={false}/>}/>
+        <Route exact path = "/verifyEmail/:token" component={verifyEmail}/>
         <Route path = "/organizationProfile" component={OrgProfile2}/>
       </div>
     </HashRouter>,
     root
   );
-userService.autoLogin();
 
-if(!localStorage.getItem("token")){
-  history.push("/Login");
-}
+userService.autoLogin();

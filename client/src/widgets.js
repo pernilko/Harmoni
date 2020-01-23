@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { Component } from 'react-simplified';
+import './Containers/Event/Components/event.css';
 
 export class Alert extends Component {
   alerts: { id: number, text: React.Node, type: string }[] = [];
@@ -13,7 +14,7 @@ export class Alert extends Component {
     return (
       <>
         { (alert ? 
-          <div key={alert.id} className={'alert alert-' + alert.type} role="alert">
+          <div key={alert.id} className={'alert alertDesign alert-' + alert.type} role="alert">
             {alert.text}
             <button
               type="button"
