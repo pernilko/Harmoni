@@ -86,7 +86,9 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                             <form id="form-body">
                                 <div className="form-group">
                                     <label>Forhåndsvisning:</label>
-                                    <img id="preview" src={this.event.image ? this.event.image : "https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"}/>
+                                    <div>
+                                        <img id="preview" src={this.event.image ? this.event.image : "https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"}/>
+                                    </div>
                                 </div>
                                 <div className="form-group">
                                     <label>Arrangement navn:</label>
@@ -120,7 +122,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.description = event.target.value)}/>
                                 </div>
                                 <div className="form-inline">
-                                    <div className="row">
+                                    <div id="regForm" className="row" >
                                         <div className="col">
                                             <label>Start dato:</label>
                                             <input id="startdate" className="form-control" type="date"

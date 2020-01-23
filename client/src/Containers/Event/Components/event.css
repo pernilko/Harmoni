@@ -204,8 +204,8 @@ input{
 
 
 #preview{
-    max-width: 93%;
-    height: 50%;
+    max-width: inherit;
+    height: 30%;
 }
 
 #eventBody{
@@ -242,6 +242,11 @@ div.col-md-12{
 
 form #form-body{
     background: #222328;
+}
+
+div #regForm .row{
+   display: inline-block;
+    position: center;
 }
 
 
