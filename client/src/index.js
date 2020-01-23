@@ -20,7 +20,7 @@ import { Profile } from './Containers/Profile/Components/Profile';
 import {Home} from "./Containers/Home/Components/home";
 import {SearchResults} from "./Containers/Navbar/Components/search";
 import {OrgProfile} from "./Containers/Organization/Components/OrganizationProfile";
-import {resetPass} from "./Containers/Organization/Components/resetPass";
+import {resetPass} from "./Containers/Login/Components/resetPass";
 import {ShowTab} from './Containers/Event/Components/showTab';
 import {CancelledEvent} from './Containers/Event/Components/cancelledEvent';
 import {verifyEmail} from "./Containers/Organization/Components/verifyEmail";

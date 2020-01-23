@@ -44,6 +44,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
             if(!this.nowitsready && this.loaded && this.ready){
                 this.loadPage();
             }
+            if (this.state["events"].length !== 0) {
             if(this.props.time == 3){
                 return (
                     <div className={"w-100 mx-auto "}>
@@ -158,6 +159,13 @@ export class EventList extends Component<{user: boolean, time: number}>{
                         </div>
                     </div>
                 )
+            }
+            } else {
+                return <div>
+                    <p style={{color: 'white'}}>
+                        Ingen arrangement å vise
+                    </p>
+                </div>
             }
         }else{
             return( <Spinner animation="border"></Spinner>);

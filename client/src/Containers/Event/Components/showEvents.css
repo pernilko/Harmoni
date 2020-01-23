@@ -92,11 +92,12 @@ p{
 }
 .text-block{
     position: absolute;
-    top: 15%;
+    top: 5%;
     left: 30%;
     transform: rotate(-15deg);
     background-color: rgba(133, 0, 0, 0.65);
-    font-size: 8vw;
+    font-size: 13vw;
+    color: #FFFFFF;
 
 }
 
@@ -110,6 +111,23 @@ p{
     color: white;
     font-size: 7.15vw;
 }
+
+
+
+.card-header{
+    color: #FFFFFF;
+    font-size: 20vm ;
+}
+
+div > .container-fluid{
+    background: none;
+}
+
+div > .card{
+    left: 0%;
+    background: rgba(129, 129, 129, 0.18);
+}
+
 
 a{
     color: #183248;
@@ -150,6 +168,12 @@ a{
 #cancelledImage{
     width: fit-content;
     height: fit-content;
+}
+
+
+
+h1 .my-3{
+    color: ;
 }
 
 /*
@@ -382,4 +406,4 @@ html, body {
 }
 
 
-*/
+ */

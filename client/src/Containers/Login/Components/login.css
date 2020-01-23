@@ -89,10 +89,10 @@ html,body {
 
 .mid .wrapper{
     position: absolute;
-    width: 50%;
-    height: 120%;
-    top: -10%;
-    left: 5%;
+    width: 30%;
+    height: 80%;
+    top: 5%;
+    left: 22%;
     background: #ffffff;
     box-shadow: 0 0 4px rgba(0,0,0,.14), 0 9px 8px rgba(0,0,0,.28);
     transition: all .5s;
@@ -135,28 +135,11 @@ a:after:hover {
     padding-top: 5%;
 }
 
-
-#chooseOrg{
+#fillPassword{
+    width: 30%;
     height: 80%;
-    width: 80%;
-    left: 10%;
-    top: 10%;
-
-
-}
-
-
-
-#chooseOrg > h3 {
-    padding: 20px;
-}
-
-#chooseOrg2 {
-    height: 80%;
-    width: 80%;
-    left: 10%;
-    top: 10%;
-
+    top: 5%;
+    left: 35%;
 }
 
 .mid .wrapper > form{
@@ -212,10 +195,11 @@ a:after:hover {
 
 .mid .registerOrg{
     position: absolute;
-    width: 90%;
-    height: 120%;
-    top: -9%;
-    left: 5%;
+    width: 50%;
+    padding-top: 4%;
+    height: 70%;
+    top: 5%;
+    left: 25%;
     background: #ffffff;
     box-shadow: 0 0 4px rgba(0,0,0,.14), 0 9px 8px rgba(0,0,0,.28);
     transition: all .5s;
@@ -226,14 +210,15 @@ a:after:hover {
 
 .mid .registerOrg1{
     position: absolute;
-    width: 50%;
-    height: 120%;
-    top: -10%;
-    left: 45%;
+    width: 30%;
+    height: 80%;
+    top: 5%;
+    right: 22%;
     background: #ffffff;
     box-shadow: 0 0 4px rgba(0,0,0,.14), 0 9px 8px rgba(0,0,0,.28);
     transition: all .5s;
     color: #303030;
+    overflow: auto;
     z-index: 50;
 
 }

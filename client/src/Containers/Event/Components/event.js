@@ -159,6 +159,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                   <br/>
                                   <h2 className={"text"}>Artister</h2>
                                   <br/>
+
                                   <Row className={"artistContainer"}>
                                       {this.state["artists"].map((a, i) =>
                                           <Column className="card artist" width={ i === 0 ? 12 : 6}>
@@ -193,9 +194,11 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                           </Column>
                                       )}
                                   </Row>
+
                                   <br/>
                                   <h2 className={"text"}>Billetter</h2>
                                   <br/>
+
                                   <Row className={"ticketContainer"}>
                                       {this.state["tickets"].map(t =>
                                           <Column className="card artist" width={6}>
@@ -210,6 +213,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                           </Column>
                                       )}
                                   </Row>
+
                                   <br/>
                                   <h2 className={"text"}>Vakter</h2>
                                   <br/>
@@ -250,48 +254,54 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                       </tbody>
                                   </table>
 
-                                  <br/>
-                                  <h2 className={"text"}>Kart</h2>
-                                  <br/>
-                                  <MapContainer lat={e.latitude} lng={e.longitude} show={true}/>
-                                  <br/>
-                                  <a hidden={userService.currentUser.user_id != e.user_id && userService.currentUser.privileges != 1}
-                                     href={"#/editEvent/" + this.event_id} className="card-link">Rediger</a>
-                                  <div className="btn-group">
-                                      <Popup contentStyle={{background: '#505050', width: 130 +'%', position: 'absolute', padding:0}} trigger={<a
-                                        className="card-link " style={{color:'white', hover: 'blue'}}>Avlys arrangement</a>}>
-                                          {close => (
-                                              <div className="popup-content">
-                                                  <p><b>Vil du avlyse dette arrangementet?</b></p>
-                                                  <button className="btn btn-warning float-left ml-3" onClick={() => {
-                                                      close();
-                                                  }}> Nei
-                                                  </button>
-                                                  <button className="btn btn-success float-right mr-3"
-                                                          onClick={() => this.cancelled(this.event_id)}>Ja
-                                                  </button>
-                                              </div>
-                                          )}
-                                      </Popup>
+                                  <div id="row-button" className="row">
+                                      <div className="col-md-12">
+                                      <a hidden={userService.currentUser.user_id != e.user_id && userService.currentUser.privileges != 1}
+                                         href={"#/editEvent/" + this.event_id} className="card-link">Rediger</a>
+                                          <div className="row btn-group cancel-section">
+                                              <Popup trigger={<a id="avlys"
+                                                className="card-link" >Avlys</a>}>
+                                                  {close => (
+                                                    <div className="popup-content">
+                                                        <p><b>Vil du avlyse dette arrangementet?</b></p>
+                                                        <button className="btn btn-warning float-left ml-3" onClick={() => {
+                                                            close();
+                                                        }}> Nei
+                                                        </button>
+                                                        <button className="btn btn-success float-right mr-3"
+                                                                onClick={() => this.cancelled(this.event_id)}>Ja
+                                                        </button>
+                                                    </div>
+                                                  )}
+                                              </Popup>
+                                             </div>
 
                                       <a href={"#/showEvent/" + this.event_id} className="card-link"
                                          onClick={this.show}> Rapporter problem
                                           <div hidden={this.hidden}>
-                                          <textarea rows="4" cols="40" style={{margin: '10px',}}
-                                                    placeholder="Beskriv feilmelding"
-                                                    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.bugreport = event.target.value)}/>
+                                      <textarea rows="4" cols="40" style={{margin: '10px',}}
+                                                placeholder="Beskriv feilmelding"
+                                                onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.bugreport = event.target.value)}/>
                                               <br/>
                                               <button className="btn btn-primary submit" style={{margin: 10 + 'px'}}
                                                       onClick={this.sendReport}>Rapporter problem
                                               </button>
                                           </div>
                                       </a>
+                                      </div>
+                                  </div>
+
+                                  <br/>
+                                  <h2 className={"text"}>Kart</h2>
+                                  <br/>
+                                  <MapContainer lat={e.latitude} lng={e.longitude} show={true}/>
+                                  <br/>
+
                                   </div>
                               </div>
                           </div>
                       </div>
                     </div>
-                  </div>
                 );
             }else{
                 return (
