@@ -22,7 +22,7 @@ export class Navigation extends Component {
 
     if (userService.currentUser) {
       return <div>
-        <Navbar className="NavbarColor" sticky="top" expand="lg">
+        <Navbar className="NavbarColor alertNav" sticky="top" expand="lg">
           <Navbar.Brand className="brand" href="#home">
             <img alt=" "
                  src="https://storage.cloud.google.com/harmoni-files/Logo.jpg"

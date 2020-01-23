@@ -19,3 +19,7 @@
   color: #FFFFFF;
     background-color: #FFFFFF;
 }
+
+.alertNav {
+    z-index: 1;
+}
