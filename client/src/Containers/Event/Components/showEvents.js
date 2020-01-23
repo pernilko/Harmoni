@@ -66,12 +66,14 @@ export class EventList extends Component<{user: boolean, time: number}>{
                                             <link href="https://fonts.googleapis.com/css?family=PT+Serif|Ubuntu&display=swap" rel="stylesheet"/>
                                                 <div id = "eventcard-body" className="card-body" style={{padding:0}}>
                                                     <a href={'#/avlyst/' + e.event_id}>
-                                                        <img id="image" src="https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"/>
-                                                        <h3 id="cancelled">Avlyst</h3>
+                                                        <Container id="cancelledImage">
+                                                            <img id="image" src="https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"/>
+                                                            <h3 id="cancelled" className="overlay">Avlyst</h3>
+                                                        </Container>
                                                         <div id="eventcard-text" className="card-text" style={{float: "left", textAlign: "left"}}>
                                                             <h2 style={{textAlign: "left", paddingLeft: 20}}> {e.event_name} </h2>
-                                                            <p> <b> Sted: </b> {e.place} </p><br/>
-                                                            <p> <b> Tidspunkt: </b> {e.event_start.slice(0, 10)}, {e.event_start.slice(11, 16)}-{e.event_end.slice(11, 16)} </p><br/>
+                                                            <p> <b> Sted: </b> {e.place} </p>
+                                                            <p> <b> Tidspunkt: </b> {e.event_start.slice(0, 10)}, {e.event_start.slice(11, 16)}-{e.event_end.slice(11, 16)} </p>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -135,13 +137,10 @@ export class EventList extends Component<{user: boolean, time: number}>{
                                                     <div id="eventcard-text" className="card-text" style={{float: "left", textAlign: "left"}}>
                                                         <h2 style={{textAlign: "left", paddingLeft: 20}}> {e.event_name} </h2>
                                                         <p><b> Sted: </b> {e.place} </p>
-                                                        <br/>
                                                         <p><b> Stilling: </b>{this.getUserEvent(e.event_id) ? "Du er satt opp som " + this.getUserEvent(e.event_id).job_position + ".\n Bekreft valget ditt med knappene på venstre side." : "Du er ikke satt på dette arrangementet"}.
                                                         </p>
-                                                        <br/>
                                                         <p><b> Tidspunkt: </b> {e.event_start.slice(0, 10)}, {e.event_start.slice(11, 16)}-{e.event_end.slice(11, 16)}
                                                         </p>
-                                                        <br/>
                                                     </div>
                                                 </a>
                                             </div>
