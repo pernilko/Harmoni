@@ -96,6 +96,7 @@ p {
 
 #con {
     background: rgba(129, 129, 129, 0.14);
+
 }
 
 .form-control  {
@@ -127,7 +128,7 @@ p {
     color: black;
     border-color: #505050;
     width: 160%;
-    left: -30%
+    left: -33%
 }
 
 .btn-group button{
@@ -194,7 +195,8 @@ input{
 }
 
 #eventBody{
-    height: 90%;
+    width: 100%;
+    margin: auto;
 }
 
 
@@ -210,28 +212,22 @@ input{
 
 }
 
+div.col-md-12{
 
-.col-md-12{
-    display: inline-block;
     padding: 0;
-    margin: 0;
-    width: inherit;
+    margin: 10px;
+    width: fit-content;
     color: #222328;
 }
 
-
-/*
-#buttonsEdit{
+#avlys{
     display: inline-block;
-    position: relative;
-    alignment: center;
+    margin-right: 20px;
+    margin-top: 0;
 }
 
-.buttonContainer{
-    background: transparent;
-    display: inline-block;
-    padding: 0;
-
+form #form-body{
+    background: #222328;
 }
 
- */
+

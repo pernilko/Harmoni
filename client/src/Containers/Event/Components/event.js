@@ -246,13 +246,13 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                       </tbody>
                                   </table>
 
-                                  <Row id="buttonsEdit">
+                                  <div id="row-button" className="row">
                                       <div className="col-md-12">
                                       <a hidden={userService.currentUser.user_id != e.user_id && userService.currentUser.privileges != 1}
                                          href={"#/editEvent/" + this.event_id} className="card-link">Rediger</a>
                                           <div className="row btn-group cancel-section">
-                                              <Popup trigger={<a
-                                                className="card-link" >Avlys arrangement</a>}>
+                                              <Popup trigger={<a id="avlys"
+                                                className="card-link" >Avlys</a>}>
                                                   {close => (
                                                     <div className="popup-content">
                                                         <p><b>Vil du avlyse dette arrangementet?</b></p>
@@ -281,7 +281,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                           </div>
                                       </a>
                                       </div>
-                                  </Row>
+                                  </div>
 
                                   <br/>
                                   <h2 className={"text"}>Kart</h2>

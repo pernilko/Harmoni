@@ -63,7 +63,7 @@ export class OrgProfile2 extends Component {
                                                     </h4>
                                                 </div>
                                                 <div className="card-img" style={{textAlign: "center"}}>
-                                                    <img style={{width: "100%", height: "auto", display: "cover"}}
+                                                    <img style={{width: 'inherit', height: "auto", display: "cover"}}
                                                         src={this.org_image}/>
                                                 </div>
                                                 <div>

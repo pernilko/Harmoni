@@ -60,12 +60,6 @@ div.card-body{
     width: 96%;
 }
 
-div  .card{
-    width: 102%;
-    padding: 0;
-    left: -0%;
-}
-
 div .fade.tab-pane.active.show{
     width: 98%;
 }

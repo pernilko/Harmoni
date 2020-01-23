@@ -68,6 +68,7 @@ h4 {
 div .card-body{
     padding: 0;
     height: inherit;
+    width: inherit;
     display: inline-block;
 
 }

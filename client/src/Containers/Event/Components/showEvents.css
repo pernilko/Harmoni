@@ -109,13 +109,10 @@ div > .container-fluid{
 }
 
 div > .card{
-    margin: 2%;
+    left: 0%;
     background: rgba(129, 129, 129, 0.18);
 }
 
-div > .card-body{
-    background: rgba(63, 0, 69, 0.24);
-}
 
 a{
     color: #183248;
