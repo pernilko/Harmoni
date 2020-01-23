@@ -47,7 +47,7 @@ export class Login extends Component{
                         <label>{"Passord for " + this.user.email}</label>
                       </div>
                       <div>
-                        <button className="btn dark" variant="success" onClick={()=>this.login()}>Logg inn</button>
+                        <button type = "button" className="btn dark" variant="success" onClick={()=>this.login()}>Logg inn</button>
                       </div>
                     </form>
                     <a
