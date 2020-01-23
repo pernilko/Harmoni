@@ -10,6 +10,13 @@ import {Alert} from "../../../widgets";
 let del_artist: Artist[] = [];
 
 /**
+ * Variabel for å sjekke om en string er en gyldig email-addresse
+ * @type {RegExp}
+ */
+const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+/**
+ * ArtistDropdown
  * Dette er en komponent klasse som brukes til å lage nye artister.
  * @requires react
  * @requires react-simplified
@@ -17,13 +24,6 @@ let del_artist: Artist[] = [];
  * @constructor
  * @param {string} buttonName - Dette er hva som skal stå på knappen som man trykker på for å se ArtistDropdown
  */
-
-/**
- * Variabel for å sjekke om en string er en gyldig email-addresse
- * @type {RegExp}
- */
-const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
 export class ArtistDropdown extends Component<{buttonName: string, artist: Artist}> {
     state: Object={raider: null, hraider: null,contract: null};
     artist: Artist[] = [];
