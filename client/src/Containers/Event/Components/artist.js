@@ -71,7 +71,7 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
                                     </div>
                                     <div className="form-group">
                                         <label>Mobilnummer: </label>
-                                        <input type="number" className="form-control" placeholder="+47 00000000" value={this.phone}
+                                        <input type="text" className="form-control" placeholder="+47 00000000" value={this.phone}
                                                onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.phone = event.target.value)}/>
                                     </div>
                                     <label>Rider:</label><br/>
@@ -228,7 +228,7 @@ export class ArtistDetails extends Component {
                             <div className="col"><label>Email: {a.email}</label></div>
                             <div className="col"><label>Tlf: {a.phone}</label></div>
                             <div className="col"><label>Dokumenter:
-                                <label>{a.riders ? <a href={" "+a.riders} target = "blank">riders</a>: 'Ingen rider valgt.'}</label>
+                                <label>{a.riders ? <a href={a.riders} target = "blank">riders</a>: 'Ingen rider valgt.'}</label>
                                 <label>{a.hospitality_riders ? <a href={a.hospitality_riders} target = "blank">hospitality riders</a>: 'Ingen hospitality rider valgt.'}</label>
                                 <label>{a.artist_contract ? <a href={a.artist_contract} target = "blank">artistkontrakt</a>: 'Ingen kontrakt valgt.'}</label></label></div>
                         </div>

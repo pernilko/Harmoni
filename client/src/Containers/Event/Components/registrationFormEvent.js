@@ -17,7 +17,6 @@ import {sharedComponentData} from "react-simplified";
 import {Employees, EmployeesDetails} from "./employees";
 import "./event.css";
 
-
 import MapContainer from "./map";
 import {getlatlng} from "./map";
 import {Spinner} from "react-bootstrap";

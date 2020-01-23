@@ -304,7 +304,7 @@ app.post("/event/add/notify/:event_id", (req: Request, res: Response) => {
         from: "systemharmoni@gmail.com",
         to: email,
         subject: "Tilud om vakt",
-        text: "Hei! Du har blitt satt opp som " + job_position + " for arrangemenet: " + name + ". Besøk" + url + "."
+        text: "Hei! Du har blitt satt opp som " + job_position + " for arrangemenet: " + name + ". Besøk " + url
     };
 
     transporter.sendMail(mailOptions, function(err, data) {
@@ -1323,7 +1323,7 @@ app.post("/forgotPass", (req, res) => {
         subject: "Gjenopprett passordet ditt til " + org_name,
         text: "Besøk denne lenken for å gjenopprette passordet ditt: " + url
     };
-
+    
     transporter.sendMail(mailOptions, function(err, data) {
         if (err) {
             console.log("Error: ", err);
