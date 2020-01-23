@@ -45,34 +45,40 @@ class UserService {
 
     autoLogin(){
         console.log("auto-logging in with token from localStorage: " + localStorage.getItem("token"));
-        if (localStorage.getItem("token").length>0) {
-            return axios<User>({
-                url: url +'token',
-                method: 'post',
-                headers: {
-                    "x-access-token": localStorage.getItem("token"),
-                    "Content-Type": "application/json; charset=utf-8"
-                }
-            })
-                .then(response => {
-                    if (response.data.jwt) {
-                        localStorage.setItem("token", response.data.jwt);
-                        console.log("user_id: " + response.data.user_id);
-                        this.getUser(response.data.user_id).then(res=>{
-                            console.log("response from getUser");
-                            console.log(res);
-                            this.currentUser = res;
-                            organizationService.setCurrentOrganization(res.org_id);
-                           // history.push("/alleEvents");
-                        }).catch((error:Error)=>Alert.danger(error.message));
+        if(localStorage.getItem("token")) {
+            if (localStorage.getItem("token").length > 0) {
+                return axios < User > ({
+                    url: url + 'token',
+                    method: 'post',
+                    headers: {
+                        "x-access-token": localStorage.getItem("token"),
+                        "Content-Type": "application/json; charset=utf-8"
                     }
-                    console.log(response.data);
-                }).catch(error => {
-                    this.currentUser = null;
-                    Alert.danger(error.message);
-                    //history.push("/login");
-                });
-        } else{
+                })
+                    .then(response => {
+                        if (response.data.jwt) {
+                            localStorage.setItem("token", response.data.jwt);
+                            console.log("user_id: " + response.data.user_id);
+                            this.getUser(response.data.user_id).then(res => {
+                                console.log("response from getUser");
+                                console.log(res);
+                                this.currentUser = res;
+                                organizationService.setCurrentOrganization(res.org_id);
+                                // history.push("/alleEvents");
+                            }).catch((error: Error) => Alert.danger(error.message));
+                        }
+                        console.log(response.data);
+                    }).catch(error => {
+                        this.currentUser = null;
+                        Alert.danger("Du har blitt logget ut");
+                        if (!localStorage.getItem("invToken")) {
+                            history.push("/login");
+                        }
+                    });
+            } else if (!localStorage.getItem("invToken")) {
+                history.push("/login");
+            }
+        }else{
             history.push("/login");
         }
     }

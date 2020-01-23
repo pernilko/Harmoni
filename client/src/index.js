@@ -28,8 +28,6 @@ import { createHashHistory } from 'history';
 import {OrgProfile2} from "./Containers/Organization/Components/profile2";
 const history = createHashHistory();
 
-userService.autoLogin();
-
 const root = document.getElementById('root');
 if (root)
   ReactDOM.render(
@@ -60,3 +58,5 @@ if (root)
     </HashRouter>,
     root
   );
+
+userService.autoLogin();

@@ -172,7 +172,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                                       <h6> Epost: {a.email}</h6>
                                                       <h6> tlf: {a.phone} </h6>
                                                   </p>
-                                                  <a href={a.riders} > riders </a>
+                                                  <a href={a.riders} target = "blank"> riders </a>
                                                   <br/>
 
                                                   {u.privileges > 0 || u.p_read_contract ?

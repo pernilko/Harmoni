@@ -149,12 +149,12 @@ class OrganizationService{
      * @param token {string} tar inn token som skal sjekkes.
      * @returns {Promise<AxiosResponse<any>>} gir tilbake all informasjon bruker skrev inn ved registrering, som brukes til oppretting av admin-bruker og tilkoblet organisasjon.
      */
-    checkVerifyToken(token: string) {
+    checkVerifyToken() {
         return axios({
             url: url + "verifyToken",
             method: "post",
             headers: {
-                "x-access-token": token,
+                "x-access-token": localStorage.getItem("invToken"),
                 "Content-type": "application/json; charset=utf-8"
             }
         }).then(res=>res.data);
@@ -208,7 +208,7 @@ class OrganizationService{
 
     /**
      * Metode for å sende request til serveren om å sende email om glemt passord
-     * @param email
+     * @param email {string} tar inn email for bruker som har glemt passord
      * @param org_id
      * @param org_name
      */
@@ -223,6 +223,13 @@ class OrganizationService{
         }).then(res => res.data);
     }
 
+    /**
+     * Metode for å sende en oppdateringsrequest til serveren og endre informasjon om en spesifikk organisasjon.
+     * @param org_id {number} tar inn id-en på organisasjonen som skal redigeres.
+     * @param org_name {string} tar inn det nye navnet organisasjonen skal redigeres til.
+     * @param phone {string} tar inn det nye telefonnummeret organisasjonen skal ha.
+     * @param email {string} tar inn den nye epost-addressen organisasjonen skal ha.
+     */
     updateOrganization(org_id: number, org_name: string, phone: string, email: string){
         return axios.put<{}, Organization>(url+'organization/edit/'+org_id, {
             "org_name": org_name,
@@ -231,6 +238,12 @@ class OrganizationService{
         }).then(response=>response.data);
     }
 
+    /**
+     * Metode som sender update-request til serveren om å endre bilde koblet til en spesifikk organisasjon.
+     * @param org_id {number} tar inn id-en på organisasjonen som skal redigeres.
+     * @param picture {File} tar inn Filen som skal lastes opp til serveren.
+     * @returns {boolean} gir tilbake json formatert affectedRows
+     */
     updateOrgImage(org_id: number, picture: File) {
         let fd:FormData = new FormData();
         fd.append("myFile", picture);
