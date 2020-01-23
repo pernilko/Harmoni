@@ -159,8 +159,12 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
      * For å legge inn ny artist må man ha navn +e-post|tlf
      */
     add(){
-        if ((!emailRegEx.test(this.email) || this.phone == "") && this.artist_name == "") {
-            Alert.danger("Artist info ikke korrekt.");
+        if (this.artist_name == "") {
+            Alert.danger("Artist navn ikke fylt inn.");
+            return;
+        }
+        if (!emailRegEx.test(this.email) && this.phone == "") {
+            Alert.danger("Telefonnummer eller gyldig epost-adresse må fylles inn.");
             return;
         }
 

@@ -78,16 +78,15 @@ class UserService {
                             }).catch((error: Error) => Alert.danger(error.message));
                         }
                         console.log(response.data);
-                    }).catch(error => {
+                    }).catch((error:Error) => {
+                        localStorage.removeItem("token");
                         this.currentUser = null;
                         Alert.danger("Du har blitt logget ut");
-                        if (!localStorage.getItem("invToken")) {
                             history.push("/login");
-                        }
                     });
-            } else if (!localStorage.getItem("invToken")) {
-                history.push("/login");
             }
+        }else if (localStorage.getItem("invToken")) {
+            console.log("har invtoken, men ikke token")
         }else{
             history.push("/login");
         }

@@ -204,11 +204,11 @@ export class RegistrationForm extends Component {
                 this.addArtists(response[0]["LAST_INSERT_ID()"], this.artists);
                 this.addEmployee(response[0]["LAST_INSERT_ID()"], this.employees);
                 this.notify(response[0]["LAST_INSERT_ID()"], this.eventName, this.employees);
-                //history.push("/event/"+response[0]["LAST_INSERT_ID()"]);
             })
             .catch((error: Error) => console.log(error.message))
 
-        history.push("/allEvents");
+        history.push("/alleEvents");
+        window.location.reload();
         Alert.success("Arrangementet ble opprettet");
     }
 
@@ -276,6 +276,6 @@ export class RegistrationForm extends Component {
   }
 
     cancel(){
-      history.push("/allEvents");
+      history.push("/alleEvents");
     }
 }
