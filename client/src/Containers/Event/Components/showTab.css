@@ -27,16 +27,13 @@
   border-width: 1px 1px 0 1px;
   color: #FFFFFF;
 }
-.tab-content{
-  alignment: center;
-  background: rgba(129, 129, 129, 0.14);
-}
-
 
 #tabs-header{
   margin-bottom: 30px;
   margin-top: 5%;
   color: #FFFFFF;
+  text-align: center;
+  left: 10%;
 }
 
 #tabsAllEvents.container-fluid{

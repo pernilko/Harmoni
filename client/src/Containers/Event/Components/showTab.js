@@ -17,12 +17,12 @@ export class ShowTab extends Component<{all: boolean}>{
           <div className="row">
               <div className="col-md-12">
                 <div>
-                  <h1 id="tabs-header">Organisasjonens arrangement</h1>
+                  <h1 id="tabs-header">Arrangement for hele organisasjonen</h1>
                   <Tabs>
                    <div label="Avlyste">
                        <EventList user={false} time={3}/>
                     </div>
-                    <div label="Tidligere">
+                    <div label="Fullført">
                         <EventList user={false} time={0}/>
                     </div>
                     <div label="Pågående">

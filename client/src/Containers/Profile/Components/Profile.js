@@ -23,22 +23,18 @@ export class Profile extends Component{
     if (userService.currentUser) {
       return (
         <div className="container-fluid">
-          <div className="container">
-            <div>
-              <h3 style={{margin:5 + '%'}}>Hei, {userService.currentUser.user_name}!</h3>
-            </div>
-          </div>
-
         <div className="container">
           <Tab.Container  defaultActiveKey="first">
             <Row>
-              <div className="col-lg-3">
+              <div className="col-lg-3" style={{marginTop: 10 +'%'}}>
                 <div className="container">
+
                   <div id ="card-img">
                     <Image src={userService.currentUser.image ? userService.currentUser.image : "https://www.simplifai.ai/wp-content/uploads/2019/06/blank-profile-picture-973460_960_720-400x400.png"}
                            roundedCircle width={240 + 'px'}
                            height={220 + 'px'}
-                           style={{marginTop: 10 + 'px' ,marginBottom: 20 +'px'}}/>
+                           style={{margintop:10+ '%'}}
+                           />
                            <br/>
                            <br/>
                   </div>
@@ -63,12 +59,14 @@ export class Profile extends Component{
 
 
             <div className="col-lg-9" style={{paddingLeft: '5%'}}>
-              <div id="hi">
-              <div>
 
+                <h3 style={{margin:5 + '%'}}>Hei, {userService.currentUser.user_name}!</h3>
+
+              <div>
+              <div className="tab-content" style={{width:'initial'}}>
                 <Tab.Pane eventKey="first">
                   <Card>
-                    <div className="card-body">
+                    <div>
                       <h2>Profil instillinger</h2>
                       <br/>
                       <h6>Email knyttet til bruker: </h6>
@@ -105,8 +103,7 @@ export class Profile extends Component{
 
 
                 <Tab.Pane eventKey="second">
-                 <Card>
-                   <div className="card-body">
+                 <div className="card">
                      <h2>Endre brukernavn og/eller passord</h2>
                      <p>(La felt stå tomt om det ikke skal endres)</p>
                      <Form.Group>
@@ -132,8 +129,7 @@ export class Profile extends Component{
                        </Form.Group>
                      </Form.Row>
                      <Button type="submit" variant="primary" onClick = {this.changeUP}>Endre</Button>
-                   </div>
-                 </Card>
+                 </div>
                 </Tab.Pane>
 
 
@@ -147,8 +143,6 @@ export class Profile extends Component{
                    </div>
                  </Card>
                 </Tab.Pane>
-
-
               </div>
               </div>
             </div>
