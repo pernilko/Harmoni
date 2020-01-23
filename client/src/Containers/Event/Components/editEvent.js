@@ -306,6 +306,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             })
             .catch((error: Error) => Alert.danger(error.message));
         history.push("/showEvent/"+this.props.match.params.event_id);
+        window.location.reload();
         Alert.success("Arrangementet ble redigert.");
     }
     /**
@@ -566,5 +567,9 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
           }
         })
 
+  }
+
+  cancel() {
+      history.push("/alleEvents")
   }
 }
