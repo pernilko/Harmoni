@@ -40,17 +40,17 @@ if (root)
         <Route exact path = "/profile" component = {Profile}/>
         <Route path = "/Event" component = {RegistrationForm}/>
         <Route path = "/Login" component = {Login}/>
-        <Route path="/editEvent/:event_id" component={EditEvent}/>
-        <Route path = "/user/:token" component = {userForm}/>
-        <Route path = "/resetPass/:token" component = {resetPass}/>
-        <Route path = "/showEvent/:id" component = {EventDetails}/>
-        <Route path = "/avlyst/:id" component = {CancelledEvent}/>
+        <Route exact path="/editEvent/:event_id" component={EditEvent}/>
+        <Route exact path = "/user/:token" component = {userForm}/>
+        <Route exact path = "/resetPass/:token" component = {resetPass}/>
+        <Route exact path = "/showEvent/:id" component = {EventDetails}/>
+        <Route exact path = "/avlyst/:id" component = {CancelledEvent}/>
         <Route path = "/inviterBruker" component = {inviteUser}/>
         <Route path = "/home" component = {Home}/>
-        <Route path = "/search_result/:search" component={SearchResults}/>
-        <Route exact path = "/alleEvents" render = {(props) => <ShowTab all={true}/>}/>
-        <Route exact path = "/mineEvents" render = {(props) => <ShowTab all={false}/>}/>
-        <Route path = "/verifyEmail/:token" component={verifyEmail}/>
+        <Route exact path = "/search_result/:search" component={SearchResults}/>
+        <Route path = "/alleEvents" render = {(props) => <ShowTab all={true}/>}/>
+        <Route path = "/mineEvents" render = {(props) => <ShowTab all={false}/>}/>
+        <Route exact path = "/verifyEmail/:token" component={verifyEmail}/>
         <Route path = "/organizationProfile" component={OrgProfile2}/>
       </div>
     </HashRouter>,
