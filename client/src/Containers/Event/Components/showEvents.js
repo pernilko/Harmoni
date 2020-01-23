@@ -113,15 +113,15 @@ export class EventList extends Component<{user: boolean, time: number}>{
                                                 id={i}>
                                                 {this.getUserEvent(e.event_id) ? (this.getUserEvent(e.event_id).accepted === 2 ?
                                                     <div>
-                                                        <div id="topButton" className="mx-4"
+                                                        <div id="topButton" 
                                                              onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 1)}>
                                                             <button type = "button" id="top" type="button" className="btn btn-info btn-circle">
                                                                 <i className="fa fa-check"></i>
                                                             </button>
                                                         </div>
-                                                        <div className="button mx-4 my-3"
+                                                        <div 
                                                              onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 0)}>
-                                                            <button id="bot" type="button" className="btn btn-info btn-circle">
+                                                            <button id="bot" type="button" >
                                                                 <i className="fa fa-times"></i>
                                                             </button>
                                                         </div>

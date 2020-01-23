@@ -303,9 +303,8 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 if (this.add_employees.length !== 0 || del_employee.length !== 0) {
                     this.notifyEdit(this.props.match.params.event_id, this.event.event_name, original_employees);
                 }
+                this.changeSite();
             }).then(()=>{
-            //history.push("/showEvent/"+this.props.match.params.event_id);
-            //window.location.reload();
             Alert.success("Arrangementet ble redigert.");
         })
             .catch((error: Error) => Alert.danger(error.message));
@@ -572,5 +571,10 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
 
   cancel() {
       history.push("/alleEvents")
+  }
+
+  changeSite() {
+        history.push("/showEvent/"+this.props.match.params.event_id);
+        window.location.reload();
   }
 }

@@ -151,9 +151,7 @@ class ArtistService {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
-            }).then(response=>{
-                history.push("/showEvent/"+ event_id);
-            });
+            }).then(response=> response.data);
         });
     }
 
