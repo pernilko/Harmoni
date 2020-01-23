@@ -1,9 +1,12 @@
 import * as React from 'react';
 import {Component} from "react-simplified";
 import {eventService} from "../../../services/EventService";
-import {Container, Image, ListGroup, ListGroupItem, Nav, Spinner} from "react-bootstrap";
+import {Container, Image, ListGroup, ListGroupItem, Nav, Row, Spinner} from "react-bootstrap";
 import {sharedComponentData} from "react-simplified";
 import {userService} from "../../../services/UserService";
+import {EventList} from "../../Event/Components/showEvents";
+import Button from "react-bootstrap/Button";
+import Col from "react-bootstrap/Col";
 
 export class SearchResults extends Component <{match: {params: {search: string}}}> {
     events: Event[] | any = [];
@@ -18,6 +21,7 @@ export class SearchResults extends Component <{match: {params: {search: string}}
 
     loaded: boolean = false;
     ready: boolean = false;
+
 
     render() {
         if (userService.currentUser) {
@@ -54,38 +58,38 @@ export class SearchResults extends Component <{match: {params: {search: string}}
                                 </div>
                             </a>
 
-                            {this.temp.map(e => (
                                 <div style={{maxHeight: 100 + '%'}}>
-                                    <ListGroup>
-                                        <ListGroupItem style={{width: 100 + '%', height: "200px", padding: 0}}>
-                                            <div className="row"
-                                                 style={{paddingLeft: 15 + "px", paddingRight: 15 + "px"}}>
-                                                <div className="col-5" style={{padding: 0}}>
-                                                    <Image
-                                                        src="https://kampanje.com/contentassets/0c30c67529294a8c8e59d84740c27e90/eventbilde-sponsor-og-event.jpg?width=1600&height=1300&mode=carve"
-                                                        height="200px" width="300px" style={{objectFit: "cover"}}/>
-                                                </div>
-                                                <div className="col-7" style={{padding: 0}}>
-                                                    <p style={{
-                                                        color: "#D35400",
-                                                        fontSize: '25px',
-                                                        fontWeight: "bold"
-                                                    }}>Arrangement
-                                                        start: {e.event_start.slice(8, 10) + "." + e.event_start.slice(5, 7) + "." + e.event_start.slice(0, 4)
-                                                        + " kl: " + e.event_start.slice(11, 16)}</p>
-                                                    <Nav.Link href={"#/showEvent/" + e.event_id} style={{padding: 0}}><p
-                                                        style={{
-                                                            color: 'black',
-                                                            fontSize: '40px',
+                                    {this.temp.map((e, i) => (
+                                        <ListGroup>
+                                            <ListGroupItem style={{width: 100 + '%', height: "200px", padding: 0}}>
+                                                <div className="row"
+                                                     style={{paddingLeft: 15 + "px", paddingRight: 15 + "px"}}>
+                                                    <div className="col-5" style={{padding: 0}}>
+                                                        <Image
+                                                            src={e.image?e.image:"https://kampanje.com/contentassets/0c30c67529294a8c8e59d84740c27e90/eventbilde-sponsor-og-event.jpg?width=1600&height=1300&mode=carve"}
+                                                            height="200px" width="300px" style={{objectFit: "cover"}}/>
+                                                    </div>
+                                                    <div className="col-7" style={{padding: 0}}>
+                                                        <p style={{
+                                                            color: "#D35400",
+                                                            fontSize: '25px',
                                                             fontWeight: "bold"
-                                                        }}>{e.event_name}</p></Nav.Link>
-                                                    <p style={{color: 'black', fontSize: '20px'}}>{(e.place)}</p>
+                                                        }}>Arrangement
+                                                            start: {e.event_start.slice(8, 10) + "." + e.event_start.slice(5, 7) + "." + e.event_start.slice(0, 4)
+                                                            + " kl: " + e.event_start.slice(11, 16)}</p>
+                                                        <Nav.Link href={"#/showEvent/" + e.event_id} style={{padding: 0}}><p
+                                                            style={{
+                                                                color: 'black',
+                                                                fontSize: '40px',
+                                                                fontWeight: "bold"
+                                                            }}>{e.event_name}</p></Nav.Link>
+                                                        <p style={{color: 'black', fontSize: '20px'}}>{(e.place)}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </ListGroupItem>
-                                    </ListGroup>
+                                            </ListGroupItem>
+                                        </ListGroup>
+                                    ))}
                                 </div>
-                            ))}
                         </Container>
                     </div>
                 )
@@ -141,3 +145,34 @@ export class SearchResults extends Component <{match: {params: {search: string}}
             && new Date(a.event_end.slice(0,10)).getTime() <= new Date(this.event_end).getTime());
     }
 }
+
+/*
+<ListGroup>
+                                        <ListGroupItem style={{width: 100 + '%', height: "200px", padding: 0}}>
+                                            <div className="row"
+                                                 style={{paddingLeft: 15 + "px", paddingRight: 15 + "px"}}>
+                                                <div className="col-5" style={{padding: 0}}>
+                                                    <Image
+                                                        src="https://kampanje.com/contentassets/0c30c67529294a8c8e59d84740c27e90/eventbilde-sponsor-og-event.jpg?width=1600&height=1300&mode=carve"
+                                                        height="200px" width="300px" style={{objectFit: "cover"}}/>
+                                                </div>
+                                                <div className="col-7" style={{padding: 0}}>
+                                                    <p style={{
+                                                        color: "#D35400",
+                                                        fontSize: '25px',
+                                                        fontWeight: "bold"
+                                                    }}>Arrangement
+                                                        start: {e.event_start.slice(8, 10) + "." + e.event_start.slice(5, 7) + "." + e.event_start.slice(0, 4)
+                                                        + " kl: " + e.event_start.slice(11, 16)}</p>
+                                                    <Nav.Link href={"#/showEvent/" + e.event_id} style={{padding: 0}}><p
+                                                        style={{
+                                                            color: 'black',
+                                                            fontSize: '40px',
+                                                            fontWeight: "bold"
+                                                        }}>{e.event_name}</p></Nav.Link>
+                                                    <p style={{color: 'black', fontSize: '20px'}}>{(e.place)}</p>
+                                                </div>
+                                            </div>
+                                        </ListGroupItem>
+                                    </ListGroup>
+ */

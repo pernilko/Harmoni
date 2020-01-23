@@ -29,7 +29,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
         this.state = {
             events: [],
             users: [],
-            postPerPage: 4,
+            postPerPage: 6,
             currentPosts: [],
             items: []
         };
