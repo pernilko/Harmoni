@@ -51,10 +51,10 @@ if (root)
         <Route path = "/avlyst/:id" component = {CancelledEvent}/>
         <Route path = "/inviterBruker" component = {inviteUser}/>
         <Route path = "/home" component = {Home}/>
-        <Route path = "/search_result/:search" component={SearchResults}/>
-        <Route exact path = "/alleEvents" render = {(props) => <ShowTab all={true}/>}/>
-        <Route exact path = "/mineEvents" render = {(props) => <ShowTab all={false}/>}/>
-        <Route path = "/verifyEmail/:token" component={verifyEmail}/>
+        <Route exact path = "/search_result/:search" component={SearchResults}/>
+        <Route path = "/alleEvents" render = {(props) => <ShowTab all={true}/>}/>
+        <Route path = "/mineEvents" render = {(props) => <ShowTab all={false}/>}/>
+        <Route exact path = "/verifyEmail/:token" component={verifyEmail}/>
         <Route path = "/organizationProfile" component={OrgProfile2}/>
       </div>
     </HashRouter>,
