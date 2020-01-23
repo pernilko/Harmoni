@@ -69,7 +69,7 @@ class UserService {
                     console.log(response.data);
                 }).catch(error => {
                     this.currentUser = null;
-                    Alert.message(error.message);
+                    Alert.danger("Du har blitt logget ut");
                     history.push("/login");
                 });
         } else{
