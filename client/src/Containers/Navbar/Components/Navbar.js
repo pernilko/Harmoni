@@ -82,7 +82,6 @@ export class Navigation extends Component {
   }
 
   login(){
-    history.push("/login");
   }
 
 }

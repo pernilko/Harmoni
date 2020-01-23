@@ -57,7 +57,3 @@ if (root)
     root
   );
 userService.autoLogin();
-
-if(!localStorage.getItem("token")){
-  history.push("/Login");
-}

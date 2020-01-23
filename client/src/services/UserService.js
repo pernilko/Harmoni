@@ -45,7 +45,7 @@ class UserService {
 
     autoLogin(){
         console.log("auto-logging in with token from localStorage: " + localStorage.getItem("token"));
-        if (localStorage.getItem("token")) {
+        if (localStorage.getItem("token").length>0) {
             return axios<User>({
                 url: url +'token',
                 method: 'post',
@@ -63,11 +63,13 @@ class UserService {
                             console.log(res);
                             this.currentUser = res;
                             organizationService.setCurrentOrganization(res.org_id);
-                        })
+                            history.push("/alleEvents");
+                        }).catch((error:Error)=>Alert.danger(error.message));
                     }
                     console.log(response.data);
                 }).catch(error => {
                     this.currentUser = null;
+                    Alert.message(error.message);
                     history.push("/Login");
                 });
         }
@@ -86,6 +88,7 @@ class UserService {
                     this.currentUser = res;
                     organizationService.setCurrentOrganization(res.org_id);
                     console.log(this.currentUser);
+                    history.push("/alleEvents");
                 });
             }
         });

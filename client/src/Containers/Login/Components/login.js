@@ -244,7 +244,6 @@ export class Login extends Component{
         userService.logIn(this.pickedOrg.org_id, this.user.email, this.user.password).then(() => {
                 this.loading=false;
                 Alert.success("Du ble logget inn");
-                history.push("/alleEvents");
             }).catch((error: Error)=>{
                 Alert.danger("feil passord");
                 this.loading = false;

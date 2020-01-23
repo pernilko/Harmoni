@@ -202,6 +202,12 @@ class OrganizationService{
         })
     }
 
+    /**
+     *
+     * @param email
+     * @param org_id
+     * @param org_name
+     */
     forgotPass(email: string, org_id: number, org_name: string) {
         console.log("EMAIL: ", email);
         console.log("ORG_ID: ", org_id);
