@@ -149,12 +149,12 @@ class OrganizationService{
      * @param token {string} tar inn token som skal sjekkes.
      * @returns {Promise<AxiosResponse<any>>} gir tilbake all informasjon bruker skrev inn ved registrering, som brukes til oppretting av admin-bruker og tilkoblet organisasjon.
      */
-    checkVerifyToken(token: string) {
+    checkVerifyToken() {
         return axios({
             url: url + "verifyToken",
             method: "post",
             headers: {
-                "x-access-token": token,
+                "x-access-token": localStorage.getItem("invToken"),
                 "Content-type": "application/json; charset=utf-8"
             }
         }).then(res=>res.data);
