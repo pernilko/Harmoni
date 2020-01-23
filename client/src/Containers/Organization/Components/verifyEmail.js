@@ -14,6 +14,7 @@ export class verifyEmail extends Component<{ match: { params: { token: string } 
 
     loading: boolean = false;
     render(){
+        localStorage.removeItem("token");
         localStorage.setItem("invToken", this.props.match.params.token);
         if(this.loading){
             return <Spinner animation="border"></Spinner>
@@ -44,5 +45,6 @@ export class verifyEmail extends Component<{ match: { params: { token: string } 
                     history.push("/RegisterOrganization");
                 });
         }).catch((error:Error)=>Alert.danger(error.message));
+        localStorage.removeItem("invToken");
     }
 }
