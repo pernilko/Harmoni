@@ -41,10 +41,15 @@ export class verifyEmail extends Component<{ match: { params: { token: string } 
                 }).then(()=>Alert.success("Du og din organisasjon '" + res.org_name + "' ble registret"))
                 .then(()=>history.push("/Login"))
                 .catch((error:Error)=>{
+                    localStorage.removeItem("invToken");
                     Alert.danger("Noe gikk feil under oppretting og verifisering, prøv igjen");
                     history.push("/RegisterOrganization");
                 });
-        }).catch((error:Error)=>Alert.danger(error.message));
+        }).catch((error:Error)=>{
+            Alert.danger("ugyldig link");
+            localStorage.removeItem("invToken");
+            history.push("/login");
+        });
         localStorage.removeItem("invToken");
     }
 }
