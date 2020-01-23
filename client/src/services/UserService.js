@@ -69,7 +69,7 @@ class UserService {
                     console.log(response.data);
                 }).catch(error => {
                     this.currentUser = null;
-                    Alert.message(error.message);
+                    Alert.danger(error.message);
                     history.push("/login");
                 });
         } else{
