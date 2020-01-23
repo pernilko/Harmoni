@@ -43,24 +43,55 @@ export class File{
     }
 }
 
-
+/**
+    ArtistService - Klasse for å håndtere all informasjon tilknytta artister
+ */
 class ArtistService {
+
+    /**
+        getAllArtists - henter alle artister
+        @return {Artist[]} Alle artistene i DB.
+     */
     getAllArtists() {
         return axios.get<Artist[]>(url + "artist/all").then(response => response.data);
     }
 
+    /**
+        getEventArtists - Henter alle artistene tilknyttet et konkret event
+        @parameter {number} event_id - id til arrangementet det er snakk om.
+        @return {Artist[]} Alle artistene som er tilknyttet arrangementet.
+     */
     getEventArtists(event_id: number) {
         return axios.get<Artist[]>(url + "artist/event/" + event_id).then(response => response.data);
     }
 
+    /**
+        getArtistRider - henter rideren til en gitt artist
+        @parameter {number} artist_id - id til en gitt artist
+        @return {File} riderkontrakten til en artist.
+     */
     getArtistRider(artist_id:number){
          return axios.get<File>(url+"artist/rider/"+artist_id).then(response => response.data[0]);
     }
 
+    /**
+        getOneArtist - henter en artist med en konkret id
+        @parameter {number} id - id til artisten en skal hente.
+        @return {Artist[]} raden i DB for artisten gjort om til et Artistobjekt.
+     */
     getOneArtist(id: number) {
         return axios.get<Artist[]>(url + "artist/"+id).then(response => response.data[0]);
     }
 
+    /**
+        addArtist - legger til en ny artist i DB.
+        @parameter {number} event_id - id til eventet artisten skal legges til i.
+        @parameter {string} artist_name - navnet til artisten.
+        @parameter {string} email - epostadressen til artisten.
+        @parameter {File} ridersFile - fil med liste over ridersene til en artist.
+        @parameter {File} hospitality_riders - fil med liste over hospitality-riders til en artist.
+        @parameter {File} artist_contract - fil med kontrakten til en artist. 
+     */
     addArtist(event_id: number, artist_name: string, email: string, phone: string, ridersFile: File, hospitality_riders: File, artist_contract: File) {
         let fd_riders:FormData = new FormData();
         fd_riders.append("riders", ridersFile);
