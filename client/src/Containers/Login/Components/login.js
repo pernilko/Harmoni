@@ -47,7 +47,7 @@ export class Login extends Component{
                         <label>{"Passord for " + this.user.email}</label>
                       </div>
                       <div>
-                        <button className="btn dark" variant="success" onClick={this.login}>Logg inn</button>
+                        <button className="btn dark" variant="success" onClick={()=>this.login()}>Logg inn</button>
                       </div>
                     </form>
                     <a
@@ -217,7 +217,7 @@ export class Login extends Component{
     }
 
     checkEmail(){
-        console.log(this.user.email);
+        //console.log(this.user.email);
         this.message = "Checking email";
        organizationService.getOrganizationByEmail(this.user.email).then(org=>{
            if(org.length>0){

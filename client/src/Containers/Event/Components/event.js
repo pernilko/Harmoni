@@ -120,7 +120,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                                                   <p><b>Dette vil markere hele arrangementet som klart,
                                                                       det vil bety at riders, og kontrakter bør være
                                                                       ferdigstilt</b></p>
-                                                                  <button className="btn btn-warning float-left ml-3"
+                                                                  <button type = "button" className="btn btn-warning float-left ml-3"
                                                                           onClick={() => {
                                                                               close();
                                                                           }}>Avbryt

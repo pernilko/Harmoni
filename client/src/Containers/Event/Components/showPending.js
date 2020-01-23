@@ -50,7 +50,7 @@ export class Pending extends Component<{}> {
 
                                 <div className={"banner" + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 1 ? " greenBG" : "") + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 0 ? " redBG" : "")} id = {i}>
                                   <div id="topButton" className= "mx-4" onClick={() => this.completed(e.event_id)}>
-                                      <button id="top" type="button" className="btn btn-info btn-circle">
+                                      <button type = "button" id="top" type="button" className="btn btn-info btn-circle">
                                           <i className="fa fa-check" ></i>
                                       </button>
                                   </div>

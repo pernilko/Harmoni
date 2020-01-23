@@ -160,7 +160,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                                         {close => (
                                             <div className="popup-content">
                                                 <p><b>Vil du varsle personalet om endringen(e)?</b></p>
-                                                <button id="no" className="btn btn-warning float-left ml-3" onClick={() => {
+                                                <button type = "button" id="no" className="btn btn-warning float-left ml-3" onClick={() => {
                                                     this.edit(false);
                                                 }}>Nei
                                                 </button>

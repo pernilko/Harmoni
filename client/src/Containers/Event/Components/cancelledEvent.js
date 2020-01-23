@@ -78,7 +78,7 @@ export class CancelledEvent extends Component<{ match: { params: { id: number } 
                             placeholder="Beskriv feilmelding"
                             onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.bugreport = event.target.value)}/>
                   <br/>
-                  <button className="btn btn-primary submit" style={{margin:10 +'px'}} onClick={this.sendReport}>Rapporter problem</button>
+                  <button type = "button" className="btn btn-primary submit" style={{margin:10 +'px'}} onClick={this.sendReport}>Rapporter problem</button>
                 </div>
               </a>
               <br/>

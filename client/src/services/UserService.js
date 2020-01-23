@@ -63,25 +63,27 @@ class UserService {
                             console.log(res);
                             this.currentUser = res;
                             organizationService.setCurrentOrganization(res.org_id);
-                            history.push("/alleEvents");
+                           // history.push("/alleEvents");
                         }).catch((error:Error)=>Alert.danger(error.message));
                     }
                     console.log(response.data);
                 }).catch(error => {
                     this.currentUser = null;
                     Alert.message(error.message);
-                    history.push("/Login");
+                    //history.push("/login");
                 });
         }
     }
 
     //for logging in
     logIn(org_id: number, email: string, password: string){
+        console.log("logging in");
         return axios.post<{}, {jwt: string}>(url+'login', {
             "org_id":org_id,
             "email": email,
             "password": password
         }).then(response=>{
+            console.log("got response from server");
             if(response.data.jwt){
                 localStorage.setItem("token", response.data.jwt)
                 userService.getUser(response.data.user_id).then(res=>{
@@ -91,7 +93,7 @@ class UserService {
                     history.push("/alleEvents");
                 });
             }
-        });
+        }).catch((error:Error)=>Alert.danger(error.message));
     }
     //for registering a new user
     register(org_id: number, email: string, privileges: number, user_name: string, password: string, address: string, phone: string, image: string){

@@ -28,6 +28,7 @@ import { createHashHistory } from 'history';
 import {OrgProfile2} from "./Containers/Organization/Components/profile2";
 const history = createHashHistory();
 
+userService.autoLogin();
 
 const root = document.getElementById('root');
 if (root)
@@ -36,10 +37,11 @@ if (root)
       <div style={{height: "100%"}}>
         <Alert/>
         <Navigation/>
+        <Route exact path = "/" render={()=>{ history.push("/login")}}/>
         <Route path = "/opprettEvent" component = {RegistrationForm}/>
         <Route exact path = "/profile" component = {Profile}/>
         <Route path = "/Event" component = {RegistrationForm}/>
-        <Route path = "/Login" component = {Login}/>
+        <Route path = "/login" component = {Login}/>
         <Route path="/editEvent/:event_id" component={EditEvent}/>
         <Route path = "/user/:token" component = {userForm}/>
         <Route path = "/resetPass/:token" component = {resetPass}/>
@@ -56,4 +58,3 @@ if (root)
     </HashRouter>,
     root
   );
-userService.autoLogin();
