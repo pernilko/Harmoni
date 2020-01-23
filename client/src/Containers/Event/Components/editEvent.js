@@ -303,11 +303,12 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 if (this.add_employees.length !== 0 || del_employee.length !== 0) {
                     this.notifyEdit(this.props.match.params.event_id, this.event.event_name, original_employees);
                 }
-            })
+            }).then(()=>{
+            //history.push("/showEvent/"+this.props.match.params.event_id);
+            //window.location.reload();
+            Alert.success("Arrangementet ble redigert.");
+        })
             .catch((error: Error) => Alert.danger(error.message));
-        history.push("/showEvent/"+this.props.match.params.event_id);
-        window.location.reload();
-        Alert.success("Arrangementet ble redigert.");
     }
     /**
      * Dette er en metode for å oppdatere artister i redigerings modus
@@ -401,7 +402,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         console.log("UPDATE ARTISTS: ", artists);
         artists.map(a => {
            artistService
-            .updateArtist(a.artist_id, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone)
+            .updateArtist(a.artist_id, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone, a.event_id)
             .then(response => console.log(response))
         });
     }

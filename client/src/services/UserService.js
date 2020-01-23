@@ -86,7 +86,7 @@ class UserService {
                     });
             }
         }else if (localStorage.getItem("invToken")) {
-            console.log("har invtoken, men ikke token")
+            console.log("har invtoken, men ikke token");
         }else{
             history.push("/login");
         }

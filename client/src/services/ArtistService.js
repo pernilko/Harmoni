@@ -1,5 +1,7 @@
 // @flow
 import axios from 'axios';
+import { createHashHistory } from 'history';
+const history = createHashHistory();
 
 const url = "http://localhost:8080/";
 
@@ -131,7 +133,7 @@ class ArtistService {
      * @param email {string} tar inn den nye epost-addressen som skal sendes med put requestn til serveren for artisten som skal redigeres.
      * @param phone {number} tar inn det nye telefonnummeret som skal sendes til serveren og oppdatere artisten som skal redigeres.
      */
-    updateArtist(artist_id: number, artist_name, ridersFile: File, hospitality_ridersFile: File, artist_contract: File, email, phone) {
+    updateArtist(artist_id: number, artist_name, ridersFile: File, hospitality_ridersFile: File, artist_contract: File, email, phone, event_id: number) {
         let fd_riders:FormData = new FormData();
         fd_riders.append("riders", ridersFile);
         fd_riders.append("hospitality_rider", hospitality_ridersFile);
@@ -149,7 +151,9 @@ class ArtistService {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
-            }).then(response=>response.data);
+            }).then(response=>{
+                history.push("/showEvent/"+ event_id);
+            });
         });
     }
 

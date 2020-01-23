@@ -171,8 +171,11 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                                   <p className="card-text">
                                                       <h6> Epost: {a.email}</h6>
                                                       <h6> tlf: {a.phone} </h6>
-                                                  </p>
-                                                  <a href={a.riders} target = "blank"> riders </a>
+                                                  </p><div style = {{text_align: "center"}}>
+                                                  {a.riders && (userService.currentUser.p_read_riders > 0 || userService.currentUser.privileges >0)? <p><a href={" "+a.riders} target = "blank">riders</a></p>:<div></div>}
+                                                 {a.hospitality_riders && (userService.currentUser.p_read_riders > 0 || userService.currentUser.privileges >0)? <p><a href={a.hospitality_riders} target = "blank">hospitality riders</a></p>:<div></div>}
+                                                 {a.artist_contract && (userService.currentUser.p_read_contract > 0 || userService.currentUser.privileges >0)? <p><a href={a.artist_contract} target = "blank">artistkontrakt</a></p>:<div></div>}
+                                              </div>
                                                   <br/>
 
                                                   {u.privileges > 0 || u.p_read_contract ?
