@@ -101,7 +101,8 @@ export class Login extends Component{
 
 
                     <div hidden={this.showLogin} className="wrapper">
-                      <img src="./image.png"/>
+                      <img height="40%" width="80%" style={{padding:0}}
+                        src="https://storage.cloud.google.com/harmoni-files/image.png"/>
 
                       <form id="loginForm" tabIndex="500">
                         <h3>Logg inn</h3>
