@@ -45,7 +45,7 @@ export class OrgProfile extends Component {
                                                        value={this.org_name} disabled={this.isDisabled}
                                                        onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.org_name = event.target.value)}/>
                                             </h2>
-                                            <p>Opprettet: 20.01.2020</p>
+                                            <p>Opprettet: {organizationService.currentOrganization.reg_date}</p>
                                         </div>
                                         <div className="card-header">
                                             <h4>Kontakt info:

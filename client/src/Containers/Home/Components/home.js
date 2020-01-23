@@ -23,7 +23,7 @@ export class Home extends Component {
 
     render(){
         if (userService.currentUser) {
-            if (userService.currentUser.p_archive == 1) {
+            if (userService.currentUser.p_archive == 1 || userService.currentUser.privileges == 1) {
             return(
                 <div>
                     <Container fluid={true}>
