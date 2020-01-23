@@ -1,5 +1,14 @@
 /* #dE685E #92bCa6*/
 
+body{
+    overflow-y: scroll;
+}
+
+p{
+    text-align: left;
+    padding-left: 20px;
+}
+
 .eventCard{
     position: relative;
     height: 400px;
@@ -8,27 +17,26 @@
     background-color: white;
 }
 
+#eventcard{
+    background: white;
+}
+
 .content:hover{
     box-shadow: darkblue;
     opacity: 0.795;
 }
 
 .content{
-    position: absolute;
-    margin-left: 14%;
-    width: 86%;
-    height: 100%;
     border-radius: 6px;
 }
 
 .banner{
     position: absolute;
-    background: #400039;
-    width: 14%;
+    background: #6d5f6d;
+    width: 100%;
     height: 100%;
     border-radius: 6px;
     border-color: #FFFFFF;
-
     border-top-right-radius: 0px;
 }
 
@@ -46,18 +54,17 @@
 
 #image {
     width: 100%;
-    height: 55%;
-    object-fit: cover;
+    height: 5.8vm ;
     border-top-right-radius: 6px;
 }
 
 #cancelled{
     background-color: rgba(255, 0, 0, 0.42);
     color: #FFFFFF;
-    font-size: 9.5vw;
+    font-size: 5.8vw;
     position: absolute;
     width: 100%;
-    height: 55%;
+    height: inherit;
     text-align: center;
     transform: translateY(-100%);
 }
@@ -74,7 +81,6 @@
     position: relative;
     text-align: center;
     color: white;
-
 }
 .text-block{
     position: absolute;
@@ -114,6 +120,23 @@ a{
 .animation{
     transition: 0.25s;
     animation: makeGreen;
+}
+.btn-group button{
+    background: transparent;
+    padding: 7px 30px;
+    margin: 30px 10px;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    color: #FFF;
+}
+
+.card button{
+    background: rgba(255, 0, 127, 0.25);
+    padding: 7px 30px;
+    margin: 30px 10px;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    color: #FFF;
 }
 
 /*

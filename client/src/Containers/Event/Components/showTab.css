@@ -38,7 +38,7 @@ h1 {
 
 #tabsAllEvents.container-fluid{
   color: #FFFFFF;
-  background: linear-gradient(#222328,#551C3A,#551C3A,#551C3A, #551C3A, #551C3A, #551C3A, #222328) 100%;
+  background: transparent;
   align-items: center;
   text-align: center;
   padding: 0;
@@ -52,4 +52,22 @@ div .card-header{
 
 div.card-body{
   background: rgba(34, 35, 40, 0.14);
+}
+
+.btn-group button{
+  background: transparent;
+  padding: 7px 30px;
+  margin: 30px 10px;
+  border: 2px solid #fff;
+  border-radius: 50px;
+  color: #FFF;
+}
+
+.card button{
+  background: rgba(255, 0, 127, 0.25);
+  padding: 7px 30px;
+  margin: 30px 10px;
+  border: 2px solid #fff;
+  border-radius: 50px;
+  color: #FFF;
 }

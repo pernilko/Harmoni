@@ -6,7 +6,7 @@ import {userService} from "../../../services/UserService";
 import {Alert} from "../../../widgets";
 import {sharedComponentData} from "react-simplified";
 import { createHashHistory } from 'history';
-import "./Profile.css";
+import "./OrganizationProfile.css";
 const history = createHashHistory();
 
 

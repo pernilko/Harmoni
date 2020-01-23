@@ -7,7 +7,7 @@ import {Component} from 'react-simplified';
 import {Organization, organizationService} from "../../../services/OrganizationService";
 import {Alert, Row} from "../../../widgets";
 import Accordion from "react-bootstrap/Accordion";
-import "./Profile.css";
+import "./OrganizationProfile.css";
 
 export class OrgProfile extends Component {
     admin: User[] = [];

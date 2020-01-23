@@ -36,7 +36,7 @@ async function uploadFile(filename: string) {
     fs.unlinkSync(filename);
 }
 
-//uploadFile(path.join(__dirname, "../package.json"));
+//uploadFile(path.join(__dirname, "../Logo.jpg"));
 
 let app = express();
 app.use(bodyParser.json());
