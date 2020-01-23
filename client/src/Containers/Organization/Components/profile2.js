@@ -120,7 +120,7 @@ export class OrgProfile2 extends Component {
                                                             <div className="row">
                                                                 <div className="col-lg-2">
                                                                     <img
-                                                                        src={"https://cdn1.vectorstock.com/i/1000x1000/78/80/young-woman-head-avatar-cartoon-face-character-vector-21787880.jpg"}
+                                                                        src={m.image ? m.image : "https://storage.cloud.google.com/harmoni-files/pb.png"}
                                                                         roundedCircle width={70 + "px"} height={60 + "px"}
                                                                         style={{objectFit: "cover"}}/>
                                                                 </div>

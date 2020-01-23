@@ -159,7 +159,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                                 <MapContainer lat={this.event.latitude} lng={this.event.longitude} show={true} edit={true}/>
                                 <div className="btn-group">
                                     <Popup  contentStyle={{background: '#505050', width: 130 +'%', position: 'absolute', padding:0}} trigger={<a
-                                         id="save" className="btn btn-success">Lagre</a>}>
+                                         id="save" style={{cursor: "pointer"}} className="btn btn-success">Lagre</a>}>
                                         {close => (
                                             <div className="popup-content">
                                                 <p><b>Vil du varsle personalet om endringen(e)?</b></p>

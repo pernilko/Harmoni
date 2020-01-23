@@ -92,6 +92,11 @@ export class Pending extends Component<{}> {
                                                             <b> Tidspunkt: {this.setFormat(e.event_start, e.event_end)}</b>
                                                         </p>
                                                     </div>
+                                                    <div id="topButton" className= "mx-4" onClick={() => this.completed(e.event_id)}>
+                                      <button id="top" type="button" className="btn btn-info btn-circle">
+                                          <i className="fa fa-check" ></i>
+                                      </button>
+                            </div>
                                                 </a>
                                             </div>
                                         </Col>

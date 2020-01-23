@@ -98,7 +98,7 @@ html,body {
     box-shadow: 0 0 4px rgba(0,0,0,.14), 0 9px 8px rgba(0,0,0,.28);
     transition: all .5s;
     color: #303030;
-    overflow: auto;
+    overflow: hidden;
     z-index: 50;
 
 }

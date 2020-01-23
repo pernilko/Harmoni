@@ -54,3 +54,7 @@ div .card-header{
 div.card-body{
   background: rgba(34, 35, 40, 0.14);
 }
+
+li {
+  cursor: pointer;
+}
