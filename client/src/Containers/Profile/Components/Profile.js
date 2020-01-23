@@ -65,6 +65,7 @@ export class Profile extends Component{
             <div className="col-lg-9" style={{paddingLeft: '5%'}}>
               <div id="hi">
               <div>
+
                 <Tab.Pane eventKey="first">
                   <Card>
                     <div className="card-body">
@@ -101,9 +102,11 @@ export class Profile extends Component{
                     </div>
                   </Card>
                 </Tab.Pane>
+
+
                 <Tab.Pane eventKey="second">
                  <Card>
-                   <Card.Body>
+                   <div className="card-body">
                      <h2>Endre brukernavn og/eller passord</h2>
                      <p>(La felt stå tomt om det ikke skal endres)</p>
                      <Form.Group>
@@ -129,19 +132,23 @@ export class Profile extends Component{
                        </Form.Group>
                      </Form.Row>
                      <Button type="submit" variant="primary" onClick = {this.changeUP}>Endre</Button>
-                   </Card.Body>
+                   </div>
                  </Card>
                 </Tab.Pane>
+
+
                 <Tab.Pane eventKey="third">
                  <Card>
-                   <Card.Body>
+                   <div className="card-body">
                      <h2>Slett brukeren din</h2>
                      <Button type="submit" variant="danger" onClick = {this.delete}>Slett bruker</Button>
                      <Button type="submit" variant="secondary" onClick = {this.cancel}>Angre</Button>
 
-                   </Card.Body>
+                   </div>
                  </Card>
                 </Tab.Pane>
+
+
               </div>
               </div>
             </div>
