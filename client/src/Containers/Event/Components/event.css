@@ -23,11 +23,54 @@
     background-color: #e6e6ff;
 }
 
-#topBanner{
-    height: 40px;
-    padding-top: 5px;
-    text-align: center;
+
+
+@media (max-width: 768px) {
+    #topBanner{
+        height: 40px;
+        padding-top: 5px;
+        text-align: center;
+        margin-left: 5%;
+
+    }
+
+    #underPlanning{
+        padding: 0;
+        margin-left: 5%;
+        margin-right: 40%;
+    }
+
+    #acceptEventButton{
+        left: -15%;
+        margin-bottom: 15px;
+    }
+
+    #artistBox{
+        background-color: #e6e6ff;
+        padding: 0;
+        width: fit-content;
+        border-radius: 10px;
+        margin-left: 5%;
+        display: inline-block;
+
+    }
+
+
+
 }
+
+@media (min-width: 769px) {
+    #topBanner{
+        height: 40px;
+        padding-top: 5px;
+        text-align: center;
+        margin-left: 5%;
+
+    }
+
+}
+
+
 
 p {
     display: inline;
@@ -46,9 +89,13 @@ p {
     border: 0px;
 }
 
-.artist {
+#artistBox{
     background-color: #e6e6ff;
-    border-radius: 6px;
+    padding: 0;
+    width: inherit;
+    border-radius: 10px;
+    margin-left: 5%;
+
  }
 
 .artistContainer {
@@ -61,15 +108,13 @@ p {
 .redBG{
     background: #dE685E;
     color: white;
+    padding: 0;
 }
 
 .greenBG{
     background: linear-gradient(#92bCa6, #A2CCB6);
 }
 
-.artistCard{
-    padding-bottom: 10px;
-}
 
 
 .artistButton{
@@ -87,14 +132,25 @@ p {
 }
 
 #cardImg{
-    height: 130%;
+    height: 60vw;
     width: 100%;
     overflow: hidden;
     object-fit: inherit;
 }
 
-.w94{
+.w94 {
     width: 93%;
+}
+
+input[type=time]::-webkit-outer-spin-button,
+input[type=time]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    padding: 0;
+}
+
+input[type=time] {
+    -moz-appearance:textfield;
 }
 
 .alertDesign {
@@ -114,15 +170,15 @@ p {
 }
 
 .form-control  {
-    color: white;
-    background: rgba(129, 129, 129, 0.18);
+    color: #2d2d31;
+    background: rgba(181, 181, 181, 0.91);
     border-color: #505050;
 }
 
 
 .form-group{
-    color: white;
     background: rgba(129, 129, 129, 0.18);
+    color: #FFFFFF;
     border-color: #505050;
 
 }
@@ -172,6 +228,8 @@ input{
     background: linear-gradient(#222328, #551C3A) 100%;
 }
 
+
+
 .btn-group #save {
     background: transparent;
     padding: 7px 30px;
@@ -196,22 +254,48 @@ input{
 }
 
 .popup-content{
-    background: #ffffff;
-    width: 170%;
+    background: #fff;
+    width: 115%;
     position: absolute;
+    color: #222328;
+    padding-bottom: 5%;
+}
 
+.popup-content #answr{
+    color: #281121;
+    border-color: #281121;
+}
+
+.popup-content #answr:hover{
+    color: #fff;
+    border-color: #fff;
 }
 
 
+
 #preview{
-    max-width: inherit;
-    height: 30%;
+    max-width: content-box;
+    max-height: content-box;
 }
 
 #eventBody{
     width: 100%;
     margin: auto;
 }
+
+.card-text {
+    text-align: center;
+    padding: 0;
+    margin: 3%;
+
+}
+
+#acceptwork{
+    text-align: center;
+    padding: 0;
+    margin: 5%;
+}
+
 
 
 
@@ -226,6 +310,10 @@ input{
 
 }
 
+::-webkit-input-placeholder{
+    color: #222328;
+}
+
 div.col-md-12{
 
     padding: 0;
@@ -234,19 +322,18 @@ div.col-md-12{
     color: #222328;
 }
 
+.popup-content #avlys{
+    background: #fff;
+    width: 135%;
+    position: absolute;
+    color: #222328;
+    padding-bottom: 5%;
+}
+
 #avlys{
     display: inline-block;
     margin-right: 20px;
     margin-top: 0;
-}
-
-form #form-body{
-    background: #222328;
-}
-
-div #regForm .row{
-   display: inline-block;
-    position: center;
 }
 
 

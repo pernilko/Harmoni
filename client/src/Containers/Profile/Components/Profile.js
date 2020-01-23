@@ -21,44 +21,58 @@ export class Profile extends Component{
 
   render() {
     if (userService.currentUser) {
-      return <div id="whole-page" className="container-fluid">
-      <div id="con" className="container">
-        <h2 className="card-header" style={{marginTop:20+'px'}}> Hei, {userService.currentUser.user_name}!</h2>
-        <Container style={{padding: "0px"}}>
-        <Tab.Container  defaultActiveKey="first">
-          <Row>
-            <Col lg={3}>
-              <div>
-              <Image src={userService.currentUser.image ? userService.currentUser.image : "https://www.simplifai.ai/wp-content/uploads/2019/06/blank-profile-picture-973460_960_720-400x400.png"}
-                     roundedCircle width={240 + 'px'}
-                     height={220 + 'px'} style={{marginTop: 10 + 'px' ,marginBottom: 20 +'px'}}/>
-              <br/>
-              <Nav id="left-tabs" variant="pills" className="flex-column" >
-                <Nav.Item>
-                  <Nav.Link eventKey="first">Bruker informasjon</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="second">Endre brukernavn og/eller passord</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="third">Slett brukerkonto</Nav.Link>
-                </Nav.Item>
-                <br/>
-                <text> Harmoni bruker siden {userService.currentUser.reg_date.slice(8,10) +"/" +
-                userService.currentUser.reg_date.slice(5,7) +"-" + userService.currentUser.reg_date.slice(0,4)}</text>
-              </Nav>
+      return (
+        <div className="container-fluid">
+          <div className="container">
+            <div>
+              <h3 style={{margin:5 + '%'}}>Hei, {userService.currentUser.user_name}!</h3>
+            </div>
+          </div>
+
+        <div className="container">
+          <Tab.Container  defaultActiveKey="first">
+            <Row>
+              <div className="col-lg-3">
+                <div className="container">
+                  <div id ="card-img">
+                    <Image src={userService.currentUser.image ? userService.currentUser.image : "https://www.simplifai.ai/wp-content/uploads/2019/06/blank-profile-picture-973460_960_720-400x400.png"}
+                           roundedCircle width={240 + 'px'}
+                           height={220 + 'px'}
+                           style={{marginTop: 10 + 'px' ,marginBottom: 20 +'px'}}/>
+                           <br/>
+                           <br/>
+                  </div>
+
+                  <div className="form-inline-block">
+                      <Nav variant="pills" className="flex-column" >
+                        <Nav.Item>
+                          <Nav.Link eventKey="first">Bruker informasjon</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                          <Nav.Link eventKey="second">Endre brukernavn og/eller passord</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                          <Nav.Link eventKey="third">Slett brukerkonto</Nav.Link>
+                        </Nav.Item>
+                        <br/>
+                        <text> Harmoni bruker siden {userService.currentUser.reg_date.slice(8,10) +"/" + userService.currentUser.reg_date.slice(5,7) +"-" + userService.currentUser.reg_date.slice(0,4)}</text>
+                      </Nav>
+                  </div>
+                </div>
               </div>
-            </Col>
-            <Col style={{padding: 0}} lg={9}>
+
+
+            <div className="col-lg-9" style={{paddingLeft: '5%'}}>
               <div id="hi">
-              <Tab.Content>
+              <div>
                 <Tab.Pane eventKey="first">
                   <Card>
-                    <Card.Body>
+                    <div className="card-body">
                       <h2>Profil instillinger</h2>
                       <br/>
                       <h6>Email knyttet til bruker: </h6>
-                      <p style={{color:'grey'}}>{userService.currentUser.email}</p>
+                    <br/>
+                      <p style={{color:'white', textAlign: 'center', fontWeight: 'bold'}}>{userService.currentUser.email}</p>
                       <br/>
                       <br/>
                       <h3>Endre profilbilde</h3>
@@ -84,7 +98,7 @@ export class Profile extends Component{
                         }}/>
                       </Form.Group>
                       <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.changeInfo}>Endre</Button>
-                    </Card.Body>
+                    </div>
                   </Card>
                 </Tab.Pane>
                 <Tab.Pane eventKey="second">
@@ -128,14 +142,14 @@ export class Profile extends Component{
                    </Card.Body>
                  </Card>
                 </Tab.Pane>
-              </Tab.Content>
               </div>
-            </Col>
-          </Row>
-        </Tab.Container>
-          </Container>
-      </div>
-      </div>
+              </div>
+            </div>
+            </Row>
+          </Tab.Container>
+          </div>
+        </div>
+      )
     } else {
       return <Spinner animation="border"/>
     }

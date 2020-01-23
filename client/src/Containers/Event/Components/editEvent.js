@@ -121,11 +121,11 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                                     <textarea className="form-control" defaultValue={this.event.description}
                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.description = event.target.value)}/>
                                 </div>
-                                <div className="form-inline">
-                                    <div id="regForm" className="row" >
+                                <div className="form-group d-inline-block">
+                                    <div className="row"  style={{width:'inherit'}}>
                                         <div className="col">
                                             <label>Start dato:</label>
-                                            <input id="startdate" className="form-control" type="date"
+                                            <input className="form-control" type="date"
                                                    value={this.startDate}
                                                    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startDate = event.target.value)}/>
                                         </div>
@@ -163,13 +163,13 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                                         {close => (
                                             <div className="popup-content">
                                                 <p><b>Vil du varsle personalet om endringen(e)?</b></p>
-                                                <button type = "button" id="no" className="btn btn-warning float-left ml-3" onClick={() => {
+
+                                                <button id="answr" type = "button" className="btn btn-warning float-left ml-3" onClick={() => {
                                                     this.edit(false);
-                                                }}>Nei
-                                                </button>
-                                                <button id="yes" className="btn btn-success float-right mr-3"
-                                                        onClick={() => this.edit(true)}>Ja
-                                                </button>
+                                                }}> Nei </button>
+
+                                                <button id="answr" className="btn btn-success float-right mr-3"
+                                                        onClick={() => this.edit(true)}>Ja </button>
                                             </div>
                                         )}
                                     </Popup>

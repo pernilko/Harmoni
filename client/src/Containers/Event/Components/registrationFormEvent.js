@@ -102,7 +102,7 @@ export class RegistrationForm extends Component {
                                     </div>
                                     <div className="col">
                                         <label>Slutt tid:</label>
-                                        <input className="form-control" type="time" value={this.endTime}
+                                        <input  className="form-control" type="time" value={this.endTime}
                                                onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endTime = event.target.value)}/>
                                     </div>
                                 </div>
