@@ -56,7 +56,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
                         </div>
                         {this.state["currentPosts"].map((e, i) =>
                             <Container>
-                                    <div className="card" style={{marginLeft: "18%", marginRight: "18%", marginBottom: "2%", borderRadius: 6+"px", border: "none"}}>
+                                    <div id = "eventcard" className="card" style={{marginLeft: "18%", marginRight: "18%", marginBottom: "2%", borderRadius: 6+"px", border: "none"}}>
                                         <Row style={{margin: 0}}>
                                         <Col sm={2} style={{padding: 0}}>
                                             <div className="banner"/>
@@ -64,11 +64,11 @@ export class EventList extends Component<{user: boolean, time: number}>{
                                         <Col sm={10} style={{padding: 0}}>
                                             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
                                             <link href="https://fonts.googleapis.com/css?family=PT+Serif|Ubuntu&display=swap" rel="stylesheet"/>
-                                                <div className="card-body" style={{padding:0}}>
-                                                    <a className="card-link" href={'#/avlyst/' + e.event_id}>
+                                                <div id = "eventcard-body" className="card-body" style={{padding:0}}>
+                                                    <a href={'#/avlyst/' + e.event_id}>
                                                         <img id="image" src="https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"/>
                                                         <h3 id="cancelled">Avlyst</h3>
-                                                        <div className="card-text" style={{float: "left", textAlign: "left"}}>
+                                                        <div id="eventcard-text" className="card-text" style={{float: "left", textAlign: "left"}}>
                                                             <h2 style={{textAlign: "left", paddingLeft: 20}}> {e.event_name} </h2>
                                                             <p> <b> Sted: </b> {e.place} </p><br/>
                                                             <p> <b> Tidspunkt: </b> {e.event_start.slice(0, 10)}, {e.event_start.slice(11, 16)}-{e.event_end.slice(11, 16)} </p><br/>
@@ -101,7 +101,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
                         </div>
                         {this.state["currentPosts"].map((e, i) =>
                             <Container>
-                                <div className="card" style={{marginLeft: "18%", marginRight: "18%", marginBottom: "2%", borderRadius: 6+"px", border: "none"}}>
+                                <div id="eventcard" className="card" style={{marginLeft: "18%", marginRight: "18%", marginBottom: "2%", borderRadius: 6+"px", border: "none"}}>
                                     <Row style={{margin: 0}}>
                                         <Col sm={2} style={{padding: 0}}>
                                             <div
@@ -128,11 +128,11 @@ export class EventList extends Component<{user: boolean, time: number}>{
                                         <Col sm={10} style={{padding: 0}}>
                                             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
                                             <link href="https://fonts.googleapis.com/css?family=PT+Serif|Ubuntu&display=swap" rel="stylesheet"/>
-                                            <div className="card-body" style={{padding:0}}>
+                                            <div id = "eventcard-body" className="card-body" style={{padding:0}}>
                                                 <a href={'#/showEvent/' + e.event_id}>
                                                     <img id="image"
                                                          src={e.image ? e.image : "https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"}/>
-                                                    <div className="card-text" style={{float: "left", textAlign: "left"}}>
+                                                    <div id="eventcard-text" className="card-text" style={{float: "left", textAlign: "left"}}>
                                                         <h2 style={{textAlign: "left", paddingLeft: 20}}> {e.event_name} </h2>
                                                         <p><b> Sted: </b> {e.place} </p>
                                                         <br/>

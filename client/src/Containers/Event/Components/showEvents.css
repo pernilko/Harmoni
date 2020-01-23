@@ -17,6 +17,10 @@ p{
     background-color: white;
 }
 
+#eventcard{
+    background: white;
+}
+
 .content:hover{
     box-shadow: darkblue;
     opacity: 0.795;
