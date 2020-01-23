@@ -45,9 +45,11 @@ export class ShowTab extends Component<{all: boolean}>{
                 <div>
                   <h1 id="tabs-header">Mine Arrangement</h1>
                   <Tabs>
+                  <a type="button">
                     <div label="Avlyste">
                         <EventList user={true} time={3}/>
                     </div>
+                    </a>
                     <div label="Tidligere">
                         <EventList user={true} time={0}/>
                     </div>
@@ -57,6 +59,7 @@ export class ShowTab extends Component<{all: boolean}>{
                     <div label="Kommende">
                         <EventList user={true} time={2}/>
                     </div>
+                    
                   </Tabs>
                 </div>
               </div>

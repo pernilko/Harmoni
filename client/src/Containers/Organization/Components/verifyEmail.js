@@ -24,7 +24,10 @@ export class verifyEmail extends Component<{ match: { params: { token: string } 
               <div className="body">
                   <div className="mid">
                       <div id="verify" className="wrapper">
-                          <button id="verfiyButton" type = "button" className="dark" onClick={()=>this.verify()}>"Verifiser min bruker og organisasjon" </button>
+                    <div>
+                      <b>Trykk for å verifisere</b>
+                          <button id="verfiyButton" type = "button" className="dark" onClick={()=>this.verify()}>Verifiser min bruker og organisasjon</button>
+                      </div>
                       </div>
                   </div>
               </div>
