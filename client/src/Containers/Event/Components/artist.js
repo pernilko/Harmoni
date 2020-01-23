@@ -159,7 +159,7 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
      * For å legge inn ny artist må man ha navn +e-post|tlf
      */
     add(){
-        if (!emailRegEx.test(this.email) || this.phone == "" || this.artist_name == "") {
+        if ((!emailRegEx.test(this.email) || this.phone == "") && this.artist_name == "") {
             Alert.danger("Artist info ikke korrekt.");
             return;
         }
@@ -230,7 +230,7 @@ export class ArtistDetails extends Component {
                         </div>
                         <div className={"row"}>
                             <div className={"col"}>
-                                <ArtistDropdown buttonName={"Rediger"} artist={a}/>
+                                <ArtistDropdown buttonName={"Legg til"} artist={a}/>
                             </div>
                         </div>
                     </div>
