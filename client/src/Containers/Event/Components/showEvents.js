@@ -29,7 +29,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
         this.state = {
             events: [],
             users: [],
-            postPerPage: 5,
+            postPerPage: 4,
             currentPosts: [],
             items: []
         };
@@ -49,7 +49,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
             if(this.props.time == 3){
                 return (
                     <div className={"w-100 mx-auto "}>
-                        <div>
+                        <div style={{width: "100%"}}>
                             <ul className="pagination">
                                 {this.state["items"].map((item, i) => (
                                     <li className="page-item" ><Button variant="secondary"  onClick={() => this.changePage(i)}>{i+1}</Button></li>
@@ -99,7 +99,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
                         <div>
                             <ul className="pagination">
                                 {this.state["items"].map((item, i) => (
-                                    <li className="page-item" ><Button variant="secondary"  onClick={() => this.changePage(i)}>{i+1}</Button></li>
+                                    <li className="page-item" ><Button id="pageButton" variant="secondary"  onClick={() => this.changePage(i)}>{i+1}</Button></li>
                                 ))}
                             </ul>
                         </div>
@@ -155,7 +155,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
                         <div>
                             <ul className="pagination">
                                 {this.state["items"].map((item, i) => (
-                                    <li className="page-item" ><Button onClick={() => this.changePage(i)} variant="secondary">{i+1}</Button></li>
+                                    <li className="page-item" ><Button id="pageButton" onClick={() => this.changePage(i)} variant="secondary">{i+1}</Button></li>
                                 ))}
                             </ul>
                         </div>
