@@ -101,7 +101,7 @@ export class RegistrationForm extends Component {
                                     </div>
                                     <div className="col">
                                         <label>Slutt tid:</label>
-                                        <input className="form-control" type="time" value={this.endTime}
+                                        <input  className="form-control" type="time" value={this.endTime}
                                                onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.endTime = event.target.value)}/>
                                     </div>
                                 </div>
@@ -203,12 +203,11 @@ export class RegistrationForm extends Component {
                 this.addArtists(response[0]["LAST_INSERT_ID()"], this.artists);
                 this.addEmployee(response[0]["LAST_INSERT_ID()"], this.employees);
                 this.notify(response[0]["LAST_INSERT_ID()"], this.eventName, this.employees);
-            })
+            }).then(()=>{
+            history.push("/alleEvents");
+            Alert.success("Arrangementet ble opprettet");
+        })
             .catch((error: Error) => console.log(error.message))
-
-        history.push("/alleEvents");
-        window.location.reload();
-        Alert.success("Arrangementet ble opprettet");
     }
 
     addArtists(val: number, artists: Artist[]) {

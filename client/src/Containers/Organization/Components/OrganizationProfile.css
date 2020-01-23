@@ -25,6 +25,16 @@
 }
 
 
+button.light {
+    background: rgb(40, 17, 33);
+    color: #FFF;
+    border-radius: 20px;
+    border-color: #FFFFFF;
+    border-width: 2px;
+    padding:  10px 30px 10px 30px;
+
+}
+
 #verify {
     height: 50%;
     width: 80%;

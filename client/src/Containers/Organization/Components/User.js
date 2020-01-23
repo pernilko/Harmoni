@@ -6,6 +6,7 @@ import {User, userService} from "../../../services/UserService";
 import {Alert} from "../../../widgets";
 import {Organization, organizationService} from "../../../services/OrganizationService";
 import { createHashHistory } from 'history';
+import "./OrganizationProfile.css";
 
 const history = createHashHistory();
 
@@ -18,8 +19,8 @@ export class userForm extends Component <{ match: { params: { token: string } } 
     render(){
         if(this.loaded){
             return (
-                <div>
-                    <Form style={{marginTop: 20 + 'px', paddingLeft: 200 + 'px', paddingRight: 200 + 'px'}}>
+                    <div>
+                    <Form.Group style={{marginTop: 20 + 'px', paddingLeft: 200 + 'px', paddingRight: 200 + 'px'}}>
                         <h2 className="card-header align-content-center">{"Registrer ny bruker for organisasjonen: " + this.organization.org_name}</h2>
                         <Form.Group>
                             <Form.Label>Brukernavn</Form.Label>
@@ -28,6 +29,7 @@ export class userForm extends Component <{ match: { params: { token: string } } 
                                               this.user.user_name = event.target.value
                                           }}/>
                         </Form.Group>
+
                         <Form.Row>
                             <Form.Group as={Col}>
                                 <Form.Label>Passord</Form.Label>
@@ -37,6 +39,7 @@ export class userForm extends Component <{ match: { params: { token: string } } 
                                               }}/>
 
                             </Form.Group>
+
                             <Form.Group as={Col}>
                                 <Form.Label> </Form.Label>
                                 <Form.Control type="password" placeholder="Gjenta passord" style={{marginTop: 8 + 'px'}}
@@ -45,6 +48,7 @@ export class userForm extends Component <{ match: { params: { token: string } } 
                                               }}/>
                             </Form.Group>
                         </Form.Row>
+
                         <Form.Group>
                             <Form.Label>Adresse</Form.Label>
                             <Form.Control type="String" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
@@ -58,19 +62,25 @@ export class userForm extends Component <{ match: { params: { token: string } } 
                                               this.user.phone = event.target.value
                                           }}/>
                         </Form.Group>
+
                         <Form.Group>
                             <Form.Label>E-mail</Form.Label>
                             <Form.Control type="string" value={this.email}/>
                         </Form.Group>
+
                         <Form.Group>
-                            <Form.Label>Last opp bilde</Form.Label>
-                            <Form.Control type="file"/>
+                            <label>Last opp bilde</label>
+                            <input className="form-control" type="file"/>
                         </Form.Group>
-                        <Button variant="primary" type="button" style={{marginTop: 20 + 'px'}}
-                                onClick={this.register}> Registrer</Button>
-                    </Form>
-                </div>
+
+                        <br/>
+
+                        <button className="light" type="button" style={{textAlign:'center'}}
+                                onClick={this.register}> Registrer</button>
+                    </Form.Group>
+                    </div>
             )
+
         }else{
             return (
                 <Spinner animation="border"></Spinner>

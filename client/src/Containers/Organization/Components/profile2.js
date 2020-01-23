@@ -46,7 +46,7 @@ export class OrgProfile2 extends Component {
                                     <div className="col-lg-5">
                                         <div className="container">
                                             <div className="card-body">
-                                                <div id = "card-header" className="card-header">
+                                                <div id ="card-header" className="card-header">
                                                     <h4>Kontakt info
                                                         <Button id="button" hidden={!this.isAdmin}
                                                                 variant="outline-secondary"

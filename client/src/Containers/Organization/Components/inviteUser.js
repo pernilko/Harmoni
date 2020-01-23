@@ -12,6 +12,7 @@ import {Col} from "react-bootstrap";
 import {sharedComponentData} from "react-simplified";
 import { createHashHistory } from 'history';
 import {Spinner} from 'react-bootstrap';
+import "./OrganizationProfile.css";
 
 
 const history = createHashHistory();
@@ -37,9 +38,7 @@ export class inviteUser extends Component {
                           </Form.Group>
                       </Form.Group>
                       <div style={{marginLeft: "500px"}}>
-                          <Button variant="light" type="button" style={{marginTop: 15 + 'px', marginBottom: 30 + 'px', textAlign: "center",
-                              paddingLeft: "40px", paddingRight: "40px",  borderColor: "rgb(40, 17, 33)"}}
-                                    onClick={this.send}>Neste</Button>
+                          <button type="button" className="light" onClick={this.send}>Neste</button>
                       </div>
 
                   </Form>

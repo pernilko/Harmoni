@@ -86,7 +86,9 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                             <form id="form-body">
                                 <div className="form-group">
                                     <label>Forhåndsvisning:</label>
-                                    <img id="preview" src={this.event.image ? this.event.image : "https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"}/>
+                                    <div>
+                                        <img id="preview" src={this.event.image ? this.event.image : "https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"}/>
+                                    </div>
                                 </div>
                                 <div className="form-group">
                                     <label>Arrangement navn:</label>
@@ -119,11 +121,11 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                                     <textarea className="form-control" defaultValue={this.event.description}
                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event.description = event.target.value)}/>
                                 </div>
-                                <div className="form-inline">
-                                    <div className="row">
+                                <div className="form-group d-inline-block">
+                                    <div className="row"  style={{width:'inherit'}}>
                                         <div className="col">
                                             <label>Start dato:</label>
-                                            <input id="startdate" className="form-control" type="date"
+                                            <input className="form-control" type="date"
                                                    value={this.startDate}
                                                    onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.startDate = event.target.value)}/>
                                         </div>
@@ -161,13 +163,13 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                                         {close => (
                                             <div className="popup-content">
                                                 <p><b>Vil du varsle personalet om endringen(e)?</b></p>
-                                                <button type = "button" id="no" className="btn btn-warning float-left ml-3" onClick={() => {
+
+                                                <button id="answr" type = "button" className="btn btn-warning float-left ml-3" onClick={() => {
                                                     this.edit(false);
-                                                }}>Nei
-                                                </button>
-                                                <button id="yes" className="btn btn-success float-right mr-3"
-                                                        onClick={() => this.edit(true)}>Ja
-                                                </button>
+                                                }}> Nei </button>
+
+                                                <button id="answr" className="btn btn-success float-right mr-3"
+                                                        onClick={() => this.edit(true)}>Ja </button>
                                             </div>
                                         )}
                                     </Popup>
@@ -303,9 +305,9 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 if (this.add_employees.length !== 0 || del_employee.length !== 0) {
                     this.notifyEdit(this.props.match.params.event_id, this.event.event_name, original_employees);
                 }
-                this.changeSite();
             }).then(()=>{
             Alert.success("Arrangementet ble redigert.");
+            history.push("/mineEvents");
         })
             .catch((error: Error) => Alert.danger(error.message));
     }
@@ -371,7 +373,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     }
 
     /**
-     * Dette er en funskjon for å legge brukere til arrangementet i redigerings modus
+     * Dette er en funksjon for å legge brukere til arrangementet i redigerings modus
      */
 
     updateAddEmployees() {
@@ -571,10 +573,5 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
 
   cancel() {
       history.push("/alleEvents")
-  }
-
-  changeSite() {
-        history.push("/showEvent/"+this.props.match.params.event_id);
-        window.location.reload();
   }
 }

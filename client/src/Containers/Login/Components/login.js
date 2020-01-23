@@ -34,9 +34,13 @@ export class Login extends Component{
 
       if(this.checkedOrg){
             return (
-              <div className="body">
+              <div className="container-fluid">
                 <div className="mid">
                   <div id="fillPassword" className="wrapper">
+                    <br/>
+                    <br/>
+                    <b>Valgt organisasjon: </b>
+                    <b>{this.pickedOrg.org_name}</b>
                     <h3 style={{paddingTop: 50 + 'px'}}>Skriv inn passord</h3>
                     <form id="passwordForm" tabIndex="500" >
                       <div>
@@ -50,7 +54,7 @@ export class Login extends Component{
                         <button type = "button" className="btn dark" variant="success" onClick={()=>this.login()}>Logg inn</button>
                       </div>
                     </form>
-                    <a
+                    <a type="button"
                        onClick={this.forgottenPass}>Glemt passord?</a>
                   </div>
                 </div>
@@ -64,7 +68,7 @@ export class Login extends Component{
                 return (
                   <div className="body">
                     <div className="mid">
-                      <div className="registerOrg1">
+                      <div id="reg" className="registerOrg1">
                         <h3>Velg organisasjon for å logge inn </h3>
                         {this.organizations.map(e=>(
                             <button className="dark-org" onClick = {()=>this.pickOrg(e)} style = {{margin: "5px"}} block>{e.org_name}</button>
@@ -83,16 +87,23 @@ export class Login extends Component{
 
                     <div className="login-btn splits">
                       <p>Bruker allerede?</p>
-                      <button className="active" onClick={this.loginClicked}>Login</button>
+                      <div>
+                        <button className="active" onClick={this.loginClicked}>Login</button>
+                      </div>
                     </div>
 
                     <div className="rgstr-btn splits">
                       <p>Ny organisasjon?</p>
-                      <button className="rgstr-btn" onClick={this.registerNewOrganizationClicked}>Registrer</button>
+                      <div>
+                        <button className="rgstr-btn" onClick={this.registerNewOrganizationClicked}>Registrer</button>
+                      </div>
                     </div>
 
 
                     <div hidden={this.showLogin} className="wrapper">
+                      <img height="40%" width="80%" style={{padding:0}}
+                        src="https://storage.cloud.google.com/harmoni-files/image.png"/>
+
                       <form id="loginForm" tabIndex="500">
                         <h3>Logg inn</h3>
                         <div>
@@ -181,11 +192,6 @@ export class Login extends Component{
                                 this.user2.email = event.target.value
                               }}/>
                               <label>E-mail</label>
-                            </div>
-
-                            <div>
-                              <input type="file"/>
-                              <label>Last opp bilde</label>
                             </div>
                             <button className="light" type="button" style={{ marginTop: 20 + 'px' }}
                                     onClick={this.register}> Registrer </button>

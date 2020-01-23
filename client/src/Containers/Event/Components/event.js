@@ -102,14 +102,14 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                           { /* if admin or user created the event */}
                                           {u.privileges > 0 || e.user_id === u.user_id ?
                                               <Row>
-                                                  <div className="col-md-6">
-                                                      <div id="topBanner" className={"artistBanner w-100 redBG"}>
+                                                  <div id="underPlanning" className="col-md-6">
+                                                      <div id="topBanner" className={"artistBanner redBG"}>
                                                           Arrangementet er under planlegging
                                                       </div>
                                                   </div>
-                                                  <div className="col-md-2">
+                                                  <div id="acceptEventButton" className="col-md-2">
 
-                                                      <Popup trigger={<a
+                                                      <Popup contentStyle={{background: '#505050', width: 130 +'%', position: 'absolute', padding:0}} trigger={<a id="save"
                                                           hidden={userService.currentUser.user_id != e.user_id && userService.currentUser.privileges != 1}
                                                           className="btn btn-success">
                                                           <div
@@ -117,7 +117,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                                           </div>
                                                       </a>}>
                                                           {close => (
-                                                              <div>
+                                                              <div className="popup-content">
                                                                   <p><b>Dette vil markere hele arrangementet som klart,
                                                                       det vil bety at riders, og kontrakter bør være
                                                                       ferdigstilt</b></p>
@@ -155,7 +155,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                   <p className="card-text">{e.description}</p>
                                   <br/>
                                   <br/>
-                                  <p>Du kan akseptere din stilling i vaktlisten nedenfor.</p>
+                                  <p id="acceptwork">Stilling i vaktlisten kan aksepteres nedenfor.</p>
                                   <br/>
                                   <br/>
                                   <h2 className={"text"}>Artister</h2>
@@ -163,16 +163,18 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
 
                                   <Row className={"artistContainer"}>
                                       {this.state["artists"].map((a, i) =>
-                                          <Column className="card artist" width={ i === 0 ? 12 : 6}>
-                                              <div className="card-body artist shadow-lg artistCard">
+                                          <Column  className="card" width={6}>
+                                              <div id="artistBox" className="shadow-lg ">
+                                              <div className="artistCard">
                                                   <div
                                                       className={"artistBanner" + (a.accepted === 1 ? " greenBG" : " redBG")}/>
                                                   <h5 className="card-title">{a.artist_name}</h5>
                                                   <p className="card-text">
+                                                      Kontakt informasjon:
                                                       <h6> Epost: {a.email}</h6>
                                                       <h6> tlf: {a.phone} </h6>
                                                   </p><div style = {{text_align: "center"}}>
-                                                  {a.riders && (userService.currentUser.p_read_riders > 0 || userService.currentUser.privileges >0)? <p><a href={" "+a.riders} target = "blank">riders</a></p>:<div></div>}
+                                                  {a.riders && (userService.currentUser.p_read_riders > 0 || userService.currentUser.privileges >0)? <p><a href={a.riders} target = "blank">riders</a></p>:<div></div>}
                                                  {a.hospitality_riders && (userService.currentUser.p_read_riders > 0 || userService.currentUser.privileges >0)? <p><a href={a.hospitality_riders} target = "blank">hospitality riders</a></p>:<div></div>}
                                                  {a.artist_contract && (userService.currentUser.p_read_contract > 0 || userService.currentUser.privileges >0)? <p><a href={a.artist_contract} target = "blank">artistkontrakt</a></p>:<div></div>}
                                               </div>
@@ -180,20 +182,22 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
 
                                                   {u.privileges > 0 || u.p_read_contract ?
                                                       <div className={"buttonContainer"}>
-                                                              <button onClick={() => this.acceptArtist(a.artist_id, 0)}
-                                                                      id="bot" type="button"
-                                                                      className="btn btn-info btn-circle">
-                                                                  <i className="fa fa-times"></i>
-                                                              </button>
+                                                         <p className="card-text">Godkjenning av artist</p>
+                                                          <button onClick={() => this.acceptArtist(a.artist_id, 0)}
+                                                                  type="button"
+                                                                  className="btn btn-info btn-circle">
+                                                              <i className="fa fa-times"></i>
+                                                          </button>
 
 
-                                                              <button onClick={() => this.acceptArtist(a.artist_id, 1)}
-                                                                      id="top" type="button"
-                                                                      className="btn btn-info btn-circle">
-                                                                  <i className="fa fa-check"></i>
-                                                              </button>
+                                                          <button onClick={() => this.acceptArtist(a.artist_id, 1)}
+                                                                  type="button"
+                                                                  className="btn btn-info btn-circle">
+                                                              <i className="fa fa-check"></i>
+                                                          </button>
                                                       </div>
                                                       : <></>}
+                                              </div>
                                               </div>
                                           </Column>
                                       )}
@@ -205,13 +209,13 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
 
                                   <Row className={"ticketContainer"}>
                                       {this.state["tickets"].map(t =>
-                                          <Column className="card artist" width={6}>
-                                              <div className="card-body artist shadow-lg">
+                                          <Column className="card" width={6}>
+                                              <div className="card-body shadow-lg">
                                                   <h5 className="card-title">{t.ticket_type}</h5>
                                                   <p className="card-text">
                                                       <h6>{t.description}</h6>
-                                                      <h6>Pris: {t.price}</h6>
-                                                      <h6>Antall: {t.amount_sold}</h6>
+                                                      <h6>Pris: {t.price==0?"Gratisbillett":t.price + " kr"}</h6>
+                                                      <h6>Antall: {t.amount}</h6>
                                                   </p>
                                               </div>
                                           </Column>
