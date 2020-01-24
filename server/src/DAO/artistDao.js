@@ -98,18 +98,7 @@ module.exports = class artistDao extends Dao {
             );
         }
     }
-
-
-<<<<<<< HEAD
-    getRider(artist_id: number, callback: function){
-        super.query(
-            "SELECT data FROM ridersFile WHERE artist_id = ?",[artist_id], callback
-        );
-    }
-
-
-=======
->>>>>>> 923f29177e468081e35d84562426ecf2b57d75a3
+    
     updateArtist(artistID:number,json:{artist_name: string , email: string, phone: string, image: File}, callback:function){
         super.query(
           "UPDATE artist SET artist_name=?, email=?,phone=? WHERE artist_id=?",
