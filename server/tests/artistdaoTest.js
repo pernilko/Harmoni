@@ -79,17 +79,3 @@ test("Update an artist", done =>{
   artistDao.updateArtist(4, {artist_name: "Cool artist", riders: "fil", hospitality_riders: "File",
         artist_contract: "File", email: "a@a.a", phone: "123", image: "File"}, callback);
 }, 30000);
-
-test("Set accepted test", done =>{
-  function callback (status, data) {
-    console.log(
-        "Test callback: status =" + status + ", data =" + data + JSON.stringify(data)
-    );
-
-    expect(data.affectedRows).toBe(1);
-    done();
-  }
-
-  artistDao.setAccepted(1, {accepted: 1}, callback);
-}, 30000);
-
