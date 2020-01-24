@@ -101,7 +101,7 @@ export class Login extends Component{
 
 
                     <div hidden={this.showLogin} className="wrapper">
-                      <img height="40%" width="80%" style={{padding:0}}
+                      <img height="40%" width="70%" style={{padding:0, objectFit: "cover", paddingTop: 10}}
                         src="https://storage.cloud.google.com/harmoni-files/image.png"/>
 
                       <form id="loginForm" tabIndex="500">
@@ -238,6 +238,7 @@ export class Login extends Component{
            Alert.danger(error.message);
        });
         this.loading = true;
+        window.scrollTo(0,0);
     }
     pickOrg(org: Organization){
         this.message = "Velg organisasjon";
@@ -269,6 +270,7 @@ export class Login extends Component{
       console.log("loginClicked");
       this.showLogin = false;
       this.showRegOrgForm = true;
+      this.showRegAdminForm = true;
     }
 
     next(){
@@ -278,7 +280,7 @@ export class Login extends Component{
       if(this.newOrganization.org_name.length !== 0 && this.newOrganization.email.length !== 0 && this.newOrganization.phone !== 0 && emailRegEx.test(this.newOrganization.email)) {
         this.loading = false;
         this.showLogin = true;
-        this.showRegOrgForm = true;
+        this.showRegOrgForm = false;
         this.showRegAdminForm = false;
 
       }else{

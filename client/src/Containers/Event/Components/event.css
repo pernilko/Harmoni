@@ -86,7 +86,7 @@ p {
 }
 
 .noBorder {
-    border: 0px;
+    border: 0;
 }
 
 #artistBox{
@@ -235,7 +235,9 @@ input{
     background: linear-gradient(#222328, #551C3A) 100%;
 }
 
-
+div.row{
+    margin: 0;
+}
 
 .btn-group #save {
     background: transparent;
