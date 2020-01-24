@@ -172,7 +172,7 @@ export class OrgProfile2 extends Component {
                                                                         <Form.Check style={{textAlign: "left"}}>
                                                                             <Form.Check.Input defaultChecked={m.p_read_riders}
                                                                                               id={m.user_id + "p_read_riders"}/>
-                                                                            <Form.Check.Label>{"Se raiders"}</Form.Check.Label>
+                                                                            <Form.Check.Label>{"Se riders"}</Form.Check.Label>
                                                                         </Form.Check>
                                                                         <Form.Check style={{textAlign: "left"}}>
                                                                             <Form.Check.Input defaultChecked={m.p_archive}

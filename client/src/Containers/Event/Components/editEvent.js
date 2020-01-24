@@ -172,7 +172,8 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                                         {close => (
                                             <div className="popup-content">
                                                 <p><b>Vil du varsle personalet om endringen(e)?</b></p>
-
+                                                <br/>
+                                                <br/>
                                                 <button id="answr" type = "button" className="btn btn-warning float-left ml-3" onClick={() => {
                                                     this.edit(false);
                                                 }}> Nei </button>
