@@ -30,7 +30,7 @@ export class Home extends Component {
                         <Row>
                             <Col md={6} style={{padding: '1'}}>
                                 <div className="card" style={{margin: "none"}}>
-                                    <div className="card-header">Venter på godkjenning</div>
+                                    <div className="card-header">Fullførte arrangement</div>
                                     <div className="card-body">
                                         <Pending/>
                                     </div>
@@ -55,7 +55,7 @@ export class Home extends Component {
                         <Row>
                             <Col md={6} style={{padding: '0'}}>
                                 <div className="card" style={{margin: "none"}}>
-                                    <div className="card-header">Kommende Arrangement</div>
+                                    <div className="card-header"></div>
                                     <div className="card-body">
                                       <EventList user={false} time={2}/>
                                     </div>
@@ -70,7 +70,7 @@ export class Home extends Component {
         else {
             return (
                 <div>
-                    Du har ingen kommende arrangement :)
+                    Du har ingen kommende arrangement
                 </div>
             )
         }

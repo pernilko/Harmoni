@@ -67,7 +67,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
                                             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
                                             <link href="https://fonts.googleapis.com/css?family=PT+Serif|Ubuntu&display=swap" rel="stylesheet"/>
                                                 <div id = "eventcard-body" className="card-body" style={{padding:0}}>
-                                                    <a href={'#/avlyst/' + e.event_id}>
+                                                    <a href={'#/showEvent/' + e.event_id}>
                                                         <Container id="cancelledImage">
                                                             <img id="image" src="https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"/>
                                                             <h3 id="cancelled" className="overlay">Avlyst</h3>

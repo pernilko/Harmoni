@@ -119,21 +119,20 @@ export class OrgProfile2 extends Component {
                                                         <ListGroupItem>
                                                             <div className="row">
                                                                 <div className="col-lg-2">
-                                                                    <img
-                                                                        src={"https://cdn1.vectorstock.com/i/1000x1000/78/80/young-woman-head-avatar-cartoon-face-character-vector-21787880.jpg"}
-                                                                        roundedCircle width={70 + "px"} height={60 + "px"}
+                                                                    <Image
+                                                                        src={m.image ? m.image : "https://storage.cloud.google.com/harmoni-files/pb.png"}
+                                                                        roundedCircle width={70 + "px"} height={70 + "px"}
                                                                         style={{objectFit: "cover"}}/>
                                                                 </div>
                                                                 <div className="col-lg-5">
                                                                     <p>Navn: {m.user_name}</p>
-                                                                    <br/>
                                                                     <p>Email:{m.email}</p>
                                                                 </div>
                                                                 <div className="col-lg-4" style={{textAlign: "right", marginRight: 1 + '%'}}>
-                                                                    <Accordion.Toggle as={Button} hidden={!this.isAdmin}
+                                                                    <Accordion.Toggle as={Button} hidden={!this.isAdmin || m.user_id == userService.currentUser.user_id}
                                                                                       variant="btn btn-outline-secondary"
                                                                                       eventKey={m.user_id}
-                                                                                      style={{marginTop: 9}}>rediger</Accordion.Toggle>
+                                                                                      style={{marginTop: 9}}>Rediger</Accordion.Toggle>
                                                                 </div>
                                                             </div>
                                                             <Accordion.Collapse eventKey={m.user_id}>
@@ -165,7 +164,7 @@ export class OrgProfile2 extends Component {
                                                                                       style={{marginTop: 20 + "px"}}
                                                                                       eventKey={m.user_id}
                                                                                       onClick={() => this.updatePrivileges(m)}>Lagre</Accordion.Toggle>
-                                                                    <Button hidden={m.privileges == 1} onClick={() => this.makeAdmin(m.user_id)} variant="warning" style={{float: "right", marginTop: 20+"px"}}>Gjør til Admin</Button>
+                                                                    <Accordion.Toggle as={Button} hidden={m.privileges == 1} onClick={() => this.makeAdmin(m.user_id)} variant="warning" style={{float: "right", marginTop: 20+"px"}}>Gjør til Admin</Accordion.Toggle>
                                                                 </div>
                                                             </Accordion.Collapse>
                                                         </ListGroupItem>

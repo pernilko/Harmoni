@@ -46,7 +46,6 @@ if (root)
         <Route path = "/user/:token" component = {userForm}/>
         <Route path = "/resetPass/:token" component = {resetPass}/>
         <Route path = "/showEvent/:id" component = {EventDetails}/>
-        <Route path = "/avlyst/:id" component = {CancelledEvent}/>
         <Route path = "/inviterBruker" component = {inviteUser}/>
         <Route path = "/home" component = {Home}/>
         <Route exact path = "/search_result/:search" component={SearchResults}/>

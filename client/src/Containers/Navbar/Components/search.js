@@ -24,90 +24,6 @@ export class SearchResults extends Component <{match: {params: {search: string}}
 
     months: string[] = ["januar", "februar", "mars", "april", "mai", "juni", "juli", "august", "september", "oktober", "november", "desember"];
 
-
-    /*
-    render() {
-        if (userService.currentUser) {
-            if (!this.loaded) {
-                this.load();
-                console.log("Events: " + this.events);
-                this.loaded = true;
-            }
-            if (this.ready) {
-                return (
-                    <div className="searchResults">
-                        <Container style={{padding: 0}}>
-                            <div className="card-header" style={{color: 'white', backgroundColor: '#53265F'}}>
-                                <h4> Søkeresultater for: {this.props.match.params.search}</h4></div>
-                            <a href={"#/search_result/" + this.props.match.params.search}
-                               onClick={this.upcoming}>Kommende </a>
-                            <a href={"#/search_result/" + this.props.match.params.search}
-                               onClick={this.finished}>Utløpte </a>
-                            <a href={"#/search_result/" + this.props.match.params.search} onClick={this.show}> Dato
-                                <div hidden={this.hidden}>
-                                    <div className="col">
-                                        <label>Søk fra dato:</label>
-                                        <input id="help" className="form-control" type="date" value={this.event_start}
-                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event_start = event.target.value)}/>
-                                    </div>
-                                    <div className="col">
-                                        <label>til dato:</label>
-                                        <input id="help" className="form-control" type="date" value={this.event_end}
-                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event_end = event.target.value)}/>
-                                    </div>
-                                    <button className="btn btn-primary submit" style={{margin: 10 + 'px'}}
-                                            onClick={this.date}>Søk
-                                    </button>
-                                </div>
-                            </a>
-
-                            {this.temp.map(e => (
-                                <div style={{maxHeight: 100 + '%'}}>
-                                    <ListGroup>
-                                        <ListGroupItem style={{width: 100 + '%', height: "200px", padding: 0}}>
-                                            <div className="row"
-                                                 style={{paddingLeft: 15 + "px", paddingRight: 15 + "px"}}>
-                                                <div className="col-5" style={{padding: 0}}>
-                                                    <Image
-                                                        src="https://kampanje.com/contentassets/0c30c67529294a8c8e59d84740c27e90/eventbilde-sponsor-og-event.jpg?width=1600&height=1300&mode=carve"
-                                                        height="200px" width="300px" style={{objectFit: "cover"}}/>
-                                                </div>
-                                                <div className="col-7" style={{padding: 0}}>
-                                                    <p style={{
-                                                        color: "#D35400",
-                                                        fontSize: '25px',
-                                                        fontWeight: "bold"
-                                                    }}>Arrangement
-                                                        start: {e.event_start.slice(8, 10) + "." + e.event_start.slice(5, 7) + "." + e.event_start.slice(0, 4)
-                                                        + " kl: " + e.event_start.slice(11, 16)}</p>
-                                                    <Nav.Link href={"#/showEvent/" + e.event_id} style={{padding: 0}}><p
-                                                        style={{
-                                                            color: 'black',
-                                                            fontSize: '40px',
-                                                            fontWeight: "bold"
-                                                        }}>{e.event_name}</p></Nav.Link>
-                                                    <p style={{color: 'black', fontSize: '20px'}}>{(e.place)}</p>
-                                                </div>
-                                            </div>
-                                        </ListGroupItem>
-                                    </ListGroup>
-                                </div>
-                            ))}
-                        </Container>
-                    </div>
-                )
-            } else {
-                return (
-                    <Spinner animation={"border"}/>
-                )
-            }
-        } else {
-            return (
-                <Spinner animation={"border"}/>
-            )
-        }
-    }*/
-
     render() {
         if (userService.currentUser) {
              if (!this.loaded) {
@@ -119,59 +35,59 @@ export class SearchResults extends Component <{match: {params: {search: string}}
                 return (
                     <div className="searchResults">
                         <Container style={{padding: 0}}>
-                            <div className="card-header" style={{color: 'white', backgroundColor: '#53265F'}}>
-                                <h4> Søkeresultater for: {this.props.match.params.search}</h4></div>
-                            <a href={"#/search_result/" + this.props.match.params.search}
-                               onClick={this.upcoming}>Kommende </a>
-                            <a href={"#/search_result/" + this.props.match.params.search}
-                               onClick={this.finished}>Utløpte </a>
-                            <a href={"#/search_result/" + this.props.match.params.search} onClick={this.show}> Dato
-                                <div hidden={this.hidden}>
-                                    <div className="col">
-                                        <label>Søk fra dato:</label>
-                                        <input id="help" className="form-control" type="date" value={this.event_start}
-                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event_start = event.target.value)}/>
+                            <div className="card-header" style={{marginTop:'5%'}}>
+                                <h4> Søkeresultater for: {this.props.match.params.search}</h4>
+                            </div>
+                            <div className="card-header">
+                              <a style={{margin:'10px', color:'white'}} href={"#/search_result/" + this.props.match.params.search}
+                                 onClick={this.all}>Hele resultatet</a>
+                                <a style={{margin:'10px', color:'white'}} href={"#/search_result/" + this.props.match.params.search}
+                                   onClick={this.upcoming}>Kommende </a>
+                                <a style={{margin:'10px', color:'white'}} href={"#/search_result/" + this.props.match.params.search}
+                                   onClick={this.finished}>Utløpte </a>
+                                <a style={{margin:'10px', color:'white'}} href={"#/search_result/" + this.props.match.params.search} onClick={this.show}> Dato
+                                    <div hidden={this.hidden}>
+                                        <div className="form-inline" style={{position: 'initial', marginLeft:'20%', marginTop:'10px'}}>
+                                            <label>Søk fra dato: </label>
+                                            <input className="form-control" type="date" value={this.event_start}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event_start = event.target.value)}/>
+<br/>
+                                            <label> til dato: </label>
+                                            <input className="form-control" type="date" value={this.event_end}
+                                                   onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event_end = event.target.value)}/>
+
+                                            <button className="btn btn-primary submit" style={{margin: 10 + 'px'}}
+                                                    onClick={this.date}>Søk
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div className="col">
-                                        <label>til dato:</label>
-                                        <input id="help" className="form-control" type="date" value={this.event_end}
-                                               onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.event_end = event.target.value)}/>
-                                    </div>
-                                    <button className="btn btn-primary submit" style={{margin: 10 + 'px'}}
-                                            onClick={this.date}>Søk
-                                    </button>
-                                </div>
-                            </a>
+                                </a>
+                            </div>
             <div className={"w-100 mx-auto "}>
+
                         {this.temp.map((e, i) =>
                             <Container>
-                                <div id="eventcard" className="card" style={{marginLeft: "18%", marginRight: "18%", marginBottom: "2%", borderRadius: 6+"px", border: "none"}}>
+                                <div id="eventcard" style={{ marginBottom: "2%", borderRadius: 6+"px", border: "none"}}>
                                     <Row style={{margin: 0}}>
-                                        <Col sm={2} style={{padding: 0}}>
-                                            <div
-                                                className={"banner" + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 1 ? " greenBG" : "") + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 0 ? " redBG" : "")}
-                                                id={i}>
-                                                {this.getUserEvent(e.event_id) ? (this.getUserEvent(e.event_id).accepted === 2 ?
-                                                   <></> : <></>) : <></>}
-                                            </div>
+                                        <Col sm={4} style={{padding: 0}}>
+                                          <a href={'#/showEvent/' + e.event_id}>
+                                            <img id="image"
+                                                 src={e.image ? e.image : "https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"}/>
+                                          </a>
                                         </Col>
-                                        <Col sm={10} style={{padding: 0}}>
+                                      <Col sm={8} style={{padding: 0}} className="card-body">
                                             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
                                             <link href="https://fonts.googleapis.com/css?family=PT+Serif|Ubuntu&display=swap" rel="stylesheet"/>
-                                            <div id = "eventcard-body" className="card-body" style={{padding:0}}>
-                                                <a href={'#/showEvent/' + e.event_id}>
-                                                    <img id="image"
-                                                         src={e.image ? e.image : "https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"}/>
-                                                    <div id="eventcard-text" className="card-text" style={{float: "left", textAlign: "left"}}>
+
+
+                                            <div style={{padding:0, background: 'none'}}>
+                                                    <div className="card-text" style={{float: "left", textAlign: "left", color: '#281121', height: 'inherit'}}>
                                                         <h2 style={{textAlign: "left", paddingLeft: 20}}> {e.event_name} </h2>
                                                         <p><b> Sted: </b> {e.place} </p>
-                                                        <p><b> Stilling: </b>{this.getUserEvent(e.event_id) ? "Du er satt opp som " + this.getUserEvent(e.event_id).job_position + ".\n Bekreft valget ditt med knappene på venstre side." : "Du er ikke satt på dette arrangementet"}.
-                                                        </p>
-                                                        <p>
-                                                            <b> Tidspunkt: {this.setFormat(e.event_start, e.event_end)}</b>
-                                                        </p>
+                                                        <p><b> Stilling: </b>{this.getUserEvent(e.event_id) ? "Du er satt opp som " + this.getUserEvent(e.event_id).job_position + ".\n Bekreft valget ditt med knappene på venstre side." : "Du er ikke satt på dette arrangementet"}.</p>
+                                                        <p><b> Tidspunkt: {this.setFormat(e.event_start, e.event_end)}</b></p>
                                                     </div>
-                                                </a>
+
                                             </div>
                                         </Col>
                                     </Row>
@@ -214,6 +130,12 @@ export class SearchResults extends Component <{match: {params: {search: string}}
 
     show(){
         this.hidden = false;
+    }
+
+    all(){
+      this.hidden = true;
+      this.temp = this.events;
+
     }
 
     upcoming(){

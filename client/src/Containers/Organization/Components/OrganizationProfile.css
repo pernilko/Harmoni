@@ -8,19 +8,19 @@
 }
 
 
-.mid button.dark{
+button.dark{
     border-color:rgb(40, 17, 33);
     background: rgb(40, 17, 33);
     margin-top: 5%;
     color:#FFFFFF;
 }
-.mid button.dark:hover{
+button.dark:hover{
     border-color:rgb(40, 17, 33);
     background: transparent;
     margin-top: 5%;
     color: rgb(40, 17, 33);
 }
-.mid button:focus {
+button:focus {
     outline: none;
 }
 
@@ -69,7 +69,8 @@ h4 {
 #card-header {
     background: linear-gradient(to bottom right, #581845 , #900C3F);
     padding: 5%;
-    width: inherit;
+    margin: 0;
+    width: initial;
     max-height: 90px ;
 }
 
@@ -102,16 +103,6 @@ div > label{
     font-weight: bold;
 }
 
-div .form-inline-block{
-    float: left;
-    display: inline-list-item;
-    width: 100%;
-    text-align: left;
-}
-
-div .form-inline-block > .form-group{
-    width: inherit;
-}
 
 div .col-lg-5 {
     padding: 0;
@@ -129,4 +120,6 @@ div .col-lg-5 > p{
 #rights{
     background: #FFFFFF;
     color: #47474b;
+    margin-top: 2%;
+    display: inline-grid;
 }
