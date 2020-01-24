@@ -90,6 +90,6 @@ test("Set accepted test", done =>{
     done();
   }
 
-  artistDao.setAccepted(1, {accepted: 0}, callback);
+  artistDao.setAccepted(1, {accepted: 1}, callback);
 }, 30000);
 
