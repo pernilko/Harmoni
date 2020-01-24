@@ -105,9 +105,9 @@ export class EventList extends Component<{user: boolean, time: number}>{
                         </div>
                         {this.state["currentPosts"].map((e, i) =>
                             <Container>
-                                <div id="eventcard" className="card" style={{marginLeft: "18%", marginRight: "18%", marginBottom: "2%", borderRadius: 6+"px", border: "none"}}>
+                                <div id="eventcard" className="card" style={{marginLeft: "12%", marginRight: "12%", marginBottom: "2%", borderRadius: 6+"px", border: "none"}}>
                                     <Row style={{margin: 0}}>
-                                        <Col sm={2} style={{padding: 0}}>
+                                        <Col sm={3} style={{padding: 0}}>
                                             <div
                                                 className={"banner" + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 1 ? " greenBG" : "") + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 0 ? " redBG" : "")}
                                                 id={i}>
@@ -121,7 +121,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
                                                         </div>
                                                         <div 
                                                              onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 0)}>
-                                                            <button id="bot" type="button" >
+                                                            <button id="top" type="button" className="btn btn-info btn-circle">
                                                                 <i className="fa fa-times"></i>
                                                             </button>
                                                         </div>
@@ -129,7 +129,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
                                                     : <></>) : <></>}
                                             </div>
                                         </Col>
-                                        <Col sm={10} style={{padding: 0}}>
+                                        <Col sm={9} style={{padding: 0}}>
                                             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
                                             <link href="https://fonts.googleapis.com/css?family=PT+Serif|Ubuntu&display=swap" rel="stylesheet"/>
                                             <div id = "eventcard-body" className="card-body" style={{padding:0}}>
