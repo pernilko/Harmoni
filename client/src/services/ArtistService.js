@@ -31,20 +31,6 @@ export class Artist {
     }
 }
 
-export class File{
-    artist_id:number;
-    name:string;
-    data:any;
-    mimetype:string;
-
-    constructor(artist_id:number,name:string, data: any,mimetype:string){
-        this.artist_id=artist_id;
-        this.name=name;
-        this.data=data;
-        this.mimetype=mimetype;
-    }
-}
-
 /**
     ArtistService - Klasse for å håndtere all informasjon tilknytta artister
  */
