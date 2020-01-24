@@ -1,6 +1,5 @@
 .tab-list {
   border-bottom: 1px solid #ccc;
-  padding-left: 0;
   color: #FFFFFF;
 }
 
@@ -27,16 +26,13 @@
   border-width: 1px 1px 0 1px;
   color: #FFFFFF;
 }
-.tab-content{
-  alignment: center;
-  background: rgba(129, 129, 129, 0.14);
-}
-
 
 #tabs-header{
   margin-bottom: 30px;
   margin-top: 5%;
   color: #FFFFFF;
+  text-align: center;
+  left: 10%;
 }
 
 #tabsAllEvents.container-fluid{
@@ -55,7 +51,7 @@ div .card-header{
 }
 
 div.card-body{
-  background: rgba(34, 35, 40, 0.14);
+  background: rgba(83, 83, 96, 0.31);
 }
 
 li {

@@ -106,13 +106,19 @@ p {
 }
 
 .redBG{
-    background: #dE685E;
+    background: #de4a2d;
     color: white;
     padding: 0;
 }
 
 .greenBG{
-    background: linear-gradient(#92bCa6, #A2CCB6);
+    background: #7fbc68;
+    height: 40px;
+    padding-top: 5px;
+    text-align: center;
+    margin-right: 2.9%;
+    margin-left: 0.1%;
+    border-radius: 20px;
 }
 
 
@@ -132,7 +138,8 @@ p {
 }
 
 #cardImg{
-    height: 60vw;
+    height:fit-content;
+    max-height: 60%;
     width: 100%;
     overflow: hidden;
     object-fit: inherit;

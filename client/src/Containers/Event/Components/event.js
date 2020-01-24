@@ -92,8 +92,8 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                               <Row>
 
                                   {e.accepted > 0 ?
-                                      <div className="col-md-8">
-                                          <div id="topBanner" className="width greenBG">
+                                      <div id="underPlanning" className="col-md-8">
+                                          <div className="width greenBG">
                                               Arrangementet er helt klart!
                                           </div>
                                       </div>
@@ -189,7 +189,6 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                                               <i className="fa fa-times"></i>
                                                           </button>
 
-
                                                           <button onClick={() => this.acceptArtist(a.artist_id, 1)}
                                                                   type="button"
                                                                   className="btn btn-info btn-circle">
@@ -284,18 +283,6 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                               </Popup>
                                              </div>
 
-                                      <a href={"#/showEvent/" + this.event_id} className="card-link"
-                                         onClick={this.show}> Rapporter problem
-                                          <div hidden={this.hidden}>
-                                      <textarea rows="4" cols="40" style={{margin: '10px',}}
-                                                placeholder="Beskriv feilmelding"
-                                                onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.bugreport = event.target.value)}/>
-                                              <br/>
-                                              <button className="btn btn-primary submit" style={{margin: 10 + 'px'}}
-                                                      onClick={this.sendReport}>Rapporter problem
-                                              </button>
-                                          </div>
-                                      </a>
                                       </div>
                                   </div>
 
@@ -304,6 +291,20 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                   <br/>
                                   <MapContainer lat={e.latitude} lng={e.longitude} show={true}/>
                                   <br/>
+                                  <div style={{textAlign:'center', marginBottom: '20px'}}>
+                                      <a href={"#/showEvent/" + this.event_id} className="button"
+                                         onClick={this.show}> Rapporter problem
+                                          <div hidden={this.hidden} style={{left:'-5%', marginTop: '20px'}}>
+                                              <textarea rows="4" cols="40"
+                                                        placeholder="Beskriv feilmelding"
+                                                        onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.bugreport = event.target.value)}/>
+                                              <br/>
+                                              <button className="btn btn-primary submit" style={{margin: 10 + 'px'}}
+                                                      onClick={this.sendReport}>Rapporter problem
+                                              </button>
+                                          </div>
+                                      </a>
+                                  </div>
 
                                   </div>
                               </div>
@@ -327,9 +328,8 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                            src="https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg"
                            alt="Card image cap"
                            style={{filter:"grayscale(90%"}}/>
-                           <div className="text-block">
-                             <p>Avlyst</p>
-                           </div>
+                           <p className="text-block">Avlyst</p>
+
                     </div>
                     <br/>
 
@@ -342,7 +342,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                       <p className="card-text">{e.description}</p>
                       <br/>
                       <br/>
-                      <a href={"#/showEvent/" + this.event_id} className="card-link" onClick={this.show}> Rapporter problem
+                      <a href={"#/showEvent/" + this.event_id} className="button" onClick={this.show}> Rapporter problem
                         <div hidden={this.hidden}>
                           <textarea rows="4" cols="40"
                                     style={{margin: '10px'}}

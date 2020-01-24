@@ -5,11 +5,11 @@ body{
 }
 
 p{
-    text-align: left;
-    padding-left: 20px;
+    text-align: center;
     overflow: hidden;
     display: block;
     margin: 0;
+    position: inherit;
 }
 
 .eventCard{
@@ -56,6 +56,13 @@ p{
 
 #topButton{
    
+}
+
+.card-body #image2{
+    width: initial;
+    max-height: 130px;
+    border-top-right-radius: 6px;
+    object-fit: cover;
 }
 
 @media (max-width: 700px){
@@ -130,12 +137,8 @@ p{
     color: white;
 }
 .text-block{
-    position: absolute;
-    top: 5%;
-    left: 30%;
-    transform: rotate(-15deg);
     background-color: rgba(133, 0, 0, 0.65);
-    font-size: 13vw;
+    font-size: 8vw;
     color: #FFFFFF;
 
 }
