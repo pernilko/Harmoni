@@ -307,7 +307,6 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 }
             }).then(()=>{
             Alert.success("Arrangementet ble redigert.");
-            console.log(this.uploaded);
             history.push("/mineEvents");
         })
             .catch((error: Error) => Alert.danger(error.message));
@@ -407,7 +406,6 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             .updateArtist(a.artist_id, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone, a.event_id)
             .then(response => console.log(response))
         });
-        this.uploaded[0] = true;
     }
 
     /**
@@ -461,7 +459,6 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     addTickets(tickets: Ticket[]) {
         console.log("ADD TICKETS: ", tickets);
         if(tickets.length == 0){
-            this.uploaded[4] = true;
         }
         tickets.map(t => {
             ticketService
@@ -584,7 +581,6 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
       eventService
         .updateEventImage(val, this.event.image)
         .then((response) => {
-            this.uploaded[11] = true;
               if(userService.currentUser){
                 userService.autoLogin();
               }
