@@ -2,7 +2,7 @@
 
 ## Innledning
 Dette prosjektet har blitt planlagt, arbeidet med og fullført av Team 4 tilknyttet faget Systemutvikling 2 ved NTNU.
-Vi har lagd et system for en side for arrangører. Siden bruker MySQL og Node.js i backend og bibliotekene React og React-Bootstrap i frontend.
+Vi har lagd nettside for arrangører som ønsker å dele og samle informasjon angående arrangementer. Systemet bruker MySQL og Node.js i backend og bibliotekene React og React-Bootstrap i frontend.
 
 ## Installasjon og oppsett
 
