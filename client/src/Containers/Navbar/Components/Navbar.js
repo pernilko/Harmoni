@@ -45,7 +45,7 @@ export class Navigation extends Component {
               <Button type = "submit" className="btn btn-secondary" onClick={this.find}>Søk</Button>
             </Form>
           </Nav>
-          <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+          <Navbar.Toggle style={{borderColor: "white", background: "white"}}  aria-controls="basic-navbar-nav"/>
           <Navbar.Collapse className="ml-auto" >
             <Nav className="ml-auto" >
                 <Nav.Link href="#/alleEvents"> Alle arrangement</Nav.Link>

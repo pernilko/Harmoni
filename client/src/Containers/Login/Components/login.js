@@ -139,7 +139,7 @@ export class Login extends Component{
                                  onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
                                    this.newOrganization.phone = event.target.value
                                  }}/>
-                          <label>Telefon nummer</label>
+                          <label>Telefonnummer</label>
                         </div>
                         <div>
                         <input type="e-mail"
@@ -185,7 +185,7 @@ export class Login extends Component{
                               <label>Adresse</label>
                             </div>
                             <div>
-                              <input type="number" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+                              <input type="String" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
                                 this.user2.phone = event.target.value
                               }}/>
                               <label>Telefon nr</label>
@@ -196,7 +196,7 @@ export class Login extends Component{
                               }}/>
                               <label>E-mail</label>
                                 <button className="light" type="button" style={{ marginTop: 20 + 'px', float: "left"}}
-                                        onClick={this.back}> tilbake </button>
+                                        onClick={this.back}> Tilbake </button>
                                 <button className="light" type="button" style={{ marginTop: 20 + 'px', float: "right"}}
                                         onClick={this.register}> Registrer </button>
                             </div>
@@ -227,7 +227,11 @@ export class Login extends Component{
             .then(res => {
                 console.log(res);
                 Alert.success("Sjekk din email for å gjenopprette passordet ditt.");
-                history.push("/login");
+                  this.showLogin = false;
+                  this.showRegOrgForm = true;
+                  this.showRegAdminForm= true;
+                  this.checkedOrg = false;
+                  this.checkingOrg = false;
             })
     }
 
@@ -236,7 +240,7 @@ export class Login extends Component{
      */
     checkEmail(){
         //console.log(this.user.email);
-        this.message = "Checking email";
+        this.message = "Sjekker email";
        organizationService.getOrganizationByEmail(this.user.email).then(org=>{
            if(org.length>0){
                this.organizations = org;
@@ -247,7 +251,7 @@ export class Login extends Component{
            this.loading=false;
        }).catch((error:Error)=>{
            this.loading = false;
-           Alert.danger(error.message);
+           Alert.danger("Noe gikk galt.");
        });
         this.loading = true;
         window.scrollTo(0,0);
@@ -355,7 +359,7 @@ export class Login extends Component{
         this.showRegOrgForm = true;
         this.showRegAdminForm = true;
       }).catch((error:Error)=>{
-        Alert.danger(error.message);
+        Alert.danger("Feil passord");
       })
     }else{
       Alert.danger("alle felt må fylles og passord må ha minst 8 bokstaver");

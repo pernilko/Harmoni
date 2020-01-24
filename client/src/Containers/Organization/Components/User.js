@@ -65,7 +65,7 @@ export class userForm extends Component <{ match: { params: { token: string } } 
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Telefon nr</Form.Label>
-                            <Form.Control type="number" placeholder="Skriv inn telefon nummer"
+                            <Form.Control type="string" placeholder="Skriv inn telefon nummer"
                                           onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
                                               this.user.phone = event.target.value
                                           }}/>

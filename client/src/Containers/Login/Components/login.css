@@ -173,14 +173,14 @@ a:after:hover {
 
 .mid .wrapper input:focus{
     outline: none;
-    border-color: rgb(95, 46, 209);
+    border-color: #83c3de;
 }
 
 .mid .wrapper input{
     height: 40px;
     padding: 5px 15px;
     width: 100%;
-    border: solid 1px #ff4931;
+    border: solid 1px;
 }
 
 .mid .wrapper > form:focus{

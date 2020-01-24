@@ -75,7 +75,7 @@ class UserService {
                                 this.currentUser = res;
                                 organizationService.setCurrentOrganization(res.org_id);
                                 // history.push("/alleEvents");
-                            }).catch((error: Error) => Alert.danger(error.message));
+                            }).catch((error: Error) => Alert.danger("Ikke autorisert"));
                         }
                         console.log(response.data);
                     }).catch((error:Error) => {
@@ -116,7 +116,7 @@ class UserService {
                     history.push("/alleEvents");
                 });
             }
-        }).catch((error:Error)=>Alert.danger(error.message));
+        }).catch((error:Error)=>Alert.danger("Feil passord"));
     }
 
     //for registering a new user

@@ -33,7 +33,7 @@ export class resetPass extends Component<{ match: { params: { token: string } } 
                                        onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
                                            this.password = event.target.value
                                        }}/>
-                                <label>Passord for</label>
+                                <label>Nytt passord</label>
                             </div>
                             <div>
                                 <input type="password"

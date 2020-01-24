@@ -272,7 +272,8 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                       <div className="col-md-12">
                                       <a hidden={userService.currentUser.user_id != e.user_id && userService.currentUser.privileges != 1}
                                          href={"#/editEvent/" + this.event_id} className="card-link">Rediger</a>
-                                          <div className="row btn-group cancel-section">
+                                         
+                                          <div hidden={userService.currentUser.user_id != e.user_id && userService.currentUser.privileges != 1} className="row btn-group cancel-section">
                                               <Popup trigger={<a style={{cursor: "pointer"}} id="avlys"
                                                 className="card-link" >Avlys</a>}>
                                                   {close => (

@@ -74,7 +74,7 @@ export class OrgProfile2 extends Component {
                                                 </div>
                                                 <div className="card-img" style={{textAlign: "center"}}>
                                                     <img id = "org_image" style={{width: 'inherit', height: "auto", display: "cover"}}
-                                                        src={this.org_image}/>
+                                                        src={this.org_image ? this.org_image : "https://storage.cloud.google.com/harmoni-files/org.png"}/>
                                                 </div>
                                                 <div>
                                                     <h3 id="orgLabel"> {this.org_name}</h3>

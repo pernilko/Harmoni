@@ -109,7 +109,7 @@ export class Profile extends Component{
                       </Form.Group>
                       <Form.Group>
                         <Form.Label>Endre telefon</Form.Label>
-                        <Form.Control type="number" placeholder={userService.currentUser.phone} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
+                        <Form.Control type="string" placeholder={userService.currentUser.phone} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => {
                           this.user.phone = event.target.value
                         }}/>
                       </Form.Group>
