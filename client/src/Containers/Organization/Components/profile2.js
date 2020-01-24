@@ -129,10 +129,10 @@ export class OrgProfile2 extends Component {
                                                                     <p>Email:{m.email}</p>
                                                                 </div>
                                                                 <div className="col-lg-4" style={{textAlign: "right", marginRight: 1 + '%'}}>
-                                                                    <Accordion.Toggle as={Button} hidden={!this.isAdmin}
+                                                                    <Accordion.Toggle as={Button} hidden={!this.isAdmin || m.user_id == userService.currentUser.user_id}
                                                                                       variant="btn btn-outline-secondary"
                                                                                       eventKey={m.user_id}
-                                                                                      style={{marginTop: 9}}>rediger</Accordion.Toggle>
+                                                                                      style={{marginTop: 9}}>Rediger</Accordion.Toggle>
                                                                 </div>
                                                             </div>
                                                             <Accordion.Collapse eventKey={m.user_id}>
@@ -164,7 +164,7 @@ export class OrgProfile2 extends Component {
                                                                                       style={{marginTop: 20 + "px"}}
                                                                                       eventKey={m.user_id}
                                                                                       onClick={() => this.updatePrivileges(m)}>Lagre</Accordion.Toggle>
-                                                                    <Button hidden={m.privileges == 1} onClick={() => this.makeAdmin(m.user_id)} variant="warning" style={{float: "right", marginTop: 20+"px"}}>Gjør til Admin</Button>
+                                                                    <Accordion.Toggle as={Button} hidden={m.privileges == 1} onClick={() => this.makeAdmin(m.user_id)} variant="warning" style={{float: "right", marginTop: 20+"px"}}>Gjør til Admin</Accordion.Toggle>
                                                                 </div>
                                                             </Accordion.Collapse>
                                                         </ListGroupItem>

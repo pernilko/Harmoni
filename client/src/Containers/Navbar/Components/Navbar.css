@@ -9,8 +9,8 @@
 }
 
 .navbar-light .navbar-nav .nav-link {
-    color: #ffffff;
-    background-color: rgba(37, 35, 40, 0.87);
+    color: #fff;
+    transition: background-color .2s, color .2s;
 }
 
 .navbar-light .navbar-nav .nav-link:focus {

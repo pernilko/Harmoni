@@ -168,7 +168,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                                                     this.edit(false);
                                                 }}> Nei </button>
 
-                                                <button id="answr" className="btn btn-success float-right mr-3"
+                                                <button typoe="button" id="answr" className="btn btn-success float-right mr-3"
                                                         onClick={() => this.edit(true)}>Ja </button>
                                             </div>
                                         )}
