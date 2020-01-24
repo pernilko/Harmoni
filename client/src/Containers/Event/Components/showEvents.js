@@ -80,7 +80,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
                                                 <div id = "eventcard-body" className="card-body" style={{padding:0}}>
                                                     <a href={'#/showEvent/' + e.event_id}>
                                                         <Container id="cancelledImage">
-                                                            <img id="image" src={e.image?e.image:"https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"}/>
+                                                            <img id="image" src={"https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"}/>
                                                             <h3 id="cancelled" className="overlay">Avlyst</h3>
                                                         </Container>
                                                         <div id="eventcard-text" className="card-text" style={{float: "left", textAlign: "left"}}>

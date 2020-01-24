@@ -51,7 +51,7 @@ export class verifyEmail extends Component<{ match: { params: { token: string } 
             organizationService.addOrganization(res.org_name, res.org_phone, res.org_email)
                 .then(response=>{
                     userService.register(response[0].org_id, res.user_email, 1, res.user_name, res.user_password, res.user_address, res.user_phone, "hei");
-                }).then(()=>Alert.success("Du og din organisasjon '" + res.org_name + "' ble registret"))
+                }).then(()=>Alert.success("Du og din organisasjon '" + res.org_name + "' ble registrert"))
                 .then(()=>history.push("/Login"))
                 .catch((error:Error)=>{
                     localStorage.removeItem("invToken");

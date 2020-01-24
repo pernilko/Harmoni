@@ -351,6 +351,9 @@ export class Login extends Component{
         this.user2.user_name,
         this.user2.password, this.user2.address, this.user2.phone).then(res=>{
         Alert.success("En verifiserings-Email har blitt sendt til din personlige Email-bruker");
+        this.showLogin = false;
+        this.showRegOrgForm = true;
+        this.showRegAdminForm = true;
       }).catch((error:Error)=>{
         Alert.danger(error.message);
       })

@@ -97,7 +97,7 @@ export class Profile extends Component{
                             reader.readAsDataURL(event.target.files[0]);
                           }}/>
                       </Form.Group>
-                      <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.changePB}>Endre</Button>
+                      <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.changePB}>Lagre endring av bilde</Button>
                       <br/>
                       <br/>
                       <h3>Kontakt informasjon</h3>
@@ -145,7 +145,7 @@ export class Profile extends Component{
                          }}/>
                        </Form.Group>
                      </Form.Row>
-                     <Button type="submit" variant="primary" onClick = {this.changeUP}>Endre</Button>
+                     <Button type="button" variant="primary" onClick = {this.changeUP}>Endre</Button>
                  </div>
                 </Tab.Pane>
 
@@ -183,8 +183,7 @@ export class Profile extends Component{
         .then(() => {
           if(userService.currentUser){
             Alert.success("Profilbildet er oppdatert");
-            userService.autoLogin();
-            window.location.reload()
+            //userService.autoLogin();
           }
         })
 

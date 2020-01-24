@@ -76,11 +76,6 @@ export class userForm extends Component <{ match: { params: { token: string } } 
                             <Form.Control type="string" value={this.email}/>
                         </Form.Group>
 
-                        <Form.Group>
-                            <label>Last opp bilde</label>
-                            <input className="form-control" type="file"/>
-                        </Form.Group>
-
                         <br/>
 
                         <button className="light" type="button" style={{textAlign:'center'}}
