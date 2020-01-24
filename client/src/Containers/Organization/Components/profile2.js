@@ -9,6 +9,9 @@ import {Alert, Row} from "../../../widgets";
 import Accordion from "react-bootstrap/Accordion";
 import "./OrganizationProfile.css";
 
+let emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+
 /**
  * Klasse som viser info om din organisasjon.
  */
@@ -274,6 +277,7 @@ export class OrgProfile2 extends Component {
      * Funksjon som oppdaterer organisasjonen din.
      */
     updateOrg() {
+        if (emailRegEx.test(this.org_email)) {
         organizationService
             .updateOrganization(organizationService.currentOrganization.org_id, this.org_name, this.org_phone, this.org_email)
             .then(() => {
@@ -284,6 +288,9 @@ export class OrgProfile2 extends Component {
                 this.isAdmin = true;
             })
             .catch((error: Error) => console.log(error.message));
+        } else {
+            Alert.danger("Ikke gyldig email.");
+        }
     }
 
 

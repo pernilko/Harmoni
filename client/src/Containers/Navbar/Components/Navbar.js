@@ -42,7 +42,7 @@ export class Navigation extends Component {
                            value={this.search}
                            onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
                                (this.search = event.target.value)}/>
-              <Button type = "submit" className="btn btn-secondary" onClick={this.find}>Search</Button>
+              <Button type = "submit" className="btn btn-secondary" onClick={this.find}>Søk</Button>
             </Form>
           </Nav>
           <Navbar.Toggle aria-controls="basic-navbar-nav"/>
