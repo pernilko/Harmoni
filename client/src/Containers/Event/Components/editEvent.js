@@ -309,7 +309,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             Alert.success("Arrangementet ble redigert.");
             history.push("/mineEvents");
         })
-            .catch((error: Error) => Alert.danger(error.message));
+            .catch((error: Error) => Alert.danger("kunne ikke laste opp oppdatering"));
     }
     /**
      * Dette er en metode for å oppdatere artister i redigerings modus
