@@ -13,10 +13,19 @@
 
 .navbar-light .navbar-nav .nav-link {
     color: #fff;
+    transition: background-color .2s, color .2s;
 }
 
+.navbar-light .navbar-nav .nav-link:hover:focus {
+    background-color: #fff;
+    color: rgba(37, 35, 40, 0.87);
+    transition: background-color .2s, color .2s;
+}
+
+
+
 .navbar-light .navbar-nav .nav-link:active{
-  color: #FFFFFF;
+    color: #FFFFFF;
     background-color: #FFFFFF;
 }
 
