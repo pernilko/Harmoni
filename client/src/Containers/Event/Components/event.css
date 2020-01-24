@@ -264,7 +264,7 @@ div.row{
 
 .popup-content{
     background: #fff;
-    width: 115%;
+    width: 100%;
     position: absolute;
     color: #222328;
     padding-bottom: 5%;
@@ -325,7 +325,6 @@ div.row{
 }
 
 div.col-md-12{
-
     padding: 0;
     margin: 10px;
     width: fit-content;
