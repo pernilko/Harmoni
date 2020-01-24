@@ -9,6 +9,10 @@ import "./login.css";
 
 const history = createHashHistory();
 
+/**
+ * React-Komponent klasse som viser skjemaet for resetting av passord, parameteret
+ * komponenten tar inn en kryptert token som paramater via url-en og bruker denne for å identifisere bruker, hvor passord skal lages på nytt.
+ */
 export class resetPass extends Component<{ match: { params: { token: string } } }> {
     password: string = "";
     repeatedPassword: string = "";
@@ -59,6 +63,10 @@ export class resetPass extends Component<{ match: { params: { token: string } } 
         }
     }
 
+    /**
+     * Metoden kalles ved innlasting av komponent og lagrer all informasjon om bruker via tokenet i url-en,
+     * ved ugyldig token sendes bruker til login-siden med en feilmelding.
+     */
     mounted() {
         localStorage.setItem("resetToken", this.props.match.params.token);
         organizationService.checkResetToken().then(res => {
@@ -80,6 +88,10 @@ export class resetPass extends Component<{ match: { params: { token: string } } 
         });
     }
 
+    /**
+     * Metoden kalles når bruker har skrevet inn nytt passord og trykket seg videre.
+     * Den sjekker om passordet er langt nok og om begge feltenes input er like før den går videre til å sende informasjonen via brukerSErvice-klassen.
+     */
     reset() {
         if (this.repeatedPassword != this.password || this.password.length < 8) {
             Alert.danger("Passord må være like og ha minst 8 tegn");

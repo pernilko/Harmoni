@@ -7,6 +7,9 @@ import Tabs from './Tabs';
 import Pagination from "react-bootstrap/Pagination";
 require('./showTab.css');
 
+/**
+  ShowTab er en komponent som avgjør hvilke eventList som skal vises, dvs her velger man pending hvis man vil se eventList med eventene som er pendign.
+ */
 export class ShowTab extends Component<{all: boolean}>{
 
   render (){

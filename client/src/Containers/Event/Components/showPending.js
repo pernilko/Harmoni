@@ -12,14 +12,18 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
 const history = createHashHistory();
-
+/**
+    Pending viser frem de arrangementene som venter på å bli godkjent av økonomiansvarlig etter at de er ferdige.
+ */
 export class Pending extends Component<{}> {
     pending: Event[] = [];
     loaded: boolean = false;
     nowitsready: boolean = false;
     currentPage: number = 0;
     months: string[] = ["januar", "februar", "mars", "april", "mai", "juni", "juli", "august", "september", "oktober", "november", "desember"];
-
+    /**
+        @constructor konstruktøren lager et state-objekt hvor vi lagrer data om det skal vises frem i komponenten, slik at det kan oppdateres i sanntid.
+     */
     constructor(props){
         super(props);
         this.state = {
@@ -31,6 +35,10 @@ export class Pending extends Component<{}> {
         };
     }
 
+    /**
+        generer html for å vise frem komponenten
+        @return {html} selve siden som skal vises frem
+     */
     render() {
         if (!this.loaded) {
             if (userService.currentUser) {
@@ -52,7 +60,7 @@ export class Pending extends Component<{}> {
                   </div>
                         {this.state["currentPosts"].map((e, i) =>
                             <Container>
-                                <div id="eventcard" className="card" style={{marginLeft: "18%", marginRight: "18%", marginBottom: "2%", borderRadius: 6+"px", border: "none"}}>
+                                <div id="eventcard" className="card" style={{marginLeft: "12%", marginRight: "12%", marginBottom: "2%", borderRadius: 6+"px", border: "none"}}>
                                     <Row style={{margin: 0}}>
                                         <Col sm={2} style={{padding: 0}}>
                                             <div
@@ -68,7 +76,7 @@ export class Pending extends Component<{}> {
                                                         </div>
                                                         <div className="button mx-4 my-3"
                                                              onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 0)}>
-                                                            <button id="bot" type="button" className="btn btn-info btn-circle">
+                                                            <button id="top" type="button" className="btn btn-info btn-circle">
                                                                 <i className="fa fa-times"></i>
                                                             </button>
                                                         </div>
@@ -123,6 +131,11 @@ export class Pending extends Component<{}> {
         }
     }
 
+    /**
+        metoden henter ut raden som beskriver vakten til den brukeren som er logget inn hvis det er noen. Den tar inn arrangementet sin id og bruker informasjon om hvilken bruker som er logget inn til å sjekke hvem sin vakt det er snakk om.
+        @parameter {number} event_id - id til arrangementet det er snakk om.
+        @return {UserEvent} raden i DB som beskriver brukeren som er logget inn sitt vakt på et gitt arrangement, eller undefined
+     */
     getUserEvent(event_id: number){
         if (userService.currentUser){
             let e = this.state["events"].filter(ev => ev.event_id === event_id);
@@ -142,6 +155,12 @@ export class Pending extends Component<{}> {
         return undefined;
     }
 
+    /**
+        setFormat beregner hvordan start og sluttidspunktet for et arrangement skal vises frem. F.eks skal den kun skrive hvilket år den starter og slutter i dersom den starter og slutter i to ulike år.
+        @parameter {string} start - en string som beskriver når et arrangement starter.
+        @parameter {string} end - en string som beskriver når et arrangement slutter.
+        @return {string} en string som viser når arrangementer starter og slutter.
+     */
     setFormat(start, end) {
         let date = "";
 
@@ -167,6 +186,10 @@ export class Pending extends Component<{}> {
         return date;
     }
 
+    /**
+        Metode for å arkivere arrangement
+        @parameter {number} event_id - id til arrangementet som skal arkiveres.
+     */
     completed(event_id: number){
         eventService
           .setCompleted(event_id)
@@ -176,6 +199,10 @@ export class Pending extends Component<{}> {
           .catch((error: Errror) => console.log(error.message));
     }
 
+    /**
+        Metoden henter arrangementene som skal vises frem på siden.
+        @type this.loaded er en bolsk variabel som beskriver om dataen er hentet inn tidligere slik at ting skjer i rett rekkefølge.
+     */
     load() {
         eventService
             .getEventsPending(userService.currentUser.user_id)
@@ -187,6 +214,9 @@ export class Pending extends Component<{}> {
             .catch((error: Error) => console.log(error.message))
     }
 
+    /**
+        metoden beregner hvor mange sider med arrangementer som skal vises, og velger ut de som skal vises på den nåværende siden.
+     */
     loadPage(){
         let amount = Math.ceil(this.pending.length/this.state["postPerPage"]);
         console.log(this.pending);
@@ -204,6 +234,10 @@ export class Pending extends Component<{}> {
         this.nowitsready = true;
     }
 
+    /**
+        Metoden henter ut hvilke arrangement som skal vises når du bytter side og flytter brukeren opp til toppen av nettsiden.
+        @parameter {number} currentPage - hvilken side vi nå skal rendere istedenfor
+     */
     changePage(currentPage: number){
         this.currentPage = currentPage;
 

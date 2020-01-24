@@ -37,7 +37,7 @@ export class Profile extends Component{
                 <div className="container">
 
                   <div id ="card-img">
-                    <Image src={userService.currentUser.image ? userService.currentUser.image : "https://www.simplifai.ai/wp-content/uploads/2019/06/blank-profile-picture-973460_960_720-400x400.png"}
+                    <Image src={userService.currentUser.image ? userService.currentUser.image : "https://storage.cloud.google.com/harmoni-files/pb.png"}
                            roundedCircle width={240 + 'px'}
                            height={220 + 'px'}
                            style={{margintop:10+ '%'}}

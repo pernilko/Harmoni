@@ -12,7 +12,9 @@ import {sharedComponentData} from "react-simplified";
 import Form from "react-bootstrap/Form";
 
 let del_employee: UserEvent[] = [];
-
+/**
+    Employees - Komponent for å legge til nye ansatte 
+ */
 export class Employees extends Component <{buttonName: string, employee: UserEvent}> {
     users: User[] = [];
     emp: UserEvent[] = [];
@@ -21,6 +23,11 @@ export class Employees extends Component <{buttonName: string, employee: UserEve
     user_id: number = userService.currentUser.user_id;
     email: string = this.props.employee.email;
     hidden: bool = true;
+
+    /**
+        render - lager det som skal vises på siden i html-format
+        @return html-elementet som inneholder visningen av komponenten.
+     */
     render(){
             return (
                 <Accordion>
@@ -77,6 +84,9 @@ export class Employees extends Component <{buttonName: string, employee: UserEve
             )
         }
 
+    /**
+        mounted - metode som kjøres når komponenten opprettes. Den gjør klar variablene for korrekt visning.
+     */
     mounted() {
         let s: any = EmployeesDetails.instance();
         this.emp = s.emp;
@@ -94,12 +104,20 @@ export class Employees extends Component <{buttonName: string, employee: UserEve
         }*/
     }
 
+    /**
+        getUsers - henter brukere som er med i en organisasjon.
+        @parameter {number} val - id til organisasjonen det er snakk om.
+        @return Alle brukerne som er i en organisasjon.
+     */
     getUsers(val: number) {
         userService
             .getUserByOrgId(val)
             .then(users => this.users = users)
     }
 
+    /**
+        add - Når skjemaet er ferdig utfylt av brukeren kjøres denne funksjonen for å legge til den nye ansatte.
+     */
     add(){
         //let userId = document.getElementById("userSelect").value;
         this.hidden = true;
@@ -111,6 +129,9 @@ export class Employees extends Component <{buttonName: string, employee: UserEve
             .catch((error: Error) => console.log(error.message))
     }
 
+    /**
+        sletter en ansatt som ble lagt til tidligere.
+     */
     deleteEmployee(e: UserEvent) {
         del_employee.push(e);
         const index = this.emp.indexOf(e);
@@ -120,11 +141,18 @@ export class Employees extends Component <{buttonName: string, employee: UserEve
     }
 }
 
+/**
+     Viser frem informasjonen om de ansatte som er lagt til.
+ */
 export class EmployeesDetails extends Component {
     emp: UserEvent[] = [];
     hidden: bool = true;
     //users: User[] = [];
 
+    /**
+        funksjonen generer html for å vise frem komponenten
+        @return html-element som inneholder komponenten.
+     */
     render(){
         return(
             <div className="card">
@@ -150,6 +178,10 @@ export class EmployeesDetails extends Component {
             </div>
         )
     }
+
+    /**
+        Legger til en ny blank ansatt som kan redigeres senere
+     */
     addNewPosition(){
         this.emp.push(new UserEvent(0, 0, "", "", "", 2));
         this.hidden = false;

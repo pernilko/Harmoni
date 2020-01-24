@@ -14,6 +14,9 @@ const history = createHashHistory();
 
 let emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+/**
+ * Komponent-klasse for login-siden for nettstedet. komponenten håndterer logikk og utseende på siden /login
+ */
 export class Login extends Component{
     user: User = new User();
     user2: User = new User();
@@ -212,6 +215,10 @@ export class Login extends Component{
         }
     }
 
+    /**
+     * Metode som bruker de oppdaterte variablene for bruker-epost, organisasjons-id og navn på organisasjon i komponenten,
+     * og kaller en service for å sende en glemt passord e-post.
+     */
     forgottenPass() {
         organizationService
             .forgotPass(this.user.email, this.pickedOrg.org_id, this.pickedOrg.org_name)
@@ -222,6 +229,9 @@ export class Login extends Component{
             })
     }
 
+    /**
+     * Metode som sjekker variabelen for brukerinput av epostaddresse og henter ut hvilke organisasjoner e-postaddressen er knyttet til, om gyldig addresse.
+     */
     checkEmail(){
         //console.log(this.user.email);
         this.message = "Checking email";
@@ -239,22 +249,36 @@ export class Login extends Component{
        });
         this.loading = true;
     }
+
+    /**
+     * Metode som blir kalt når bruker har valgt en organisasjon.
+     * Den setter meldinga som vises på menyen til "Velg organisasjon" og lagrer valgt organisasjonm slik at neste vindu vises
+     * @param org
+     */
     pickOrg(org: Organization){
         this.message = "Velg organisasjon";
         this.pickedOrg = org;
         this.checkedOrg = true;
     }
 
+    /**
+     * Metode som kalles nå bruker har skrevet inn passord og forsøker å logge inn.
+     * Den sender inn brukerinputen for epost, passord og valgt organisasjon til serviceklassen og gir feedback om innloggingen gikk bra.
+     */
     login(){
         this.loading = true;
         userService.logIn(this.pickedOrg.org_id, this.user.email, this.user.password).then(() => {
                 this.loading=false;
-                Alert.success("Du ble logget inn");
+                //Alert.success("Du ble logget inn");
             }).catch((error: Error)=>{
                 Alert.danger("feil passord");
                 this.loading = false;
         });
     }
+
+    /**
+     * Metode som kalles når bruker vil registrere en ny organisasjon. Verdier på booleans endres slik at et registreringsskjema vises for brukeren.
+     */
     registerNewOrganizationClicked(){
         console.log("newOrgClicked");
         this.loading = false;
@@ -262,15 +286,21 @@ export class Login extends Component{
         this.showRegOrgForm = false;
 
         console.log(this.showRegOrgForm);
-        //eventuelt route videre til registreringsskjema her
     }
 
+    /**
+     * Metode som kalles når bruker er inne på skjemaet for registrering av organisasjon, og sender bruker til logg inn skjerm.
+     */
     loginClicked(){
       console.log("loginClicked");
       this.showLogin = false;
       this.showRegOrgForm = true;
     }
 
+    /**
+     * Metode som kalles når bruker har skrevet inn informasjon om organisasjon og har trykket neste.
+     * Metoden sjekker om informasjonen er gyldig, før bruker kan gå videre til skjema for informasjon om brukeren og oppretting av passord.
+     */
     next(){
       console.log(this.newOrganization.org_name);
       console.log(this.newOrganization.phone);
@@ -287,7 +317,11 @@ export class Login extends Component{
       //Supposed to reveal a new component for registering an Admin-user
     }
 
-  register(){
+    /**
+     * Metoden kalles når bruker trykker på registrer
+     * og sjekker om all informasjon er gyldig før den sender de videre til serviceklassen som vil gi en verifikasjonsurl sendt til brukerens innskrevne epostaddresse.
+     */
+    register(){
     // Register
     if(this.repeatedPassword !== this.user2.password || this.user2.password.length<8){
       Alert.danger("Passord må være like og ha minst 8 tegn");
