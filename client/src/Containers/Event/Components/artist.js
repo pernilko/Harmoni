@@ -54,7 +54,7 @@ export class ArtistDropdown extends Component<{buttonName: string, artist: Artis
                         <button type="button" className="btn btn-danger" onClick={() => this.delete(this.props.artist)} style={{marginLeft: 10+"px", float: "left"}}>Slett</button>
                     </Card.Header>
                     <Accordion.Collapse eventKey="0" style={{border: "none"}}>
-                        <Card.Body>
+                        <Card.Body style={{width: "70%"}}>
                             <form style={{padding: 20 + 'px', width: "100%" , position: "sticky", overflow: "visible"}}>
                             <div className="form-group">
                                 <row>
