@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import Tab from './Tab';
 import "./showTab.css";
 
+
+/**
+  håndterer logikk for visnigen av flere "tabs"
+ */
 class Tabs extends Component {
   static propTypes = {
     children: PropTypes.instanceOf(Array).isRequired,
@@ -17,10 +21,16 @@ class Tabs extends Component {
     };
   }
 
+  /**
+    Marker hvilken tab som siste ble trykket på.
+   */
   onClickTabItem = (tab) => {
     this.setState({ activeTab: tab });
   }
 
+  /**
+    viser frem alle tabsene
+   */
   render() {
     const {
       onClickTabItem,

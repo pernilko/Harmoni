@@ -25,6 +25,10 @@ let emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@
 
 const history = createHashHistory();
 
+/**
+    Denne komponeten bruker for å opprette nye arrangementer.
+    Den anvender en rekke andre komponenter som inneholder egne skjemaer for delene som utgjør et arrangemente (artister, billetter osv). 
+ */
 export class RegistrationForm extends Component {
     artists: Artist[] = [];
     tickets: Ticket[] = [];
@@ -44,6 +48,10 @@ export class RegistrationForm extends Component {
     lng: number = 0;
     image: string = "";
 
+    /**
+        funksjonen generer html for å vise frem komponenten
+        @return html-element som inneholder komponenten.
+     */
     render(){
                 return (
                   <div id="whole-page" className="container-fluid">
@@ -127,28 +135,43 @@ export class RegistrationForm extends Component {
                 )
     }
 
+    /**
+        denne metoden kjøres når komponenten opprettes og skal hente ut instansene av de listene med informasjon om f.eks billetter som blir laget i registreringskomponentene for disse mindre enhetene.
+     */
     mounted() {
         this.getArtists();
         this.getTickets();
         this.getEmployees();
     }
 
+    /**
+        Henter instansen av artistene som er registrert til hovedskjemaet så dataen er tilgjengelig i denne kompoenten
+     */
     getArtists() {
         let s: any = ArtistDetails.instance();
         this.artists = s.artist;
     }
 
+    /**
+        Henter instansen av billettene som er registrert til hovedskjemaet så dataen er tilgjengelig i denne kompoenten
+     */
     getTickets() {
         let s: any = TicketDetails.instance();
         this.tickets = s.ticketList;
     }
 
+    /**
+        Henter instansen av de ansatte som er registrert til hovedskjemaet så dataen er tilgjengelig i denne kompoenten
+     */
     getEmployees() {
         let s: any = EmployeesDetails.instance();
         this.employees = s.emp;
 
     }
 
+    /**
+        hvis brukeren har rettighetene som er nødvendige, og skjemaet er fylt ut på en gyldig måte vil event legges til i databasen.
+     */
     regEvent(){
         if (!userService.currentUser) {
             Alert.danger("Ikke autorisert")
@@ -210,6 +233,9 @@ export class RegistrationForm extends Component {
             .catch((error: Error) => console.log(error.message))
     }
 
+    /**
+        Metoden legger til alle artistene som er med på arrangementet i databasen.
+     */
     addArtists(val: number, artists: Artist[]) {
         console.log("ARTISTER: ", artists);
         artists.map(a => {
@@ -219,10 +245,13 @@ export class RegistrationForm extends Component {
                     .addArtist(val, a.artist_name, a.email, a.phone, a.riders, a.hospitality_riders, a.artist_contract)
                     .then(res => console.log(res))
                     .catch((error:Error)=>Alert.danger(error.message));
-                }
-            });
-        }
+            }
+        });
+    }
 
+    /**
+        Metoden legger til alle billettypene til arrangementet i databasen.
+     */
     addTickets(val: number, tickets: Ticket[]) {
         console.log("BILLETTER: ", tickets);
 
@@ -235,6 +264,9 @@ export class RegistrationForm extends Component {
         });
     }
 
+    /**
+        Metoden legger til alle de ansatte i arrangementet i databasen.
+     */
     addEmployee(val: number, employees: UserEvent[]){
         console.log("ANSATTE: ", employees);
 
@@ -247,7 +279,9 @@ export class RegistrationForm extends Component {
         });
     }
 
-    
+    /**
+        Metoden sender ut en mail til alle de som har blitt satt opp på en stilling slik at de er klar over det.
+     */
     notify(val: number, name: string, employees: UserEvent[]) {
         console.log("INVITER: ", employees);
 
@@ -260,6 +294,9 @@ export class RegistrationForm extends Component {
         })
     }
 
+    /**
+        Metoden oppdaterer bildet til arrangementet i databasen.
+     */
     changePic(val: number){
     console.log("BILDE: ", this.image);
       eventService
@@ -270,9 +307,11 @@ export class RegistrationForm extends Component {
             //history.push("/Profile");
           }
         })
+    }
 
-  }
-
+    /**
+        Metoden brukes til å kansellere opprettelsen av et nytt arrangement og sender brukeren tilbake til oversikten over alle arrangement.
+     */
     cancel(){
       history.push("/alleEvents");
     }

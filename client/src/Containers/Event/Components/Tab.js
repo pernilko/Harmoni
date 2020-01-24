@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+/**
+  håndterer logikken for visningen av en enkelt "tab".
+ */
 class Tab extends Component {
   static propTypes = {
     activeTab: PropTypes.string.isRequired,
@@ -8,11 +11,17 @@ class Tab extends Component {
     onClick: PropTypes.func.isRequired,
   };
 
+  /**
+    håndterer hva som skal skje når man trykker på en enkelt tab.
+   */
   onClick = () => {
     const { label, onClick } = this.props;
     onClick(label);
   }
 
+  /**
+    viser frem selve "tab"-en.
+   */
   render() {
     const {
       onClick,
