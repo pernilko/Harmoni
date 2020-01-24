@@ -35,7 +35,7 @@ export class Employees extends Component <{buttonName: string, employee: UserEve
                             </button>
                         </Card.Header>
                         <Accordion.Collapse eventKey="0" style={{border: "none"}}>
-                            <Card.Body>
+                            <Card.Body style={{width: "70%"}}>
                                 <form style={{
                                     padding: 20 + 'px',
                                     width: "100%",

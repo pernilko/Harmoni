@@ -29,7 +29,7 @@ export class TicketComp extends Component <{buttonName: string, ticket: Ticket}>
                         <button type="button" className="btn btn-danger" style={{marginLeft: 10+"px", float: "left"}} onClick={() => this.deleteTicket(this.props.ticket)}>Slett</button>
                     </Card.Header>
                     <Accordion.Collapse eventKey="0" style={{border: "none"}}>
-                        <Card.Body>
+                        <Card.Body style={{width: "70%"}}>
                             <form style={{padding: 20 + 'px', width: "100%", position: "sticky", overflow: "visible"}}>
                                 <div className="form-group">
                                     <row>

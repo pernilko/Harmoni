@@ -283,8 +283,9 @@ div.row{
 
 
 #preview{
-    max-width: content-box;
-    max-height: content-box;
+    object-fit: cover;
+    width: 100%;
+    height: 60%;
 }
 
 #eventBody{
@@ -343,6 +344,10 @@ div.col-md-12{
     display: inline-block;
     margin-right: 20px;
     margin-top: 0;
+}
+
+#imgPreview{
+
 }
 
 
