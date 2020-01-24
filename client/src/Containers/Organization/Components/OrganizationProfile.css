@@ -103,6 +103,10 @@ div > label{
     font-weight: bold;
 }
 
+div .container-fluid{
+    background-image: linear-gradient(#222328, #551C3A);
+}
+
 
 div .col-lg-5 {
     padding: 0;

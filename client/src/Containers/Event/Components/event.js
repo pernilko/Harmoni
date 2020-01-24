@@ -336,7 +336,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                   <div className="view view-cascade overlay">
                     <div id="cardImg">
                       <img className="card-img-top shadow-lg"
-                           src="https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg"
+                           src={e.image?e.image:"https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg"}
                            alt="Card image cap"
                            style={{filter:"grayscale(90%"}}/>
                            <p className="text-block">Avlyst</p>

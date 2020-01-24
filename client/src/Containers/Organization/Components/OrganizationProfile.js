@@ -39,7 +39,7 @@ export class OrgProfile extends Component {
             }
             if(this.ready) {
                 return (
-                    <div className="container-fluid">
+                    <div id={"orgContainer"} className="container-fluid">
                         <div className="row">
                             <div className="col-4" >
                                 <div className="card">
