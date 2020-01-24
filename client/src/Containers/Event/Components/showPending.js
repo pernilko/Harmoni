@@ -124,7 +124,7 @@ export class Pending extends Component<{}> {
     } else{
             return (
               <div style={{color: 'white'}}>
-                  Du har ingen arrangement til godkjenning
+                  Du har ingen arrangement til arkivering
               </div>
             )
 

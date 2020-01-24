@@ -524,7 +524,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
         this.state["admins"].map(a => {
             organizationService.reportBug(a.email, userService.currentUser.org_id, organizationService.currentOrganization.org_name, this.bugreport)
             .then((e) => {
-                Alert.success("Bug report sendt!");
+                Alert.success("Feilrapport sendt!");
                 this.hidden = true;
                 this.email = "";
             })

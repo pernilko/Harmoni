@@ -22,10 +22,10 @@ export class ShowTab extends Component<{all: boolean}>{
                 <div id="st" className="card-body">
                   <h1 id="tabs-header">Arrangement for hele organisasjonen</h1>
                   <Tabs>
-                   <div label="Avlyste">
+                   <div label="Avlyst">
                        <EventList user={false} time={3}/>
                     </div>
-                    <div label="Fullført">
+                    <div label="Arkivert">
                         <EventList user={false} time={0}/>
                     </div>
                     <div label="Pågående">
@@ -48,10 +48,10 @@ export class ShowTab extends Component<{all: boolean}>{
                 <div>
                   <h1 id="tabs-header">Mine Arrangement</h1>
                   <Tabs>
-                    <div label="Avlyste">
+                    <div label="Avlyst">
                         <EventList user={true} time={3}/>
                     </div>
-                    <div label="Fullført">
+                    <div label="Arkiv">
                         <EventList user={true} time={0}/>
                     </div>
                     <div label="Pågående">

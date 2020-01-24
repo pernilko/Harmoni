@@ -173,14 +173,14 @@ a:after:hover {
 
 .mid .wrapper input:focus{
     outline: none;
-    border-color: #7cceeb;
+    border-color: rgb(95, 46, 209);
 }
 
 .mid .wrapper input{
     height: 40px;
     padding: 5px 15px;
     width: 100%;
-    border: solid 1px #999;
+    border: solid 1px #ff4931;
 }
 
 .mid .wrapper > form:focus{
@@ -272,12 +272,12 @@ a:after:hover {
 
 .mid .registerOrg input:focus{
     outline: none;
-    border-color: #7cceeb;
+    border-color: #281121;
 }
 
 .mid .registerOrg1 input:focus{
     outline: none;
-    border-color: #7cceeb;
+    border-color: #281121;
 }
 
 .mid .registerOrg > form{
