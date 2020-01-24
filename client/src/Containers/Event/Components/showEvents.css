@@ -171,6 +171,10 @@ div > .card{
     background: rgba(129, 129, 129, 0.18);
 }
 
+#st{
+    width: 90%;
+    padding-right: 3%;
+}
 
 a{
     color: #183248;
@@ -216,7 +220,7 @@ a{
 #top{
     width: 50%;
     height: 100%;
-    margin-right: 7%;
+    margin: 7%;
 }
 
 

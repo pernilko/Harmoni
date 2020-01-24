@@ -18,7 +18,7 @@ export class ShowTab extends Component<{all: boolean}>{
       return (
         <Container fluid id="tabsAllEvents">
           <div className="row">
-              <div className="col-md-12">
+              <div className="col-md-12" style={{margin: 0}}>
                 <div id="st" className="card-body">
                   <h1 id="tabs-header">Arrangement for hele organisasjonen</h1>
                   <Tabs>

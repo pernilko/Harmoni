@@ -9,10 +9,17 @@ import { createHashHistory } from 'history';
 import "./OrganizationProfile.css";
 const history = createHashHistory();
 
-
+/**
+ * Klasse for å bekrefte at email er gyldig når man oppretter en ny bruker og organisasjon.
+ */
 export class verifyEmail extends Component<{ match: { params: { token: string } } }>{
 
     loading: boolean = false;
+
+    /**
+     * Funksjon som oppretter et HTML-komponent for å verifisere ny bruker.
+     * @returns {*} Returnerer komponent for å verifisere din nye bruker.
+     */
     render(){
         localStorage.removeItem("token");
         localStorage.setItem("invToken", this.props.match.params.token);
@@ -35,6 +42,9 @@ export class verifyEmail extends Component<{ match: { params: { token: string } 
         }
     }
 
+    /**
+     * Funksjon som sjekker om din token er gyldig eller ikke, og deretter oppretter bruker og organisasjon.
+     */
     verify(){
         this.loading = true;
         organizationService.checkVerifyToken().then(res=>{

@@ -227,7 +227,7 @@ export class RegistrationForm extends Component {
                 this.addEmployee(response[0]["LAST_INSERT_ID()"], this.employees);
                 this.notify(response[0]["LAST_INSERT_ID()"], this.eventName, this.employees);
             }).then(()=>{
-            history.push("/alleEvents");
+            history.push("/mineEvents");
             Alert.success("Arrangementet ble opprettet");
         })
             .catch((error: Error) => console.log(error.message))

@@ -9,6 +9,9 @@ import {Alert, Row} from "../../../widgets";
 import Accordion from "react-bootstrap/Accordion";
 import "./OrganizationProfile.css";
 
+/**
+ * Klasse for å vise frem profilen til en organisasjon.
+ */
 export class OrgProfile extends Component {
     admin: User[] = [];
     members: User[] = [];
@@ -24,6 +27,10 @@ export class OrgProfile extends Component {
     loaded: boolean = false;
     ready:boolean = false;
 
+    /**
+     * Funksjon som oppretter et HTML-komponent for å vise profilen til organisasjonen.
+     * @returns {*} Funksjonen returnerer et komponent som viser profilen til organisasjon.
+     */
     render() {
         if (userService.currentUser && organizationService.currentOrganization) {
             if (!this.loaded) {
@@ -32,7 +39,7 @@ export class OrgProfile extends Component {
             }
             if(this.ready) {
                 return (
-                    <div className="container-fluid">
+                    <div id={"orgContainer"} className="container-fluid">
                         <div className="row">
                             <div className="col-4" >
                                 <div className="card">
@@ -177,6 +184,10 @@ export class OrgProfile extends Component {
             )
         }
     }
+
+    /**
+     * Funksjon som laster inn all data knyttet til organisasjonen.
+     */
     load(){
         userService
             .getUserByOrgId(userService.currentUser.org_id)
@@ -194,6 +205,10 @@ export class OrgProfile extends Component {
             })
             .catch((error: Error) => console.log(error.message))
     }
+
+    /**
+     * Funksjon som sjekker om brukeren har mulighet til å redigere organisasjonen.
+     */
     editOrg(){
         if(userService.currentUser.privileges == 1) {
             console.log("show edit");
@@ -205,6 +220,10 @@ export class OrgProfile extends Component {
             Alert.danger("ikke autorisert");
         }
     }
+
+    /**
+     * Funksjon for å lagre endringer man har gjort ved organisasjonen.
+     */
     saveEdit(){
         console.log("Save edit");
 
@@ -218,6 +237,10 @@ export class OrgProfile extends Component {
             })
             .catch((error: Error) => console.log(error.message));
     }
+
+    /**
+     * Funksjon for å kansellere redigering av organisasjon.
+     */
     cancelEdit(){
         console.log("Cancel edit");
         this.org_email = organizationService.currentOrganization.email;
@@ -228,6 +251,11 @@ export class OrgProfile extends Component {
         this.inEdit = false;
         this.isAdmin = true;
     }
+
+    /**
+     * Funksjon for å kunne endre rettighetene til en gitt bruker i organisasjonen.
+     * @param {user} Tar inn som parameter den brukeren man ønsker å endre rettighetene til.
+     */
     updatePrivileges(user: User){
         //console.log(user.user_id);
         if(userService.currentUser.privileges == 1) {

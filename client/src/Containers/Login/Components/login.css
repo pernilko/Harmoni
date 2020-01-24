@@ -134,10 +134,10 @@ a:after:hover {
 }
 
 #fillPassword{
-    width: 30%;
+    width: 40%;
     height: 70%;
-    top: 7%;
-    left: 35%;
+    top: 12%;
+    left: 30%;
 }
 
 .mid .wrapper > form{
@@ -187,6 +187,9 @@ a:after:hover {
     outline: none;
 }
 
+#registerForm{
+    height: 120%;
+}
 
 /* mid registerOrg*/
 
@@ -222,13 +225,11 @@ a:after:hover {
 
 #reg{
     margin-top: 10px;
-    padding: 2%;
+    padding: 4%;
     width: 68%;
-    height: 30%;
+    height: 60%;
     top: 18%;
     right: 16%;
-    overflow: scroll;
-
 }
 
 .mid .registerOrg > form > div {
@@ -344,7 +345,7 @@ a:after:hover {
     }
     .mid > .wrapper{
         position: relative;
-        height: auto;
+        height: 100%;
         top: 0;
         left: 0;
         width: 100%;
@@ -363,11 +364,18 @@ a:after:hover {
 
     .mid > .registerOrg1{
         position: relative;
-        height: auto;
-        top: 0;
-        left: 0;
+        height: inherit;
+        top: 3%;
+        left: 3%;
+        right: 3%;
         width: 100%;
     }
+
+    #reg{
+        width: 94%;
+        min-height: 300px;
+    }
+
     .splits{
         width: 50%;
         background: #fff;
@@ -404,10 +412,14 @@ a:after:hover {
     }
 
     #fillPassword{
-        width: 30%;
+        width: 80%;
         height: 70%;
-        top: 7%;
-        left: 35%;
+        padding-top: 30px;
+        left: 10%;
+    }
+
+    div .container-fluid{
+        padding: 10px;
     }
 
 }

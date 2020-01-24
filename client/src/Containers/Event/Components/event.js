@@ -92,8 +92,8 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                               <Row>
 
                                   {e.accepted > 0 ?
-                                      <div id="underPlanning" className="col-md-8">
-                                          <div className="width greenBG">
+                                      <div id="underPlanning" className="col-md-6">
+                                          <div id="topBanner" className="artistBanner greenBG">
                                               Arrangementet er helt klart!
                                           </div>
                                       </div>
@@ -118,17 +118,21 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                                       </a>}>
                                                           {close => (
                                                               <div className="popup-content">
-                                                                  <p><b>Dette vil markere hele arrangementet som klart,
-                                                                      det vil bety at riders, og kontrakter bør være
-                                                                      ferdigstilt</b></p>
-                                                                  <button type = "button" className="btn btn-warning float-left ml-3"
-                                                                          onClick={() => {
-                                                                              close();
-                                                                          }}>Avbryt
-                                                                  </button>
-                                                                  <button className="btn btn-success float-right mr-3"
-                                                                          onClick={() => this.setAcceptedEvent(e.event_id, 1)}>Fortsett
-                                                                  </button>
+                                                                  <Row>
+                                                                      <p style={{padding: 5}}><b>Dette vil markere hele arrangementet som klart,
+                                                                          det vil bety at riders, og kontrakter bør være
+                                                                          ferdigstilt</b></p>
+                                                                  </Row>
+                                                                  <Row>
+                                                                      <button type = "button" className="btn btn-warning float-left ml-3" style={{margin: 0, float: "left"}}
+                                                                              onClick={() => {
+                                                                                  close();
+                                                                              }}>Avbryt
+                                                                      </button>
+                                                                      <button type = "button" className="btn btn-success float-right mr-3" style={{margin: 0, float: "left"}}
+                                                                              onClick={() => this.setAcceptedEvent(e.event_id, 1)}>Fortsett
+                                                                      </button>
+                                                                  </Row>
                                                               </div>
                                                           )}
                                                       </Popup>
@@ -206,7 +210,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                   <h2 className={"text"}>Billetter</h2>
                                   <br/>
 
-                                  <Row className={"ticketContainer"}>
+                                  <Row id="ticketContainer" className={"ticketContainer"}>
                                       {this.state["tickets"].map(t =>
                                           <Column className="card" width={6}>
                                               <div className="card-body shadow-lg">
@@ -235,27 +239,30 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
 
                                       <tbody>
                                       {this.state["users"].map(row =>
-                                          <tr className={(row.accepted === 1 ? "greenBG" : "") + (row.accepted === 0 ? "redBG" : "")}>
+                                          <tr id="rad" className={(row.accepted === 1 ? "greenBG" : "") + (row.accepted === 0 ? "redBG" : "")}>
                                               <td className={"borderControl"}>{row.user_name}</td>
-                                              <td>{row.job_position}
-                                              </td>
+                                              <td>{row.job_position}</td>
                                               {this.getUserEvent(row.user_id) ?
-                                                  <td className={"noBorder"}>
+                                                  <div>
+                                                    <td className={"noBorder"}>
                                                       <div className="buttonHorizontal"
-                                                           onClick={() => this.setAccepted(userService.currentUser.user_id, e.event_id, 0)}>
-                                                          <button id="bot" type="button"
-                                                                  className="btn btn-info btn-circle">
-                                                              <i className="fa fa-times"></i>
-                                                          </button>
-                                                      </div>
-                                                      <div className="buttonHorizontal px-1"
                                                            onClick={() => this.setAccepted(userService.currentUser.user_id, e.event_id, 1)}>
                                                           <button id="top" type="button"
                                                                   className="btn btn-info btn-circle">
                                                               <i className="fa fa-check"></i>
                                                           </button>
                                                       </div>
-                                                  </td> : <div/>}
+                                                    </td>
+                                                    <td>
+                                                      <div className="buttonHorizontal"
+                                                           onClick={() => this.setAccepted(userService.currentUser.user_id, e.event_id, 0)}>
+                                                          <button id="top" type="button"
+                                                                  className="btn btn-info btn-circle">
+                                                              <i className="fa fa-times"></i>
+                                                          </button>
+                                                      </div>
+                                                  </td>
+                                              </div> : <div/>}
                                           </tr>
                                       )}
                                       </tbody>
@@ -269,18 +276,20 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                               <Popup trigger={<a style={{cursor: "pointer"}} id="avlys"
                                                 className="card-link" >Avlys</a>}>
                                                   {close => (
-                                                    <div className="popup-content">
-                                                        <p><b>Vil du avlyse dette arrangementet?</b></p>
-                                                        <br/>
-                                                        <br/>
-                                                        <button className="btn btn-warning float-left ml-3" onClick={() => {
-                                                            close();
-                                                        }}> Nei
-                                                        </button>
-                                                        <button className="btn btn-success float-right mr-3"
-                                                                onClick={() => this.cancelled(this.event_id)}>Ja
-                                                        </button>
-                                                    </div>
+                                                      <div>
+                                                        <Row>
+                                                            <p><b>Vil du avlyse dette arrangementet?</b></p>
+                                                        </Row>
+                                                        <Row>
+                                                            <button className="btn btn-warning float-left ml-3" style={{margin: 0, float: "left"}} onClick={() => {
+                                                                close();
+                                                            }}> Nei
+                                                            </button>
+                                                            <button className="btn btn-success float-right mr-3" style={{margin: 0, float: "left"}}
+                                                                    onClick={() => this.cancelled(this.event_id)}>Ja
+                                                            </button>
+                                                        </Row>
+                                                      </div>
                                                   )}
                                               </Popup>
                                              </div>
@@ -327,7 +336,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                   <div className="view view-cascade overlay">
                     <div id="cardImg">
                       <img className="card-img-top shadow-lg"
-                           src="https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg"
+                           src={e.image?e.image:"https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg"}
                            alt="Card image cap"
                            style={{filter:"grayscale(90%"}}/>
                            <p className="text-block">Avlyst</p>
@@ -554,7 +563,7 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
             if (e) {
                 organizationService.sendCancellationMail(e.email, userService.currentUser.org_id, organizationService.currentOrganization.org_name, this.state["event"].event_name)
                     .then((e) => {
-                        Alert.success("Staff is alerted about the cancellation");
+                        Alert.success("Ansatte har fått varsel om kanselering");
                         this.email = "";
                     }).catch((error: Error) => console.log(error.message))
             }

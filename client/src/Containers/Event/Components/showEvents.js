@@ -80,11 +80,11 @@ export class EventList extends Component<{user: boolean, time: number}>{
                                                 <div id = "eventcard-body" className="card-body" style={{padding:0}}>
                                                     <a href={'#/showEvent/' + e.event_id}>
                                                         <Container id="cancelledImage">
-                                                            <img id="image" src="https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"/>
+                                                            <img id="image" src={e.image?e.image:"https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"}/>
                                                             <h3 id="cancelled" className="overlay">Avlyst</h3>
                                                         </Container>
                                                         <div id="eventcard-text" className="card-text" style={{float: "left", textAlign: "left"}}>
-                                                            <h2 style={{textAlign: "left", paddingLeft: 20}}> {e.event_name} </h2>
+                                                            <h2 style={{textAlign: "left"}}> {e.event_name} </h2>
                                                             <p> <b> Sted: </b> {e.place} </p>
                                                             <p><b> Tidspunkt: {this.setFormat(e.event_start, e.event_end)}</b> </p>
                                                         </div>
@@ -148,7 +148,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
                                                     <img id="image"
                                                          src={e.image ? e.image : "https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"}/>
                                                     <div id="eventcard-text" className="card-text" style={{float: "left", textAlign: "left"}}>
-                                                        <h2 style={{textAlign: "left", paddingLeft: 20}}> {e.event_name} </h2>
+                                                        <h2 style={{textAlign: "left"}}> {e.event_name} </h2>
                                                         <p><b> Sted: </b> {e.place} </p>
                                                         <p><b> Stilling: </b>{this.getUserEvent(e.event_id) ? "Du er satt opp som " + this.getUserEvent(e.event_id).job_position + ".\n Bekreft valget ditt med knappene på venstre side." : "Du er ikke satt på dette arrangementet"}.
                                                         </p>

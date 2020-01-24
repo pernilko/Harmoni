@@ -17,17 +17,25 @@ import "./OrganizationProfile.css";
 
 const history = createHashHistory();
 
+/**
+ * Klasse for å invitere en bruker til din organisasjon.
+ */
+
 export class inviteUser extends Component {
     email: string = "";
     emailAlreadyUsed = false;
     usersToCheck: User[] = [];
 
+    /**
+     * Funksjon som oppretter et HTML-komponent for å invitrere en bruker til din organisasjon.
+     * @returns {*} Funksjon returnerer et komponent for å invitere brukere.
+     */
     render() {
       if (userService.currentUser && organizationService.currentOrganization) {
           if(userService.currentUser.privileges == 1) {
               return <div style={{color: "#FFF", paddingTop: "100px"}}>
                   <h2 className="card-header" style={{fontFamily: "Arial", textAlign: "center"}}>Inviter en bruker til din organisasjon </h2>
-                  <Form style={{marginTop: 20 + 'px', paddingLeft: 200 + 'px', paddingRight: 200 + 'px', paddingTop: "50px"}}>
+                  <Form style={{marginTop: 20 + 'px', paddingLeft: "16%", paddingRight: "16%", paddingTop: "50px"}}>
                       <Form.Group>
                           <Form.Group>
                               <Form.Label>E-mail</Form.Label>
@@ -53,6 +61,10 @@ export class inviteUser extends Component {
         return <Spinner animation="border"/>
       }
     }
+
+    /**
+     * Funksjon som sjekker om man har gyldig token.
+     */
     mounted(){
         if(!localStorage.getItem("token")){
             Alert.danger("Innlogging kreves");
@@ -60,6 +72,9 @@ export class inviteUser extends Component {
         }
     }
 
+    /**
+     * Funksjon for å sende invitasjon til brukeren via email.
+     */
     send() {
       if (this.email == "") {
         Alert.danger("Skriv inn emailen.")

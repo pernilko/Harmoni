@@ -157,20 +157,30 @@ export class SearchResults extends Component <{match: {params: {search: string}}
 
     /**
      * Metode som kalles når bruker trykker på "Kommende" og fjerner visning av
+     * datofiltrering og filtrerer alle viste arrangementer til å vise kun de som ikke har skjedd enda.
      */
     upcoming(){
         this.hidden = true;
         this.temp = this.events.filter(a => new Date(a.event_start.slice(0,10)) - new Date > 0);
-       }
+    }
 
+    /**
+     * Metode som filtrerer liste med viste arrangementer, slik at kun ferdige arrangementer vises.
+     */
     finished(){
         this.hidden = true;
         this.temp = this.events.filter(a => new Date(a.event_start.slice(0,10)) - new Date < 0)
     }
 
+    /**
+     * Metode som kalles for hvert arrangement som renderes.
+     * Metoden går gjennom alle oppsatte stillinger og sjekker om innlogget bruker er oppsatt på arrangementet det gjelder.
+     * @param event_id {number} tar inn id-en på gjeldende event.
+     * @returns {undefined|*} gir tilbake et UserEvent-objekt / stilling om stilling blir funnet og undefined om den ikke finnes
+     */
     getUserEvent(event_id: number){
         if (userService.currentUser){
-            let u = this.users;
+            let u: UserEvent[] = this.users;
 
             let userList = u.filter(list => {
                 return (list.some(user => {
@@ -186,7 +196,13 @@ export class SearchResults extends Component <{match: {params: {search: string}}
         return undefined;
     }
 
-    setFormat(start, end) {
+    /**
+     * Metode for å lage dato-formatet som brukes på arrangementfremvisningen.
+     * @param start {string} tar inn startdato som brukes i formatteringen.
+     * @param end {string} tar inn sluttdato som brukes i formatteringen.
+     * @returns {string} gir tilbake en formattert streng for fremvisning av dato.
+     */
+    setFormat(start: string, end: string) {
         let date = "";
 
         let startTime = start.slice(11, 16);
@@ -211,6 +227,10 @@ export class SearchResults extends Component <{match: {params: {search: string}}
         return date;
     }
 
+    /**
+     * Metode som kalles når bruker trykker "søk" etter å ha valgt et tidsrom søket skal filtreres på.
+     * Metoden filtrerer arrangementene som vises på siden slik at de stemmer overens med datofiltreringen.
+     */
     date() {
         console.log(this.events.filter(a => new Date(a.event_start.slice(0,10)).getTime() >= new Date(this.event_start).getTime()));
         console.log(new Date(this.events[0].event_start.slice(0,10)));
@@ -218,6 +238,4 @@ export class SearchResults extends Component <{match: {params: {search: string}}
             new Date(a.event_start.slice(0,10)).getTime() >= new Date(this.event_start).getTime()
             && new Date(a.event_end.slice(0,10)).getTime() <= new Date(this.event_end).getTime());
     }
-
-    
 }
