@@ -10,12 +10,20 @@ import "./OrganizationProfile.css";
 
 const history = createHashHistory();
 
+/**
+ * Klasse for å opprette en ny bruker for en organisasjon.
+ */
 export class userForm extends Component <{ match: { params: { token: string } } }>{
     user: User = new User();
     organization: Organization = new Organization();
     loaded: boolean = false;
     repeatedPassword: string = "";
     email: string = "";
+
+    /**
+     * Funksjon som oppretter et HTML-komponent med et skjema for å opprette en bruker for en organisasjon.
+     * @returns {*} Funksjonen returnerer et komponent med skjema for å opprette en bruker for organisasjon.
+     */
     render(){
         if(this.loaded){
             return (
@@ -88,6 +96,9 @@ export class userForm extends Component <{ match: { params: { token: string } } 
         }
     }
 
+    /**
+     * Funksjon for å registrere brukeren til organisasjonen.
+     */
     register(){
             // Register
         if(this.repeatedPassword != this.user.password || this.user.password.length<8){
@@ -104,6 +115,10 @@ export class userForm extends Component <{ match: { params: { token: string } } 
                 Alert.danger("alle felt må fylles og passord må ha minst 8 bokstaver");
         }
     }
+
+    /**
+     * Funksjon som sjekker om man har en gyldig invite token.
+     */
     mounted() {
         localStorage.setItem("invToken", this.props.match.params.token);
         organizationService.checkInvToken().then(res => {

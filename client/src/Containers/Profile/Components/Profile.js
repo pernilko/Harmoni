@@ -13,12 +13,19 @@ import "./Profile.css";
 const history = createHashHistory();
 let emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+/**
+ * Klasse som brukes til å vise frem profil til bruker.
+ */
 export class Profile extends Component{
   user: User = new User();
   hidden: boolean = true;
   repeatedPassword: string = "";
   imageFile: File = null;
 
+  /**
+   * * Dette er funksjonen som lager en HTML komponent som viser frem profilen til bruker.
+   * @returns {*} Denne funksjonen returnerer en komponent som viser profil til bruker.
+   */
   render() {
     if (userService.currentUser) {
       return (
@@ -156,7 +163,9 @@ export class Profile extends Component{
     }
   }
 
-  // Change profile picture
+  /**
+   * Funksjon som lar bruker endre profilbidet sitt.
+   */
   changePB(){
     console.log("BILDE: ", this.user.image);
       userService
@@ -170,7 +179,10 @@ export class Profile extends Component{
         })
 
   }
-  // Change info
+
+  /**
+   * Funksjon som lar bruker endre info som adresse og tlf nummer.
+   */
   changeInfo(){
     if(this.user.address.length !==0 || this.user.phone.length !==0){
       if(this.user.address.length == 0){
@@ -190,6 +202,9 @@ export class Profile extends Component{
     }
   }
   // Change username and password
+  /**
+   * Funksjon som lar bruker endre brukernavnet og passordet sitt.
+   */
   changeUP() {
     if(this.repeatedPassword.length == 0 && this.user.user_name.length>=1){
       userService.updateUserName(userService.currentUser.user_id, this.user.user_name)
@@ -224,6 +239,9 @@ export class Profile extends Component{
   }
 
   //delete user
+  /**
+   * Funksjon lar bruker slette kontoen sin.
+   */
   delete(){
     console.log(userService.currentUser.user_id);
     userService
@@ -239,6 +257,9 @@ export class Profile extends Component{
   }
 
   // Cancel user deletion
+  /**
+   * Funksjon for hvis du ønsker å kansellere sletting av konto.
+   */
   cancel(){
     Alert.info("Bruker ble ikke slettet");
     history.push("/allEvents");

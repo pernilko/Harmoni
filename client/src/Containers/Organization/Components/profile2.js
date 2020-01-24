@@ -9,6 +9,9 @@ import {Alert, Row} from "../../../widgets";
 import Accordion from "react-bootstrap/Accordion";
 import "./OrganizationProfile.css";
 
+/**
+ * Klasse som viser info om din organisasjon.
+ */
 export class OrgProfile2 extends Component {
     admin: User[] = [];
     members: User[] = [];
@@ -26,6 +29,10 @@ export class OrgProfile2 extends Component {
     loaded: boolean = false;
     ready:boolean = false;
 
+    /**
+     * Funksjon som oppretter et HTML komponent for å vise info om din organisasjon.
+     * @returns {*} Funksjonen returnerer et komponent som viser din organisasjon.
+     */
     render() {
         if (userService.currentUser && organizationService.currentOrganization) {
             if (!this.loaded) {
@@ -188,6 +195,10 @@ export class OrgProfile2 extends Component {
             )
         }
     }
+
+    /**
+     * Funksjon som laster inn all data knyttet til din organisasjon.
+     */
     load(){
         userService
             .getUserByOrgId(userService.currentUser.org_id)
@@ -207,6 +218,10 @@ export class OrgProfile2 extends Component {
             })
             .catch((error: Error) => console.log(error.message))
     }
+
+    /**
+     * Klasse som tillater bruker å redigere organisasjon.
+     */
     editOrg(){
         if(userService.currentUser.privileges == 1) {
             console.log("show edit");
@@ -219,6 +234,10 @@ export class OrgProfile2 extends Component {
             Alert.danger("ikke autorisert");
         }
     }
+
+    /**
+     * Klasse som lar deg lagre endringer ved organisasjonen-
+     */
     saveEdit(){
         console.log("Save edit");
 
@@ -226,18 +245,24 @@ export class OrgProfile2 extends Component {
         this.changePic(organizationService.currentOrganization.org_id);
     }
 
+    /**
+     * Klasse for å endre profilbildet til organisasjonen.
+     * @param {val} Tar inn parameter som sier hvilken organisasjon man skal endre bildet på.
+     */
     changePic(val: number){
-    console.log("BILDE: ", this.org_image);
-      organizationService
-        .updateOrgImage(val, this.org_image)
-        .then(() => {
-          if(userService.currentUser){
-            userService.autoLogin();
-          }
-        })
+        console.log("BILDE: ", this.org_image);
+          organizationService
+            .updateOrgImage(val, this.org_image)
+            .then(() => {
+              if(userService.currentUser){
+                userService.autoLogin();
+              }
+            })
+    }
 
-  }
-
+    /**
+     * Funksjon som oppdaterer organisasjonen din.
+     */
     updateOrg() {
         organizationService
             .updateOrganization(organizationService.currentOrganization.org_id, this.org_name, this.org_phone, this.org_email)
@@ -252,7 +277,9 @@ export class OrgProfile2 extends Component {
     }
 
 
-    
+    /**
+     * Funksjon for å kansellere redigering av organisasjonen din.
+     */
     cancelEdit(){
         console.log("Cancel edit");
         this.org_email = organizationService.currentOrganization.email;
@@ -264,6 +291,11 @@ export class OrgProfile2 extends Component {
         this.inEdit = false;
         this.isAdmin = true;
     }
+
+    /**
+     * Funksjon for å oppdatere rettighetene til brukere ved din organisasjon.
+     * @param  {user} Parameter sier hvilken bruker man skal endre rettighetene til.
+     */
     updatePrivileges(user: User){
         //console.log(user.user_id);
         if(userService.currentUser.privileges == 1) {
@@ -286,6 +318,10 @@ export class OrgProfile2 extends Component {
         }
     }
 
+    /**
+     * Funksjon for å gjøre en bruker til admin.
+     * @param {val} Paramter sier hvem som skal bli gjort til admin.
+     */
     makeAdmin(val: number) {
         console.log("MAKE ADMIN");
         userService
