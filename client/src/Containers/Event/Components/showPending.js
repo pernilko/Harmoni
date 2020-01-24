@@ -60,7 +60,7 @@ export class Pending extends Component<{}> {
                   </div>
                         {this.state["currentPosts"].map((e, i) =>
                             <Container>
-                                <div id="eventcard" className="card" style={{marginLeft: "18%", marginRight: "18%", marginBottom: "2%", borderRadius: 6+"px", border: "none"}}>
+                                <div id="eventcard" className="card" style={{marginLeft: "12%", marginRight: "12%", marginBottom: "2%", borderRadius: 6+"px", border: "none"}}>
                                     <Row style={{margin: 0}}>
                                         <Col sm={2} style={{padding: 0}}>
                                             <div
@@ -76,7 +76,7 @@ export class Pending extends Component<{}> {
                                                         </div>
                                                         <div className="button mx-4 my-3"
                                                              onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 0)}>
-                                                            <button id="bot" type="button" className="btn btn-info btn-circle">
+                                                            <button id="top" type="button" className="btn btn-info btn-circle">
                                                                 <i className="fa fa-times"></i>
                                                             </button>
                                                         </div>

@@ -23,7 +23,7 @@ export class Navigation extends Component {
     if (userService.currentUser) {
       return <div>
         <Navbar className="NavbarColor alertNav" sticky="top" expand="lg">
-          <Navbar.Brand className="brand" href="#home">
+          <Nav.Link id="home" onClick={this.change} className="brand" href="#home">
             <img alt=" "
                  src="https://storage.cloud.google.com/harmoni-files/Logo.jpg"
                  width={"30"}
@@ -31,7 +31,7 @@ export class Navigation extends Component {
                  className="d-inline-block align-top"
                  /> {' '}
                  Harmoni
-          </Navbar.Brand>
+          </Nav.Link>
           <Nav className="mr-auto">
             <Form inline>
               <FormControl type="search" style={{paddingLeft: 10+'px'}}
