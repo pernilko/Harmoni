@@ -37,7 +37,7 @@ export class Profile extends Component{
                 <div className="container">
 
                   <div id ="card-img">
-                    <Image src={userService.currentUser.image ? userService.currentUser.image : "https://storage.cloud.google.com/harmoni-files/pb.png"}
+                    <Image id = "profile_image" src={userService.currentUser.image ? userService.currentUser.image : "https://storage.cloud.google.com/harmoni-files/pb.png"}
                            roundedCircle width={240 + 'px'}
                            height={220 + 'px'}
                            style={{margintop:10+ '%'}}
@@ -84,8 +84,18 @@ export class Profile extends Component{
                       <h3>Endre profilbilde</h3>
                       <Form.Group>
                           <Form.Label>Last opp bilde</Form.Label>
-                          <Form.Control accept = "image/*" type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.user.image =
-                            event.target.files[0]}}/>
+                          <Form.Control accept = "image/*" type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {
+                            this.user.image = event.target.files[0];
+                            let reader = new FileReader();
+                            reader.onload = (
+                                function()
+                                {
+                                  return function(e) {
+                                    document.getElementById("profile_image").src = e.target.result;
+                                  };
+                                })(this.org_image);
+                            reader.readAsDataURL(event.target.files[0]);
+                          }}/>
                       </Form.Group>
                       <Button variant="primary" type="submit" style={{marginTop: 20 + 'px'}} onClick={this.changePB}>Endre</Button>
                       <br/>

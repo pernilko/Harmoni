@@ -63,6 +63,12 @@ export class RegistrationForm extends Component {
                         </div>
                         <form className="card-body">
                             <div className="form-group">
+                                <label>Forhåndsvisning:</label>
+                                <div>
+                                    <img id="preview_add" src={this.image ? this.image : "https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"}/>
+                                </div>
+                            </div>
+                            <div className="form-group">
                                 <label>Arrangement navn:</label>
                                 <input className="form-control" placeholder="Skriv inn navn her" value={this.eventName}
                                        onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.eventName = event.target.value)}/>
@@ -78,6 +84,15 @@ export class RegistrationForm extends Component {
                                             this.image = event.target.files[0];
                                         }
                                     }
+                                    let reader = new FileReader();
+                                    reader.onload = (
+                                        function()
+                                        {
+                                            return function(e) {
+                                                document.getElementById("preview_add").src = e.target.result;
+                                            };
+                                        })(this.org_image);
+                                    reader.readAsDataURL(event.target.files[0]);
                                 }}/>
                             </Form.Group>
                             <div className="form-group">

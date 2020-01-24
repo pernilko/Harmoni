@@ -108,6 +108,15 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                                                 this.event.image = event.target.files[0];
                                             }
                                         }
+                                        let reader = new FileReader();
+                                        reader.onload = (
+                                            function()
+                                            {
+                                                return function(e) {
+                                                    document.getElementById("preview").src = e.target.result;
+                                                };
+                                            })(this.org_image);
+                                        reader.readAsDataURL(event.target.files[0]);
                                     }}/>
                                 </Form.Group>
                                 <div className="form-group">

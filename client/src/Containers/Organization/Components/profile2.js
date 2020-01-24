@@ -70,7 +70,7 @@ export class OrgProfile2 extends Component {
                                                     </h4>
                                                 </div>
                                                 <div className="card-img" style={{textAlign: "center"}}>
-                                                    <img style={{width: 'inherit', height: "auto", display: "cover"}}
+                                                    <img id = "org_image" style={{width: 'inherit', height: "auto", display: "cover"}}
                                                         src={this.org_image}/>
                                                 </div>
                                                 <div>
@@ -107,8 +107,18 @@ export class OrgProfile2 extends Component {
 
                                                         <Form.Group>
                                                             <Form.Label>Last opp bilde</Form.Label>
-                                                            <Form.Control accept = "image/*" type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {this.org_image =
-                                                            event.target.files[0]}}/>
+                                                            <Form.Control accept = "image/*" type="file" onChange = {(event: SyntheticInputEvent <HTMLInputElement>) => {
+                                                                this.org_image = event.target.files[0];
+                                                                let reader = new FileReader();
+                                                                reader.onload = (
+                                                                    function(fileToRead: File)
+                                                                    {
+                                                                        return function(e) {
+                                                                            document.getElementById("org_image").src = e.target.result;
+                                                                        };
+                                                                    })(this.org_image);
+                                                                reader.readAsDataURL(event.target.files[0]);
+                                                            }}/>
                                                         </Form.Group>
 
                                                     </div>
