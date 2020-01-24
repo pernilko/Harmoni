@@ -18,6 +18,11 @@
     "testURL": "http://localhost"
   },
   "dependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/preset-react": "^7.6.3",
     "@google-cloud/storage": "^4.2.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -40,11 +45,7 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.7.7",
-    "@babel/core": "^7.7.7",
     "@babel/node": "^7.6.3",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/preset-env": "^7.6.3",
-    "@babel/preset-flow": "^7.7.4",
     "babel-jest": "^24.9.0",
     "flow-bin": "^0.112.0",
     "jest": "^24.9.0",
