@@ -35,7 +35,7 @@ export class inviteUser extends Component {
           if(userService.currentUser.privileges == 1) {
               return <div style={{color: "#FFF", paddingTop: "100px"}}>
                   <h2 className="card-header" style={{fontFamily: "Arial", textAlign: "center"}}>Inviter en bruker til din organisasjon </h2>
-                  <Form style={{marginTop: 20 + 'px', paddingLeft: 200 + 'px', paddingRight: 200 + 'px', paddingTop: "50px"}}>
+                  <Form style={{marginTop: 20 + 'px', paddingLeft: "16%", paddingRight: "16%", paddingTop: "50px"}}>
                       <Form.Group>
                           <Form.Group>
                               <Form.Label>E-mail</Form.Label>

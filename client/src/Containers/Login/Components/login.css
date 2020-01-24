@@ -173,7 +173,7 @@ a:after:hover {
 
 .mid .wrapper input:focus{
     outline: none;
-    border-color: #ff4931;
+    border-color: #7cceeb;
 }
 
 .mid .wrapper input{
@@ -272,12 +272,12 @@ a:after:hover {
 
 .mid .registerOrg input:focus{
     outline: none;
-    border-color: #281121;
+    border-color: #7cceeb;
 }
 
 .mid .registerOrg1 input:focus{
     outline: none;
-    border-color: #281121;
+    border-color: #7cceeb;
 }
 
 .mid .registerOrg > form{
