@@ -5,7 +5,7 @@ body{
 }
 
 p{
-    text-align: center;
+    text-align: left;
     overflow: hidden;
     display: block;
     margin: 0;
@@ -212,6 +212,11 @@ a{
     height: fit-content;
 }
 
+#top{
+    width: 50%;
+    height: 100%;
+    margin-right: 7%;
+}
 
 
 h1 .my-3{
@@ -228,10 +233,6 @@ h1 .my-3{
 }
 @import url('https://fonts.googleapis.com/css?family=Abel');
 
-#top{
-    margin-top: 300px;
-    margin-bottom: 20px;
-}
 
 #bot{
 }
