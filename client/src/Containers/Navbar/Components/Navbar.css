@@ -13,9 +13,13 @@
     transition: background-color .2s, color .2s;
 }
 
+.navbar-light .navbar-nav .nav-link.active {
+    color: #fff;
+}
+
 .navbar-light .navbar-nav .nav-link:focus {
-    color: rgba(37, 35, 40, 0.87);
-    background-color: white;
+    color: black;
+    background-color: #fff;
 }
 
 .alertNav {
