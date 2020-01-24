@@ -86,17 +86,17 @@ export class Pending extends Component<{}> {
                                                     <div id="eventcard-text" className="card-text" style={{float: "left", textAlign: "left"}}>
                                                         <h2 style={{textAlign: "left", paddingLeft: 20}}> {e.event_name} </h2>
                                                         <p><b> Sted: </b> {e.place} </p>
-                                                        <p><b> Stilling: </b>{this.getUserEvent(e.event_id) ? "Du er satt opp som " + this.getUserEvent(e.event_id).job_position + ".\n Bekreft valget ditt med knappene på venstre side." : "Du er ikke satt på dette arrangementet"}.
-                                                        </p>
-                                                        <p>
-                                                            <b> Tidspunkt: {this.setFormat(e.event_start, e.event_end)}</b>
-                                                        </p>
+                                                        <p><b> Stilling: </b>{this.getUserEvent(e.event_id) ? "Du er satt opp som " + this.getUserEvent(e.event_id).job_position + ".\n Bekreft valget ditt med knappene på venstre side." : "Du er ikke satt på dette arrangementet"}.</p>
+                                                        <p><b> Tidspunkt: {this.setFormat(e.event_start, e.event_end)}</b></p>
                                                     </div>
-                                                    <div id="topButton" className= "mx-4" onClick={() => this.completed(e.event_id)}>
-                                      <button id="top" type="button" className="btn btn-info btn-circle">
-                                          <i className="fa fa-check" ></i>
-                                      </button>
-                            </div>
+                                                    <div>
+                                                        <div className= "mx-4" onClick={() => this.completed(e.event_id)}>
+                                                            <button type="button" className="btn btn-info btn-circle">
+                                                                Klikk for å arkivere arrangement:
+                                                                <i className="fa fa-check" ></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </a>
                                             </div>
                                         </Col>

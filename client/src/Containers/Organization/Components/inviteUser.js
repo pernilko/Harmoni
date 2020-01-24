@@ -37,7 +37,7 @@ export class inviteUser extends Component {
                                             }}/>
                           </Form.Group>
                       </Form.Group>
-                      <div style={{marginLeft: "500px"}}>
+                      <div className="btn btn-block">
                           <button type="button" className="light" onClick={this.send}>Neste</button>
                       </div>
 

@@ -1,6 +1,5 @@
 .tab-list {
   border-bottom: 1px solid #ccc;
-  padding-left: 0;
   color: #FFFFFF;
 }
 
@@ -52,7 +51,7 @@ div .card-header{
 }
 
 div.card-body{
-  background: rgba(34, 35, 40, 0.14);
+  background: rgba(83, 83, 96, 0.31);
 }
 
 li {
