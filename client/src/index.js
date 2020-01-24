@@ -29,6 +29,7 @@ import {OrgProfile2} from "./Containers/Organization/Components/profile2";
 const history = createHashHistory();
 
 const root = document.getElementById('root');
+//Hovedprogrammet som kjøres på nettsiden. Bestemmer hvilket komponent på nettsiden som kjøres til enhver tid basert på pathing.
 if (root)
   ReactDOM.render(
     <HashRouter>

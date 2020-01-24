@@ -10,10 +10,18 @@ import {Alert} from "../../../widgets";
 import { createHashHistory } from 'history';
 const history = createHashHistory();
 
+/**
+ * Klasse for å opprette en admin-bruker.
+ */
 export class AdminUsrForm extends Component <{hidden: boolean, organization: Organization}>{
   admin: User = new User();
   organization: Organization = this.props.organization;
   repeatedPassword: string = "";
+
+  /**
+   * Funksjon som oppretter et HTML-komponent for å kunne opprette en admin-bruker.
+   * @returns {*} Funksjonen returner et komponent for opprettelse av admin-bruker.
+   */
   render(){
     return (
       <div hidden={this.props.hidden}>
@@ -69,6 +77,11 @@ export class AdminUsrForm extends Component <{hidden: boolean, organization: Org
     </div>
     )
   }
+
+  /**
+   * Funksjon som sjekker om bruker har gyldig token.
+   * @returns {undefined} Returner undefined.
+   */
   mounted() {
       if(!localStorage.getItem("token")){
         Alert.danger("Innlogging kreves");
@@ -77,6 +90,9 @@ export class AdminUsrForm extends Component <{hidden: boolean, organization: Org
     return undefined;
   }
 
+  /**
+   * Funksjon som oppretter admin-bruker og laster det opp til database.
+   */
   register(){
     // Register
     if(this.repeatedPassword != this.admin.password && this.admin.password.length>=8){

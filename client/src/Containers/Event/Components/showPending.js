@@ -92,7 +92,7 @@ export class Pending extends Component<{}> {
                                                     <img id="image"
                                                          src={e.image ? e.image : "https://celebrityaccess.com/wp-content/uploads/2019/09/pexels-photo-2747449-988x416.jpeg"}/>
                                                     <div id="eventcard-text" className="card-text" style={{float: "left", textAlign: "left"}}>
-                                                        <h2 style={{textAlign: "left", paddingLeft: 20}}> {e.event_name} </h2>
+                                                        <h2 style={{textAlign: "left"}}> {e.event_name} </h2>
                                                         <p><b> Sted: </b> {e.place} </p>
                                                         <p><b> Stilling: </b>{this.getUserEvent(e.event_id) ? "Du er satt opp som " + this.getUserEvent(e.event_id).job_position + ".\n Bekreft valget ditt med knappene på venstre side." : "Du er ikke satt på dette arrangementet"}.</p>
                                                         <p><b> Tidspunkt: {this.setFormat(e.event_start, e.event_end)}</b></p>

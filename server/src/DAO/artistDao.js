@@ -37,23 +37,6 @@ module.exports = class artistDao extends Dao {
             );
     }
 
-    /**
-     *  Metode for å sette inn en ny artist i artist-tabellen
-     */
-    insertOne(json: {event_id: number, artist_name: string, riders: Object, hospitality_riders: Object,
-                      artist_contract: Object, email: string, phone: string}, callback: function) {
-
-            console.log('Printing the rider tostring'+json.riders);
-            super.query(
-                "INSERT INTO artist (event_id, artist_name, riders, hospitality_riders, artist_contract, email, phone) values (?,?,?,?,?,?,?)",
-                [json.event_id, json.artist_name, json.riders, json.hospitality_riders, json.artist_contract, json.email, json.phone],
-                callback
-            );
-        }
-
-/**
- *  Metode for å legge inn url-ene for opplastede filer i raden til en spesifikk artist i artist-tabellen.
- */
     updateRiders(artist_id: number, ridersfilename: string, hospitalityridersfilename: string, artistcontractfilename: string, callback: function){
         let rf: string = "";
         let hrf: string = "";
