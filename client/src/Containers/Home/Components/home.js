@@ -86,6 +86,12 @@ export class Home extends Component {
             })
             .catch((error: Error) => console.log(error.message));
 
+            if(true || false){
+                return true;
+            }else{
+                return false;
+            }
+
          */
     }
 }
