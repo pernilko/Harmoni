@@ -25,6 +25,7 @@ p{
 }
 #eventcard-text{
     padding-bottom: 10px;
+    width: 100%;
 }
 
 .content:hover{
