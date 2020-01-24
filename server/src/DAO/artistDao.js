@@ -25,17 +25,6 @@ module.exports = class artistDao extends Dao {
         );
     }
 
-    insertOne(json: {event_id: number, artist_name: string, riders: Object, hospitality_riders: Object,
-                  artist_contract: Object, email: string, phone: string}, callback: function) {
-
-        console.log('Printing the rider tostring'+json.riders);
-        super.query(
-            "INSERT INTO artist (event_id, artist_name, riders, hospitality_riders, artist_contract, email, phone) values (?,?,?,?,?,?,?)",
-            [json.event_id, json.artist_name, json.riders, json.hospitality_riders, json.artist_contract, json.email, json.phone],
-            callback
-        );
-    }
-
     updateRiders(artist_id: number, ridersfilename: string, hospitalityridersfilename: string, artistcontractfilename: string, callback: function){
         let rf: string = "";
         let hrf: string = "";
@@ -98,7 +87,8 @@ module.exports = class artistDao extends Dao {
             );
         }
     }
-    
+
+    //tested
     updateArtist(artistID:number,json:{artist_name: string , email: string, phone: string, image: File}, callback:function){
         super.query(
           "UPDATE artist SET artist_name=?, email=?,phone=? WHERE artist_id=?",
@@ -107,6 +97,7 @@ module.exports = class artistDao extends Dao {
         );
     }
 
+    //tested
     setAccepted(artistID:number, json: {accepted: number}, callback:function){
         super.query(
             "UPDATE artist SET accepted = ? WHERE artist_id=?",
@@ -114,13 +105,5 @@ module.exports = class artistDao extends Dao {
             callback
         );
 }
-
-    /*
-    deleteArtist(artist_id: number, callback: function) {
-      super.query(
-          "DELETE FROM artist WHERE artist_id = ?", [artist_id],
-          callback
-        );
-    }*/
 
 };
