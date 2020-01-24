@@ -22,9 +22,9 @@ INSERT INTO user_event VALUES(2, 2, "lydtekniker", 0);
 INSERT INTO user_event VALUES(2, 3, "bartender", 0);
 
 
-INSERT INTO artist VALUES(DEFAULT, 1, "TIX", NULL, NULL, NULL, "TIX@fuckoff.com", "6969", NULL);
-INSERT INTO artist VALUES(DEFAULT, 1, "Dilawar", NULL, NULL, NULL, "jobbe@work.productive", "11111111", NULL);
-INSERT INTO artist VALUES(DEFAULT, 2, "lil Pump", NULL, NULL, NULL, "skrrrrt@skya.bom", "420", NULL);
+INSERT INTO artist VALUES(DEFAULT, 1, "TIX", NULL, NULL, NULL, "TIX@fuckoff.com", "6969", NULL,0);
+INSERT INTO artist VALUES(DEFAULT, 1, "Dilawar", NULL, NULL, NULL, "jobbe@work.productive", "11111111", NULL,0);
+INSERT INTO artist VALUES(DEFAULT, 2, "lil Pump", NULL, NULL, NULL, "skrrrrt@skya.bom", "420", NULL,0);
 
 
 INSERT INTO ticket (event_id, ticket_type, amount, description, price, amount_sold) VALUES (2, "Standard", 50, "Konsertkveld med besøk fra Karpe! Kom!", 100, 10);
