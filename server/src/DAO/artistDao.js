@@ -137,6 +137,8 @@ module.exports = class artistDao extends Dao {
             "SELECT data FROM ridersFile WHERE artist_id = ?",[artist_id], callback
         );
     }
+
+
     updateArtist(artistID:number,json:{artist_name: string , email: string, phone: string, image: File}, callback:function){
         super.query(
           "UPDATE artist SET artist_name=?, email=?,phone=? WHERE artist_id=?",
