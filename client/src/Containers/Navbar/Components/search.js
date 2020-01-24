@@ -7,6 +7,9 @@ import {userService} from "../../../services/UserService";
 import Col from "react-bootstrap/Col";
 import {UserEvent, userEventService} from "../../../services/UserEventService";
 
+/**
+ * React-komponent som viser søkeresultater via en søkestren som er skrevet inn i navigasjonsbaren.
+ */
 export class SearchResults extends Component <{match: {params: {search: string}}}> {
     events: Event[] | any = [];
     temp: Event[] = [];
@@ -110,12 +113,20 @@ export class SearchResults extends Component <{match: {params: {search: string}}
         }
     }
 
+    /**
+     * Metoden kalles før komponenten lastes inn og setter innlastet-variabel til å være usann.
+     */
     mounted() {
         console.log("HEI");
         this.loaded = false;
         //this.load();
     }
 
+    /**
+     * Metode som kalles så snart innlogget brukers informasjon er lastet inn, slik at komponenten kan vises riktig.
+     * Metoden laster inn det som informasjon om events som stemmer overens med søkestrengen tilhørende komponenten.
+     * når all informasjon er mottatt fra server vil komponentens objektvariabler bli forandret og gjøres klar til rendering.
+     */
     load() {
     this.org_id = userService.currentUser.org_id;
     console.log("ORG_ID: ", this.org_id);
@@ -128,29 +139,48 @@ export class SearchResults extends Component <{match: {params: {search: string}}
             .catch((error: Error) => console.log(error.message))
     }
 
+    /**
+     * Metoden kalles når bruker klikker "Dato" og setter en boolean til false som bestemmer om datofiltrering for arrangement skal vises eller ikke.
+     */
     show(){
         this.hidden = false;
     }
 
+    /**
+     * Metode som kalles når bruker trykker på "Hele resultatet" og setter variabler slik at datofiltrering ikke vises og alle arrangement vises istedenfor filtrerte.
+     */
     all(){
       this.hidden = true;
       this.temp = this.events;
 
     }
 
+    /**
+     * Metode som kalles når bruker trykker på "Kommende" og fjerner visning av
+     * datofiltrering og filtrerer alle viste arrangementer til å vise kun de som ikke har skjedd enda.
+     */
     upcoming(){
         this.hidden = true;
         this.temp = this.events.filter(a => new Date(a.event_start.slice(0,10)) - new Date > 0);
-       }
+    }
 
+    /**
+     * Metode som filtrerer liste med viste arrangementer, slik at kun ferdige arrangementer vises.
+     */
     finished(){
         this.hidden = true;
         this.temp = this.events.filter(a => new Date(a.event_start.slice(0,10)) - new Date < 0)
     }
 
+    /**
+     * Metode som kalles for hvert arrangement som renderes.
+     * Metoden går gjennom alle oppsatte stillinger og sjekker om innlogget bruker er oppsatt på arrangementet det gjelder.
+     * @param event_id {number} tar inn id-en på gjeldende event.
+     * @returns {undefined|*} gir tilbake et UserEvent-objekt / stilling om stilling blir funnet og undefined om den ikke finnes
+     */
     getUserEvent(event_id: number){
         if (userService.currentUser){
-            let u = this.users;
+            let u: UserEvent[] = this.users;
 
             let userList = u.filter(list => {
                 return (list.some(user => {
@@ -166,7 +196,13 @@ export class SearchResults extends Component <{match: {params: {search: string}}
         return undefined;
     }
 
-    setFormat(start, end) {
+    /**
+     * Metode for å lage dato-formatet som brukes på arrangementfremvisningen.
+     * @param start {string} tar inn startdato som brukes i formatteringen.
+     * @param end {string} tar inn sluttdato som brukes i formatteringen.
+     * @returns {string} gir tilbake en formattert streng for fremvisning av dato.
+     */
+    setFormat(start: string, end: string) {
         let date = "";
 
         let startTime = start.slice(11, 16);
@@ -191,6 +227,10 @@ export class SearchResults extends Component <{match: {params: {search: string}}
         return date;
     }
 
+    /**
+     * Metode som kalles når bruker trykker "søk" etter å ha valgt et tidsrom søket skal filtreres på.
+     * Metoden filtrerer arrangementene som vises på siden slik at de stemmer overens med datofiltreringen.
+     */
     date() {
         console.log(this.events.filter(a => new Date(a.event_start.slice(0,10)).getTime() >= new Date(this.event_start).getTime()));
         console.log(new Date(this.events[0].event_start.slice(0,10)));
@@ -198,6 +238,4 @@ export class SearchResults extends Component <{match: {params: {search: string}}
             new Date(a.event_start.slice(0,10)).getTime() >= new Date(this.event_start).getTime()
             && new Date(a.event_end.slice(0,10)).getTime() <= new Date(this.event_end).getTime());
     }
-
-    
 }

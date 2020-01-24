@@ -307,6 +307,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
                 }
             }).then(()=>{
             Alert.success("Arrangementet ble redigert.");
+            console.log(this.uploaded);
             history.push("/mineEvents");
         })
             .catch((error: Error) => Alert.danger(error.message));
@@ -406,6 +407,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             .updateArtist(a.artist_id, a.artist_name, a.riders, a.hospitality_riders, a.artist_contract, a.email, a.phone, a.event_id)
             .then(response => console.log(response))
         });
+        this.uploaded[0] = true;
     }
 
     /**
@@ -418,7 +420,7 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             artistService
                 .deleteArtist(a.artist_id)
                 .then(response => console.log(response))
-        })
+        });
     }
 
     /**
@@ -427,11 +429,14 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
      */
     addArtists(artists: Artist[]) {
         console.log("ADD ARTISTS: ", artists);
+
         artists.map(a => {
             artistService
                 .addArtist(this.props.match.params.event_id, a.artist_name, a.email, a.phone, a.riders, a.hospitality_riders, a.artist_contract)
-                .then(response => console.log(response))     
-        })  
+                .then(response => {
+                    console.log(response);
+                })
+        });
     }
 
     /**
@@ -443,7 +448,9 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         tickets.map(t => {
             ticketService
                 .updateTicket(t.ticket_id, t.event_id, t.ticket_type, t.amount, t.description, t.price, t.amount_sold)
-                .then(response => console.log(response))
+                .then(response => {
+                    console.log(response)
+                })
         })
     }
 
@@ -453,10 +460,15 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
      */
     addTickets(tickets: Ticket[]) {
         console.log("ADD TICKETS: ", tickets);
+        if(tickets.length == 0){
+            this.uploaded[4] = true;
+        }
         tickets.map(t => {
             ticketService
                 .addTicket(this.props.match.params.event_id, t.ticket_type, t.amount, t.description, t.price, t.amount_sold)
-                .then(response => console.log(response))
+                .then(response => {
+                    console.log(response);
+                })
         })
     }
 
@@ -469,7 +481,9 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
         tickets.map(t => {
             ticketService
                 .deleteTicket(t.ticket_id)
-                .then(response => console.log(response))
+                .then(response => {
+                    console.log(response);
+                })
         })
     }
 
@@ -479,12 +493,13 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
      */
     addEmployees(employees: UserEvent[]) {
         console.log("ADD EMPLOYEES: ", employees);
-        
         employees.map(e => {
             e.event_id = this.props.match.params.event_id;
             userEventService
                 .addUserEvent(e.user_id, e.event_id, e.job_position, e.accepted)
-                .then(response => console.log(response))
+                .then(response => {
+                    console.log(response);
+                })
                 .catch((error: Error) => console.log(error.message))
         })
     }
@@ -499,7 +514,9 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
             e.event_id = this.props.match.params.event_id;
             userEventService
                 .deleteUserEvent(e.user_id, e.event_id)
-                .then(response => console.log(response))
+                .then(response => {
+                    console.log(response);
+                })
                 .catch((error: Error) => console.log(error.message))
         })
     }
@@ -512,12 +529,13 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
      */
     notifyAdd(val: number, name: string, employees: UserEvent[]) {
         console.log("INVITER: ", employees);
-
         employees.map(e => {
             if (e) {
                 userEventService
                     .notify(val, name, e.job_position, e.email)
-                    .then(response => console.log(response))
+                    .then(response => {
+                        console.log(response);
+                    })
             }
         })
     }
@@ -531,12 +549,13 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
 
     notifyDelete(val: number, name: string, employees: UserEvent[]) {
         console.log("INVITER: ", employees);
-
         employees.map(e => {
             if (e) {
                 userEventService
                     .notifyDelete(val, name, e.job_position, e.email)
-                    .then(response => console.log(response))
+                    .then(response => {
+                        console.log(response);
+                    })
             }
         })
     }
@@ -549,12 +568,13 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
      */
     notifyEdit(val: number, name: string, employees: UserEvent[]) {
         console.log("INVITER: ", employees);
-
         employees.map(e => {
             if (e) {
                 userEventService
                     .notifyEdit(val, name, e.job_position, e.email)
-                    .then(response => console.log(response))
+                    .then(response => {
+                        console.log(response);
+                    })
             }
         })
     }
@@ -563,10 +583,11 @@ export class EditEvent extends Component <{match: {params: {event_id: number}}}>
     console.log("BILDE: ", this.event.image);
       eventService
         .updateEventImage(val, this.event.image)
-        .then(() => {
-          if(userService.currentUser){
-            userService.autoLogin();
-          }
+        .then((response) => {
+            this.uploaded[11] = true;
+              if(userService.currentUser){
+                userService.autoLogin();
+              }
         })
 
   }

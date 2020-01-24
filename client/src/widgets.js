@@ -4,6 +4,9 @@ import * as React from 'react';
 import { Component } from 'react-simplified';
 import './Containers/Event/Components/event.css';
 
+/**
+ * Klasse for å varsle bruker på toppen av siden ved ulike hendelser som vellykket innlogging eller feil.
+ */
 export class Alert extends Component {
   alerts: { id: number, text: React.Node, type: string }[] = [];
   static nextId = 0;
@@ -56,7 +59,9 @@ export class Alert extends Component {
   }
 }
 
-
+/**
+ * Klasse for å opprette røde knapper med bootstrap.
+ */
 class ButtonDanger extends Component<{
   onClick: () => mixed, // Any function
   children?: React.Node
@@ -70,6 +75,9 @@ class ButtonDanger extends Component<{
   }
 }
 
+/**
+ * Klasse for å opprette grønne knapper med bootstrap.
+ */
 class ButtonSuccess extends Component<{
   onClick: () => mixed, // Any function
   children?: React.Node
@@ -82,6 +90,10 @@ class ButtonSuccess extends Component<{
     );
   }
 }
+
+/**
+ * Klasse for å opprette blå knapper med bootstrap.
+ */
 class ButtonPrimary extends Component<{
   onClick: () => mixed,
   children?: React.Node
@@ -94,6 +106,10 @@ class ButtonPrimary extends Component<{
     )
   }
 }
+
+/**
+ * Klasse for å opprette grå knapper med bootstrap.
+ */
 class ButtonSecondary extends Component<{
   onClick: () => mixed,
   children?: React.Node
@@ -108,7 +124,7 @@ class ButtonSecondary extends Component<{
 }
 
 /**
- * Renders a button using Bootstrap classes
+ * Klasse for å opprette knapper med bootstrap.
  */
 export class Button {
   static Danger = ButtonDanger;
@@ -117,6 +133,9 @@ export class Button {
   static Secondary = ButtonSecondary;
 }
 
+/**
+ * Klasse for å opprette rad komponenter med bootstrap.
+ */
 export class Row extends Component<{ children?: React.Node }> {
   render() {
     return <div className="row">{this.props.children}</div>;
@@ -124,7 +143,7 @@ export class Row extends Component<{ children?: React.Node }> {
 }
 
 /**
- * Renders a column with specified width using Bootstrap classes
+ * Klasse for å opprette kolonne komponenter med bootstrap.
  */
 export class Column extends Component<{ width?: number, right?: boolean, children?: React.Node }> {
   render() {

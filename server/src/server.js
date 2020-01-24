@@ -45,8 +45,10 @@ app.use("/upload", fileUpload());
 
 let DOMAIN = "localhost:3000/"
 
-type Request = express$Request;
-type Response = express$Response;
+type
+Request = express$Request;
+type
+Response = express$Response;
 
 let pool = mysql.createPool({
     connectionLimit: 3,
@@ -69,7 +71,7 @@ let artistDao = new ArtistDao(pool);
 let eventDao = new EventDao(pool);
 let ticketDao = new TicketDao(pool);
 let userDao = new UserDao(pool);
-let organizationDAO= new OrganizationDAO(pool);
+let organizationDAO = new OrganizationDAO(pool);
 let userEventDao = new UserEventDao(pool);
 
 let transporter = nodemailer.createTransport({
@@ -80,12 +82,19 @@ let transporter = nodemailer.createTransport({
     }
 });
 
-app.use(function (req, res, next: function) {
+app.use(function (req, res, next:
+
+function
+
+)
+{
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-Access-Token");
-    res.setHeader("Access-Control-Allow-Methods","PUT, POST, GET, OPTIONS, DELETE");
+    res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, OPTIONS, DELETE");
     next();
-});
+}
+)
+;
 
 // Places this MÌDDLEWARE-function
 // in front of all endpoints with the same path
@@ -95,7 +104,7 @@ app.use("/api", (req, res, next) => {
         if (err) {
             console.log("Token ikke ok.");
             res.status(401);
-            res.json({ error: "Not authorized" });
+            res.json({error: "Not authorized"});
         } else {
             console.log("Token ok: " + decoded.user_id);
             next();
@@ -104,7 +113,7 @@ app.use("/api", (req, res, next) => {
 });
 
 //EVENT
-app.get("/event/all", (req : Request, res: Response) => {
+app.get("/event/all", (req: Request, res: Response) => {
     console.log("/event/all: received get request from client");
     eventDao.getAll((status, data) => {
         res.status(status);
@@ -112,7 +121,7 @@ app.get("/event/all", (req : Request, res: Response) => {
     });
 });
 
-app.get("/event/:id", (req : Request, res: Response) => {
+app.get("/event/:id", (req: Request, res: Response) => {
     console.log("/event/:id: received get request from client");
     eventDao.getEvent(req.params.id, (status, data) => {
         res.status(status);
@@ -121,7 +130,7 @@ app.get("/event/:id", (req : Request, res: Response) => {
     });
 });
 
-app.get("/event/time/:id", (req : Request, res: Response) => {
+app.get("/event/time/:id", (req: Request, res: Response) => {
     console.log("/event/time/:id: received get request from client");
     eventDao.getEventTime(req.params.id, (status, data) => {
         res.status(status);
@@ -129,7 +138,7 @@ app.get("/event/time/:id", (req : Request, res: Response) => {
     });
 });
 
-app.get("/event/user/:id", (req : Request, res: Response) => {
+app.get("/event/user/:id", (req: Request, res: Response) => {
     console.log("/event/user/:id: received get request from client");
     eventDao.getEventUser(req.params.id, (status, data) => {
         res.status(status);
@@ -137,7 +146,7 @@ app.get("/event/user/:id", (req : Request, res: Response) => {
     });
 });
 
-app.get("/event/org/:id", (req : Request, res: Response) => {
+app.get("/event/org/:id", (req: Request, res: Response) => {
     console.log("/event/org/:id: received get request from client");
     eventDao.getEventOrg(req.params.id, (status, data) => {
         res.status(status);
@@ -145,7 +154,7 @@ app.get("/event/org/:id", (req : Request, res: Response) => {
     });
 });
 
-app.get("/event/upcoming/user/:id", (req : Request, res: Response) => {
+app.get("/event/upcoming/user/:id", (req: Request, res: Response) => {
     console.log("/event/user/:id: received get request from client");
     eventDao.getEventUpcomingUser(req.params.id, (status, data) => {
         res.status(status);
@@ -153,7 +162,7 @@ app.get("/event/upcoming/user/:id", (req : Request, res: Response) => {
     });
 });
 
-app.get("/event/upcoming/org/:id", (req : Request, res: Response) => {
+app.get("/event/upcoming/org/:id", (req: Request, res: Response) => {
     console.log("/event/org/:id: received get request from client");
     eventDao.getEventUpcomingOrg(req.params.id, (status, data) => {
         res.status(status);
@@ -177,7 +186,7 @@ app.get("/event/current/org/:id", (req: Request, res: Response) => {
     });
 });
 
-app.get("/event/previous/user/:id", (req : Request, res: Response) => {
+app.get("/event/previous/user/:id", (req: Request, res: Response) => {
     console.log("/event/user/:id: received get request from client");
     eventDao.getEventPreviousUser(req.params.id, (status, data) => {
         res.status(status);
@@ -185,7 +194,7 @@ app.get("/event/previous/user/:id", (req : Request, res: Response) => {
     });
 });
 
-app.get("/event/previous/org/:id", (req : Request, res: Response) => {
+app.get("/event/previous/org/:id", (req: Request, res: Response) => {
     console.log("/event/org/:id: received get request from client");
     eventDao.getEventPreviousOrg(req.params.id, (status, data) => {
         res.status(status);
@@ -225,20 +234,25 @@ app.put("/event/pending/:id", (req: Request, res: Response) => {
     });
 });
 
-app.put("/event/accepted/:id", (req:Request,res:Response)=>{
+app.put("/event/accepted/:id", (req: Request, res: Response) => {
     console.log("/artist/:id received an update request from client to update values in artist");
-    eventDao.setAcceptedEvent(req.params.id, req.body, (status,data)=>{
+    eventDao.setAcceptedEvent(req.params.id, req.body, (status, data) => {
         res.status(status);
         res.json(data);
     })
 });
 
-app.post("/event/add", (req : Request, res: Response) => {
-    pool.getConnection((err, connection: function) => {
+app.post("/event/add", (req: Request, res: Response) => {
+    pool.getConnection((err, connection:
+
+    function
+
+) =>
+    {
         console.log("Connected to database");
         if (err) {
             console.log("Feil ved oppkobling til databasen");
-            res.json({ error: "feil ved oppkobling"});
+            res.json({error: "feil ved oppkobling"});
         } else {
             connection.query(
                 "INSERT INTO event (org_id, user_id, event_name, place, event_start, event_end, longitude, latitude, description) VALUES (?,?,?,?,?,?,?,?,?)",
@@ -246,7 +260,7 @@ app.post("/event/add", (req : Request, res: Response) => {
                 err => {
                     if (err) {
                         console.log(err);
-                        res.json({ error: "error querying" });
+                        res.json({error: "error querying"});
                     } else {
                         connection.query(
                             "SELECT LAST_INSERT_ID()",
@@ -254,7 +268,7 @@ app.post("/event/add", (req : Request, res: Response) => {
                                 connection.release();
                                 if (err) {
                                     console.log(err);
-                                    res.json({ error: "error querying" });
+                                    res.json({error: "error querying"});
                                 } else {
                                     console.log(rows);
                                     res.json(rows);
@@ -265,10 +279,12 @@ app.post("/event/add", (req : Request, res: Response) => {
                 }
             )
         }
-    });
+    }
+)
+    ;
 });
 
-app.put("/event/cancel/:id", (req : Request, res: Response) => {
+app.put("/event/cancel/:id", (req: Request, res: Response) => {
     console.log("/event/cancel/:id");
     eventDao.cancelEvent(req.params.id, (status, data) => {
         res.status(status);
@@ -276,12 +292,12 @@ app.put("/event/cancel/:id", (req : Request, res: Response) => {
     });
 });
 
-app.put("/event/edit/:id", (req : Request, res: Response) => {
+app.put("/event/edit/:id", (req: Request, res: Response) => {
     console.log("/event/edit/:id: received put request from client");
     eventDao.editEvent(req.params.id, req.body, (status, data) => {
-      res.status(status);
-      res.json(data);
-  });
+        res.status(status);
+        res.json(data);
+    });
 });
 
 app.get("/event/search/:name/:org_id", (req: Request, res: Response) => {
@@ -307,7 +323,7 @@ app.post("/event/add/notify/:event_id", (req: Request, res: Response) => {
         text: "Hei! Du har blitt satt opp som " + job_position + " for arrangemenet: " + name + ". Besøk " + url
     };
 
-    transporter.sendMail(mailOptions, function(err, data) {
+    transporter.sendMail(mailOptions, function (err, data) {
         if (err) {
             console.log("Error: ", err);
         } else {
@@ -333,7 +349,7 @@ app.post("/event/delete/notify/:event_id", (req: Request, res: Response) => {
         text: "Hei! Du er ikke lenger satt opp på vakt på dette arrangementet: " + url
     };
 
-    transporter.sendMail(mailOptions, function(err, data) {
+    transporter.sendMail(mailOptions, function (err, data) {
         if (err) {
             console.log("Error: ", err);
         } else {
@@ -359,7 +375,7 @@ app.post("/cancelled", (req, res) => {
         subject: "ARRANGEMENT AVLYST!",
         text: "Arrangementet " + event + " har blitt avlyst av arrangøren " + org_name
     };
-    transporter.sendMail(mailOptions, function(err, data) {
+    transporter.sendMail(mailOptions, function (err, data) {
         if (err) {
             console.log("Error: ", err);
         } else {
@@ -385,7 +401,7 @@ app.post("/event/edit/notify/:event_id", (req: Request, res: Response) => {
         text: "Hei! Det har blitt gjort endringer på et arrangement hvor du er satt opp på vakt. Trykk på lenken for å se endringene: " + url
     };
 
-    transporter.sendMail(mailOptions, function(err, data) {
+    transporter.sendMail(mailOptions, function (err, data) {
         if (err) {
             console.log("Error: ", err);
         } else {
@@ -397,7 +413,7 @@ app.post("/event/edit/notify/:event_id", (req: Request, res: Response) => {
 });
 
 //ARTIST
-app.get("/artist/all", (req : Request, res: Response) => {
+app.get("/artist/all", (req: Request, res: Response) => {
     console.log("/artists/all: received get request from client");
     artistDao.getAll((status, data) => {
         res.status(status);
@@ -405,7 +421,7 @@ app.get("/artist/all", (req : Request, res: Response) => {
     });
 });
 
-app.get("/artist/rider/:id",(req:Request,res:Response)=>{
+app.get("/artist/rider/:id", (req: Request, res: Response) => {
     console.log("/artist/:id/rider: received get request from client");
     artistDao.getRiders(req.params.id, (status, data) => {
         res.status(status);
@@ -413,16 +429,16 @@ app.get("/artist/rider/:id",(req:Request,res:Response)=>{
     });
 });
 
-app.get("/artist/event/:event_id", (req : Request, res: Response) => {
+app.get("/artist/event/:event_id", (req: Request, res: Response) => {
     console.log("/artist/event: received get request from client");
-    artistDao.getEventArtists(req.params.event_id,(status, data) => {
+    artistDao.getEventArtists(req.params.event_id, (status, data) => {
         res.status(status);
         console.log(data);
         res.json(data);
     });
 });
 
-app.get("/artist/:id", (req : Request, res: Response) => {
+app.get("/artist/:id", (req: Request, res: Response) => {
     console.log("/artist/:id: received get request from client");
     artistDao.getOne(req.params.id, (status, data) => {
         res.status(status);
@@ -430,28 +446,33 @@ app.get("/artist/:id", (req : Request, res: Response) => {
     });
 });
 
-app.put("/artist/:id", (req:Request,res:Response)=>{
+app.put("/artist/:id", (req: Request, res: Response) => {
     console.log("/artist/:id received an update request from client to update values in artist");
-    artistDao.updateArtist(req.params.id, req.body, (status,data)=>{
+    artistDao.updateArtist(req.params.id, req.body, (status, data) => {
         res.status(status);
         res.json(data);
     })
 });
 
-app.put("/artist/accepted/:id", (req:Request,res:Response)=>{
+app.put("/artist/accepted/:id", (req: Request, res: Response) => {
     console.log("/artist/:id received an update request from client to update values in artist");
-    artistDao.setAccepted(req.params.id, req.body, (status,data)=>{
+    artistDao.setAccepted(req.params.id, req.body, (status, data) => {
         res.status(status);
         res.json(data);
     })
 });
 
-app.post("/artist/add", (req : Request, res: Response) => {
-    pool.getConnection((err, connection: function) => {
+app.post("/artist/add", (req: Request, res: Response) => {
+    pool.getConnection((err, connection:
+
+    function
+
+) =>
+    {
         console.log("Connected to database");
         if (err) {
             console.log("Feil ved oppkobling til databasen");
-            res.json({ error: "feil ved oppkobling"});
+            res.json({error: "feil ved oppkobling"});
         } else {
             connection.query(
                 "INSERT INTO artist (event_id, artist_name, email, phone, image) values (?,?,?,?,?)",
@@ -459,7 +480,7 @@ app.post("/artist/add", (req : Request, res: Response) => {
                 err => {
                     if (err) {
                         console.log(err);
-                        res.json({ error: "error querying" });
+                        res.json({error: "error querying"});
                     } else {
                         connection.query(
                             "SELECT LAST_INSERT_ID() as artist_id",
@@ -467,7 +488,7 @@ app.post("/artist/add", (req : Request, res: Response) => {
                                 connection.release();
                                 if (err) {
                                     console.log(err);
-                                    res.json({ error: "error querying" });
+                                    res.json({error: "error querying"});
                                 } else {
                                     console.log(rows);
                                     res.json(rows);
@@ -478,43 +499,52 @@ app.post("/artist/add", (req : Request, res: Response) => {
                 }
             )
         }
-    });
+    }
+)
+    ;
 });
 
-app.delete("/artist/delete/:id", (req : Request, res: Response) => {
+app.delete("/artist/delete/:id", (req: Request, res: Response) => {
     console.log("/artist/delete/:id: received delete request from client");
-    pool.getConnection((err, connection: function) => {
-          console.log("Connected to database");
-          if (err) {
-              console.log("Feil ved kobling til databasen");
-              res.json({ error: "feil ved oppkobling" });
-          } else {
-              connection.query(
-  				          "DELETE FROM file WHERE artist_id=?",
-  				          [req.params.id],
-  				          (err, rows) => {
-  					               if (err) {
-  						                console.log(err);
-  						                res.json({ error: "error querying" });
-  					               } else {
-                             connection.query(
-                 				          "DELETE FROM artist WHERE artist_id=?",
-                 				          [req.params.id],
-                 				          (err, rows) => {
-                 					               if (err) {
-                 						                     console.log(err);
-                 						                     res.json({ error: "error querying" });
-                 					               } else {
-                                                        console.log(rows);
-                                                        res.json(rows);
-  					                             }
-  				                        }
-  			                    );
-                          }
+    pool.getConnection((err, connection:
+
+    function
+
+) =>
+    {
+        console.log("Connected to database");
+        if (err) {
+            console.log("Feil ved kobling til databasen");
+            res.json({error: "feil ved oppkobling"});
+        } else {
+            connection.query(
+                "DELETE FROM file WHERE artist_id=?",
+                [req.params.id],
+                (err, rows) => {
+                    if (err) {
+                        console.log(err);
+                        res.json({error: "error querying"});
+                    } else {
+                        connection.query(
+                            "DELETE FROM artist WHERE artist_id=?",
+                            [req.params.id],
+                            (err, rows) => {
+                                if (err) {
+                                    console.log(err);
+                                    res.json({error: "error querying"});
+                                } else {
+                                    console.log(rows);
+                                    res.json(rows);
+                                }
+                            }
+                        );
                     }
+                }
             );
         }
-      });
+    }
+)
+    ;
 });
 /*
 app.post('/uploadRiders/:artist_id', function(req, res) {
@@ -554,7 +584,7 @@ app.post('/uploadRiders/:artist_id', function(req, res) {
         }
 });*/
 
-app.put('/uploadRiders/:artist_id', function(req, res) {
+app.put('/uploadRiders/:artist_id', function (req, res) {
     console.log("received post request for uploading rider");
     if (!req.files || Object.keys(req.files).length === 0) {
         return;
@@ -567,7 +597,7 @@ app.put('/uploadRiders/:artist_id', function(req, res) {
     console.log("frrom uploadRiders: ");
     console.log(req.files);
 
-    if(req.files.riders) {
+    if (req.files.riders) {
         artistDao.updateRiders(ridersFile, req.params.artist_id, (status, data) => {
             if (!req.files.hospitality_rider && !req.files.artist_contract) {
                 res.status(status);
@@ -575,15 +605,15 @@ app.put('/uploadRiders/:artist_id', function(req, res) {
             }
         });
     }
-    if(req.files.hospitality_rider) {
+    if (req.files.hospitality_rider) {
         artistDao.updateHospitalityRiders(hospitality_ridersFile, req.params.artist_id, (status, data) => {
-            if(!req.files.artist_contract){
+            if (!req.files.artist_contract) {
                 res.status(status);
                 res.json(data);
             }
         })
     }
-    if(req.files.artist_contract){
+    if (req.files.artist_contract) {
         artistDao.updateArtistContract(artist_contractFile, req.params.artist_id, (status, data) => {
             res.status(status);
             res.json(data);
@@ -591,7 +621,7 @@ app.put('/uploadRiders/:artist_id', function(req, res) {
     }
 });
 
-app.put('/upload/riders/:artist_id', (req, res)=> {
+app.put('/upload/riders/:artist_id', (req, res) => {
     console.log("/upload/Hospitality_Riders received an update request from client ");
     //const file = req.file;
     if (!req.files || Object.keys(req.files).length === 0) {
@@ -601,34 +631,34 @@ app.put('/upload/riders/:artist_id', (req, res)=> {
     let hospitality_ridersFileName: string = "";
     let artist_contractFileName: string = "";
 
-    if(req.files.riders){
+    if (req.files.riders) {
         let ridersFile = req.files.riders;
         ridersFileName = Date.now() + "-" + ridersFile.name;
 
-        ridersFile.mv(path.join(__dirname,'uploads/'+ ridersFileName ), err=>{
-            if(err)return res.status(500);
+        ridersFile.mv(path.join(__dirname, 'uploads/' + ridersFileName), err => {
+            if (err) return res.status(500);
         });
-        uploadFile(path.join(__dirname,'uploads/'+ ridersFileName));
+        uploadFile(path.join(__dirname, 'uploads/' + ridersFileName));
     }
-    if(req.files.hospitality_rider){
+    if (req.files.hospitality_rider) {
         let hospitality_ridersFile = req.files.hospitality_rider;
         hospitality_ridersFileName = Date.now() + "-" + hospitality_ridersFile.name;
 
-        hospitality_ridersFile.mv(path.join(__dirname,'uploads/'+ hospitality_ridersFileName ), err=>{
-            if(err)return res.status(500);
+        hospitality_ridersFile.mv(path.join(__dirname, 'uploads/' + hospitality_ridersFileName), err => {
+            if (err) return res.status(500);
         });
         uploadFile(path.join(__dirname, 'uploads/' + hospitality_ridersFileName));
     }
-    if(req.files.artist_contract){
+    if (req.files.artist_contract) {
         let artist_contractFile = req.files.artist_contract;
         artist_contractFileName = Date.now() + "-" + artist_contractFile.name;
-        artist_contractFile.mv(path.join(__dirname,'uploads/'+artist_contractFileName ), err=>{
-            if(err)return res.status(500);
+        artist_contractFile.mv(path.join(__dirname, 'uploads/' + artist_contractFileName), err => {
+            if (err) return res.status(500);
         });
         uploadFile(path.join(__dirname, 'uploads/' + artist_contractFileName));
     }
 
-    artistDao.updateRiders(req.params.artist_id, ridersFileName, hospitality_ridersFileName, artist_contractFileName, (status, data)=>{
+    artistDao.updateRiders(req.params.artist_id, ridersFileName, hospitality_ridersFileName, artist_contractFileName, (status, data) => {
         res.status(status);
         res.json(data);
     });
@@ -665,7 +695,7 @@ app.get('/Riders/:artist_id', (req, res)=>{
  */
 
 //TICKET
-app.get("/ticket/all", (req : Request, res: Response) => {
+app.get("/ticket/all", (req: Request, res: Response) => {
     console.log("/ticket/all: received get request from client");
     ticketDao.getAllTickets((status, data) => {
         res.status(status);
@@ -673,7 +703,7 @@ app.get("/ticket/all", (req : Request, res: Response) => {
     });
 });
 
-app.get("/ticket/:id", (req : Request, res: Response) => {
+app.get("/ticket/:id", (req: Request, res: Response) => {
     console.log("/ticket/:id: received get request from client");
     ticketDao.getTicket(req.params.id, (status, data) => {
         res.status(status);
@@ -681,7 +711,7 @@ app.get("/ticket/:id", (req : Request, res: Response) => {
     });
 });
 
-app.get("/ticket/remaining/:id", (req : Request, res: Response) => {
+app.get("/ticket/remaining/:id", (req: Request, res: Response) => {
     console.log("/ticket/remaining/:id: received get request from client");
     ticketDao.getNumberOfRemainingTickets(req.params.id, (status, data) => {
         res.status(status);
@@ -689,7 +719,7 @@ app.get("/ticket/remaining/:id", (req : Request, res: Response) => {
     });
 });
 
-app.post("/ticket/add", (req : Request, res: Response) => {
+app.post("/ticket/add", (req: Request, res: Response) => {
     console.log("/ticket/add: received get request from client");
     ticketDao.addTicket(req.body, (status, data) => {
         res.status(status);
@@ -697,7 +727,7 @@ app.post("/ticket/add", (req : Request, res: Response) => {
     });
 });
 
-app.put("/ticket/edit/:id", (req : Request, res: Response) => {
+app.put("/ticket/edit/:id", (req: Request, res: Response) => {
     console.log("/ticket/edit/:id: received put request from client");
     ticketDao.updateTicket(req.params.id, req.body, (status, data) => {
         res.status(status);
@@ -705,7 +735,7 @@ app.put("/ticket/edit/:id", (req : Request, res: Response) => {
     });
 });
 
-app.delete("/ticket/delete/:id", (req : Request, res: Response) => {
+app.delete("/ticket/delete/:id", (req: Request, res: Response) => {
     console.log("/ticket/delete/:id: received delete request from client");
     ticketDao.deleteTicket(req.params.id, (status, data) => {
         res.status(status);
@@ -714,10 +744,9 @@ app.delete("/ticket/delete/:id", (req : Request, res: Response) => {
 });
 
 
-
-app.get("/ticket/event/:event_id", (req : Request, res: Response) => {
+app.get("/ticket/event/:event_id", (req: Request, res: Response) => {
     console.log("/ticket/event: received get request from client");
-    ticketDao.getEventTickets(req.params.event_id,(status, data) => {
+    ticketDao.getEventTickets(req.params.event_id, (status, data) => {
         res.status(status);
         console.log(data);
         res.json(data);
@@ -725,7 +754,7 @@ app.get("/ticket/event/:event_id", (req : Request, res: Response) => {
 });
 
 //USEREVENT
-app.get("/userevent/all/:id", (req : Request, res : Response) => {
+app.get("/userevent/all/:id", (req: Request, res: Response) => {
     console.log("/test:received update request from user to get userevents");
     eventDao.getUsersForEvent(req.params.id, (status, data) => {
         res.status(status);
@@ -733,7 +762,7 @@ app.get("/userevent/all/:id", (req : Request, res : Response) => {
     });
 });
 
-app.put("/userevent/accepted/", (req : Request, res : Response) => {
+app.put("/userevent/accepted/", (req: Request, res: Response) => {
     console.log("/test:received update request from user to get userevents");
     eventDao.setAccepted(req.body, (status, data) => {
         res.status(status);
@@ -743,7 +772,7 @@ app.put("/userevent/accepted/", (req : Request, res : Response) => {
 
 app.post("/userEvent/add", (req: Request, res: Response) => {
     console.log("/userEvent/add received post request from client");
-    userEventDao.addUserEvent(req.body ,(status, data) => {
+    userEventDao.addUserEvent(req.body, (status, data) => {
         res.status(status);
         res.json(data);
     });
@@ -784,7 +813,7 @@ app.put("/userEvent/update/:user_id/:event_id", (req: Request, res: Response) =>
 //USER
 app.get("/user/all/:id", (req: Request, res: Response) => {
     console.log("/user/all/:id received get request from client");
-    userDao.getAllUsersByOrgId(req.params.id, (status, data)=>{
+    userDao.getAllUsersByOrgId(req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
     });
@@ -798,78 +827,85 @@ app.put("/user/makeAdmin/:id", (req: Request, res: Response) => {
     });
 });
 
-app.get("/user/:id", (req: Request, res: Response)=>{
+app.get("/user/:id", (req: Request, res: Response) => {
     console.log("/user received get request from client");
-    userDao.getUserById(req.params.id, (status, data)=>{
+    userDao.getUserById(req.params.id, (status, data) => {
         res.status(status);
         res.json(data);
     });
 });
 
-app.delete("/user/delete/:id", (req : Request, res: Response) => {
+app.delete("/user/delete/:id", (req: Request, res: Response) => {
     console.log("/user/delete/:id: received delete request from client");
-    pool.getConnection((err, connection: function) => {
-          console.log("Connected to database");
-          if (err) {
-              console.log("Feil ved kobling til databasen");
-              res.json({ error: "feil ved oppkobling" });
-          } else {
-              connection.query(
-  				          "DELETE artist FROM artist INNER JOIN event ON artist.event_id = event.event_id WHERE user_id=?",
-  				          [req.params.id],
-  				          (err, rows) => {
-  					               if (err) {
-  						                     console.log(err);
-  						                     res.json({ error: "error querying" });
-  					               } else {
-                             connection.query(
-                 				          "DELETE ticket FROM ticket INNER JOIN event ON ticket.event_id = event.event_id WHERE user_id=?",
-                 				          [req.params.id],
-                 				          (err, rows) => {
-                                    if (err) {
-                                      console.log(err);
-                                      res.json({ error: "error querying" });
-                                    } else {
-                                      connection.query(
+    pool.getConnection((err, connection:
+
+    function
+
+) =>
+    {
+        console.log("Connected to database");
+        if (err) {
+            console.log("Feil ved kobling til databasen");
+            res.json({error: "feil ved oppkobling"});
+        } else {
+            connection.query(
+                "DELETE artist FROM artist INNER JOIN event ON artist.event_id = event.event_id WHERE user_id=?",
+                [req.params.id],
+                (err, rows) => {
+                    if (err) {
+                        console.log(err);
+                        res.json({error: "error querying"});
+                    } else {
+                        connection.query(
+                            "DELETE ticket FROM ticket INNER JOIN event ON ticket.event_id = event.event_id WHERE user_id=?",
+                            [req.params.id],
+                            (err, rows) => {
+                                if (err) {
+                                    console.log(err);
+                                    res.json({error: "error querying"});
+                                } else {
+                                    connection.query(
                                         "DELETE FROM user_event WHERE user_id=?",
                                         [req.params.id],
                                         (err, rows) => {
-                                          if (err) {
-                                            console.log(err);
-                                            res.json({ error: "error querying" });
-                                          } else {
-                                            connection.query(
-                                              "DELETE FROM event WHERE user_id=?",
-                                              [req.params.id],
-                                              (err, rows) => {
-                                                if (err) {
-                                                  console.log(err);
-                                                  res.json({ error: "error querying" });
-                                                } else {
-                                                  console.log("/user received get request from client");
-                                                  userDao.deleteUserById(req.params.id, (status, data) => {
-                                                    res.status(status);
-                                                    res.json(data);
-                                                  });
-                                                }
-                                              }
-                                            );
+                                            if (err) {
+                                                console.log(err);
+                                                res.json({error: "error querying"});
+                                            } else {
+                                                connection.query(
+                                                    "DELETE FROM event WHERE user_id=?",
+                                                    [req.params.id],
+                                                    (err, rows) => {
+                                                        if (err) {
+                                                            console.log(err);
+                                                            res.json({error: "error querying"});
+                                                        } else {
+                                                            console.log("/user received get request from client");
+                                                            userDao.deleteUserById(req.params.id, (status, data) => {
+                                                                res.status(status);
+                                                                res.json(data);
+                                                            });
+                                                        }
+                                                    }
+                                                );
 
-                                          }
+                                            }
                                         }
-                                      );
-                                    }
-                                  });
-  					               }
+                                    );
+                                }
+                            });
+                    }
 
-  				          });
-          }
-    });
+                });
+        }
+    }
+)
+    ;
 });
 
 app.get("/user/admin/:org_id", (req: Request, res: Response) => {
     console.log("/user/admin/:org_id received get request from client");
-    userDao.getAdminByOrgId(req.params.org_id, (status, data)=>{
+    userDao.getAdminByOrgId(req.params.org_id, (status, data) => {
         res.status(status);
         res.json(data);
     });
@@ -898,9 +934,9 @@ app.put("/user/resetPass", (req, res) => {
     });
 });
 
-app.put("/user/updatePrivileges/:id", (req, res)=>{
+app.put("/user/updatePrivileges/:id", (req, res) => {
     console.log("/user/updatePriviliges received an update request from client ");
-    userDao.setPrivilegesId(req.params.id, req.body, (status, data)=>{
+    userDao.setPrivilegesId(req.params.id, req.body, (status, data) => {
         res.status(status);
         res.json(data);
     });
@@ -925,27 +961,27 @@ app.post("/login", (req, res) => {
             bcrypt.compare(req.body.password, data[0].password, function (err, resp) {
                 if (resp) {
                     console.log("user_id: " + data[0].user_id);
-                    let token: string = jwt.sign({ user_id: data[0].user_id }, privateKEY.key, {
+                    let token: string = jwt.sign({user_id: data[0].user_id}, privateKEY.key, {
                         expiresIn: 3600
                     });
                     console.log("password matched");
                     res.status(status);
                     console.log("user_id: " + data[0].user_id)
-                    res.json({ jwt: token , "user_id": data[0].user_id});
+                    res.json({jwt: token, "user_id": data[0].user_id});
                 } else {
                     console.log("password didnt match");
                     res.status(401);
-                    res.json({ error: "not authorized" });
+                    res.json({error: "not authorized"});
                 }
             });
         } else {
             res.status(401);
-            res.json({ error: "user does not exist" });
+            res.json({error: "user does not exist"});
         }
     });
 });
 
-app.put("/Profile/editEmail/:id", (req, res) =>{
+app.put("/Profile/editEmail/:id", (req, res) => {
     console.log("/Profile/edit received an update request from client ");
     userDao.updateUserEmail(req.params.id, req.body, (status, data) => {
         res.status(status);
@@ -953,7 +989,7 @@ app.put("/Profile/editEmail/:id", (req, res) =>{
     });
 });
 
-app.put("/Profile/editImage/:id", (req, res) =>{
+app.put("/Profile/editImage/:id", (req, res) => {
     console.log("/Profile/edit received an update request from client ");
     userDao.updateUserImage(req.params.id, req.body, (status, data) => {
         res.status(status);
@@ -961,7 +997,7 @@ app.put("/Profile/editImage/:id", (req, res) =>{
     });
 });
 
-app.put("/Profile/editInfo/:id", (req, res) =>{
+app.put("/Profile/editInfo/:id", (req, res) => {
     console.log("/Profile/edit received an update request from client ");
     userDao.updateUserInfo(req.params.id, req.body, (status, data) => {
         res.status(status);
@@ -969,7 +1005,7 @@ app.put("/Profile/editInfo/:id", (req, res) =>{
     });
 });
 
-app.put("/Profile/edit/:id", (req, res) =>{
+app.put("/Profile/edit/:id", (req, res) => {
     console.log("/Profile/edit received an update request from client ");
     userDao.updateUserPass(req.params.id, req.body, (status, data) => {
         res.status(status);
@@ -977,9 +1013,9 @@ app.put("/Profile/edit/:id", (req, res) =>{
     });
 });
 
-app.put("/Profile/updateUsername/:id", (req, res)=>{
+app.put("/Profile/updateUsername/:id", (req, res) => {
     console.log("/Profile/edit received an update request from client ");
-    userDao.updateUserName(req.params.id, req.body, (status, data)=>{
+    userDao.updateUserName(req.params.id, req.body, (status, data) => {
         res.status(status);
         res.json(data);
     })
@@ -1001,7 +1037,7 @@ app.post("/inviteUser", (req, res) => {
         text: "Besøk denne lenken for å godta invitasjonen: " + url
     };
 
-    transporter.sendMail(mailOptions, function(err, data) {
+    transporter.sendMail(mailOptions, function (err, data) {
         if (err) {
             console.log("Error: ", err);
         } else {
@@ -1013,7 +1049,7 @@ app.post("/inviteUser", (req, res) => {
 });
 
 //ORGANIZATION
-app.get("/organization/mail/:mail",(req:Request,res:Response)=>{
+app.get("/organization/mail/:mail", (req: Request, res: Response) => {
     console.log("/test: received get request from client for organization by ID");
     organizationDAO.getOrgByUserEmail(req.params.mail, (status, data) => {
         res.status(status);
@@ -1021,7 +1057,7 @@ app.get("/organization/mail/:mail",(req:Request,res:Response)=>{
     });
 });
 
-app.get("/organization/id/:id",(req:Request,res:Response)=>{
+app.get("/organization/id/:id", (req: Request, res: Response) => {
     console.log("/test: received get request from client for organization by ID");
     organizationDAO.getOrganization(req.params.id, (status, data) => {
         res.status(status);
@@ -1029,7 +1065,7 @@ app.get("/organization/id/:id",(req:Request,res:Response)=>{
     });
 });
 
-app.get("/organization/all",(req : Request, res : Response) => {
+app.get("/organization/all", (req: Request, res: Response) => {
     console.log("/test: received get request from client for all organizations");
     organizationDAO.getAllOrganizations((status, data) => {
         res.status(status);
@@ -1037,12 +1073,17 @@ app.get("/organization/all",(req : Request, res : Response) => {
     });
 });
 
-app.post("/organization/add", (req : Request, res : Response) => {
-    pool.getConnection((err, connection: function) => {
+app.post("/organization/add", (req: Request, res: Response) => {
+    pool.getConnection((err, connection:
+
+    function
+
+) =>
+    {
         console.log("Connected to database");
         if (err) {
             console.log("Feil ved oppkobling til databasen");
-            res.json({ error: "feil ved oppkobling"});
+            res.json({error: "feil ved oppkobling"});
         } else {
             connection.query(
                 "INSERT INTO organization(org_name, phone, email) VALUES (?,?,?)",
@@ -1050,7 +1091,7 @@ app.post("/organization/add", (req : Request, res : Response) => {
                 err => {
                     if (err) {
                         console.log(err);
-                        res.json({ error: "error querying" });
+                        res.json({error: "error querying"});
                     } else {
                         connection.query(
                             "SELECT LAST_INSERT_ID() AS org_id",
@@ -1058,7 +1099,7 @@ app.post("/organization/add", (req : Request, res : Response) => {
                                 connection.release();
                                 if (err) {
                                     console.log(err);
-                                    res.json({ error: "error querying" });
+                                    res.json({error: "error querying"});
                                 } else {
                                     console.log(rows);
                                     res.json(rows);
@@ -1069,86 +1110,95 @@ app.post("/organization/add", (req : Request, res : Response) => {
                 }
             )
         }
-    });
+    }
+)
+    ;
 });
 
-app.delete("/organization/delete/:id", (req : Request, res: Response) => {
+app.delete("/organization/delete/:id", (req: Request, res: Response) => {
     console.log("/organization/delete/:id: received delete request from client");
-    pool.getConnection((err, connection: function) => {
-          console.log("Connected to database");
-          if (err) {
-              console.log("Feil ved kobling til databasen");
-              res.json({ error: "feil ved oppkobling" });
-          } else {
-              connection.query(
-  				          "DELETE artist FROM artist INNER JOIN event ON artist.event_id = event.event_id WHERE org_id=?",
-  				          [req.params.id],
-  				          (err, rows) => {
-  					               if (err) {
-  						                     console.log(err);
-  						                     res.json({ error: "error querying" });
-  					               } else {
-                             connection.query(
-                 				          "DELETE ticket FROM ticket INNER JOIN event ON ticket.event_id = event.event_id WHERE org_id=?",
-                 				          [req.params.id],
-                 				          (err, rows) => {
-                 					               if (err) {
-                 						                     console.log(err);
-                 						                     res.json({ error: "error querying" });
-                 					               } else {
-                                           connection.query(
-                               				          "DELETE user_event FROM user_event INNER JOIN event ON user_event.event_id = event.event_id WHERE org_id=?",
-                               				          [req.params.id],
-                               				          (err, rows) => {
-                               					               if (err) {
-                               						                     console.log(err);
-                               						                     res.json({ error: "error querying" });
-                               					               } else {
-                                                         connection.query(
-                                             				          "DELETE FROM event WHERE org_id=?",
-                                             				          [req.params.id],
-                                             				          (err, rows) => {
-                                             					               if (err) {
-                                             						                     console.log(err);
-                                             						                     res.json({ error: "error querying" });
-                                             					               } else {
-                                                                       connection.query(
-                                                           				          "DELETE FROM user WHERE org_id=?",
-                                                           				          [req.params.id],
-                                                           				          (err, rows) => {
-                                                                                connection.release();
-                                                           					               if (err) {
-                                                           						                     console.log(err);
-                                                           						                     res.json({ error: "error querying" });
-                                                           					               } else {
-                                                                                     console.log("/test: received delete request from user to delete an organization");
-                                                                                     organizationDAO.deleteOrganization(req.params.id, (status, data) => {
-                                                                                         res.status(status);
-                                                                                         res.json(data);
-                                                                                     });
-                                            					                             }
-                                            				                        }
-                                            			                    );
+    pool.getConnection((err, connection:
 
-                              					                             }
-                              				                        }
-                              			                    );
+    function
 
-                					                             }
-                				                        }
-                			                    );
+) =>
+    {
+        console.log("Connected to database");
+        if (err) {
+            console.log("Feil ved kobling til databasen");
+            res.json({error: "feil ved oppkobling"});
+        } else {
+            connection.query(
+                "DELETE artist FROM artist INNER JOIN event ON artist.event_id = event.event_id WHERE org_id=?",
+                [req.params.id],
+                (err, rows) => {
+                    if (err) {
+                        console.log(err);
+                        res.json({error: "error querying"});
+                    } else {
+                        connection.query(
+                            "DELETE ticket FROM ticket INNER JOIN event ON ticket.event_id = event.event_id WHERE org_id=?",
+                            [req.params.id],
+                            (err, rows) => {
+                                if (err) {
+                                    console.log(err);
+                                    res.json({error: "error querying"});
+                                } else {
+                                    connection.query(
+                                        "DELETE user_event FROM user_event INNER JOIN event ON user_event.event_id = event.event_id WHERE org_id=?",
+                                        [req.params.id],
+                                        (err, rows) => {
+                                            if (err) {
+                                                console.log(err);
+                                                res.json({error: "error querying"});
+                                            } else {
+                                                connection.query(
+                                                    "DELETE FROM event WHERE org_id=?",
+                                                    [req.params.id],
+                                                    (err, rows) => {
+                                                        if (err) {
+                                                            console.log(err);
+                                                            res.json({error: "error querying"});
+                                                        } else {
+                                                            connection.query(
+                                                                "DELETE FROM user WHERE org_id=?",
+                                                                [req.params.id],
+                                                                (err, rows) => {
+                                                                    connection.release();
+                                                                    if (err) {
+                                                                        console.log(err);
+                                                                        res.json({error: "error querying"});
+                                                                    } else {
+                                                                        console.log("/test: received delete request from user to delete an organization");
+                                                                        organizationDAO.deleteOrganization(req.params.id, (status, data) => {
+                                                                            res.status(status);
+                                                                            res.json(data);
+                                                                        });
+                                                                    }
+                                                                }
+                                                            );
 
-  					                             }
-  				                        }
-  			                    );
-                          }
+                                                        }
+                                                    }
+                                                );
+
+                                            }
+                                        }
+                                    );
+
+                                }
+                            }
+                        );
                     }
+                }
             );
         }
-      });
+    }
+)
+    ;
 });
 
-app.put("/organization/edit/:id", (req : Request, res : Response) => {
+app.put("/organization/edit/:id", (req: Request, res: Response) => {
     console.log("/test:received update request from user to update organization");
     organizationDAO.updateOrganization(req.params.id, req.body, (status, data) => {
         res.status(status);
@@ -1173,7 +1223,7 @@ app.post("/token", (req, res) => {
     });
 });
 
-app.get("/generateInvToken/:org_id", (req, res)=>{
+app.get("/generateInvToken/:org_id", (req, res) => {
     let token = jwt.sign({org_id: req.params.org_id}, privateKEY.key, {
         expiresIn: 3600
     });
@@ -1181,13 +1231,13 @@ app.get("/generateInvToken/:org_id", (req, res)=>{
     res.json({jwt: token});
 });
 
-app.post("/invToken", (req, res)=>{
+app.post("/invToken", (req, res) => {
     let token: string = req.headers["x-access-token"];
-    jwt.verify(token, privateKEY.key, (err, decoded)=>{
-        if (err){
+    jwt.verify(token, privateKEY.key, (err, decoded) => {
+        if (err) {
             res.status(401);
             res.json({error: "Not Authorized"});
-        }else{
+        } else {
             console.log("Token ok, returning org_id");
             console.log(decoded.org_id);
             console.log(decoded.email);
@@ -1198,7 +1248,7 @@ app.post("/invToken", (req, res)=>{
 
 app.post("/resetToken", (req, res) => {
     let token: string = req.headers["x-access-token"];
-    jwt.verify(token, privateKEY.key, (err, decoded)=> {
+    jwt.verify(token, privateKEY.key, (err, decoded) => {
         if (err) {
             res.status(401);
             res.json({error: "Not Authorized"});
@@ -1214,13 +1264,14 @@ app.post("/resetToken", (req, res) => {
 app.post("/verifyToken", (req, res) => {
     let token: string = req.headers["x-access-token"];
 
-    jwt.verify(token, privateKEY.key, (err, decoded)=> {
+    jwt.verify(token, privateKEY.key, (err, decoded) => {
         if (err) {
             res.status(401);
             res.json({error: "Not Authorized"});
         } else {
             console.log("Token ok, returning org_id and email");
-            res.json({"org_name": decoded.org_name,
+            res.json({
+                "org_name": decoded.org_name,
                 "org_email": decoded.org_email,
                 "org_phone": decoded.org_phone,
                 "user_email": decoded.user_email,
@@ -1228,7 +1279,8 @@ app.post("/verifyToken", (req, res) => {
                 "user_name": decoded.user_name,
                 "user_password": decoded.user_password,
                 "user_address": decoded.user_address,
-                "user_phone": decoded.user_phone});
+                "user_phone": decoded.user_phone
+            });
         }
     })
 });
@@ -1251,7 +1303,7 @@ app.post("/bugreport", (req, res) => {
         text: report
     };
 
-    transporter.sendMail(mailOptions, function(err, data) {
+    transporter.sendMail(mailOptions, function (err, data) {
         if (err) {
             console.log("Error: ", err);
         } else {
@@ -1274,7 +1326,8 @@ app.post("/verifyEmail", (req, res) => {
     let user_address = req.body.user_address;
     let user_phone = req.body.user_phone;
 
-    let token: string = jwt.sign({org_name: org_name,
+    let token: string = jwt.sign({
+        org_name: org_name,
         org_email: org_email,
         org_phone: org_phone,
         user_email: user_email,
@@ -1282,7 +1335,8 @@ app.post("/verifyEmail", (req, res) => {
         user_name: user_name,
         user_password: user_password,
         user_address: user_address,
-        user_phone: user_phone}, privateKEY.key, {
+        user_phone: user_phone
+    }, privateKEY.key, {
         expiresIn: 3600
     });
     let url: string = DOMAIN + "#/verifyEmail/" + token;
@@ -1294,7 +1348,7 @@ app.post("/verifyEmail", (req, res) => {
         text: "Verifiser din e-post her: " + url
     };
 
-    transporter.sendMail(mailOptions, function(err, data) {
+    transporter.sendMail(mailOptions, function (err, data) {
         if (err) {
             console.log("Error: ", err);
         } else {
@@ -1323,8 +1377,8 @@ app.post("/forgotPass", (req, res) => {
         subject: "Gjenopprett passordet ditt til " + org_name,
         text: "Besøk denne lenken for å gjenopprette passordet ditt: " + url
     };
-    
-    transporter.sendMail(mailOptions, function(err, data) {
+
+    transporter.sendMail(mailOptions, function (err, data) {
         if (err) {
             console.log("Error: ", err);
         } else {
@@ -1353,9 +1407,9 @@ app.post("/forgotPass", (req, res) => {
     next();
 });*/
 
-app.put("/upload/Profile/editImage/:id", (req, res) =>{
+app.put("/upload/Profile/editImage/:id", (req, res) => {
     console.log("/Profile/edit received an update request from client ");
-        //const file = req.file;
+    //const file = req.file;
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send('No files were uploaded.');
     }
@@ -1364,61 +1418,61 @@ app.put("/upload/Profile/editImage/:id", (req, res) =>{
     let myFile = req.files.myFile;
     let fileName = Date.now() + "-" + myFile.name;
 
-    myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
-        if(err)return res.status(500);
+    myFile.mv(path.join(__dirname, 'uploads/' + Date.now() + "-" + myFile.name), err => {
+        if (err) return res.status(500);
     });
-    uploadFile(path.join(__dirname,'uploads/'+ fileName));
+    uploadFile(path.join(__dirname, 'uploads/' + fileName));
 
-    userDao.updateUserImage(req.params.id, fileName, (status, data)=>{
-            res.status(status);
-            res.json(data);
+    userDao.updateUserImage(req.params.id, fileName, (status, data) => {
+        res.status(status);
+        res.json(data);
     });
 });
 
-app.post("/upload/event/editImage/:id", (req, res) =>{
+app.post("/upload/event/editImage/:id", (req, res) => {
     console.log("/Profile/edit received an update request from client ");
-        //const file = req.file;
-        if (!req.files || Object.keys(req.files).length === 0) {
-            return res.status(400).send('No files were uploaded.');
-        }
-        console.log(req.files.myFile);
+    //const file = req.file;
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+    console.log(req.files.myFile);
 
-        let myFile = req.files.myFile;
-        let fileName = Date.now() + "-" + myFile.name;
+    let myFile = req.files.myFile;
+    let fileName = Date.now() + "-" + myFile.name;
 
-        myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
-            if(err)return res.status(500);
-        });
-        uploadFile(path.join(__dirname,'uploads/'+ fileName));
-        eventDao.updateEventImage(req.params.id, fileName, (status, data)=>{
-            res.status(status);
-            res.json(data);
-        });
+    myFile.mv(path.join(__dirname, 'uploads/' + Date.now() + "-" + myFile.name), err => {
+        if (err) return res.status(500);
+    });
+    uploadFile(path.join(__dirname, 'uploads/' + fileName));
+    eventDao.updateEventImage(req.params.id, fileName, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
 });
 
-app.post("/upload/organization/editImage/:id", (req, res) =>{
+app.post("/upload/organization/editImage/:id", (req, res) => {
     console.log("/Profile/edit received an update request from client ");
-        //const file = req.file;
-        if (!req.files || Object.keys(req.files).length === 0) {
-            return res.status(400).send('No files were uploaded.');
-        }
-        console.log(req.files.myFile);
+    //const file = req.file;
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+    console.log(req.files.myFile);
 
-        let myFile = req.files.myFile;
-        let fileName = Date.now() + "-" + myFile.name;
+    let myFile = req.files.myFile;
+    let fileName = Date.now() + "-" + myFile.name;
 
-        myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
-            if(err)return res.status(500);
-        });
-        uploadFile(path.join(__dirname,'uploads/'+ fileName));
-        organizationDAO.updateOrgImage(req.params.id, fileName, (status, data)=>{
-            res.status(status);
-            res.json(data);
-        });
+    myFile.mv(path.join(__dirname, 'uploads/' + Date.now() + "-" + myFile.name), err => {
+        if (err) return res.status(500);
     });
+    uploadFile(path.join(__dirname, 'uploads/' + fileName));
+    organizationDAO.updateOrgImage(req.params.id, fileName, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
 
 app.post('/uploadfile', (req, res) => {
-  //const file = req.file;
+    //const file = req.file;
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send('No files were uploaded.');
     }
@@ -1426,8 +1480,8 @@ app.post('/uploadfile', (req, res) => {
 
     let myFile = req.files.myFile;
 
-    myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
-        if(err)return res.status(500);
+    myFile.mv(path.join(__dirname, 'uploads/' + Date.now() + "-" + myFile.name), err => {
+        if (err) return res.status(500);
         res.json('File was uploaded');
     });
 
@@ -1437,11 +1491,11 @@ app.post('/uploadfile', (req, res) => {
 
         res.send('File uploaded!');
     });*/
-  /*if (!file) {
-    const error = new Error('Please upload a file')
-    error.httpStatusCode = 400
-    return next(error)
-  }*/
+    /*if (!file) {
+      const error = new Error('Please upload a file')
+      error.httpStatusCode = 400
+      return next(error)
+    }*/
 });
 
 
