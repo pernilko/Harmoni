@@ -2,40 +2,58 @@
 const Dao = require("./dao.js");
 const imageUrl = "https://storage.cloud.google.com/harmoni-files/";
 
+/**
+ * Klasse for databasemodeller og spørringer for Artist tabellen.
+ * @type {artistDao}
+ */
 module.exports = class artistDao extends Dao {
 
-    //tested
+    /**
+     * Metode for å hente ut all informasjon om alle artister.
+     * @param callback tar inn en funksjon som fyller inn et resultat når databasekallet er gjort.
+     */
     getAll(callback: function){
         super.query("SELECT * FROM artist", [], callback);
     }
 
-    //tested
+    /**
+     * Metode som kjører en spørresetning for å hente ut all informasjon om artister for ett spesifikt event
+     * @param event_id {number} tar inn id-en på gjeldende event.
+     */
     getEventArtists(event_id: number, callback: function){
-        super.query(
-            "SELECT * FROM artist WHERE event_id = ?",
-            [event_id], callback
-        );
+            super.query(
+                "SELECT * FROM artist WHERE event_id = ?",
+                [event_id], callback
+            );
     }
 
-    //tested
+    /**
+     * Metode som kjører en spørresetning for å hente ut all informasjon om en spesifikk artist.
+     */
     getOne(artist_id: number, callback: function) {
-        super.query(
-            "select * from artist where artist_id = ?",
-            [artist_id], callback
-        );
+            super.query(
+                "select * from artist where artist_id = ?",
+                [artist_id], callback
+            );
     }
 
+    /**
+     *  Metode for å sette inn en ny artist i artist-tabellen
+     */
     insertOne(json: {event_id: number, artist_name: string, riders: Object, hospitality_riders: Object,
-                  artist_contract: Object, email: string, phone: string}, callback: function) {
+                      artist_contract: Object, email: string, phone: string}, callback: function) {
 
-        console.log('Printing the rider tostring'+json.riders);
-        super.query(
-            "INSERT INTO artist (event_id, artist_name, riders, hospitality_riders, artist_contract, email, phone) values (?,?,?,?,?,?,?)",
-            [json.event_id, json.artist_name, json.riders, json.hospitality_riders, json.artist_contract, json.email, json.phone],
-            callback
-        );
-    }
+            console.log('Printing the rider tostring'+json.riders);
+            super.query(
+                "INSERT INTO artist (event_id, artist_name, riders, hospitality_riders, artist_contract, email, phone) values (?,?,?,?,?,?,?)",
+                [json.event_id, json.artist_name, json.riders, json.hospitality_riders, json.artist_contract, json.email, json.phone],
+                callback
+            );
+        }
 
+/**
+ *  Metode for å legge inn url-ene for opplastede filer i raden til en spesifikk artist i artist-tabellen.
+ */
     updateRiders(artist_id: number, ridersfilename: string, hospitalityridersfilename: string, artistcontractfilename: string, callback: function){
         let rf: string = "";
         let hrf: string = "";
@@ -99,29 +117,25 @@ module.exports = class artistDao extends Dao {
         }
     }
 
-
+    /**
+     * Metode for å oppdatere all informasjon om en spesifikk artist i artist-tabellen.
+     */
     updateArtist(artistID:number,json:{artist_name: string , email: string, phone: string, image: File}, callback:function){
-        super.query(
-          "UPDATE artist SET artist_name=?, email=?,phone=? WHERE artist_id=?",
-          [json.artist_name, json.email, json.phone,artistID],
-          callback
-        );
-    }
+            super.query(
+              "UPDATE artist SET artist_name=?, email=?,phone=? WHERE artist_id=?",
+              [json.artist_name, json.email, json.phone,artistID],
+              callback
+            );
+        }
 
-    setAccepted(artistID:number, json: {accepted: number}, callback:function){
-        super.query(
-            "UPDATE artist SET accepted = ? WHERE artist_id=?",
-            [json.accepted, artistID],
-            callback
-        );
-}
-
-    /*
-    deleteArtist(artist_id: number, callback: function) {
-      super.query(
-          "DELETE FROM artist WHERE artist_id = ?", [artist_id],
-          callback
-        );
-    }*/
-
+    /**
+     * Metode for å oppdatere akkseptert-tilstanden til en spesifikk artist i artist-tabellen.
+     */
+        setAccepted(artistID:number, json: {accepted: number}, callback:function){
+            super.query(
+                "UPDATE artist SET accepted = ? WHERE artist_id=?",
+                [json.accepted, artistID],
+                callback
+            );
+        }
 };

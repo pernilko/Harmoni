@@ -516,80 +516,6 @@ app.delete("/artist/delete/:id", (req : Request, res: Response) => {
         }
       });
 });
-/*
-app.post('/uploadRiders/:artist_id', function(req, res) {
-    console.log("received post request for uploading rider");
-    if (!req.files || Object.keys(req.files).length === 0) {
-        return;
-    }
-
-    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-    let ridersFile = req.files.riders;
-    let hospitality_ridersFile = req.files.hospitality_rider;
-    let artist_contractFile = req.files.artist_contract;
-    console.log("frrom uploadRiders: ");
-    console.log(req.files);
-
-    if(req.files.riders) {
-        artistDao.insertRider(ridersFile, req.params.artist_id, (status, data) => {
-            if (!req.files.hospitality_rider && !req.files.artist_contract) {
-                res.status(status);
-                res.json(data);
-            }
-        });
-    }
-    if(req.files.hospitality_rider) {
-            artistDao.insertHospitalityRider(hospitality_ridersFile, req.params.artist_id, (status, data) => {
-                if(!req.files.artist_contract){
-                    res.status(status);
-                    res.json(data);
-                }
-            })
-    }
-    if(req.files.artist_contract){
-        artistDao.insertArtistContract(artist_contractFile, req.params.artist_id, (status, data) => {
-                res.status(status);
-                res.json(data);
-            })
-        }
-});*/
-
-app.put('/uploadRiders/:artist_id', function(req, res) {
-    console.log("received post request for uploading rider");
-    if (!req.files || Object.keys(req.files).length === 0) {
-        return;
-    }
-
-    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-    let ridersFile = req.files.riders;
-    let hospitality_ridersFile = req.files.hospitality_rider;
-    let artist_contractFile = req.files.artist_contract;
-    console.log("frrom uploadRiders: ");
-    console.log(req.files);
-
-    if(req.files.riders) {
-        artistDao.updateRiders(ridersFile, req.params.artist_id, (status, data) => {
-            if (!req.files.hospitality_rider && !req.files.artist_contract) {
-                res.status(status);
-                res.json(data);
-            }
-        });
-    }
-    if(req.files.hospitality_rider) {
-        artistDao.updateHospitalityRiders(hospitality_ridersFile, req.params.artist_id, (status, data) => {
-            if(!req.files.artist_contract){
-                res.status(status);
-                res.json(data);
-            }
-        })
-    }
-    if(req.files.artist_contract){
-        artistDao.updateArtistContract(artist_contractFile, req.params.artist_id, (status, data) => {
-            res.status(status);
-            res.json(data);
-        })
-    }
-});
 
 app.put('/upload/riders/:artist_id', (req, res)=> {
     console.log("/upload/Hospitality_Riders received an update request from client ");
@@ -633,36 +559,6 @@ app.put('/upload/riders/:artist_id', (req, res)=> {
         res.json(data);
     });
 });
-/*
-app.post('/uploadArtist_Contract/:artist_id', (req, res)=>{
-    console.log("received post request for uploading artist_contract");
-    if (!req.files || Object.keys(req.files).length === 0) {
-        return res.status(400).send('No files were uploaded.');
-    }
-
-    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-    let sampleFile = req.files.image;
-    console.log("from uploadRiders: ");
-    console.log(sampleFile);
-
-    artistDao.insertHospitalityRider(sampleFile, req.params.artist_id, (status, data)=>{
-        res.status(status);
-        res.json(data);
-    });
-});
-
- */
-
-/*
-app.get('/Riders/:artist_id', (req, res)=>{
-    console.log("received get request for getting riders");
-
-    artistDao.getRider(req.params.artist_id, (status, data)=>{
-        res.status(status);
-        res.json(data);
-    });
-});
- */
 
 //TICKET
 app.get("/ticket/all", (req : Request, res: Response) => {
@@ -1334,24 +1230,6 @@ app.post("/forgotPass", (req, res) => {
         res.json(url);
     });
 });
-
-/*app.use("/upload/",function (req, res, next: function) {
-    if (!req.files || Object.keys(req.files).length === 0) {
-        return res.status(400).send('No files were uploaded.');
-    }
-    console.log(req.files.myFile);
-
-    let myFile = req.files.myFile;
-    let fileName = Date.now() + "-" + myFile.name;
-
-    myFile.mv(path.join(__dirname,'uploads/'+ Date.now() + "-" + myFile.name ), err=>{
-        if(err)return res.status(500);
-    });
-    uploadFile(path.join(__dirname,'uploads/'+ fileName)).then(()=>{
-        fs.unlinkSync(path.join(__dirname,'uploads/'+ fileName));
-    });
-    next();
-});*/
 
 app.put("/upload/Profile/editImage/:id", (req, res) =>{
     console.log("/Profile/edit received an update request from client ");
