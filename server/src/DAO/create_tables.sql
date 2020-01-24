@@ -68,7 +68,6 @@ CREATE TABLE artist (
  `email` varchar(45) NOT NULL DEFAULT '-1' COMMENT 'row should contain at least one of "email" or "phone"',
  `phone` varchar(20) NOT NULL DEFAULT '-1' COMMENT 'row should contain at least one of "email" or "phone"',
  `image` blob,
- `accepted` number,
  PRIMARY KEY (`artist_id`),
  KEY `event_id` (`event_id`),
  CONSTRAINT `artist_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `event` (`event_id`)
