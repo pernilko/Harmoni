@@ -195,9 +195,11 @@ export class Login extends Component{
                                 this.user2.email = event.target.value
                               }}/>
                               <label>E-mail</label>
+                                <button className="light" type="button" style={{ marginTop: 20 + 'px', float: "left"}}
+                                        onClick={this.back}> tilbake </button>
+                                <button className="light" type="button" style={{ marginTop: 20 + 'px', float: "right"}}
+                                        onClick={this.register}> Registrer </button>
                             </div>
-                            <button className="light" type="button" style={{ marginTop: 20 + 'px' }}
-                                    onClick={this.register}> Registrer </button>
                           </form>
                     </div>
                   </div>
@@ -285,6 +287,7 @@ export class Login extends Component{
         this.loading = false;
         this.showLogin = true;
         this.showRegOrgForm = false;
+        this.showRegAdminForm = true;
 
         console.log(this.showRegOrgForm);
     }
@@ -310,13 +313,19 @@ export class Login extends Component{
       if(this.newOrganization.org_name.length !== 0 && this.newOrganization.email.length !== 0 && this.newOrganization.phone !== 0 && emailRegEx.test(this.newOrganization.email)) {
         this.loading = false;
         this.showLogin = true;
-        this.showRegOrgForm = false;
+        this.showRegOrgForm = true;
         this.showRegAdminForm = false;
 
       }else{
         Alert.danger("Alle felt må fylles ut, og gyldig e-post addresse må skrives inn");
       }
       //Supposed to reveal a new component for registering an Admin-user
+    }
+
+    back(){
+        this.showLogin = false;
+        this.showRegOrgForm = true;
+        this.showRegAdminForm = true;
     }
 
     /**

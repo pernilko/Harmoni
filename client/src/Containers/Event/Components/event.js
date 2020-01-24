@@ -92,8 +92,8 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                               <Row>
 
                                   {e.accepted > 0 ?
-                                      <div id="underPlanning" className="col-md-8">
-                                          <div className="width greenBG">
+                                      <div id="underPlanning" className="col-md-6">
+                                          <div id="topBanner" className="artistBanner greenBG">
                                               Arrangementet er helt klart!
                                           </div>
                                       </div>
@@ -118,17 +118,21 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                                       </a>}>
                                                           {close => (
                                                               <div className="popup-content">
-                                                                  <p><b>Dette vil markere hele arrangementet som klart,
-                                                                      det vil bety at riders, og kontrakter bør være
-                                                                      ferdigstilt</b></p>
-                                                                  <button type = "button" className="btn btn-warning float-left ml-3"
-                                                                          onClick={() => {
-                                                                              close();
-                                                                          }}>Avbryt
-                                                                  </button>
-                                                                  <button className="btn btn-success float-right mr-3"
-                                                                          onClick={() => this.setAcceptedEvent(e.event_id, 1)}>Fortsett
-                                                                  </button>
+                                                                  <Row>
+                                                                      <p style={{padding: 5}}><b>Dette vil markere hele arrangementet som klart,
+                                                                          det vil bety at riders, og kontrakter bør være
+                                                                          ferdigstilt</b></p>
+                                                                  </Row>
+                                                                  <Row>
+                                                                      <button type = "button" className="btn btn-warning float-left ml-3" style={{margin: 0, float: "left"}}
+                                                                              onClick={() => {
+                                                                                  close();
+                                                                              }}>Avbryt
+                                                                      </button>
+                                                                      <button type = "button" className="btn btn-success float-right mr-3" style={{margin: 0, float: "left"}}
+                                                                              onClick={() => this.setAcceptedEvent(e.event_id, 1)}>Fortsett
+                                                                      </button>
+                                                                  </Row>
                                                               </div>
                                                           )}
                                                       </Popup>
@@ -272,18 +276,20 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                               <Popup trigger={<a style={{cursor: "pointer"}} id="avlys"
                                                 className="card-link" >Avlys</a>}>
                                                   {close => (
-                                                    <div className="popup-content">
-                                                        <p><b>Vil du avlyse dette arrangementet?</b></p>
-                                                        <br/>
-                                                        <br/>
-                                                        <button className="btn btn-warning float-left ml-3" onClick={() => {
-                                                            close();
-                                                        }}> Nei
-                                                        </button>
-                                                        <button className="btn btn-success float-right mr-3"
-                                                                onClick={() => this.cancelled(this.event_id)}>Ja
-                                                        </button>
-                                                    </div>
+                                                      <div>
+                                                        <Row>
+                                                            <p><b>Vil du avlyse dette arrangementet?</b></p>
+                                                        </Row>
+                                                        <Row>
+                                                            <button className="btn btn-warning float-left ml-3" style={{margin: 0, float: "left"}} onClick={() => {
+                                                                close();
+                                                            }}> Nei
+                                                            </button>
+                                                            <button className="btn btn-success float-right mr-3" style={{margin: 0, float: "left"}}
+                                                                    onClick={() => this.cancelled(this.event_id)}>Ja
+                                                            </button>
+                                                        </Row>
+                                                      </div>
                                                   )}
                                               </Popup>
                                              </div>

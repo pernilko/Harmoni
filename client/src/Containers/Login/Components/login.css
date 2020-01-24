@@ -187,6 +187,9 @@ a:after:hover {
     outline: none;
 }
 
+#registerForm{
+    height: 120%;
+}
 
 /* mid registerOrg*/
 
