@@ -12,7 +12,9 @@ import {sharedComponentData} from "react-simplified";
 
 const history = createHashHistory();
 
-
+/**
+ * React-komponent klasse som viser navigasjonsbaren for innloggede brukere.
+ */
 export class Navigation extends Component {
 
 
@@ -69,10 +71,19 @@ export class Navigation extends Component {
       )
     }
   }
+
+  /**
+   * Metode som kalles når bruker trykker "søk" og sender dem til søkeresultat-siden med søket som er skrevet inn på et inputfelt i navigasjonsbaren.
+   */
   find(){
     history.push("/search_result/" + this.search);
   }
 
+  /**
+   * Metode som kalles når bruker klikker "logg ut".
+   * Metoden fjerner token for identifikasjon fra localstorage og setter innlogget-bruker variabelen til å være null, som påvirker hvordan alle komponenter oppfører seg.
+   *
+   */
   logout(){
     history.push("/login");
     this.user = null;

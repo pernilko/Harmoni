@@ -7,6 +7,9 @@ import {userService} from "../../../services/UserService";
 import Col from "react-bootstrap/Col";
 import {UserEvent, userEventService} from "../../../services/UserEventService";
 
+/**
+ * React-komponent som viser søkeresultater via en søkestren som er skrevet inn i navigasjonsbaren.
+ */
 export class SearchResults extends Component <{match: {params: {search: string}}}> {
     events: Event[] | any = [];
     temp: Event[] = [];
@@ -110,12 +113,20 @@ export class SearchResults extends Component <{match: {params: {search: string}}
         }
     }
 
+    /**
+     * Metoden kalles før komponenten lastes inn og setter innlastet-variabel til å være usann.
+     */
     mounted() {
         console.log("HEI");
         this.loaded = false;
         //this.load();
     }
 
+    /**
+     * Metode som kalles så snart innlogget brukers informasjon er lastet inn, slik at komponenten kan vises riktig.
+     * Metoden laster inn det som informasjon om events som stemmer overens med søkestrengen tilhørende komponenten.
+     * når all informasjon er mottatt fra server vil komponentens objektvariabler bli forandret og gjøres klar til rendering.
+     */
     load() {
     this.org_id = userService.currentUser.org_id;
     console.log("ORG_ID: ", this.org_id);
@@ -128,16 +139,25 @@ export class SearchResults extends Component <{match: {params: {search: string}}
             .catch((error: Error) => console.log(error.message))
     }
 
+    /**
+     * Metoden kalles når bruker klikker "Dato" og setter en boolean til false som bestemmer om datofiltrering for arrangement skal vises eller ikke.
+     */
     show(){
         this.hidden = false;
     }
 
+    /**
+     * Metode som kalles når bruker trykker på "Hele resultatet" og setter variabler slik at datofiltrering ikke vises og alle arrangement vises istedenfor filtrerte.
+     */
     all(){
       this.hidden = true;
       this.temp = this.events;
 
     }
 
+    /**
+     * Metode som kalles når bruker trykker på "Kommende" og fjerner visning av
+     */
     upcoming(){
         this.hidden = true;
         this.temp = this.events.filter(a => new Date(a.event_start.slice(0,10)) - new Date > 0);
