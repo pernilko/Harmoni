@@ -227,10 +227,6 @@ export class ArtistDetails extends Component {
                             <div className="col"><label>Artist: {a.artist_name} </label></div>
                             <div className="col"><label>Email: {a.email}</label></div>
                             <div className="col"><label>Tlf: {a.phone}</label></div>
-                            <div className="col"><label>Dokumenter:
-                                <label>{a.riders ? <a href={a.riders} target = "blank">riders</a>: 'Ingen rider valgt.'}</label>
-                                <label>{a.hospitality_riders ? <a href={a.hospitality_riders} target = "blank">hospitality riders</a>: 'Ingen hospitality rider valgt.'}</label>
-                                <label>{a.artist_contract ? <a href={a.artist_contract} target = "blank">artistkontrakt</a>: 'Ingen kontrakt valgt.'}</label></label></div>
                         </div>
                         <div className={"row"}>
                             <div className={"col"}>
