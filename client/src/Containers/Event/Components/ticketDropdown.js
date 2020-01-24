@@ -10,6 +10,11 @@ import {Alert} from "../../../widgets";
 
 let del_ticket: Ticket[] = [];
 
+/**
+    Klassen håndterer visningen av registreringsskjemaet for en ny billettype
+    @parameter {string} buttonName - navnet på knappen som åpner redigeringsmenyen av en billett.
+    @parameter {Ticket} ticket - billettobjektet for selve billetten som redigeres.
+ */
 export class TicketComp extends Component <{buttonName: string, ticket: Ticket}>{
     ticketList: Ticket[] = [];
 
@@ -18,6 +23,10 @@ export class TicketComp extends Component <{buttonName: string, ticket: Ticket}>
     billetter: number = this.props.ticket.amount;
     pris: number = this.props.ticket.price;
     
+    /**
+        generer html for å vise frem komponenten
+        @return {html} selve siden som skal vises frem
+     */
     render(){
         return(
             <Accordion>
@@ -69,10 +78,18 @@ export class TicketComp extends Component <{buttonName: string, ticket: Ticket}>
             </Accordion>
         )
     }
+
+    /**
+        Henter instansen av billettene som er registrert til hovedskjemaet så dataen er tilgjengelig i denne kompoenten
+     */
     mounted() {
             let s: any = TicketDetails.instance();
             this.ticketList = s.ticketList;
     }
+
+    /**
+        hvis registreringsskjemaet for en ny billett ble gyldig fylt ut så vil billettypen lagres når denne funksjonen kjøres.
+     */
     add(){
         if(this.pris < 0){
             Alert.danger("Pris kan ikke være en negativ verdi");
@@ -94,10 +111,16 @@ export class TicketComp extends Component <{buttonName: string, ticket: Ticket}>
     }
 }
 
-
+/**
+    TicketDetails viser frem informasjonen om de billettene som er opprettet
+ */
 export class TicketDetails extends Component {
     ticketList: Ticket[] = [];
-
+    
+    /**
+        generer html for å vise frem komponenten
+        @return {html} selve siden som skal vises frem
+     */
     render(){
         return(
             <div className="card">
@@ -126,6 +149,9 @@ export class TicketDetails extends Component {
         )
     }
 
+    /**
+        legger til en ny, blank billettype som kan redigeres.
+     */
     addNewTicket(){
         this.ticketList.push(new Ticket(-1, 0, "", 0, "", 0, 0));
     }

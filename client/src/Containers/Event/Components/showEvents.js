@@ -14,7 +14,11 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 
 
-
+/**
+    EventList er en react-komponent som viser frem alle arrangementene som finnes i en organisasjon
+    @parameter {boolean} user - sier om det er en bruker eller en organisasjon som ser på siden
+    @parameter {number} time - beskriver hvilke arrangementer vi skal se på. 0 -> tidligere, 1 -> pågående, 2 -> fremtidige, 3 -> kansellerte arrangement.
+ */
 export class EventList extends Component<{user: boolean, time: number}>{
     loaded: boolean = false;
     ready: boolean = false;
@@ -23,7 +27,9 @@ export class EventList extends Component<{user: boolean, time: number}>{
 
     currentPage: number = 0;
     months: string[] = ["januar", "februar", "mars", "april", "mai", "juni", "juli", "august", "september", "oktober", "november", "desember"];
-
+    /**
+        @constructor konstruktøren lager et state-objekt hvor vi lagrer data om det skal vises frem i komponenten, slik at det kan oppdateres i sanntid.
+     */
     constructor(props){
         super(props);
         this.state = {
@@ -34,6 +40,11 @@ export class EventList extends Component<{user: boolean, time: number}>{
             items: []
         };
     }
+
+    /**
+        generer html for å vise frem komponenten
+        @return {html} selve siden som skal vises frem
+     */
     render() {
         if (userService.currentUser) {
             if(!this.loaded) {
@@ -105,9 +116,9 @@ export class EventList extends Component<{user: boolean, time: number}>{
                         </div>
                         {this.state["currentPosts"].map((e, i) =>
                             <Container>
-                                <div id="eventcard" className="card" style={{marginLeft: "18%", marginRight: "18%", marginBottom: "2%", borderRadius: 6+"px", border: "none"}}>
+                                <div id="eventcard" className="card" style={{marginLeft: "12%", marginRight: "12%", marginBottom: "2%", borderRadius: 6+"px", border: "none"}}>
                                     <Row style={{margin: 0}}>
-                                        <Col sm={2} style={{padding: 0}}>
+                                        <Col sm={3} style={{padding: 0}}>
                                             <div
                                                 className={"banner" + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 1 ? " greenBG" : "") + (this.getUserEvent(e.event_id) && this.getUserEvent(e.event_id).accepted === 0 ? " redBG" : "")}
                                                 id={i}>
@@ -121,7 +132,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
                                                         </div>
                                                         <div 
                                                              onClick={() => this.setAccepted(i, this.getUserEvent(e.event_id).user_id, e.event_id, 0)}>
-                                                            <button id="bot" type="button" >
+                                                            <button id="top" type="button" className="btn btn-info btn-circle">
                                                                 <i className="fa fa-times"></i>
                                                             </button>
                                                         </div>
@@ -129,7 +140,7 @@ export class EventList extends Component<{user: boolean, time: number}>{
                                                     : <></>) : <></>}
                                             </div>
                                         </Col>
-                                        <Col sm={10} style={{padding: 0}}>
+                                        <Col sm={9} style={{padding: 0}}>
                                             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
                                             <link href="https://fonts.googleapis.com/css?family=PT+Serif|Ubuntu&display=swap" rel="stylesheet"/>
                                             <div id = "eventcard-body" className="card-body" style={{padding:0}}>
@@ -174,6 +185,9 @@ export class EventList extends Component<{user: boolean, time: number}>{
         }
     }
 
+    /**
+        metoden beregner hvor mange sider med arrangementer som skal vises, og velger ut de som skal vises på den nåværende siden.
+     */
     loadPage(){
         let amount = Math.ceil(this.state["events"].length/this.state["postPerPage"]);
         console.log(amount);
@@ -192,6 +206,10 @@ export class EventList extends Component<{user: boolean, time: number}>{
         this.nowitsready = true;
     }
 
+    /**
+        Metoden henter ut hvilke arrangement som skal vises når du bytter side og flytter brukeren opp til toppen av nettsiden.
+        @parameter {number} currentPage - hvilken side vi nå skal rendere istedenfor
+     */
     changePage(currentPage: number){
         this.currentPage = currentPage;
 
@@ -205,6 +223,12 @@ export class EventList extends Component<{user: boolean, time: number}>{
 
     }
 
+    /**
+        setFormat beregner hvordan start og sluttidspunktet for et arrangement skal vises frem. F.eks skal den kun skrive hvilket år den starter og slutter i dersom den starter og slutter i to ulike år.
+        @parameter {string} start - en string som beskriver når et arrangement starter.
+        @parameter {string} end - en string som beskriver når et arrangement slutter.
+        @return {string} en string som viser når arrangementer starter og slutter.
+     */
     setFormat(start, end) {
         let date = "";
 
@@ -230,6 +254,13 @@ export class EventList extends Component<{user: boolean, time: number}>{
         return date;
     }
 
+    /**
+        setAccepted godkjenner/avslår en vakt, dvs marker at denne personen kan møte opp.
+        @parameter {number} iterator - brukes ikke lenger
+        @parameter {number} user_id - id til brukeren som skal godkjenne vakta si.
+        @parameter {number} event_id - id til arrangementet de godtar vakt på.
+        @parameter {number} accepted - den nye akseptverdien på arrangementet. 1-->godkjent, ikke-1 -> avslått.
+     */
     setAccepted(iterator: number, user_id: number, event_id: number, accepted: number) {
         userEventService.setAccepted(user_id, event_id, accepted);
         let users = this.state["users"];
@@ -247,6 +278,11 @@ export class EventList extends Component<{user: boolean, time: number}>{
         this.setState({users});
     }
 
+    /**
+        metoden henter ut raden som beskriver vakten til den brukeren som er logget inn hvis det er noen. Den tar inn arrangementet sin id og bruker informasjon om hvilken bruker som er logget inn til å sjekke hvem sin vakt det er snakk om.
+        @parameter {number} event_id - id til arrangementet det er snakk om.
+        @return {UserEvent} raden i DB som beskriver brukeren som er logget inn sitt vakt på et gitt arrangement, eller undefined
+     */
     getUserEvent(event_id: number){
         if (userService.currentUser){
             let u = this.state["users"];
@@ -265,6 +301,10 @@ export class EventList extends Component<{user: boolean, time: number}>{
         return undefined;
     }
 
+    /**
+        load() henter inn arrangmenet gitt parameterene user og time fra selve komponenten.
+        @type {boolean} loaded- brukes som hjelpevariabel til å si når vi er ferdig med å laste inn arrangementene slik at ting skjer i riktig rekkefølge.
+     */
     load(){
         if (this.props.user && this.props.time == 0) {
             eventService.getEventsPreviousByUser_id(userService.currentUser.user_id).then(res => {
@@ -319,6 +359,9 @@ export class EventList extends Component<{user: boolean, time: number}>{
         }
     }
 
+    /**
+        metoden henter inn alle brukerne til er tilknytta de arrangementene som ble hentet inn i load.
+     */
     loadContent(){
         if (userService.currentUser && this.loaded){
             //gå gjennom alle event for å hente brukenrne som er tilknyttet dme

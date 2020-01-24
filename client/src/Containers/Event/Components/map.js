@@ -46,6 +46,9 @@ const Map = compose(
         </GoogleMap>
     )
 
+/**
+    Komponent for å vise frem kart med react-google-maps api. dette er en ganske standard måte å gjøre det på delvis hentet fra https://stackblitz.com/edit/react-umnzy4?file=MapContainer.js
+ */
 export default class MapContainer extends Component<{lat?: float, lng?: float, show: boolean, edit?: boolean}> {
     constructor(props) {
         super(props);
@@ -55,6 +58,10 @@ export default class MapContainer extends Component<{lat?: float, lng?: float, s
         edit = this.props.edit;
     }
 
+    /**
+        render definerer htmldelen av komponenten.
+        @return html element som inneholder komponenten.
+    */
     render() {
         return (
             <div style={{ height: '100%', width: '74%', marginLeft: '13%'}}>

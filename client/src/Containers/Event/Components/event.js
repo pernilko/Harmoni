@@ -271,6 +271,8 @@ export class EventDetails extends Component<{ match: { params: { id: number } } 
                                                   {close => (
                                                     <div className="popup-content">
                                                         <p><b>Vil du avlyse dette arrangementet?</b></p>
+                                                        <br/>
+                                                        <br/>
                                                         <button className="btn btn-warning float-left ml-3" onClick={() => {
                                                             close();
                                                         }}> Nei
